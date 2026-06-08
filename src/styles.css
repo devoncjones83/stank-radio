@@ -3674,3 +3674,48 @@ h3 {
     height: calc(100vh - 122px) !important;
   }
 }
+
+/* === HEADER VERTICAL CENTERING PATCH === */
+
+@media (min-width: 1101px) {
+  .radioTop {
+    align-items: center !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .brandBlock {
+    transform: translate(16px, 0px) !important;
+  }
+
+  .brandBlock .eyebrow {
+    margin-bottom: 6px !important;
+  }
+
+  .radioTop h1 {
+    margin: 0 !important;
+    line-height: .9 !important;
+  }
+
+  .brandIcon {
+    transform: scale(1.08) translateY(2px) !important;
+  }
+
+  .topPipeBlock {
+    transform: translateY(4px) !important;
+  }
+
+  .topPipeBlock h2 {
+    margin-bottom: 4px !important;
+    line-height: .92 !important;
+  }
+
+  .topPipeBlock p {
+    margin-top: 4px !important;
+  }
+
+  .status {
+    transform: translateY(2px) !important;
+    align-self: center !important;
+  }
+}
