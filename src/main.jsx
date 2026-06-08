@@ -49,6 +49,7 @@ function App() {
   const [query, setQuery] = useState('');
   const [activePlaylist, setActivePlaylist] = useState('ALL PLAYLISTS');
   const [playing, setPlaying] = useState(false);
+  const [page, setPage] = useState(1);
   const [loadStatus, setLoadStatus] = useState('Loading contamination manifest...');
 
   useEffect(() => {
@@ -95,6 +96,10 @@ function App() {
   }, [tracks, query, activePlaylist]);
 
   const visibleTracks = filteredTracks.length ? filteredTracks : tracks;
+  const pageSize = 10;
+  const pageCount = Math.max(1, Math.ceil(visibleTracks.length / pageSize));
+  const currentPage = Math.min(page, pageCount);
+  const pagedTracks = visibleTracks.slice((currentPage - 1) * pageSize, currentPage * pageSize);
   const track = visibleTracks[Math.min(index, visibleTracks.length - 1)] || fallbackTracks[0];
 
   function chooseTrack(i, autoplay = true) {
@@ -159,7 +164,7 @@ function App() {
               <Search size={18}/>
               <input
                 value={query}
-                onChange={e => { setQuery(e.target.value); setIndex(0); }}
+                onChange={e => { setQuery(e.target.value); setIndex(0); setPage(1); }}
                 placeholder="Search song, artist, playlist, or tag..."
               />
             </div>
@@ -173,6 +178,7 @@ function App() {
                 onChange={event => {
                   setActivePlaylist(event.target.value);
                   setIndex(0);
+                  setPage(1);
                 }}
               >
                 {playlists.map(name => (
@@ -189,16 +195,37 @@ function App() {
             </div>
 
             <div className="libraryGrid">
-              {visibleTracks.map((item, i) => (
-                <button
-                  key={`${item.title}-${i}`}
-                  className={item === track ? 'songTile active' : 'songTile'}
-                  onClick={() => chooseTrack(i)}
-                >
-                  <img src={item.cover || '/stank-radio/images/stank-radio-icon.png'} alt="" />
-                  <span>{item.title}</span>
-                </button>
-              ))}
+              {pagedTracks.map((item, i) => {
+                const realIndex = (currentPage - 1) * pageSize + i;
+                return (
+                  <button
+                    key={`${item.title}-${realIndex}`}
+                    className={item === track ? 'songTile active' : 'songTile'}
+                    onClick={() => chooseTrack(realIndex)}
+                  >
+                    <span>{item.title}</span>
+                    <img src={item.cover || '/stank-radio/images/stank-radio-icon.png'} alt="" />
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="libraryPager">
+              <button
+                type="button"
+                disabled={currentPage <= 1}
+                onClick={() => setPage(currentPage - 1)}
+              >
+                PREV
+              </button>
+              <span>PAGE {currentPage} / {pageCount}</span>
+              <button
+                type="button"
+                disabled={currentPage >= pageCount}
+                onClick={() => setPage(currentPage + 1)}
+              >
+                NEXT
+              </button>
             </div>
           </section>
         </div>
