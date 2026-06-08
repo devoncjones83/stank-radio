@@ -589,3 +589,211 @@ h3 {
     max-height: none;
   }
 }
+
+/* === SINGLE-SCREEN BROADCAST CONSOLE PATCH === */
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.page {
+  width: min(1420px, calc(100% - 24px));
+  min-height: 100vh;
+  padding: 14px 0;
+}
+
+.hero {
+  min-height: unset;
+  height: 132px;
+  padding: 18px 24px;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+h1 {
+  font-size: clamp(42px, 4.9vw, 72px);
+}
+
+.subtitle {
+  font-size: 16px;
+  margin: 8px 0 0;
+}
+
+.searchPanel {
+  padding: 13px 16px;
+}
+
+.searchInput {
+  padding: 11px 14px;
+}
+
+.playlistRail {
+  max-height: 78px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(360px, .75fr);
+  grid-template-rows: auto minmax(360px, 1fr) minmax(150px, .45fr);
+  gap: 10px;
+}
+
+.panel {
+  padding: 14px;
+}
+
+.main {
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+  min-height: 360px;
+}
+
+.player {
+  grid-template-columns: 235px minmax(0, 1fr);
+  gap: 18px;
+}
+
+.cover {
+  width: 235px;
+  padding: 12px;
+}
+
+.trackInfo h2 {
+  font-size: clamp(38px, 4vw, 58px);
+}
+
+.trackInfo p {
+  font-size: 18px;
+}
+
+.stankButton {
+  padding: 13px 17px;
+}
+
+.grid > .panel:nth-of-type(3) {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+  height: 190px;
+}
+
+.grid > .panel:nth-of-type(4) {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+  align-self: end;
+  height: 158px;
+}
+
+.playlistPanel {
+  grid-column: 2 / 3;
+  grid-row: 3 / 5;
+  max-height: 310px;
+  min-height: 310px;
+}
+
+.alert {
+  grid-column: 1 / 2;
+  grid-row: 3 / 4;
+  min-height: 120px;
+}
+
+.wide {
+  grid-column: 1 / 2;
+  grid-row: 4 / 5;
+  max-height: 185px;
+  overflow: auto;
+}
+
+.logs li {
+  padding: 6px 0;
+}
+
+.trackList {
+  max-height: 238px;
+  overflow: auto;
+  padding-right: 6px;
+}
+
+.trackPick {
+  padding: 8px 10px;
+}
+
+.trackPick span {
+  font-size: 14px;
+}
+
+.trackPick small {
+  font-size: 11px;
+}
+
+.panelHeader {
+  margin-bottom: 10px;
+}
+
+.stats {
+  gap: 7px;
+}
+
+.stats div {
+  padding-bottom: 6px;
+}
+
+h3 {
+  font-size: 24px;
+}
+
+.quote {
+  font-size: 16px;
+}
+
+/* Stankier scrollbars */
+.trackList::-webkit-scrollbar,
+.playlistRail::-webkit-scrollbar,
+.wide::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.trackList::-webkit-scrollbar-track,
+.playlistRail::-webkit-scrollbar-track,
+.wide::-webkit-scrollbar-track {
+  background: rgba(0,0,0,.45);
+}
+
+.trackList::-webkit-scrollbar-thumb,
+.playlistRail::-webkit-scrollbar-thumb,
+.wide::-webkit-scrollbar-thumb {
+  background: rgba(168,255,114,.75);
+  border-radius: 999px;
+}
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  .main,
+  .playlistPanel,
+  .alert,
+  .wide,
+  .grid > .panel:nth-of-type(3),
+  .grid > .panel:nth-of-type(4) {
+    grid-column: auto;
+    grid-row: auto;
+    height: auto;
+    min-height: auto;
+    max-height: none;
+  }
+
+  .trackList {
+    max-height: none;
+  }
+}
