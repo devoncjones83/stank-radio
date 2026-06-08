@@ -1,17 +1,16 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Radio, Shuffle, Volume2, AlertTriangle, Activity, Skull } from 'lucide-react';
+import { Radio, Shuffle, Volume2, AlertTriangle, Activity, Skull, Search } from 'lucide-react';
 import './styles.css';
 
-const fallbackTracks = [
-  {
-    title: 'Containment Funk Protocol',
-    artist: 'Explosive Crossfader',
-    tag: 'UNCLASSIFIED STANK',
-    cover: '/stank-radio/images/stank-radio-icon.png',
-    audio: ''
-  }
-];
+const fallbackTracks = [{
+  title: 'Containment Funk Protocol',
+  artist: 'Explosive Crossfader',
+  tag: 'UNCLASSIFIED STANK',
+  playlists: ['Fallback Stank'],
+  cover: '/stank-radio/images/stank-radio-icon.png',
+  audio: ''
+}];
 
 const requesters = [
   ['WC-04 The Night Manager', 'Preparing for battle. Again.'],
@@ -47,22 +46,18 @@ function normalizePath(path) {
 }
 
 function normalizeTrack(song, i) {
-  const title = song.title || song.name || song.track || song.filename || `Unlabeled Stank ${String(i + 1).padStart(3, '0')}`;
-  const artist = song.artist || song.author || song.creator || 'Explosive Crossfader';
-  const audio = song.audio || song.src || song.file || song.path || song.url || '';
-  const cover = song.cover || song.coverArt || song.image || song.artwork || '/stank-radio/images/stank-radio-icon.png';
   const rawPlaylists = song.playlists || song.playlist || song.collection || [];
   const playlists = Array.isArray(rawPlaylists)
     ? rawPlaylists
     : String(rawPlaylists).split(',').map(x => x.trim()).filter(Boolean);
 
   return {
-    title,
-    artist,
+    title: song.title || song.name || song.track || song.filename || `Unlabeled Stank ${String(i + 1).padStart(3, '0')}`,
+    artist: song.artist || song.author || song.creator || 'Explosive Crossfader',
     tag: song.tag || song.classification || song.genre || 'UNCLASSIFIED STANK',
     playlists,
-    audio: normalizePath(audio),
-    cover: normalizePath(cover)
+    audio: normalizePath(song.audio || song.src || song.file || song.path || song.url || ''),
+    cover: normalizePath(song.cover || song.coverArt || song.image || song.artwork || '/stank-radio/images/stank-radio-icon.png')
   };
 }
 
@@ -74,7 +69,6 @@ function makeMeta() {
     signal: pick(['STABLE', 'SUSPICIOUS', 'STANKY', 'DEGRADED', 'OVERPOWERED']),
     className: pick(['INDUSTRIAL', 'RADIOACTIVE', 'MEMETIC', 'FORKLIFT CERTIFIED', 'EXECUTIVE']),
     contamination: (Math.random() * 3 + 7).toFixed(1),
-    listeners: Math.floor(Math.random() * 9000 + 300),
     uptime: Math.floor(Math.random() * 900 + 40)
   };
 }
@@ -84,10 +78,9 @@ function App() {
   const [tracks, setTracks] = useState([]);
   const [index, setIndex] = useState(0);
   const [meta, setMeta] = useState(makeMeta());
-  const [loadStatus, setLoadStatus] = useState('Loading contamination manifest...');
   const [query, setQuery] = useState('');
   const [activePlaylist, setActivePlaylist] = useState('ALL PLAYLISTS');
-
+  const [loadStatus, setLoadStatus] = useState('Loading contamination manifest...');
   const [logs, setLogs] = useState(() =>
     Array.from({ length: 7 }, (_, i) => ({
       time: new Date(Date.now() - (7 - i) * 60000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
@@ -103,9 +96,9 @@ function App() {
       })
       .then(data => {
         const rawSongs = Array.isArray(data) ? data : (data.songs || data.tracks || []);
-        const normalized = rawSongs.map(normalizeTrack).filter(t => t.title);
+        const normalized = rawSongs.map(normalizeTrack);
         setTracks(normalized.length ? normalized : fallbackTracks);
-        setLoadStatus(normalized.length ? 'Manifest contaminated successfully.' : 'No songs found. Fallback stank engaged.');
+        setLoadStatus(normalized.length ? 'Manifest contaminated successfully.' : 'Fallback stank engaged.');
       })
       .catch(err => {
         console.error(err);
@@ -114,59 +107,45 @@ function App() {
       });
   }, []);
 
-  if (!tracks.length) {
-    return <main className="page"><h1>{loadStatus}</h1></main>;
-  }
-
   const playlists = useMemo(() => {
     const names = new Set();
     tracks.forEach(track => {
-      (track.playlists || []).forEach(name => names.add(name));
       if (track.tag) names.add(track.tag);
+      (track.playlists || []).forEach(name => names.add(name));
     });
     return ['ALL PLAYLISTS', ...Array.from(names).sort()];
   }, [tracks]);
 
   const filteredTracks = useMemo(() => {
     const needle = query.trim().toLowerCase();
-
     return tracks.filter(track => {
-      const haystack = [
-        track.title,
-        track.artist,
-        track.tag,
-        ...(track.playlists || [])
-      ].join(' ').toLowerCase();
-
+      const haystack = [track.title, track.artist, track.tag, ...(track.playlists || [])].join(' ').toLowerCase();
       const matchesQuery = !needle || haystack.includes(needle);
       const matchesPlaylist =
         activePlaylist === 'ALL PLAYLISTS' ||
         track.tag === activePlaylist ||
         (track.playlists || []).includes(activePlaylist);
-
       return matchesQuery && matchesPlaylist;
     });
   }, [tracks, query, activePlaylist]);
 
   const visibleTracks = filteredTracks.length ? filteredTracks : tracks;
-  const safeIndex = Math.min(index, visibleTracks.length - 1);
-  const track = visibleTracks[safeIndex];
+  const track = visibleTracks[Math.min(index, visibleTracks.length - 1)];
 
-  function nextTrack() {
+  function randomTrack() {
     let next = Math.floor(Math.random() * visibleTracks.length);
     if (visibleTracks.length > 1 && next === index) next = (next + 1) % visibleTracks.length;
-
     setIndex(next);
     setMeta(makeMeta());
-    setLogs(prev => [
-      ...prev.slice(-6),
-      {
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        text: pick(logLines)
-      }
-    ]);
-
+    setLogs(prev => [...prev.slice(-6), {
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      text: pick(logLines)
+    }]);
     setTimeout(() => audioRef.current?.play?.().catch(() => {}), 75);
+  }
+
+  if (!track) {
+    return <main className="page"><h1>Loading Contamination...</h1></main>;
   }
 
   return (
@@ -177,36 +156,24 @@ function App() {
           <h1><Radio size={42}/> STANK RADIO</h1>
           <p className="subtitle">Primary contaminated broadcast console. {loadStatus}</p>
         </div>
-
         <div className="status"><span className="pulse"></span>LIVE TRANSMISSION</div>
       </section>
 
       <section className="grid">
         <div className="panel searchPanel">
-          <div className="panelHeader">
-            <span>TRANSMISSION SEARCH</span>
-            <b>{filteredTracks.length} FOUND</b>
-          </div>
-
+          <div className="panelHeader"><span>TRANSMISSION SEARCH</span><Search size={18}/></div>
           <input
             className="searchInput"
             value={query}
-            onChange={event => {
-              setQuery(event.target.value);
-              setIndex(0);
-            }}
-            placeholder="Search by song, artist, tag, or playlist..."
+            onChange={e => { setQuery(e.target.value); setIndex(0); }}
+            placeholder="Search by song, artist, playlist, or tag..."
           />
-
           <div className="playlistRail">
             {playlists.map(name => (
               <button
                 key={name}
                 className={name === activePlaylist ? 'playlistPill active' : 'playlistPill'}
-                onClick={() => {
-                  setActivePlaylist(name);
-                  setIndex(0);
-                }}
+                onClick={() => { setActivePlaylist(name); setIndex(0); }}
               >
                 {name}
               </button>
@@ -215,25 +182,15 @@ function App() {
         </div>
 
         <div className="panel main">
-          <div className="panelHeader">
-            <span>CURRENTLY CONTAMINATING</span>
-            <b>{track.tag}</b>
-          </div>
-
+          <div className="panelHeader"><span>CURRENTLY CONTAMINATING</span><b>{track.tag}</b></div>
           <div className="player">
-            <div className="cover">
-              <img src={track.cover || '/stank-radio/images/stank-radio-icon.png'} alt="" />
-            </div>
-
+            <div className="cover"><img src={track.cover || '/stank-radio/images/stank-radio-icon.png'} alt="" /></div>
             <div className="trackInfo">
               <h2>{track.title}</h2>
               <p>{track.artist}</p>
-
               <audio ref={audioRef} controls src={track.audio || undefined} />
-
-              <button onClick={nextTrack} className="stankButton">
-                <Shuffle size={18}/>
-                INITIATE RANDOM CONTAMINATION
+              <button onClick={randomTrack} className="stankButton">
+                <Shuffle size={18}/> INITIATE RANDOM CONTAMINATION
               </button>
             </div>
           </div>
@@ -247,7 +204,6 @@ function App() {
             <div><dt>Contamination Index</dt><dd>{meta.contamination}</dd></div>
             <div><dt>Tracks Online</dt><dd>{tracks.length}</dd></div>
             <div><dt>Filtered</dt><dd>{filteredTracks.length}</dd></div>
-            <div><dt>Uptime</dt><dd>{meta.uptime} hrs</dd></div>
           </dl>
         </div>
 
@@ -257,20 +213,12 @@ function App() {
           <p className="quote">"{meta.reason}"</p>
         </div>
 
-        <div className="panel alert">
-          <div className="panelHeader"><span>EMERGENCY BROADCAST</span><AlertTriangle size={18}/></div>
-          <p>Containment personnel are advised that rhythm leakage has exceeded cafeteria guidelines.</p>
-        </div>
-
         <div className="panel playlistPanel">
           <div className="panelHeader"><span>AVAILABLE TRACKS</span><b>{activePlaylist}</b></div>
           <ul className="trackList">
-            {visibleTracks.slice(0, 12).map((item, i) => (
+            {visibleTracks.slice(0, 14).map((item, i) => (
               <li key={`${item.title}-${i}`}>
-                <button
-                  className={item === track ? 'trackPick active' : 'trackPick'}
-                  onClick={() => setIndex(i)}
-                >
+                <button className={item === track ? 'trackPick active' : 'trackPick'} onClick={() => setIndex(i)}>
                   <span>{item.title}</span>
                   <small>{item.artist} · {item.tag}</small>
                 </button>
@@ -279,12 +227,15 @@ function App() {
           </ul>
         </div>
 
+        <div className="panel alert">
+          <div className="panelHeader"><span>EMERGENCY BROADCAST</span><AlertTriangle size={18}/></div>
+          <p>Containment personnel are advised that rhythm leakage has exceeded cafeteria guidelines.</p>
+        </div>
+
         <div className="panel wide">
           <div className="panelHeader"><span>SIGNAL ACTIVITY FEED</span><Volume2 size={18}/></div>
           <ul className="logs">
-            {logs.map((log, i) => (
-              <li key={i}><b>{log.time}</b><span>{log.text}</span></li>
-            ))}
+            {logs.map((log, i) => <li key={i}><b>{log.time}</b><span>{log.text}</span></li>)}
           </ul>
         </div>
       </section>
