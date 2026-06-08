@@ -3830,3 +3830,34 @@ h3 {
     letter-spacing: .04em !important;
   }
 }
+
+/* === HEADER ALIGNMENT CLEANUP === */
+
+@media (min-width: 1101px) {
+
+  /* Center BIG DUMB IDIOT LABS over STANK RADIO */
+  .brandBlock {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    transform: translate(6px, 0px) !important;
+  }
+
+  .brandBlock .eyebrow {
+    margin-top: 8px !important;
+    margin-bottom: 8px !important;
+    text-align: center !important;
+    width: 100% !important;
+    font-size: 18px !important;
+    letter-spacing: .34em !important;
+  }
+
+  .radioTop h1 {
+    justify-content: center !important;
+  }
+
+  /* Remove any leftover styling from the old exclamation mark */
+  .pipeHeadline i {
+    display: none !important;
+  }
+}

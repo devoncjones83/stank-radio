@@ -156,7 +156,7 @@ function App() {
         <div className="topPipeBlock">
           <h2 className="pipeHeadline">
             <span>Fresh From The Suno</span>
-            <span><b className="stinkPipeWord">STINK PIPE</b><i>!</i></span>
+            <span><b className="stinkPipeWord">STINK PIPE</b></span>
           </h2>
           <p>Freshly harvested audio contaminants. Press play at your own risk.</p>
         </div>
