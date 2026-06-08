@@ -50,6 +50,7 @@ function App() {
   const [activePlaylist, setActivePlaylist] = useState('ALL PLAYLISTS');
   const [playing, setPlaying] = useState(false);
   const [playerOpen, setPlayerOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [loadStatus, setLoadStatus] = useState('Loading contamination manifest...');
 
@@ -164,11 +165,15 @@ function App() {
         </div>
 
         <div className="status"><span className="pulse"></span>"Live" TRANSMISSION</div>
+        <button className="mobileSearchToggle" type="button" onClick={() => setSearchOpen(true)} aria-label="Open search">
+          <span></span><span></span><span></span>
+        </button>
       </section>
 
       <section className="radioShell">
         <div className="libraryDeck">
-          <section className="librarySearch">
+          <section className={searchOpen ? 'librarySearch mobileSearchOpen' : 'librarySearch'}>
+            <button className="mobileSearchClose" type="button" onClick={() => setSearchOpen(false)}>×</button>
             <div className="searchTitle">SEARCH A STANK</div>
             <div className="searchBox">
               <Search size={18}/>
