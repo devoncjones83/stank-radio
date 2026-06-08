@@ -102,9 +102,14 @@ function App() {
   const pagedTracks = visibleTracks.slice((currentPage - 1) * pageSize, currentPage * pageSize);
   const track = visibleTracks[Math.min(index, visibleTracks.length - 1)] || fallbackTracks[0];
 
-  function chooseTrack(i, autoplay = true) {
+  function chooseTrack(i, autoplay = false) {
     setIndex(i);
+    setPlaying(false);
     setTimeout(() => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
       if (autoplay) {
         audioRef.current?.play?.().then(() => setPlaying(true)).catch(() => {});
       }
@@ -112,17 +117,17 @@ function App() {
   }
 
   function nextTrack() {
-    chooseTrack((index + 1) % visibleTracks.length);
+    chooseTrack((index + 1) % visibleTracks.length, false);
   }
 
   function prevTrack() {
-    chooseTrack((index - 1 + visibleTracks.length) % visibleTracks.length);
+    chooseTrack((index - 1 + visibleTracks.length) % visibleTracks.length, false);
   }
 
   function randomTrack() {
     let next = Math.floor(Math.random() * visibleTracks.length);
     if (visibleTracks.length > 1 && next === index) next = (next + 1) % visibleTracks.length;
-    chooseTrack(next);
+    chooseTrack(next, false);
   }
 
   function togglePlay() {
@@ -262,17 +267,14 @@ function App() {
           />
 
           <div className="stationControls">
-            <button onClick={togglePlay}>{playing ? <Pause size={16}/> : <Play size={16}/>} {playing ? 'Pause' : 'Play'}</button>
+            <button className="playWide" onClick={togglePlay}>{playing ? <Pause size={16}/> : <Play size={16}/>} {playing ? 'Pause' : 'Play'}</button>
             <button onClick={prevTrack}><SkipBack size={16}/> Previous</button>
             <button onClick={nextTrack}><SkipForward size={16}/> Next</button>
             <button onClick={randomTrack}><Shuffle size={16}/> Random Stank</button>
             <button onClick={shareTrack}><Share2 size={16}/> Share Stank</button>
           </div>
 
-          <div className="lyricsBox">
-            <p className="stationKicker">LYRICS / FIELD NOTES</p>
-            <div>{track.lyrics}</div>
-          </div>
+          
         </aside>
       </section>
     </main>
