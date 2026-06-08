@@ -2291,3 +2291,117 @@ h3 {
     font-size: 20px;
   }
 }
+
+/* === STANKIER LIBRARY CARDS / HEADER ALIGNMENT PATCH === */
+
+@media (min-width: 1101px) {
+  .librarySearch {
+    grid-template-columns: minmax(280px, 560px) 1fr minmax(150px, 190px) minmax(220px, 320px);
+  }
+
+  .stanksAiredBox {
+    grid-column: 3 / 4;
+    justify-self: end;
+    width: 180px;
+  }
+
+  .playlistSelectWrap {
+    grid-column: 4 / 5;
+  }
+
+  .broadcastLibrary {
+    padding-top: 18px;
+  }
+
+  .libraryHeader {
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 18px;
+  }
+
+  .libraryHeader span {
+    font-family: Impact, Haettenschweiler, 'Arial Black', system-ui, sans-serif;
+    font-size: clamp(28px, 2vw, 42px);
+    line-height: .9;
+    letter-spacing: .09em;
+    color: #dfffbd;
+    text-shadow:
+      0 0 10px rgba(168,255,114,.72),
+      0 0 26px rgba(168,255,114,.35),
+      3px 3px 0 rgba(0,0,0,.82);
+    transform: skew(-5deg);
+  }
+
+  .libraryGrid {
+    height: calc(100% - 94px);
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-auto-rows: 1fr;
+  }
+
+  .songTile {
+    height: 100%;
+    min-height: 0;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 8px;
+    padding: 9px;
+    background:
+      radial-gradient(circle at 20% 0%, rgba(168,255,114,.16), transparent 30%),
+      linear-gradient(180deg, rgba(17,47,11,.82), rgba(2,12,2,.88));
+  }
+
+  .songTile img {
+    width: 100%;
+    height: 100%;
+    max-height: 145px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 13px;
+    align-self: stretch;
+  }
+
+  .songTile span {
+    order: -1;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    font-family: Impact, Haettenschweiler, 'Arial Black', system-ui, sans-serif;
+    font-size: clamp(16px, 1vw, 20px);
+    line-height: .96;
+    letter-spacing: .02em;
+    color: #f4ffe8;
+    background:
+      linear-gradient(90deg, rgba(87,255,46,.32), rgba(255,213,89,.16)),
+      repeating-linear-gradient(
+        -8deg,
+        rgba(255,255,255,.055),
+        rgba(255,255,255,.055) 1px,
+        transparent 1px,
+        transparent 7px
+      );
+    border: 1px solid rgba(168,255,114,.34);
+    border-left: 5px solid #a8ff72;
+    border-radius: 12px;
+    padding: 7px 9px;
+    text-shadow:
+      0 0 8px rgba(168,255,114,.32),
+      2px 2px 0 rgba(0,0,0,.78);
+    box-shadow:
+      inset 0 0 20px rgba(168,255,114,.07),
+      0 0 16px rgba(168,255,114,.08);
+  }
+
+  .songTile:hover span,
+  .songTile.active span {
+    color: #071007;
+    background:
+      linear-gradient(90deg, #a8ff72, #d7ff65);
+    text-shadow: none;
+  }
+
+  .songTile.active::after {
+    top: 62px;
+    right: 12px;
+  }
+}
+
