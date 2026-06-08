@@ -166,9 +166,52 @@ function App() {
 
         <div className="status"><span className="pulse"></span>"Live" TRANSMISSION</div>
         <button className="mobileSearchToggle" type="button" onClick={() => setSearchOpen(true)} aria-label="Open search">
-          <span></span><span></span><span></span>
+          🔍
         </button>
       </section>
+
+
+      {searchOpen ? (
+        <section className="mobileSearchOverlay">
+          <div className="mobileSearchTop">
+            <button type="button" onClick={() => setSearchOpen(false)}>‹</button>
+            <div className="mobileSearchInput">
+              <Search size={24}/>
+              <input
+                autoFocus
+                value={query}
+                onChange={e => {
+                  setQuery(e.target.value);
+                  setIndex(0);
+                  setPage(1);
+                }}
+                placeholder="Search for songs in your library"
+              />
+            </div>
+          </div>
+
+          <div className="mobileSearchResults">
+            {visibleTracks.map((item, i) => (
+              <button
+                key={`${item.title}-mobile-${i}`}
+                className={item === track ? 'mobileSongRow active' : 'mobileSongRow'}
+                type="button"
+                onClick={() => {
+                  chooseTrack(i, false);
+                  setSearchOpen(false);
+                }}
+              >
+                <img src={item.cover || '/stank-radio/images/stank-radio-icon.png'} alt="" />
+                <span>
+                  <b>{item.title}</b>
+                  <small>{item.tag}</small>
+                </span>
+                <em>⋮</em>
+              </button>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       <section className="radioShell">
         <div className="libraryDeck">

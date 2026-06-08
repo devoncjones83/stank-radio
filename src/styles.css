@@ -4399,3 +4399,145 @@ h3 {
     margin-top: 16px !important;
   }
 }
+
+/* === MOBILE SUNO-STYLE LIBRARY SEARCH PATCH === */
+
+.mobileSearchOverlay {
+  display: none;
+}
+
+@media (max-width: 1100px) {
+  .mobileSearchToggle {
+    font-size: 25px !important;
+    color: #fff !important;
+    background: rgba(25,25,30,.92) !important;
+    border-radius: 999px !important;
+    border: 0 !important;
+    width: 52px !important;
+    height: 52px !important;
+    padding: 0 !important;
+  }
+
+  .mobileSearchToggle span {
+    display: none !important;
+  }
+
+  .librarySearch.mobileSearchOpen {
+    display: none !important;
+  }
+
+  .mobileSearchOverlay {
+    display: block !important;
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 20000 !important;
+    background: #101012 !important;
+    color: #f4f4f8 !important;
+    overflow: auto !important;
+    padding: 22px 18px 40px !important;
+  }
+
+  .mobileSearchTop {
+    display: grid !important;
+    grid-template-columns: 56px 1fr !important;
+    gap: 12px !important;
+    align-items: center !important;
+    margin-bottom: 26px !important;
+  }
+
+  .mobileSearchTop > button {
+    width: 56px !important;
+    height: 56px !important;
+    border-radius: 999px !important;
+    border: 0 !important;
+    background: #1b1b1f !important;
+    color: #fff !important;
+    font-size: 48px !important;
+    line-height: 1 !important;
+    display: grid !important;
+    place-items: center !important;
+    padding-bottom: 6px !important;
+  }
+
+  .mobileSearchInput {
+    height: 56px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    border-radius: 999px !important;
+    background: #1b1b1f !important;
+    color: #d8d8dc !important;
+    padding: 0 18px !important;
+  }
+
+  .mobileSearchInput input {
+    width: 100% !important;
+    border: 0 !important;
+    outline: none !important;
+    background: transparent !important;
+    color: #fff !important;
+    font-size: 20px !important;
+    font-weight: 700 !important;
+  }
+
+  .mobileSearchInput input::placeholder {
+    color: #b7b7bd !important;
+  }
+
+  .mobileSearchResults {
+    display: grid !important;
+    gap: 18px !important;
+  }
+
+  .mobileSongRow {
+    width: 100% !important;
+    display: grid !important;
+    grid-template-columns: 78px 1fr 26px !important;
+    gap: 16px !important;
+    align-items: center !important;
+    border: 0 !important;
+    background: transparent !important;
+    color: #fff !important;
+    text-align: left !important;
+    padding: 0 !important;
+    min-height: 82px !important;
+  }
+
+  .mobileSongRow img {
+    width: 78px !important;
+    height: 78px !important;
+    border-radius: 14px !important;
+    object-fit: cover !important;
+  }
+
+  .mobileSongRow span {
+    min-width: 0 !important;
+  }
+
+  .mobileSongRow b {
+    display: block !important;
+    color: #fff !important;
+    font-size: clamp(21px, 6vw, 30px) !important;
+    line-height: 1.06 !important;
+    font-weight: 850 !important;
+    margin-bottom: 5px !important;
+  }
+
+  .mobileSongRow small {
+    display: block !important;
+    color: #a9a9b0 !important;
+    font-size: clamp(17px, 5vw, 24px) !important;
+    line-height: 1.1 !important;
+  }
+
+  .mobileSongRow em {
+    color: #aaa !important;
+    font-style: normal !important;
+    font-size: 32px !important;
+    text-align: center !important;
+  }
+
+  .mobileSongRow.active b {
+    color: #c77dff !important;
+  }
+}
