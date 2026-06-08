@@ -3450,3 +3450,65 @@ h3 {
     line-height: .98 !important;
   }
 }
+
+/* === STATIC PLAYER LOWER CONTROLS + REMOVE DATE BUBBLE SPACE PATCH === */
+
+@media (min-width: 1101px) {
+  .stationRail {
+    grid-template-rows: 390px 28px 92px 54px 44px 56px 48px 48px !important;
+    gap: 8px !important;
+  }
+
+  .stationRail .stationKicker {
+    height: 28px !important;
+    display: flex !important;
+    align-items: end !important;
+  }
+
+  .stationRail h2 {
+    height: 92px !important;
+    max-height: 92px !important;
+    overflow: hidden !important;
+    display: flex !important;
+    align-items: center !important;
+    font-size: clamp(24px, 2vw, 42px) !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+  }
+
+  .stationDesc {
+    height: 54px !important;
+    max-height: 54px !important;
+    overflow: hidden !important;
+    font-size: clamp(13px, .9vw, 16px) !important;
+    line-height: 1.25 !important;
+    margin: 0 !important;
+  }
+
+  .metaRow {
+    height: 44px !important;
+    max-height: 44px !important;
+    overflow: hidden !important;
+    align-items: center !important;
+    margin: 0 !important;
+  }
+
+  .stationRail audio {
+    height: 56px !important;
+    margin: 0 !important;
+  }
+
+  .stationControls {
+    grid-template-rows: 48px 48px 48px !important;
+    align-self: end !important;
+  }
+
+  .stationControls button {
+    min-height: 48px !important;
+    height: 48px !important;
+  }
+
+  .stationControls .playWide {
+    height: 48px !important;
+  }
+}

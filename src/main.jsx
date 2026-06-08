@@ -262,7 +262,7 @@ function App() {
           <div className="metaRow">
             <span>🎤 {track.artist}</span>
             <span>🏷️ {track.tag}</span>
-            {track.created ? <span>📅 {track.created}</span> : null}
+            
           </div>
 
           <audio
