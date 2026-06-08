@@ -169,6 +169,11 @@ function App() {
               />
             </div>
 
+            <div className="stanksAiredBox">
+              <span>STANKS AIRED</span>
+              <b>{filteredTracks.length}</b>
+            </div>
+
             <div className="playlistSelectWrap">
               <label htmlFor="playlist-select">Playlist / Tag</label>
               <select
@@ -190,8 +195,7 @@ function App() {
 
           <section className="broadcastLibrary">
             <div className="libraryHeader">
-              <span>AVAILABLE TRACKS</span>
-              <b>{filteredTracks.length} FOUND</b>
+              <span>CONTAMINANT LIBRARY</span>
             </div>
 
             <div className="libraryGrid">
