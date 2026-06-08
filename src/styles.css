@@ -3793,3 +3793,40 @@ h3 {
       2px 2px 0 rgba(0,0,0,.75) !important;
   }
 }
+
+/* === HEADER MICRO-STANK POLISH === */
+
+@media (min-width: 1101px) {
+
+  /* Bigger logo, slightly higher and left */
+  .brandIcon {
+    transform: scale(1.08) translate(-10px, -14px) !important;
+  }
+
+  /* BIG DUMB IDIOT LABS */
+  .brandBlock .eyebrow {
+    margin-top: 2px !important;
+    margin-bottom: 6px !important;
+    font-size: 18px !important;
+    letter-spacing: .34em !important;
+    line-height: .95 !important;
+    text-shadow:
+      0 0 14px rgba(182,108,255,.45),
+      2px 2px 0 rgba(0,0,0,.75) !important;
+  }
+
+  /* Give the exclamation mark some attitude */
+  .pipeHeadline i {
+    font-size: 1.45em !important;
+    line-height: 1 !important;
+    vertical-align: middle !important;
+    text-shadow:
+      0 0 18px rgba(255,255,255,.55),
+      0 0 30px rgba(182,108,255,.30) !important;
+  }
+
+  /* Slightly tighten STINK PIPE spacing */
+  .stinkPipeWord {
+    letter-spacing: .04em !important;
+  }
+}
