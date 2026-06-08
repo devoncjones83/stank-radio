@@ -138,11 +138,16 @@ function App() {
   return (
     <main className="radioApp">
       <section className="radioTop">
-        <div>
+        <div className="brandBlock">
           <p className="eyebrow">BIG DUMB IDIOT LABS</p>
           <h1><Radio size={38}/> STANK RADIO</h1>
-          <p className="topPipe">{loadStatus} Freshly harvested audio contaminants. Press play at your own risk.</p>
         </div>
+
+        <div className="topPipeBlock">
+          <h2>{loadStatus}</h2>
+          <p>Freshly harvested audio contaminants. Press play at your own risk.</p>
+        </div>
+
         <div className="status"><span className="pulse"></span>"Live" TRANSMISSION</div>
       </section>
 
