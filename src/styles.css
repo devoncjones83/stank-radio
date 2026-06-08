@@ -2790,3 +2790,103 @@ h3 {
     display: none !important;
   }
 }
+
+/* === DE-JANK CONTAMINANT LIBRARY GRID PATCH === */
+
+@media (min-width: 1101px) {
+  .librarySearch {
+    grid-template-columns: minmax(280px, 560px) 1fr minmax(220px, 320px) 150px !important;
+  }
+
+  .playlistSelectWrap {
+    grid-column: 3 / 4 !important;
+  }
+
+  .stanksAiredBox {
+    grid-column: 4 / 5 !important;
+    justify-self: end !important;
+    width: 150px !important;
+  }
+
+  .broadcastLibrary {
+    padding: 14px 18px 10px !important;
+  }
+
+  .libraryHeader {
+    height: 46px !important;
+    margin-bottom: 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .libraryHeader span {
+    font-size: clamp(24px, 1.65vw, 34px) !important;
+    line-height: 1 !important;
+  }
+
+  .libraryGrid {
+    height: calc(100% - 92px) !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    grid-template-rows: repeat(2, minmax(0, 1fr)) !important;
+    grid-auto-rows: unset !important;
+    gap: 10px !important;
+    overflow: hidden !important;
+  }
+
+  .songTile {
+    height: 100% !important;
+    min-height: 0 !important;
+    display: grid !important;
+    grid-template-rows: 46px minmax(0, 1fr) !important;
+    gap: 5px !important;
+    padding: 7px !important;
+    overflow: hidden !important;
+  }
+
+  .songTile span {
+    width: 100% !important;
+    height: 46px !important;
+    min-height: 46px !important;
+    max-height: 46px !important;
+    margin: 0 !important;
+    padding: 4px 8px !important;
+    border-radius: 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    overflow: hidden !important;
+    font-size: clamp(11px, .78vw, 16px) !important;
+    line-height: .92 !important;
+    word-break: normal !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  .songTile img {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    object-fit: cover !important;
+    border-radius: 10px !important;
+    margin: 0 !important;
+    display: block !important;
+  }
+
+  .songTile.active::after {
+    top: 58px !important;
+    right: 10px !important;
+    font-size: 9px !important;
+    padding: 5px 8px !important;
+  }
+
+  .libraryPager {
+    height: 32px !important;
+    margin-top: 6px !important;
+  }
+
+  .libraryPager button {
+    padding: 6px 12px !important;
+  }
+}
