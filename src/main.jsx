@@ -3,6 +3,16 @@ import { createRoot } from 'react-dom/client';
 import { Radio, Shuffle, Volume2, AlertTriangle, Activity, Skull } from 'lucide-react';
 import './styles.css';
 
+const fallbackTracks = [
+  {
+    title: 'Containment Funk Protocol',
+    artist: 'Explosive Crossfader',
+    tag: 'UNCLASSIFIED STANK',
+    cover: '/stank-radio/images/stank-radio-icon.png',
+    audio: ''
+  }
+];
+
 const requesters = [
   ['WC-04 The Night Manager', 'Preparing for battle. Again.'],
   ['WC-06 Radio Host', 'Dead air is illegal in several zones.'],
@@ -26,9 +36,33 @@ function pick(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
+function normalizePath(path) {
+  if (!path) return '';
+  if (path.startsWith('http')) return path;
+  if (path.startsWith('/stank-radio/')) return path;
+  if (path.startsWith('/music/')) return `/stank-radio${path}`;
+  if (path.startsWith('music/')) return `/stank-radio/${path}`;
+  if (path.startsWith('/')) return `/stank-radio${path}`;
+  return `/stank-radio/music/${path}`;
+}
+
+function normalizeTrack(song, i) {
+  const title = song.title || song.name || song.track || song.filename || `Unlabeled Stank ${String(i + 1).padStart(3, '0')}`;
+  const artist = song.artist || song.author || song.creator || 'Explosive Crossfader';
+  const audio = song.audio || song.src || song.file || song.path || song.url || '';
+  const cover = song.cover || song.coverArt || song.image || song.artwork || '/stank-radio/images/stank-radio-icon.png';
+
+  return {
+    title,
+    artist,
+    tag: song.tag || song.classification || song.genre || 'UNCLASSIFIED STANK',
+    audio: normalizePath(audio),
+    cover: normalizePath(cover)
+  };
+}
+
 function makeMeta() {
   const requester = pick(requesters);
-
   return {
     requester: requester[0],
     reason: requester[1],
@@ -42,54 +76,58 @@ function makeMeta() {
 
 function App() {
   const audioRef = useRef(null);
-
   const [tracks, setTracks] = useState([]);
   const [index, setIndex] = useState(0);
   const [meta, setMeta] = useState(makeMeta());
+  const [loadStatus, setLoadStatus] = useState('Loading contamination manifest...');
 
   const [logs, setLogs] = useState(() =>
     Array.from({ length: 7 }, (_, i) => ({
-      time: new Date(Date.now() - (7 - i) * 60000).toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit'
-      }),
+      time: new Date(Date.now() - (7 - i) * 60000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       text: pick(logLines)
     }))
   );
 
   useEffect(() => {
-    fetch('/stank-radio/songs.json')
-      .then(r => r.json())
-      .then(data => {
-        setTracks(data);
+    fetch('/stank-radio/music/songs.json', { cache: 'no-store' })
+      .then(r => {
+        if (!r.ok) throw new Error(`songs.json returned ${r.status}`);
+        return r.json();
       })
-      .catch(console.error);
+      .then(data => {
+        const rawSongs = Array.isArray(data) ? data : (data.songs || data.tracks || []);
+        const normalized = rawSongs.map(normalizeTrack).filter(t => t.title);
+        setTracks(normalized.length ? normalized : fallbackTracks);
+        setLoadStatus(normalized.length ? 'Manifest contaminated successfully.' : 'No songs found. Fallback stank engaged.');
+      })
+      .catch(err => {
+        console.error(err);
+        setTracks(fallbackTracks);
+        setLoadStatus('Manifest unavailable. Fallback stank engaged.');
+      });
   }, []);
 
   if (!tracks.length) {
-    return (
-      <main className="page">
-        <h1>Loading Contamination...</h1>
-      </main>
-    );
+    return <main className="page"><h1>{loadStatus}</h1></main>;
   }
 
   const track = tracks[index];
 
   function nextTrack() {
-    setIndex(Math.floor(Math.random() * tracks.length));
-    setMeta(makeMeta());
+    let next = Math.floor(Math.random() * tracks.length);
+    if (tracks.length > 1 && next === index) next = (next + 1) % tracks.length;
 
+    setIndex(next);
+    setMeta(makeMeta());
     setLogs(prev => [
       ...prev.slice(-6),
       {
-        time: new Date().toLocaleTimeString([], {
-          hour: '2-digit',
-          minute: '2-digit'
-        }),
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         text: pick(logLines)
       }
     ]);
+
+    setTimeout(() => audioRef.current?.play?.().catch(() => {}), 75);
   }
 
   return (
@@ -98,19 +136,13 @@ function App() {
         <div>
           <p className="eyebrow">BIG DUMB IDIOT LABS</p>
           <h1><Radio size={42}/> STANK RADIO</h1>
-          <p className="subtitle">
-            Primary contaminated broadcast console.
-          </p>
+          <p className="subtitle">Primary contaminated broadcast console. {loadStatus}</p>
         </div>
 
-        <div className="status">
-          <span className="pulse"></span>
-          LIVE TRANSMISSION
-        </div>
+        <div className="status"><span className="pulse"></span>LIVE TRANSMISSION</div>
       </section>
 
       <section className="grid">
-
         <div className="panel main">
           <div className="panelHeader">
             <span>CURRENTLY CONTAMINATING</span>
@@ -118,86 +150,54 @@ function App() {
           </div>
 
           <div className="player">
-
             <div className="cover">
-              <img src={track.cover} alt="" />
+              <img src={track.cover || '/stank-radio/images/stank-radio-icon.png'} alt="" />
             </div>
 
             <div className="trackInfo">
               <h2>{track.title}</h2>
               <p>{track.artist}</p>
 
-              <audio
-                ref={audioRef}
-                controls
-                src={track.audio}
-              />
+              <audio ref={audioRef} controls src={track.audio || undefined} />
 
-              <button
-                onClick={nextTrack}
-                className="stankButton"
-              >
+              <button onClick={nextTrack} className="stankButton">
                 <Shuffle size={18}/>
                 INITIATE RANDOM CONTAMINATION
               </button>
             </div>
-
           </div>
         </div>
 
         <div className="panel">
-          <div className="panelHeader">
-            <span>TRANSMISSION DATA</span>
-            <Activity size={18}/>
-          </div>
-
+          <div className="panelHeader"><span>TRANSMISSION DATA</span><Activity size={18}/></div>
           <dl className="stats">
             <div><dt>Signal Quality</dt><dd>{meta.signal}</dd></div>
             <div><dt>Broadcast Class</dt><dd>{meta.className}</dd></div>
             <div><dt>Contamination Index</dt><dd>{meta.contamination}</dd></div>
-            <div><dt>Listeners</dt><dd>{meta.listeners}</dd></div>
+            <div><dt>Tracks Online</dt><dd>{tracks.length}</dd></div>
             <div><dt>Uptime</dt><dd>{meta.uptime} hrs</dd></div>
           </dl>
         </div>
 
         <div className="panel">
-          <div className="panelHeader">
-            <span>REQUESTED BY</span>
-            <Skull size={18}/>
-          </div>
-
+          <div className="panelHeader"><span>REQUESTED BY</span><Skull size={18}/></div>
           <h3>{meta.requester}</h3>
           <p className="quote">"{meta.reason}"</p>
         </div>
 
         <div className="panel alert">
-          <div className="panelHeader">
-            <span>EMERGENCY BROADCAST</span>
-            <AlertTriangle size={18}/>
-          </div>
-
-          <p>
-            Containment personnel are advised that rhythm leakage
-            has exceeded cafeteria guidelines.
-          </p>
+          <div className="panelHeader"><span>EMERGENCY BROADCAST</span><AlertTriangle size={18}/></div>
+          <p>Containment personnel are advised that rhythm leakage has exceeded cafeteria guidelines.</p>
         </div>
 
         <div className="panel wide">
-          <div className="panelHeader">
-            <span>SIGNAL ACTIVITY FEED</span>
-            <Volume2 size={18}/>
-          </div>
-
+          <div className="panelHeader"><span>SIGNAL ACTIVITY FEED</span><Volume2 size={18}/></div>
           <ul className="logs">
             {logs.map((log, i) => (
-              <li key={i}>
-                <b>{log.time}</b>
-                <span>{log.text}</span>
-              </li>
+              <li key={i}><b>{log.time}</b><span>{log.text}</span></li>
             ))}
           </ul>
         </div>
-
       </section>
     </main>
   );
