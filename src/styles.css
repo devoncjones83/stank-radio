@@ -3567,3 +3567,26 @@ h3 {
     max-height: 360px !important;
   }
 }
+
+/* === BIGGER STANK RADIO HEADER ICON PATCH === */
+
+@media (min-width: 1101px) {
+  .brandIcon {
+    width: 92px !important;
+    height: 92px !important;
+    min-width: 92px !important;
+    min-height: 92px !important;
+    border-radius: 18px !important;
+    object-fit: cover !important;
+    transform: scale(1.12) !important;
+    transform-origin: center !important;
+  }
+
+  .radioTop h1 {
+    gap: 22px !important;
+  }
+
+  .brandBlock {
+    transform: translateX(16px) !important;
+  }
+}
