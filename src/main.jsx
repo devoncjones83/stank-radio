@@ -140,7 +140,7 @@ function App() {
       <section className="radioTop">
         <div className="brandBlock">
           <p className="eyebrow">BIG DUMB IDIOT LABS</p>
-          <h1><Radio size={38}/> STANK RADIO</h1>
+          <h1><img className="brandIcon" src="/stank-radio/images/stank-radio-icon.png" alt="" /> STANK RADIO</h1>
         </div>
 
         <div className="topPipeBlock">
@@ -154,6 +154,7 @@ function App() {
       <section className="radioShell">
         <div className="libraryDeck">
           <section className="librarySearch">
+            <div className="searchTitle">SEARCH A STANK</div>
             <div className="searchBox">
               <Search size={18}/>
               <input
