@@ -797,3 +797,193 @@ h3 {
     max-height: none;
   }
 }
+
+/* === NO PAGE DOOM-SCROLL PATCH === */
+
+html,
+body,
+#root {
+  height: 100%;
+  min-height: 100%;
+}
+
+body {
+  overflow: hidden;
+}
+
+.page {
+  height: 100vh;
+  min-height: 0;
+  padding: 10px 0;
+  display: grid;
+  grid-template-rows: 110px 1fr;
+  gap: 8px;
+}
+
+.hero {
+  height: 110px;
+  min-height: 0;
+  margin: 0;
+  padding: 14px 22px;
+}
+
+h1 {
+  font-size: clamp(38px, 4vw, 62px);
+}
+
+.subtitle {
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.grid {
+  min-height: 0;
+  height: 100%;
+  grid-template-columns: minmax(0, 1.5fr) minmax(350px, .75fr);
+  grid-template-rows: 150px minmax(0, 1fr) 132px;
+  gap: 8px;
+}
+
+.searchPanel {
+  grid-column: 1 / -1;
+  grid-row: 1 / 2;
+  padding: 11px 14px;
+}
+
+.searchInput {
+  padding: 9px 12px;
+}
+
+.playlistRail {
+  max-height: 66px;
+}
+
+.panel {
+  min-height: 0;
+  padding: 12px;
+}
+
+.main {
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+  min-height: 0;
+}
+
+.player {
+  height: calc(100% - 34px);
+  grid-template-columns: 220px minmax(0, 1fr);
+  align-items: center;
+}
+
+.cover {
+  width: 220px;
+}
+
+.trackInfo h2 {
+  font-size: clamp(34px, 3.5vw, 52px);
+}
+
+.grid > .panel:nth-of-type(3) {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+  align-self: start;
+  height: 168px;
+}
+
+.grid > .panel:nth-of-type(4) {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+  align-self: end;
+  height: 142px;
+}
+
+.alert {
+  grid-column: 1 / 2;
+  grid-row: 3 / 4;
+  min-height: 0;
+}
+
+.wide {
+  grid-column: 1 / 2;
+  grid-row: 4 / 5;
+  display: none;
+}
+
+.playlistPanel {
+  grid-column: 2 / 3;
+  grid-row: 3 / 4;
+  max-height: none;
+  min-height: 0;
+  height: 132px;
+}
+
+.trackList {
+  max-height: 74px;
+  overflow: auto;
+}
+
+.trackPick {
+  padding: 7px 9px;
+}
+
+.trackPick span {
+  font-size: 13px;
+}
+
+.trackPick small {
+  font-size: 10px;
+}
+
+.stats div {
+  font-size: 14px;
+}
+
+h3 {
+  font-size: 21px;
+}
+
+.quote {
+  font-size: 14px;
+}
+
+@media (max-width: 1100px) {
+  body {
+    overflow: auto;
+  }
+
+  .page {
+    height: auto;
+    min-height: 100vh;
+    display: block;
+  }
+
+  .hero {
+    height: auto;
+    margin-bottom: 10px;
+  }
+
+  .grid {
+    height: auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  .main,
+  .playlistPanel,
+  .alert,
+  .wide,
+  .grid > .panel:nth-of-type(3),
+  .grid > .panel:nth-of-type(4) {
+    grid-column: auto;
+    grid-row: auto;
+    height: auto;
+    min-height: auto;
+    max-height: none;
+    display: block;
+  }
+
+  .trackList {
+    max-height: 260px;
+  }
+}
