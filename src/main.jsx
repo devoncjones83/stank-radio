@@ -51,6 +51,7 @@ function App() {
   const [playing, setPlaying] = useState(false);
   const [playerOpen, setPlayerOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [terminalOpen, setTerminalOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [loadStatus, setLoadStatus] = useState('Loading contamination manifest...');
 
@@ -337,15 +338,39 @@ function App() {
         </aside>
       </section>
 
+
+      {terminalOpen ? (
+        <section className="terminalModal" role="dialog" aria-modal="true" aria-label="Terminal Services">
+          <div className="terminalModalCard">
+            <button className="terminalClose" type="button" onClick={() => setTerminalOpen(false)}>×</button>
+
+            <p className="terminalKicker">BIG DUMB IDIOT LABS</p>
+            <h2>TERMINAL SERVICES</h2>
+
+            <div className="terminalScreen">
+              <p><b>Broadcast Division:</b> STANK RADIO</p>
+              <p><b>Transmission Status:</b> Questionably Live</p>
+              <p><b>Signal Condition:</b> Purple Contamination Stable</p>
+              <p><b>Containment Warning:</b> Do not lick the speaker grille.</p>
+              <p><b>Current Directive:</b> Keep the funk moving. Report all clean smells.</p>
+            </div>
+
+            <div className="terminalActions">
+              <button type="button" onClick={() => setTerminalOpen(false)}>Close Terminal</button>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
       <footer className="mobileBottomPanel">
         <span className="mobileBottomWarning">
           WARNING: DO NOT APPROACH ACTIVE BROADCASTS.
         </span>
 
         <div className="mobileBottomControls">
-          <a href="/#terminal-services" className="mobileBottomButton">
+          <button type="button" onClick={() => setTerminalOpen(true)} className="mobileBottomButton">
             📟 Terminal Services
-          </a>
+          </button>
 
           <a href="/admin" className="mobileBottomButton">
             🛡️ Containment Access
