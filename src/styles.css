@@ -1061,3 +1061,214 @@ h3 {
     height: 154px;
   }
 }
+
+/* === MAXIMUM FUNK BROADCAST LIBRARY PATCH === */
+
+@media (min-width: 1101px) {
+  body {
+    overflow: hidden;
+  }
+
+  .page {
+    width: min(1660px, calc(100% - 28px));
+    grid-template-rows: 104px 1fr;
+    gap: 8px;
+  }
+
+  .hero {
+    height: 104px;
+    padding: 12px 22px;
+  }
+
+  h1 {
+    font-size: clamp(40px, 3.8vw, 68px);
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+
+  .grid {
+    grid-template-columns:
+      minmax(560px, 1.16fr)
+      minmax(520px, 1fr)
+      minmax(330px, .62fr);
+    grid-template-rows: 134px minmax(0, 1fr) 112px;
+    gap: 8px;
+  }
+
+  .searchPanel {
+    grid-column: 1 / -1;
+    grid-row: 1 / 2;
+  }
+
+  .playlistRail {
+    max-height: 54px;
+    overflow: auto;
+  }
+
+  .main {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+  }
+
+  .player {
+    grid-template-columns: 250px minmax(0, 1fr);
+  }
+
+  .cover {
+    width: 250px;
+  }
+
+  .trackInfo h2 {
+    font-size: clamp(42px, 3.5vw, 66px);
+    letter-spacing: -1.5px;
+  }
+
+  .playlistPanel {
+    grid-column: 2 / 3;
+    grid-row: 2 / 4;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    padding: 16px;
+  }
+
+  .playlistPanel .panelHeader {
+    margin-bottom: 14px;
+  }
+
+  .trackList {
+    max-height: calc(100vh - 388px);
+    overflow: auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding-right: 8px;
+  }
+
+  .trackPick {
+    min-height: 82px;
+    display: grid;
+    grid-template-columns: 62px 1fr;
+    grid-template-rows: 1fr auto;
+    column-gap: 12px;
+    align-items: center;
+    padding: 10px;
+    border-radius: 16px;
+    background:
+      linear-gradient(90deg, rgba(15,45,9,.88), rgba(0,0,0,.58)),
+      radial-gradient(circle at 100% 0%, rgba(168,255,114,.14), transparent 34%);
+  }
+
+  .trackPick img {
+    grid-row: 1 / 3;
+    width: 62px;
+    height: 62px;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 0 18px rgba(168,255,114,.22);
+  }
+
+  .trackPick span {
+    font-size: 16px;
+    line-height: 1.05;
+  }
+
+  .trackPick small {
+    font-size: 11px;
+  }
+
+  .trackPick.active {
+    background:
+      linear-gradient(90deg, rgba(92,255,62,.28), rgba(0,0,0,.66)),
+      radial-gradient(circle at 100% 0%, rgba(168,255,114,.32), transparent 42%);
+    box-shadow: inset 0 0 24px rgba(168,255,114,.12), 0 0 18px rgba(168,255,114,.18);
+  }
+
+  .grid > .panel:nth-of-type(4) {
+    grid-column: 3 / 4;
+    grid-row: 2 / 3;
+    align-self: start;
+    height: 186px;
+  }
+
+  .grid > .panel:nth-of-type(3) {
+    grid-column: 3 / 4;
+    grid-row: 2 / 3;
+    align-self: end;
+    height: 220px;
+  }
+
+  .alert {
+    grid-column: 1 / 2;
+    grid-row: 3 / 4;
+    height: 112px;
+  }
+
+  .wide {
+    display: none;
+  }
+
+  .playerBackdrop {
+    background:
+      linear-gradient(90deg, rgba(0,0,0,.86), rgba(0,0,0,.44)),
+      radial-gradient(circle at 76% 48%, rgba(168,255,114,.24), transparent 36%),
+      var(--track-cover);
+    background-size: cover;
+    background-position: center;
+  }
+
+  .playerBackdrop::after {
+    backdrop-filter: blur(6px) saturate(1.75) contrast(1.15);
+    background:
+      linear-gradient(90deg, rgba(0,0,0,.54), rgba(0,0,0,.12)),
+      repeating-linear-gradient(
+        45deg,
+        rgba(168,255,114,.055),
+        rgba(168,255,114,.055) 2px,
+        transparent 2px,
+        transparent 8px
+      );
+  }
+
+  .main::before,
+  .playlistPanel::before {
+    background:
+      radial-gradient(circle at 14% 18%, rgba(168,255,114,.18), transparent 26%),
+      radial-gradient(circle at 86% 12%, rgba(255,213,89,.12), transparent 24%),
+      repeating-linear-gradient(
+        90deg,
+        rgba(168,255,114,.035),
+        rgba(168,255,114,.035) 1px,
+        transparent 1px,
+        transparent 9px
+      );
+  }
+
+  .playlistPanel {
+    box-shadow:
+      inset 0 0 60px rgba(168,255,114,.09),
+      0 0 34px rgba(168,255,114,.10),
+      0 18px 60px rgba(0,0,0,.52);
+  }
+}
+
+/* huge nasty library energy */
+.playlistPanel .panelHeader span::after {
+  content: " / BROADCAST LIBRARY";
+  color: rgba(216,255,196,.72);
+}
+
+.searchPanel::after {
+  content: "FRESH FROM THE SUNO STINK PIPE";
+  position: absolute;
+  right: 52px;
+  top: 16px;
+  color: rgba(168,255,114,.28);
+  font-size: 22px;
+  font-weight: 1000;
+  letter-spacing: .12em;
+  pointer-events: none;
+}
+

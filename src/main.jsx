@@ -222,6 +222,7 @@ function App() {
             {visibleTracks.slice(0, 14).map((item, i) => (
               <li key={`${item.title}-${i}`}>
                 <button className={item === track ? 'trackPick active' : 'trackPick'} onClick={() => setIndex(i)}>
+                  <img src={item.cover || '/stank-radio/images/stank-radio-icon.png'} alt="" />
                   <span>{item.title}</span>
                   <small>{item.artist} · {item.tag}</small>
                 </button>
