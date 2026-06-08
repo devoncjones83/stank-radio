@@ -3861,3 +3861,27 @@ h3 {
     display: none !important;
   }
 }
+
+/* === HEADER FINAL ALIGNMENT PATCH === */
+
+@media (min-width: 1101px) {
+  /* Move BIG DUMB IDIOT LABS right so it centers over STANK RADIO */
+  .brandBlock .eyebrow {
+    transform: translateX(42px) !important;
+  }
+
+  /* Pull Fresh From The Suno block up inside the border */
+  .topPipeBlock {
+    transform: translateY(-8px) !important;
+  }
+
+  .topPipeBlock h2 {
+    margin-bottom: 2px !important;
+    line-height: .86 !important;
+  }
+
+  .topPipeBlock p {
+    margin-top: 2px !important;
+    line-height: 1 !important;
+  }
+}
