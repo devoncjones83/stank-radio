@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Radio, Shuffle, Volume2, AlertTriangle, Activity, Skull } from 'lucide-react';
 import './styles.css';
@@ -51,11 +51,16 @@ function normalizeTrack(song, i) {
   const artist = song.artist || song.author || song.creator || 'Explosive Crossfader';
   const audio = song.audio || song.src || song.file || song.path || song.url || '';
   const cover = song.cover || song.coverArt || song.image || song.artwork || '/stank-radio/images/stank-radio-icon.png';
+  const rawPlaylists = song.playlists || song.playlist || song.collection || [];
+  const playlists = Array.isArray(rawPlaylists)
+    ? rawPlaylists
+    : String(rawPlaylists).split(',').map(x => x.trim()).filter(Boolean);
 
   return {
     title,
     artist,
     tag: song.tag || song.classification || song.genre || 'UNCLASSIFIED STANK',
+    playlists,
     audio: normalizePath(audio),
     cover: normalizePath(cover)
   };
@@ -80,6 +85,8 @@ function App() {
   const [index, setIndex] = useState(0);
   const [meta, setMeta] = useState(makeMeta());
   const [loadStatus, setLoadStatus] = useState('Loading contamination manifest...');
+  const [query, setQuery] = useState('');
+  const [activePlaylist, setActivePlaylist] = useState('ALL PLAYLISTS');
 
   const [logs, setLogs] = useState(() =>
     Array.from({ length: 7 }, (_, i) => ({
@@ -111,11 +118,43 @@ function App() {
     return <main className="page"><h1>{loadStatus}</h1></main>;
   }
 
-  const track = tracks[index];
+  const playlists = useMemo(() => {
+    const names = new Set();
+    tracks.forEach(track => {
+      (track.playlists || []).forEach(name => names.add(name));
+      if (track.tag) names.add(track.tag);
+    });
+    return ['ALL PLAYLISTS', ...Array.from(names).sort()];
+  }, [tracks]);
+
+  const filteredTracks = useMemo(() => {
+    const needle = query.trim().toLowerCase();
+
+    return tracks.filter(track => {
+      const haystack = [
+        track.title,
+        track.artist,
+        track.tag,
+        ...(track.playlists || [])
+      ].join(' ').toLowerCase();
+
+      const matchesQuery = !needle || haystack.includes(needle);
+      const matchesPlaylist =
+        activePlaylist === 'ALL PLAYLISTS' ||
+        track.tag === activePlaylist ||
+        (track.playlists || []).includes(activePlaylist);
+
+      return matchesQuery && matchesPlaylist;
+    });
+  }, [tracks, query, activePlaylist]);
+
+  const visibleTracks = filteredTracks.length ? filteredTracks : tracks;
+  const safeIndex = Math.min(index, visibleTracks.length - 1);
+  const track = visibleTracks[safeIndex];
 
   function nextTrack() {
-    let next = Math.floor(Math.random() * tracks.length);
-    if (tracks.length > 1 && next === index) next = (next + 1) % tracks.length;
+    let next = Math.floor(Math.random() * visibleTracks.length);
+    if (visibleTracks.length > 1 && next === index) next = (next + 1) % visibleTracks.length;
 
     setIndex(next);
     setMeta(makeMeta());
@@ -143,6 +182,38 @@ function App() {
       </section>
 
       <section className="grid">
+        <div className="panel searchPanel">
+          <div className="panelHeader">
+            <span>TRANSMISSION SEARCH</span>
+            <b>{filteredTracks.length} FOUND</b>
+          </div>
+
+          <input
+            className="searchInput"
+            value={query}
+            onChange={event => {
+              setQuery(event.target.value);
+              setIndex(0);
+            }}
+            placeholder="Search by song, artist, tag, or playlist..."
+          />
+
+          <div className="playlistRail">
+            {playlists.map(name => (
+              <button
+                key={name}
+                className={name === activePlaylist ? 'playlistPill active' : 'playlistPill'}
+                onClick={() => {
+                  setActivePlaylist(name);
+                  setIndex(0);
+                }}
+              >
+                {name}
+              </button>
+            ))}
+          </div>
+        </div>
+
         <div className="panel main">
           <div className="panelHeader">
             <span>CURRENTLY CONTAMINATING</span>
@@ -175,6 +246,7 @@ function App() {
             <div><dt>Broadcast Class</dt><dd>{meta.className}</dd></div>
             <div><dt>Contamination Index</dt><dd>{meta.contamination}</dd></div>
             <div><dt>Tracks Online</dt><dd>{tracks.length}</dd></div>
+            <div><dt>Filtered</dt><dd>{filteredTracks.length}</dd></div>
             <div><dt>Uptime</dt><dd>{meta.uptime} hrs</dd></div>
           </dl>
         </div>
@@ -188,6 +260,23 @@ function App() {
         <div className="panel alert">
           <div className="panelHeader"><span>EMERGENCY BROADCAST</span><AlertTriangle size={18}/></div>
           <p>Containment personnel are advised that rhythm leakage has exceeded cafeteria guidelines.</p>
+        </div>
+
+        <div className="panel playlistPanel">
+          <div className="panelHeader"><span>AVAILABLE TRACKS</span><b>{activePlaylist}</b></div>
+          <ul className="trackList">
+            {visibleTracks.slice(0, 12).map((item, i) => (
+              <li key={`${item.title}-${i}`}>
+                <button
+                  className={item === track ? 'trackPick active' : 'trackPick'}
+                  onClick={() => setIndex(i)}
+                >
+                  <span>{item.title}</span>
+                  <small>{item.artist} · {item.tag}</small>
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
 
         <div className="panel wide">
