@@ -3613,3 +3613,64 @@ h3 {
     transform: translateX(16px) !important;
   }
 }
+
+/* === TOP PANEL VERTICAL FIT PATCH === */
+
+@media (min-width: 1101px) {
+  .radioTop {
+    height: 106px !important;
+    min-height: 106px !important;
+    padding: 6px 22px 10px !important;
+    align-items: start !important;
+    overflow: hidden !important;
+  }
+
+  .brandBlock {
+    transform: translate(16px, -8px) !important;
+  }
+
+  .brandBlock .eyebrow {
+    margin: 0 0 0 !important;
+    line-height: 1 !important;
+  }
+
+  .radioTop h1 {
+    margin-top: -2px !important;
+    line-height: .78 !important;
+  }
+
+  .brandIcon {
+    width: 84px !important;
+    height: 84px !important;
+    min-width: 84px !important;
+    min-height: 84px !important;
+    transform: scale(1.08) !important;
+  }
+
+  .topPipeBlock {
+    transform: translateY(-4px) !important;
+  }
+
+  .topPipeBlock h2 {
+    margin: 0 0 2px !important;
+    line-height: .84 !important;
+  }
+
+  .topPipeBlock p {
+    margin: 0 !important;
+    line-height: 1 !important;
+    font-size: 13px !important;
+  }
+
+  .status {
+    transform: translateY(10px) !important;
+  }
+
+  .radioApp {
+    grid-template-rows: 106px 1fr !important;
+  }
+
+  .libraryDeck {
+    height: calc(100vh - 122px) !important;
+  }
+}
