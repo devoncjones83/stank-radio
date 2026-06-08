@@ -181,7 +181,10 @@ function App() {
           </div>
         </div>
 
-        <div className="panel main">
+        <div
+          className="panel main playerBackdrop"
+          style={{ '--track-cover': `url("${track.cover || '/stank-radio/images/stank-radio-icon.png'}")` }}
+        >
           <div className="panelHeader"><span>CURRENTLY CONTAMINATING</span><b>{track.tag}</b></div>
           <div className="player">
             <div className="cover"><img src={track.cover || '/stank-radio/images/stank-radio-icon.png'} alt="" /></div>
