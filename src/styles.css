@@ -3091,3 +3091,182 @@ h3 {
     background-blend-mode: multiply !important;
   }
 }
+
+/* === PURPLE BROADCAST RECEIVER SKIN === */
+
+@media (min-width: 1101px) {
+  :root {
+    --receiver-purple: #b66cff;
+    --receiver-purple-soft: rgba(182,108,255,.32);
+    --receiver-line: rgba(182,108,255,.42);
+    --receiver-text: #f3eaff;
+    --receiver-muted: #b8a8c9;
+  }
+
+  body {
+    color: var(--receiver-text);
+  }
+
+  .radioTop,
+  .librarySearch,
+  .broadcastLibrary,
+  .stationRail {
+    border-color: var(--receiver-line) !important;
+    background:
+      linear-gradient(180deg, rgba(14,10,24,.92), rgba(5,3,10,.96)),
+      repeating-linear-gradient(
+        0deg,
+        rgba(255,255,255,.025),
+        rgba(255,255,255,.025) 1px,
+        transparent 1px,
+        transparent 5px
+      ) !important;
+    box-shadow:
+      inset 0 0 38px rgba(182,108,255,.08),
+      0 0 32px rgba(182,108,255,.14),
+      0 18px 70px rgba(0,0,0,.55) !important;
+  }
+
+  .eyebrow,
+  .searchTitle,
+  .playlistSelectWrap label,
+  .libraryHeader,
+  .libraryHeader span,
+  .stationKicker {
+    color: var(--receiver-purple) !important;
+    font-family: 'Arial Narrow', 'Roboto Condensed', Impact, sans-serif !important;
+    letter-spacing: .28em !important;
+    text-shadow: 0 0 18px rgba(182,108,255,.38) !important;
+  }
+
+  .radioTop h1,
+  .topPipeBlock h2,
+  .stationRail h2 {
+    color: var(--receiver-text) !important;
+    font-family: 'Arial Black', Impact, system-ui, sans-serif !important;
+    text-shadow:
+      0 0 18px rgba(182,108,255,.34),
+      3px 3px 0 rgba(0,0,0,.75) !important;
+  }
+
+  .topPipeBlock p,
+  .stationDesc,
+  .songTile small,
+  .metaRow span {
+    color: var(--receiver-muted) !important;
+  }
+
+  .brandIcon {
+    box-shadow:
+      0 0 24px rgba(182,108,255,.52),
+      0 0 44px rgba(182,108,255,.18) !important;
+  }
+
+  .status,
+  .stanksAiredBox,
+  .songCount,
+  .searchBox,
+  .playlistSelect,
+  .metaRow span,
+  .lyricsBox div {
+    border-color: var(--receiver-line) !important;
+    background: rgba(6,4,12,.72) !important;
+    color: var(--receiver-text) !important;
+    box-shadow: inset 0 0 18px rgba(182,108,255,.08) !important;
+  }
+
+  .status {
+    color: #cfa6ff !important;
+  }
+
+  .pulse {
+    background: var(--receiver-purple) !important;
+    box-shadow: 0 0 16px var(--receiver-purple) !important;
+  }
+
+  .searchBox input,
+  .playlistSelect {
+    color: var(--receiver-text) !important;
+  }
+
+  .stanksAiredBox b,
+  .libraryHeader b,
+  .playlistPill.active {
+    background: var(--receiver-purple) !important;
+    color: #14091f !important;
+    box-shadow: 0 0 22px rgba(182,108,255,.34) !important;
+  }
+
+  .songTile {
+    border-color: rgba(182,108,255,.35) !important;
+    background:
+      linear-gradient(180deg, rgba(17,10,31,.88), rgba(4,3,8,.94)),
+      repeating-linear-gradient(
+        0deg,
+        rgba(255,255,255,.025),
+        rgba(255,255,255,.025) 1px,
+        transparent 1px,
+        transparent 5px
+      ) !important;
+    box-shadow:
+      inset 0 0 24px rgba(182,108,255,.06),
+      0 0 18px rgba(0,0,0,.42) !important;
+  }
+
+  .songTile span {
+    color: #f3eaff !important;
+    background:
+      linear-gradient(90deg, rgba(38,21,58,.95), rgba(12,8,20,.95)),
+      repeating-linear-gradient(
+        0deg,
+        rgba(255,255,255,.035),
+        rgba(255,255,255,.035) 1px,
+        transparent 1px,
+        transparent 4px
+      ) !important;
+    border: 1px solid rgba(182,108,255,.54) !important;
+    border-left: 4px solid var(--receiver-purple) !important;
+    border-right: 1px solid rgba(182,108,255,.35) !important;
+    font-family: 'Arial Narrow', 'Roboto Condensed', Impact, sans-serif !important;
+    letter-spacing: .08em !important;
+    text-transform: uppercase !important;
+    text-shadow: 0 0 10px rgba(182,108,255,.28) !important;
+    transform: none !important;
+  }
+
+  .songTile:hover span,
+  .songTile.active span {
+    color: #ffffff !important;
+    background:
+      linear-gradient(90deg, rgba(93,48,145,.92), rgba(23,12,38,.95)) !important;
+  }
+
+  .songTile.active::after {
+    background: var(--receiver-purple) !important;
+    color: #14091f !important;
+    box-shadow: 0 0 18px rgba(182,108,255,.42) !important;
+  }
+
+  .stationControls button,
+  .libraryPager button {
+    border-color: var(--receiver-line) !important;
+    background: rgba(12,8,20,.88) !important;
+    color: var(--receiver-text) !important;
+    font-family: 'Arial Black', Impact, system-ui, sans-serif !important;
+    letter-spacing: .02em !important;
+  }
+
+  .stationControls .playWide,
+  .stationControls button:hover,
+  .libraryPager button:hover:not(:disabled) {
+    background: linear-gradient(180deg, #bd7aff, #8144d8) !important;
+    color: #fff !important;
+    box-shadow: 0 0 22px rgba(182,108,255,.32) !important;
+  }
+
+  audio {
+    filter:
+      drop-shadow(0 0 14px rgba(182,108,255,.24))
+      drop-shadow(0 10px 20px rgba(0,0,0,.35)) !important;
+  }
+}
