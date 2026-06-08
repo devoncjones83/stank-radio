@@ -2710,3 +2710,83 @@ h3 {
     margin-bottom: 12px;
   }
 }
+
+/* === HARD OVERRIDE: TITLE-FIRST CARDS + PLAYER CONTROLS === */
+
+@media (min-width: 1101px) {
+  .songTile {
+    display: grid !important;
+    grid-template-rows: 58px minmax(0, 1fr) !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    padding: 8px !important;
+    gap: 6px !important;
+    overflow: hidden !important;
+  }
+
+  .songTile span {
+    order: 1 !important;
+    width: 100% !important;
+    height: 58px !important;
+    min-height: 58px !important;
+    max-height: 58px !important;
+    margin: 0 !important;
+    padding: 6px 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    overflow: hidden !important;
+    font-size: clamp(13px, .85vw, 18px) !important;
+    line-height: .94 !important;
+    border-radius: 12px !important;
+    background:
+      linear-gradient(90deg, rgba(87,255,46,.42), rgba(255,213,89,.20)),
+      repeating-linear-gradient(
+        -8deg,
+        rgba(255,255,255,.07),
+        rgba(255,255,255,.07) 1px,
+        transparent 1px,
+        transparent 7px
+      ) !important;
+    color: #f4ffe8 !important;
+    text-shadow: 2px 2px 0 rgba(0,0,0,.82), 0 0 10px rgba(168,255,114,.35) !important;
+  }
+
+  .songTile img {
+    order: 2 !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-height: none !important;
+    min-height: 0 !important;
+    aspect-ratio: auto !important;
+    object-fit: cover !important;
+    border-radius: 12px !important;
+    margin: 0 !important;
+  }
+
+  .songTile small,
+  .songTile em {
+    display: none !important;
+  }
+
+  .stationControls {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
+  }
+
+  .stationControls .playWide {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+  }
+
+  .stationControls button:nth-child(4),
+  .stationControls button:nth-child(5) {
+    grid-column: auto !important;
+  }
+
+  .lyricsBox {
+    display: none !important;
+  }
+}
