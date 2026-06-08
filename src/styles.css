@@ -1757,3 +1757,149 @@ h3 {
     justify-self: end;
   }
 }
+
+/* === PLAYER RAIL TOP / DROPDOWN PLAYLIST / CLEAN CARD TITLES PATCH === */
+
+@media (min-width: 1101px) {
+  .radioApp {
+    width: calc(100% - 24px);
+    max-width: none;
+  }
+
+  .radioTop {
+    margin-right: 452px;
+    grid-template-columns: auto minmax(260px, 1fr) auto;
+  }
+
+  .radioShell {
+    display: block;
+    margin-right: 452px;
+    min-height: 0;
+  }
+
+  .libraryDeck {
+    height: calc(100vh - 128px);
+  }
+
+  .stationRail {
+    position: fixed;
+    top: 10px;
+    right: 12px;
+    bottom: 10px;
+    width: 430px;
+    height: auto;
+    margin: 0;
+    z-index: 20;
+    border-radius: 22px;
+  }
+
+  .status {
+    justify-self: start;
+  }
+
+  .librarySearch {
+    display: grid;
+    grid-template-columns: minmax(280px, 560px) minmax(220px, 320px);
+    gap: 14px;
+    align-items: end;
+  }
+
+  .searchBox {
+    max-width: none;
+  }
+
+  .playlistRail {
+    display: none !important;
+  }
+
+  .playlistSelectWrap {
+    display: grid;
+    gap: 6px;
+  }
+
+  .playlistSelectWrap label {
+    color: #a8ff72;
+    font-size: 11px;
+    font-weight: 1000;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+
+  .playlistSelect {
+    width: 100%;
+    height: 44px;
+    border-radius: 14px;
+    border: 1px solid rgba(168,255,114,.38);
+    background: rgba(0,0,0,.58);
+    color: #f4ffe8;
+    padding: 0 12px;
+    font: inherit;
+    font-weight: 950;
+    outline: none;
+  }
+
+  .playlistSelect:focus {
+    border-color: rgba(168,255,114,.85);
+    box-shadow: 0 0 22px rgba(168,255,114,.18);
+  }
+
+  .libraryGrid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+
+  .songTile {
+    min-height: 245px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 9px;
+    overflow: hidden;
+  }
+
+  .songTile img {
+    margin: 0;
+  }
+
+  .songTile span {
+    font-size: 19px;
+    min-height: auto;
+    line-height: 1.08;
+    background: rgba(0,0,0,.52);
+    border-radius: 12px;
+    padding: 8px 10px;
+    margin-top: auto;
+  }
+
+  .songTile small,
+  .songTile em {
+    display: none !important;
+  }
+}
+
+@media (max-width: 1100px) {
+  .playlistSelectWrap {
+    display: grid;
+    gap: 6px;
+    margin-top: 12px;
+  }
+
+  .playlistSelectWrap label {
+    color: #a8ff72;
+    font-size: 11px;
+    font-weight: 1000;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+
+  .playlistSelect {
+    width: 100%;
+    height: 44px;
+    border-radius: 14px;
+    border: 1px solid rgba(168,255,114,.38);
+    background: rgba(0,0,0,.58);
+    color: #f4ffe8;
+    padding: 0 12px;
+    font: inherit;
+    font-weight: 950;
+  }
+}

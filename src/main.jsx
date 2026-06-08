@@ -163,16 +163,21 @@ function App() {
               />
             </div>
 
-            <div className="playlistRail">
-              {playlists.map(name => (
-                <button
-                  key={name}
-                  className={name === activePlaylist ? 'playlistPill active' : 'playlistPill'}
-                  onClick={() => { setActivePlaylist(name); setIndex(0); }}
-                >
-                  {name}
-                </button>
-              ))}
+            <div className="playlistSelectWrap">
+              <label htmlFor="playlist-select">Playlist / Tag</label>
+              <select
+                id="playlist-select"
+                className="playlistSelect"
+                value={activePlaylist}
+                onChange={event => {
+                  setActivePlaylist(event.target.value);
+                  setIndex(0);
+                }}
+              >
+                {playlists.map(name => (
+                  <option key={name} value={name}>{name}</option>
+                ))}
+              </select>
             </div>
           </section>
 
@@ -191,8 +196,6 @@ function App() {
                 >
                   <img src={item.cover || '/stank-radio/images/stank-radio-icon.png'} alt="" />
                   <span>{item.title}</span>
-                  <small>{item.artist}</small>
-                  <em>{item.tag}</em>
                 </button>
               ))}
             </div>
