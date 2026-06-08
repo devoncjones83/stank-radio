@@ -3756,3 +3756,40 @@ h3 {
       2px 2px 0 rgba(0,0,0,.75) !important;
   }
 }
+
+/* === HEADER + SEARCH LABEL POLISH === */
+
+@media (min-width: 1101px) {
+
+  /* Pull the icon up slightly */
+  .brandIcon {
+    transform: scale(1.08) translateY(-8px) !important;
+  }
+
+  /* Bring BIG DUMB IDIOT LABS down */
+  .brandBlock .eyebrow {
+    margin-top: 10px !important;
+    margin-bottom: 4px !important;
+    line-height: 1 !important;
+  }
+
+  /* Make SEARCH A STANK stankier */
+  .searchTitle,
+  .librarySearch > label:first-child,
+  .searchBox label {
+    font-size: 22px !important;
+    letter-spacing: .18em !important;
+    text-shadow:
+      0 0 14px rgba(182,108,255,.45),
+      2px 2px 0 rgba(0,0,0,.75) !important;
+  }
+
+  /* Make PLAYLIST / TAG match */
+  .playlistSelectWrap label {
+    font-size: 22px !important;
+    letter-spacing: .18em !important;
+    text-shadow:
+      0 0 14px rgba(182,108,255,.45),
+      2px 2px 0 rgba(0,0,0,.75) !important;
+  }
+}
