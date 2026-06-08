@@ -4178,3 +4178,11 @@ h3 {
     margin-top: 14px !important;
   }
 }
+
+/* === DESKTOP HEADER ICON CENTER NUDGE === */
+
+@media (min-width: 1101px) {
+  .brandIcon {
+    transform: scale(1.08) translate(-10px, -18px) !important;
+  }
+}
