@@ -336,6 +336,29 @@ function App() {
           
         </aside>
       </section>
+
+      <footer className="mobileBottomPanel">
+        <span className="mobileBottomWarning">
+          WARNING: DO NOT APPROACH ACTIVE BROADCASTS.
+        </span>
+
+        <div className="mobileBottomControls">
+          <a href="/#terminal-services" className="mobileBottomButton">
+            📟 Terminal Services
+          </a>
+
+          <a href="/admin" className="mobileBottomButton">
+            🛡️ Containment Access
+          </a>
+
+          <div className="mobileBottomCopyright">
+            <span>©</span>
+            <span>2026</span>
+            <span>BIG DUMB IDIOT LABS</span>
+          </div>
+        </div>
+      </footer>
+
     </main>
   );
 }
