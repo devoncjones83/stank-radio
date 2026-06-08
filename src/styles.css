@@ -3512,3 +3512,58 @@ h3 {
     height: 48px !important;
   }
 }
+
+/* === RESTORE PLAYER BUTTON STACK PATCH === */
+
+@media (min-width: 1101px) {
+  .stationRail {
+    grid-template-rows: 360px 30px 84px 50px 42px 54px 160px !important;
+    overflow: hidden !important;
+  }
+
+  .stationControls {
+    height: 160px !important;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    grid-template-rows: 50px 50px 50px !important;
+    gap: 10px !important;
+    align-self: stretch !important;
+    overflow: visible !important;
+  }
+
+  .stationControls .playWide {
+    grid-column: 1 / -1 !important;
+    grid-row: 1 / 2 !important;
+  }
+
+  .stationControls button:nth-child(2) {
+    grid-column: 1 / 2 !important;
+    grid-row: 2 / 3 !important;
+  }
+
+  .stationControls button:nth-child(3) {
+    grid-column: 2 / 3 !important;
+    grid-row: 2 / 3 !important;
+  }
+
+  .stationControls button:nth-child(4) {
+    grid-column: 1 / 2 !important;
+    grid-row: 3 / 4 !important;
+  }
+
+  .stationControls button:nth-child(5) {
+    grid-column: 2 / 3 !important;
+    grid-row: 3 / 4 !important;
+  }
+
+  .stationControls button {
+    height: 50px !important;
+    min-height: 50px !important;
+  }
+
+  .stationCover {
+    height: 360px !important;
+    min-height: 360px !important;
+    max-height: 360px !important;
+  }
+}
