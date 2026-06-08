@@ -49,6 +49,7 @@ function App() {
   const [query, setQuery] = useState('');
   const [activePlaylist, setActivePlaylist] = useState('ALL PLAYLISTS');
   const [playing, setPlaying] = useState(false);
+  const [playerOpen, setPlayerOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [loadStatus, setLoadStatus] = useState('Loading contamination manifest...');
 
@@ -103,6 +104,7 @@ function App() {
   const track = visibleTracks[Math.min(index, visibleTracks.length - 1)] || fallbackTracks[0];
 
   function chooseTrack(i, autoplay = false) {
+    setPlayerOpen(true);
     setIndex(i);
     setPlaying(false);
     setTimeout(() => {
@@ -248,9 +250,10 @@ function App() {
         </div>
 
         <aside
-          className="stationRail"
+          className={playerOpen ? 'stationRail mobileOpen' : 'stationRail'}
           style={{ '--track-cover': `url("${track.cover || '/stank-radio/images/stank-radio-icon.png'}")` }}
         >
+          <button className="modalClose" type="button" onClick={() => setPlayerOpen(false)}>×</button>
           <div className="stationCover">
             <img src={track.cover || '/stank-radio/images/stank-radio-icon.png'} alt="" />
           </div>
