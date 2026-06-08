@@ -141,23 +141,13 @@ function App() {
         <div>
           <p className="eyebrow">BIG DUMB IDIOT LABS</p>
           <h1><Radio size={38}/> STANK RADIO</h1>
+          <p className="topPipe">{loadStatus} Freshly harvested audio contaminants. Press play at your own risk.</p>
         </div>
-        <div className="status"><span className="pulse"></span>LIVE TRANSMISSION</div>
+        <div className="status"><span className="pulse"></span>"Live" TRANSMISSION</div>
       </section>
 
       <section className="radioShell">
         <div className="libraryDeck">
-          <section className="freshPanel">
-            <div>
-              <h2>{loadStatus}</h2>
-              <p>Freshly harvested audio contaminants. Press play at your own risk.</p>
-            </div>
-            <div className="songCount">
-              <b>{tracks.length}</b>
-              <span>STANKS AIRED</span>
-            </div>
-          </section>
-
           <section className="librarySearch">
             <div className="searchBox">
               <Search size={18}/>
