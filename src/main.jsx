@@ -154,7 +154,7 @@ function App() {
         </div>
 
         <div className="topPipeBlock">
-          <h2>{loadStatus}</h2>
+          <h2>Fresh From The Suno <span className="stinkPipeWord">STINK PIPE!</span></h2>
           <p>Freshly harvested audio contaminants. Press play at your own risk.</p>
         </div>
 
@@ -174,9 +174,9 @@ function App() {
               />
             </div>
 
-            <div className="stanksAiredBox">
-              <span>STANKS AIRED</span>
-              <b>{filteredTracks.length}</b>
+            <div className="searchDeadSpace">
+              <span>PUBLIC BROADCAST FACILITY</span>
+              <b>QUESTIONABLE FREQUENCY</b>
             </div>
 
             <div className="playlistSelectWrap">
@@ -195,6 +195,11 @@ function App() {
                   <option key={name} value={name}>{name}</option>
                 ))}
               </select>
+            </div>
+
+            <div className="stanksAiredBox">
+              <span>STANKS AIRED</span>
+              <b>{filteredTracks.length}</b>
             </div>
           </section>
 
