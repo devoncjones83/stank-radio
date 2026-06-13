@@ -5105,3 +5105,68 @@ h3 {
     display: inline-block !important;
   }
 }
+
+/* === CONTAMINATED SIGNAGE SYSTEM === */
+
+.radioTop h1,
+.libraryHeader span,
+.stinkPipeWord {
+  font-family: Impact, Haettenschweiler, "Arial Black", sans-serif !important;
+  font-weight: 900 !important;
+  letter-spacing: .06em !important;
+
+  background: linear-gradient(
+    180deg,
+    #efffe8 0%,
+    #c7ff9c 18%,
+    #a7ff61 45%,
+    #7ed83c 72%,
+    #5b9e2c 100%
+  ) !important;
+
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+
+  filter:
+    drop-shadow(0 0 6px rgba(167,255,97,.35))
+    drop-shadow(0 0 16px rgba(167,255,97,.22)) !important;
+
+  text-shadow: none !important;
+}
+
+.libraryHeader span {
+  letter-spacing: .10em !important;
+  transform: skew(-3deg) !important;
+}
+
+.radioTop h1 {
+  transform: translateY(-4px) skew(-4deg) !important;
+}
+
+.stinkPipeWord {
+  transform: skew(-4deg) !important;
+}
+
+/* subtle contaminated broadcast pulse */
+
+@keyframes contaminatedSignPulse {
+  0%,100% {
+    filter:
+      drop-shadow(0 0 6px rgba(167,255,97,.30))
+      drop-shadow(0 0 16px rgba(167,255,97,.20));
+  }
+
+  50% {
+    filter:
+      drop-shadow(0 0 12px rgba(167,255,97,.55))
+      drop-shadow(0 0 30px rgba(167,255,97,.35));
+  }
+}
+
+.radioTop h1,
+.libraryHeader span,
+.stinkPipeWord {
+  animation: contaminatedSignPulse 4s ease-in-out infinite !important;
+}
+
