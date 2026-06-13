@@ -4819,3 +4819,67 @@ h3 {
     text-transform: uppercase !important;
   }
 }
+
+/* === TOXIC GREEN TEXT / PURPLE ACCENT SKIN PATCH === */
+
+@media (min-width: 1101px) {
+  .radioTop h1,
+  .brandBlock .eyebrow,
+  .topPipeBlock h2,
+  .searchTitle,
+  .playlistSelectWrap label,
+  .libraryHeader span,
+  .stationRail h2 {
+    color: #a7ff61 !important;
+    text-shadow:
+      0 0 4px rgba(167,255,97,.45),
+      0 0 10px rgba(167,255,97,.25),
+      2px 2px 0 rgba(0,0,0,.72) !important;
+    filter: saturate(1.15) !important;
+  }
+
+  .topPipeBlock p,
+  .stationDesc {
+    color: #d7ffc5 !important;
+  }
+
+  .stinkPipeWord {
+    color: #b66cff !important;
+    text-shadow:
+      0 0 10px rgba(182,108,255,.62),
+      0 0 20px rgba(182,108,255,.28),
+      2px 2px 0 rgba(0,0,0,.78) !important;
+  }
+
+  .status,
+  .stationControls .playWide,
+  .stanksAiredBox b {
+    color: #14091f !important;
+  }
+
+  .playlistSelect,
+  .searchBox input {
+    color: #f3eaff !important;
+  }
+}
+
+@media (max-width: 1100px) {
+  .radioTop h1,
+  .brandBlock .eyebrow,
+  .topPipeBlock h2,
+  .libraryHeader span {
+    color: #a7ff61 !important;
+    text-shadow:
+      0 0 4px rgba(167,255,97,.45),
+      0 0 10px rgba(167,255,97,.25),
+      2px 2px 0 rgba(0,0,0,.72) !important;
+  }
+
+  .stinkPipeWord {
+    color: #b66cff !important;
+  }
+
+  .topPipeBlock p {
+    color: #d7ffc5 !important;
+  }
+}
