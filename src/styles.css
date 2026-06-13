@@ -5170,3 +5170,60 @@ h3 {
   animation: contaminatedSignPulse 4s ease-in-out infinite !important;
 }
 
+
+/* === PURPLE FILTH SIGNAGE OVERRIDE === */
+
+.radioTop h1,
+.libraryHeader span {
+  font-family: Impact, Haettenschweiler, "Arial Black", sans-serif !important;
+  font-weight: 900 !important;
+  letter-spacing: .06em !important;
+
+  background: linear-gradient(
+    180deg,
+    #f8f0ff 0%,
+    #ddb7ff 20%,
+    #c78cff 45%,
+    #a65eff 70%,
+    #7b35d8 100%
+  ) !important;
+
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+
+  text-shadow: none !important;
+
+  filter:
+    drop-shadow(0 0 8px rgba(182,108,255,.45))
+    drop-shadow(0 0 22px rgba(182,108,255,.28)) !important;
+}
+
+.radioTop h1 {
+  transform: translateY(-4px) skew(-4deg) !important;
+}
+
+.libraryHeader span {
+  transform: skew(-3deg) !important;
+}
+
+@keyframes purpleStankPulse {
+  0%,100% {
+    filter:
+      drop-shadow(0 0 8px rgba(182,108,255,.35))
+      drop-shadow(0 0 20px rgba(182,108,255,.22));
+  }
+
+  50% {
+    filter:
+      drop-shadow(0 0 16px rgba(182,108,255,.70))
+      drop-shadow(0 0 40px rgba(182,108,255,.38));
+  }
+}
+
+.radioTop h1,
+.libraryHeader span,
+.stinkPipeWord {
+  animation: purpleStankPulse 3.5s ease-in-out infinite !important;
+}
+
