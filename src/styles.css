@@ -5227,3 +5227,32 @@ h3 {
   animation: purpleStankPulse 3.5s ease-in-out infinite !important;
 }
 
+
+/* === RESTORE ORIGINAL PURPLE FILTH-UP SIGNAGE === */
+
+.radioTop h1,
+.libraryHeader span,
+.stinkPipeWord {
+  font-family: Impact, Haettenschweiler, "Arial Black", system-ui, sans-serif !important;
+  font-weight: 900 !important;
+  letter-spacing: .06em !important;
+  color: #b66cff !important;
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  -webkit-text-fill-color: #b66cff !important;
+  background-clip: initial !important;
+  text-shadow:
+    0 0 16px rgba(182,108,255,.65),
+    2px 2px 0 rgba(0,0,0,.8) !important;
+  filter: none !important;
+  animation: none !important;
+}
+
+.radioTop h1 {
+  transform: translateY(-4px) skew(-4deg) !important;
+}
+
+.libraryHeader span,
+.stinkPipeWord {
+  transform: skew(-4deg) !important;
+}
