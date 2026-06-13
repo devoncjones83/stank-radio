@@ -165,7 +165,7 @@ function App() {
           <p>Freshly harvested audio contaminants. Press play at your own risk.</p>
         </div>
 
-        <div className="status"><span className="pulse"></span>"Live" TRANSMISSION</div>
+        <div className="status"><span className="pulse"></span>"LIVE" TRANSMISSION</div>
         <button className="mobileSearchToggle" type="button" onClick={() => setSearchOpen(true)} aria-label="Open search">
           🔍
         </button>
