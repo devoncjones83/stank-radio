@@ -4954,3 +4954,81 @@ h3 {
     letter-spacing: .045em !important;
   }
 }
+
+/* === STANK RADIO BROADCAST SIGNAGE PATCH === */
+
+.radioTop h1 {
+  font-family: Impact, Haettenschweiler, "Arial Black", sans-serif !important;
+  font-weight: 900 !important;
+  letter-spacing: .06em !important;
+
+  background: linear-gradient(
+    180deg,
+    #efffe8 0%,
+    #c7ff9c 18%,
+    #a7ff61 45%,
+    #7ed83c 72%,
+    #5b9e2c 100%
+  ) !important;
+
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+
+  text-shadow: none !important;
+
+  filter:
+    drop-shadow(0 0 4px rgba(167,255,97,.25))
+    drop-shadow(0 0 12px rgba(167,255,97,.18));
+}
+
+.radioTop h1::after {
+  content: "STANK RADIO";
+  position: absolute;
+  inset: 0;
+
+  z-index: -1;
+
+  color: rgba(167,255,97,.12) !important;
+
+  transform:
+    translate(4px,3px)
+    skew(-3deg);
+
+  filter: blur(2px);
+
+  pointer-events: none;
+}
+
+.radioTop h1 .brandIcon {
+  filter:
+    brightness(1.35)
+    saturate(1.3)
+    drop-shadow(0 0 10px rgba(167,255,97,.25))
+    drop-shadow(0 0 18px rgba(167,255,97,.18)) !important;
+}
+
+@keyframes broadcastGlow {
+  0% {
+    filter:
+      drop-shadow(0 0 4px rgba(167,255,97,.22))
+      drop-shadow(0 0 10px rgba(167,255,97,.14));
+  }
+
+  50% {
+    filter:
+      drop-shadow(0 0 10px rgba(167,255,97,.34))
+      drop-shadow(0 0 20px rgba(167,255,97,.22));
+  }
+
+  100% {
+    filter:
+      drop-shadow(0 0 4px rgba(167,255,97,.22))
+      drop-shadow(0 0 10px rgba(167,255,97,.14));
+  }
+}
+
+.radioTop h1 {
+  animation: broadcastGlow 5s ease-in-out infinite;
+}
+
