@@ -291,9 +291,6 @@ function App() {
           </h2>
           <p>Freshly harvested audio contaminants. Press play at your own risk.</p>
         </div>
-            ))}
-          </div>
-        </aside>
 
         <aside className="headerSignal" aria-label="Containment signal status">
           <div title={loadStatus}>
