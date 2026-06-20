@@ -2119,3 +2119,95 @@ dd {
     display: inline-block !important;
   }
 }
+
+/* === STINK PIPE HERO RELOCATION + NOW LEAKING READABILITY === */
+
+.masthead {
+  flex-wrap: wrap;
+}
+
+.topPipeBlock {
+  display: none;
+}
+
+.pipeBrief {
+  display: grid;
+  align-content: center;
+  gap: 0.35rem;
+}
+
+.pipeBriefLabel {
+  color: #a7ff61;
+  font-family: "Lucida Console", "Courier New", monospace;
+  font-size: 0.78rem;
+  font-weight: 1000;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.compactPipeHeadline {
+  margin: 0;
+  color: #a7ff61;
+  font-size: clamp(1.75rem, 3.2vw, 3.2rem);
+  line-height: 0.88;
+}
+
+.compactPipeHeadline span {
+  display: block;
+}
+
+.compactPipeHeadline .stinkPipeWord {
+  color: #b66cff;
+}
+
+.playerPanel .panelLabel {
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+}
+
+.playerCore {
+  grid-template-columns: minmax(12rem, 18rem) minmax(0, 1fr);
+  gap: 1.15rem;
+  align-items: stretch;
+}
+
+.coverWell img {
+  min-height: 13rem;
+}
+
+.trackStack {
+  justify-content: center;
+  gap: 0.55rem;
+}
+
+.trackStack h2 {
+  font-size: clamp(2.3rem, 4vw, 4rem);
+  line-height: 0.9;
+}
+
+.trackStack > p:not(.trackTag) {
+  font-size: 1rem;
+  line-height: 1.45;
+}
+
+.trackTag {
+  font-size: 0.8rem;
+}
+
+.trackMeta {
+  font-size: 0.85rem;
+}
+
+@media (max-width: 900px) {
+  .playerCore {
+    grid-template-columns: 1fr;
+  }
+
+  .coverWell img {
+    min-height: 12rem;
+  }
+
+  .compactPipeHeadline {
+    font-size: 2.1rem;
+  }
+}

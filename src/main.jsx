@@ -284,14 +284,6 @@ function App() {
           </div>
         </aside>
 
-        <div className="topPipeBlock">
-          <h2 className="pipeHeadline">
-            <span>Fresh From The Suno</span>
-            <span><b className="stinkPipeWord">STINK PIPE</b></span>
-          </h2>
-          <p>Freshly harvested audio contaminants. Press play at your own risk.</p>
-        </div>
-
         <aside className="headerSignal" aria-label="Containment signal status">
           <div title={loadStatus}>
             <span>Containment index</span>
