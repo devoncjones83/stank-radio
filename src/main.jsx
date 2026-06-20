@@ -1,141 +1,238 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Radio, Shuffle, Search, SkipBack, SkipForward, Share2, Play, Pause } from 'lucide-react';
+import {
+  AlertTriangle,
+  ChevronLeft,
+  ChevronRight,
+  Disc3,
+  ExternalLink,
+  FileAudio,
+  ListMusic,
+  Pause,
+  Play,
+  Radio,
+  Search,
+  Share2,
+  Shuffle,
+  SkipBack,
+  SkipForward,
+  SlidersHorizontal,
+} from 'lucide-react';
 import './styles.css';
 
-const fallbackTracks = [{
-  title: 'Containment Funk Protocol',
-  artist: 'Explosive Crossfader',
-  tag: 'UNCLASSIFIED STANK',
-  playlists: ['Fallback Stank'],
-  description: 'Fallback stank engaged. The funk refuses to die.',
-  cover: '/stank-radio/images/stank-radio-icon.png',
-  audio: ''
-}];
+const BASE = import.meta.env.BASE_URL || '/';
+const defaultCover = `${BASE}images/stank-radio-icon.png`;
+const TRACKS_PER_PAGE = 10;
+const playlistNotes = {
+  'UNCLASSIFIED STANK': 'Unfiled transmissions and residue without a clean category.',
+  'AFTER HOURS STANK': 'Slow-burn radio for rooms that should have closed already.',
+  'HAZARDOUS STANK': 'High-impact signal damage, loose bass, and unstable equipment.',
+};
 
-function normalizePath(path) {
-  if (!path) return '';
-  if (path.startsWith('http')) return path;
-  if (path.startsWith('/stank-radio/')) return path;
-  if (path.startsWith('/music/')) return `/stank-radio${path}`;
-  if (path.startsWith('music/')) return `/stank-radio/${path}`;
-  if (path.startsWith('/')) return `/stank-radio${path}`;
-  return `/stank-radio/music/${path}`;
+const playlistDefinitions = [
+  { id: 'RAP BATTLES', title: 'Rap Battles', description: 'High-friction verses and unlicensed confidence.', artClass: 'rapBattles' },
+  { id: 'DREAM SYMPHONY', title: 'Dream Symphony', description: 'Cloudy transmissions with strange inner weather.', artClass: 'dreamSymphony' },
+  { id: 'STUFF', title: 'Stuff', description: 'A little bit of everything that should not work together.', artClass: 'stuff' },
+  { id: 'HOLIDAY HIJINKS', title: 'Holiday Hijinks', description: 'Seasonal detours, bad gifts, and loose cheer.', artClass: 'holidayHijinks' },
+  { id: 'CONSPIRACY OR TRUTH', title: 'Conspiracy or Truth?', description: 'Questionable signals from a suspicious source.', artClass: 'conspiracyTruth' },
+  { id: 'DISSIN KIDS', title: 'Dissin Kids', description: 'Small voices, large opinions, unreasonable bass.', artClass: 'dissinKids' },
+  { id: 'UNCLASSIFIED STANK', title: 'Unclassified Stank', description: playlistNotes['UNCLASSIFIED STANK'], artClass: 'unclassifiedStank' },
+  { id: 'AFTER HOURS STANK', title: 'After Hours Stank', description: playlistNotes['AFTER HOURS STANK'], artClass: 'afterHoursStank' },
+];
+
+const roomTonePresets = [
+  { label: 'Idle air', level: 'LOW', bars: [22, 30, 18, 34, 24, 16, 28, 20] },
+  { label: 'Wet subfloor', level: 'MED', bars: [42, 66, 28, 78, 52, 38, 70, 44] },
+  { label: 'Fire exit hum', level: 'HIGH', bars: [58, 30, 82, 46, 74, 34, 64, 52] },
+  { label: 'Unstable transformer', level: 'HOT', bars: [78, 54, 90, 44, 84, 64, 96, 58] },
+];
+
+const fallbackTracks = [
+  {
+    id: 'fallback-containment-funk-protocol',
+    title: 'Containment Funk Protocol',
+    artist: 'Explosive Crossfader',
+    tag: 'UNCLASSIFIED STANK',
+    playlists: ['Fallback Stank'],
+    description: 'Fallback stank engaged. The funk refuses to die.',
+    cover: defaultCover,
+    audio: '',
+  },
+];
+
+function cleanArray(value) {
+  if (!value) return [];
+  if (Array.isArray(value)) return value.map(String).filter(Boolean);
+  return String(value)
+    .split(',')
+    .map((item) => item.trim())
+    .filter(Boolean);
 }
 
-function normalizeTrack(song, i) {
-  const rawPlaylists = song.playlists || song.playlist || song.collection || [];
-  const playlists = Array.isArray(rawPlaylists)
-    ? rawPlaylists
-    : String(rawPlaylists).split(',').map(x => x.trim()).filter(Boolean);
+function assetPath(path) {
+  if (!path) return '';
+  if (path.startsWith('http')) return path;
+  if (path.startsWith(BASE)) return path;
+  if (path.startsWith('/stank-radio/')) return path;
+  if (path.startsWith('/')) return `${BASE}${path.slice(1)}`;
+  if (path.startsWith('music/') || path.startsWith('images/')) return `${BASE}${path}`;
+  return `${BASE}music/${path}`;
+}
+
+function normalizeTrack(song, index) {
+  const playlists = cleanArray(song.playlists || song.playlist || song.collection);
+  const tag = song.tag || song.classification || song.genre || 'UNCLASSIFIED STANK';
 
   return {
-    title: song.title || song.name || song.track || song.filename || `Unlabeled Stank ${String(i + 1).padStart(3, '0')}`,
+    id: `${song.title || song.name || song.filename || 'track'}-${index}`,
+    title: song.title || song.name || song.track || song.filename || `Unlabeled Stank ${index + 1}`,
     artist: song.artist || song.author || song.creator || 'Certified Audio Contaminator',
-    tag: song.tag || song.classification || song.genre || 'UNCLASSIFIED STANK',
+    tag,
     playlists,
     description: song.description || song.lyrics || 'No field notes provided. The funk speaks for itself.',
-    lyrics: song.lyrics || song.description || 'No field notes provided. The funk speaks for itself.',
+    lyricsTimeline: Array.isArray(song.lyricsTimeline)
+      ? song.lyricsTimeline
+          .map((line) => ({ time: Number(line.time), text: String(line.text || '').trim() }))
+          .filter((line) => Number.isFinite(line.time) && line.text)
+          .sort((a, b) => a.time - b.time)
+      : [],
     created: song.created || song.date || song.uploaded || '',
-    audio: normalizePath(song.audio || song.src || song.file || song.path || song.url || ''),
-    cover: normalizePath(song.cover || song.coverArt || song.image || song.artwork || '/stank-radio/images/stank-radio-icon.png')
+    audio: assetPath(song.audio || song.src || song.file || song.path || song.url || ''),
+    cover: assetPath(song.cover || song.coverArt || song.image || song.artwork || defaultCover),
   };
 }
 
 function App() {
   const audioRef = useRef(null);
+  const lyricLineRefs = useRef([]);
   const [tracks, setTracks] = useState([]);
-  const [index, setIndex] = useState(0);
+  const [activeId, setActiveId] = useState('');
   const [query, setQuery] = useState('');
-  const [activePlaylist, setActivePlaylist] = useState('ALL PLAYLISTS');
+  const [activeTag, setActiveTag] = useState('ALL');
+  const [libraryPage, setLibraryPage] = useState(1);
   const [playing, setPlaying] = useState(false);
-  const [playerOpen, setPlayerOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [terminalOpen, setTerminalOpen] = useState(false);
-  const [page, setPage] = useState(1);
-  const [loadStatus, setLoadStatus] = useState('Loading contamination manifest...');
+  const [currentTime, setCurrentTime] = useState(0);
+  const [playlistsOpen, setPlaylistsOpen] = useState(false);
+  const [loadStatus, setLoadStatus] = useState('Tuning the contamination manifest');
 
   useEffect(() => {
-    fetch('/stank-radio/music/songs.json', { cache: 'no-store' })
-      .then(r => {
-        if (!r.ok) throw new Error(`songs.json returned ${r.status}`);
-        return r.json();
+    fetch(`${BASE}songs.json`, { cache: 'no-store' })
+      .then((response) => {
+        if (!response.ok) throw new Error(`songs.json returned ${response.status}`);
+        return response.json();
       })
-      .then(data => {
-        const rawSongs = Array.isArray(data) ? data : (data.songs || data.tracks || []);
+      .then((data) => {
+        const rawSongs = Array.isArray(data) ? data : data.songs || data.tracks || [];
         const normalized = rawSongs.map(normalizeTrack);
-        setTracks(normalized.length ? normalized : fallbackTracks);
-        setLoadStatus(normalized.length ? 'Fresh from the Suno stink pipe.' : 'Fallback stank engaged.');
+        const nextTracks = normalized.length ? normalized : fallbackTracks;
+        setTracks(nextTracks);
+        setActiveId('');
+        setLoadStatus(`${nextTracks.length} contaminants indexed`);
       })
-      .catch(err => {
-        console.error(err);
+      .catch((error) => {
+        console.error(error);
         setTracks(fallbackTracks);
-        setLoadStatus('Manifest unavailable. Fallback stank engaged.');
+        setActiveId('');
+        setLoadStatus('Manifest missing. Emergency stink loop armed.');
       });
   }, []);
 
-  const playlists = useMemo(() => {
-    const names = new Set();
-    tracks.forEach(track => {
-      if (track.tag) names.add(track.tag);
-      (track.playlists || []).forEach(name => names.add(name));
-    });
-    return ['ALL PLAYLISTS', ...Array.from(names).sort()];
-  }, [tracks]);
-
   const filteredTracks = useMemo(() => {
     const needle = query.trim().toLowerCase();
-
-    return tracks.filter(track => {
-      const haystack = [track.title, track.artist, track.tag, ...(track.playlists || [])].join(' ').toLowerCase();
-      const matchesQuery = !needle || haystack.includes(needle);
-      const matchesPlaylist =
-        activePlaylist === 'ALL PLAYLISTS' ||
-        track.tag === activePlaylist ||
-        (track.playlists || []).includes(activePlaylist);
-
-      return matchesQuery && matchesPlaylist;
+    return tracks.filter((track) => {
+      const haystack = [track.title, track.artist, track.tag, track.description, ...track.playlists]
+        .join(' ')
+        .toLowerCase();
+      const playlistMatch = activeTag === 'ALL' || track.playlists.includes(activeTag);
+      return playlistMatch && (!needle || haystack.includes(needle));
     });
-  }, [tracks, query, activePlaylist]);
+  }, [activeTag, query, tracks]);
 
-  const visibleTracks = filteredTracks.length ? filteredTracks : tracks;
-  const pageSize = 10;
-  const pageCount = Math.max(1, Math.ceil(visibleTracks.length / pageSize));
-  const currentPage = Math.min(page, pageCount);
-  const pagedTracks = visibleTracks.slice((currentPage - 1) * pageSize, currentPage * pageSize);
-  const track = visibleTracks[Math.min(index, visibleTracks.length - 1)] || fallbackTracks[0];
+  const visibleTracks = filteredTracks;
+  const totalLibraryPages = Math.max(1, Math.ceil(visibleTracks.length / TRACKS_PER_PAGE));
+  const pagedTracks = visibleTracks.slice(
+    (libraryPage - 1) * TRACKS_PER_PAGE,
+    libraryPage * TRACKS_PER_PAGE,
+  );
+  const activeTrack = tracks.find((track) => track.id === activeId) || null;
+  const displayTrack = activeTrack || {
+    title: 'No transmission selected',
+    artist: 'Choose a track from the library',
+    tag: 'Fumes: idle',
+    description: 'The fumes stay still until someone chooses a stank.',
+    cover: defaultCover,
+  };
+  const activeIndex = activeTrack ? visibleTracks.findIndex((track) => track.id === activeTrack.id) : -1;
+  const stankIndex = activeTrack
+    ? Math.min(99, Math.max(43, activeTrack.title.length + activeTrack.tag.length))
+    : 0;
+  const hasActiveAudio = Boolean(activeTrack?.audio);
+  const currentLyrics = activeTrack?.lyricsTimeline || [];
+  const activeLyricIndex = useMemo(() => {
+    if (!currentLyrics.length) return -1;
+    return currentLyrics.reduce(
+      (latestIndex, line, index) => (line.time <= currentTime ? index : latestIndex),
+      0,
+    );
+  }, [currentLyrics, currentTime]);
+  const selectedTrackIndex = activeTrack ? tracks.findIndex((track) => track.id === activeTrack.id) : -1;
+  const roomTone = activeTrack
+    ? roomTonePresets[(selectedTrackIndex + 1) % roomTonePresets.length]
+    : roomTonePresets[0];
 
-  function chooseTrack(i, autoplay = false) {
-    setPlayerOpen(true);
-    setIndex(i);
+  const playlists = useMemo(
+    () =>
+      playlistDefinitions.map((playlist) => ({
+        ...playlist,
+        count: tracks.filter((track) => track.playlists.includes(playlist.id)).length,
+      })),
+    [tracks],
+  );
+
+  useEffect(() => {
+    setCurrentTime(0);
+  }, [activeId]);
+
+  useEffect(() => {
+    setLibraryPage((page) => Math.min(page, totalLibraryPages));
+  }, [totalLibraryPages]);
+
+  useEffect(() => {
+    if (activeLyricIndex < 0) return;
+    lyricLineRefs.current[activeLyricIndex]?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  }, [activeLyricIndex]);
+
+  function selectTrack(track, autoplay = false) {
+    setActiveId(track.id);
     setPlaying(false);
-    setTimeout(() => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.currentTime = 0;
-      }
+    window.setTimeout(() => {
+      if (!audioRef.current) return;
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      setCurrentTime(0);
       if (autoplay) {
-        audioRef.current?.play?.().then(() => setPlaying(true)).catch(() => {});
+        audioRef.current.play().then(() => setPlaying(true)).catch(() => {});
       }
-    }, 75);
+    }, 50);
   }
 
-  function nextTrack() {
-    chooseTrack((index + 1) % visibleTracks.length, false);
-  }
-
-  function prevTrack() {
-    chooseTrack((index - 1 + visibleTracks.length) % visibleTracks.length, false);
+  function stepTrack(direction) {
+    if (!visibleTracks.length || activeIndex < 0) return;
+    const nextIndex = (activeIndex + direction + visibleTracks.length) % visibleTracks.length;
+    selectTrack(visibleTracks[nextIndex], false);
   }
 
   function randomTrack() {
-    let next = Math.floor(Math.random() * visibleTracks.length);
-    if (visibleTracks.length > 1 && next === index) next = (next + 1) % visibleTracks.length;
-    chooseTrack(next, false);
+    if (!visibleTracks.length) return;
+    let nextIndex = Math.floor(Math.random() * visibleTracks.length);
+    if (visibleTracks.length > 1 && nextIndex === activeIndex) {
+      nextIndex = (nextIndex + 1) % visibleTracks.length;
+    }
+    selectTrack(visibleTracks[nextIndex], false);
   }
 
   function togglePlay() {
-    if (!audioRef.current) return;
+    if (!audioRef.current || !hasActiveAudio) return;
     if (audioRef.current.paused) {
       audioRef.current.play().then(() => setPlaying(true)).catch(() => {});
     } else {
@@ -145,17 +242,47 @@ function App() {
   }
 
   function shareTrack() {
-    const url = `${window.location.origin}/stank-radio/?song=${encodeURIComponent(track.title)}`;
+    if (!activeTrack) return;
+    const url = `${window.location.origin}${BASE}?song=${encodeURIComponent(activeTrack.title)}`;
     navigator.clipboard?.writeText(url).catch(() => {});
   }
 
+  function updatePlaybackTime(event) {
+    setCurrentTime(event.currentTarget.currentTime);
+  }
+
   return (
-    <main className="radioApp">
-      <section className="radioTop">
-        <div className="brandBlock">
-          <p className="eyebrow">BIG DUMB IDIOT LABS</p>
-          <h1><img className="brandIcon" src="/stank-radio/images/stank-radio-icon.png" alt="" /> STANK RADIO</h1>
+    <main className={playing ? 'radioApp isPlaying' : 'radioApp'}>
+      <div
+        className="backdrop"
+        style={{ '--app-bg': `url("${BASE}images/stank-radio-bg.png")` }}
+        aria-hidden="true"
+      />
+      <div className="scanlines" aria-hidden="true" />
+
+      <header className="masthead">
+        <a className="brand" href={BASE} aria-label="STANK RADIO">
+          <img src={defaultCover} alt="" />
+          <span>
+            <b>STANK RADIO</b>
+            <small>Big Dumb Idiot Labs Broadcast Division</small>
+          </span>
+        </a>
+
+        <div className="transmissionFlag">
+          <span />
+          Live containment
         </div>
+
+        <aside className="headerRoomTone" aria-label="Room tone meter">
+          <span>Room tone</span>
+          <b>{roomTone.label}</b>
+          <div className="meterBars" aria-hidden="true">
+            {roomTone.bars.map((height, index) => (
+              <i key={index} style={{ '--meter-height': `${height}%` }} />
+            ))}
+          </div>
+        </aside>
 
         <div className="topPipeBlock">
           <h2 className="pipeHeadline">
@@ -164,226 +291,298 @@ function App() {
           </h2>
           <p>Freshly harvested audio contaminants. Press play at your own risk.</p>
         </div>
-
-        <div className="status"><span className="pulse"></span>"LIVE" TRANSMISSION</div>
-        <button className="mobileSearchToggle" type="button" onClick={() => setSearchOpen(true)} aria-label="Open search">
-          🔍
-        </button>
-      </section>
-
-
-      {searchOpen ? (
-        <section className="mobileSearchOverlay">
-          <div className="mobileSearchTop">
-            <button type="button" onClick={() => setSearchOpen(false)}>‹</button>
-            <div className="mobileSearchInput">
-              <Search size={24}/>
-              <input
-                autoFocus
-                value={query}
-                onChange={e => {
-                  setQuery(e.target.value);
-                  setIndex(0);
-                  setPage(1);
-                }}
-                placeholder="Search for songs in your library"
-              />
-            </div>
-          </div>
-
-          <div className="mobileSearchResults">
-            {visibleTracks.map((item, i) => (
-              <button
-                key={`${item.title}-mobile-${i}`}
-                className={item === track ? 'mobileSongRow active' : 'mobileSongRow'}
-                type="button"
-                onClick={() => {
-                  chooseTrack(i, false);
-                  setSearchOpen(false);
-                }}
-              >
-                <img src={item.cover || '/stank-radio/images/stank-radio-icon.png'} alt="" />
-                <span>
-                  <b>{item.title}</b>
-                  <small>{item.tag}</small>
-                </span>
-                <em>⋮</em>
-              </button>
             ))}
           </div>
-        </section>
-      ) : null}
+        </aside>
 
-      <section className="radioShell">
-        <div className="libraryDeck">
-          <section className={searchOpen ? 'librarySearch mobileSearchOpen' : 'librarySearch'}>
-            <button className="mobileSearchClose" type="button" onClick={() => setSearchOpen(false)}>×</button>
-            <div className="searchTitle">SEARCH A STANK</div>
-            <div className="searchBox">
-              <Search size={18}/>
-              <input
-                value={query}
-                onChange={e => { setQuery(e.target.value); setIndex(0); setPage(1); }}
-                placeholder="Search song, artist, playlist, or tag..."
-              />
-            </div>
+        <aside className="headerSignal" aria-label="Containment signal status">
+          <div title={loadStatus}>
+            <span>Containment index</span>
+            <b>{tracks.length}</b>
+          </div>
+          <div>
+            <span>Fumes</span>
+            <b>{activeTrack ? `${stankIndex}%` : 'Idle'}</b>
+          </div>
+        </aside>
 
-            <div className="searchDeadSpace">
-              <span>PUBLIC BROADCAST FACILITY</span>
-              <b>QUESTIONABLE FREQUENCY</b>
-            </div>
-
-            <div className="playlistSelectWrap">
-              <label htmlFor="playlist-select">Playlist / Tag</label>
-              <select
-                id="playlist-select"
-                className="playlistSelect"
-                value={activePlaylist}
-                onChange={event => {
-                  setActivePlaylist(event.target.value);
-                  setIndex(0);
-                  setPage(1);
-                }}
-              >
-                {playlists.map(name => (
-                  <option key={name} value={name}>{name}</option>
-                ))}
-              </select>
-            </div>
-
-            <div className="stanksAiredBox">
-              <span>STANKS AIRED</span>
-              <b>{filteredTracks.length}</b>
-            </div>
-          </section>
-
-          <section className="broadcastLibrary">
-            <div className="libraryHeader">
-              <span>CONTAMINANT LIBRARY</span>
-            </div>
-
-            <div className="libraryGrid">
-              {pagedTracks.map((item, i) => {
-                const realIndex = (currentPage - 1) * pageSize + i;
-                return (
-                  <button
-                    key={`${item.title}-${realIndex}`}
-                    className={item === track ? 'songTile active' : 'songTile'}
-                    onClick={() => chooseTrack(realIndex)}
-                  >
-                    <span>{item.title}</span>
-                    <img src={item.cover || '/stank-radio/images/stank-radio-icon.png'} alt="" />
-                  </button>
-                );
-              })}
-            </div>
-
-            <div className="libraryPager">
-              <button
-                type="button"
-                disabled={currentPage <= 1}
-                onClick={() => setPage(currentPage - 1)}
-              >
-                PREV
-              </button>
-              <span>PAGE {currentPage} / {pageCount}</span>
-              <button
-                type="button"
-                disabled={currentPage >= pageCount}
-                onClick={() => setPage(currentPage + 1)}
-              >
-                NEXT
-              </button>
-            </div>
-          </section>
-        </div>
-
-        <aside
-          className={playerOpen ? 'stationRail mobileOpen' : 'stationRail'}
-          style={{ '--track-cover': `url("${track.cover || '/stank-radio/images/stank-radio-icon.png'}")` }}
+        <a
+          className="manifestLink"
+          href={`${BASE}songs.json`}
+          target="_blank"
+          rel="noreferrer"
         >
-          <button className="modalClose" type="button" onClick={() => setPlayerOpen(false)}>×</button>
-          <div className="stationCover">
-            <img src={track.cover || '/stank-radio/images/stank-radio-icon.png'} alt="" />
+          <FileAudio size={16} />
+          Music manifest
+          <ExternalLink size={14} />
+        </a>
+      </header>
+
+      <section className="workspaceGrid">
+      <section className="heroDeck" style={{ '--track-cover': `url("${displayTrack.cover}")` }}>
+        <div className="heroCopy">
+          <p className="eyebrow">Public Broadcast Facility <span aria-hidden="true">·</span> Questionable Frequency</p>
+          <h1><span>MAXIMUM</span><span>STANK</span></h1>
+          <p className="heroTagline">If it smells like a hit, it probably came from here.</p>
+        </div>
+        <div className="pipeBrief">
+          <p className="pipeBriefLabel">Freshly audio contaminants.</p>
+          <p className="heroDescription">Foul little transmissions, harvested <strong>FRESH</strong> from the Suno stink pipe.</p>
+          <p className="riskNotice">Press play at your own risk.</p>
+          <p className="heroFrequency">Frequency: 88.8 STANK FM</p>
+        </div>
+      </section>
+
+      <section className="consoleGrid">
+        <section className="playerPanel">
+          <div className="panelLabel">
+            <Radio size={17} />
+            Now leaking
           </div>
 
-          <p className="stationKicker">NOW STANKIN'</p>
-          <h2>{track.title}</h2>
-          <p className="stationDesc">{track.description}</p>
+          <div className="playerCore">
+            <div className="coverWell">
+              <img src={displayTrack.cover || defaultCover} alt="" />
+              <div className="vinylBadge">
+                <Disc3 size={12} />
+                {activeTrack ? 'Active residue' : 'Awaiting selection'}
+              </div>
+            </div>
 
-          <div className="metaRow">
-            <span>🎤 {track.artist}</span>
-            <span>🏷️ {track.tag}</span>
-            
+            <div className="trackStack">
+              <p className="trackTag">{displayTrack.tag}</p>
+              <h2>{displayTrack.title}</h2>
+              <p>{displayTrack.description}</p>
+
+              <dl className="trackMeta">
+                <div>
+                  <dt>Operator</dt>
+                  <dd>{displayTrack.artist}</dd>
+                </div>
+                <div>
+                  <dt>Stank load</dt>
+                  <dd>{activeTrack ? `${stankIndex}%` : 'None'}</dd>
+                </div>
+                <div>
+                  <dt>Indexed</dt>
+                  <dd>{tracks.length || 0} tracks</dd>
+                </div>
+              </dl>
+            </div>
           </div>
 
           <audio
             ref={audioRef}
-            controls
-            src={track.audio || undefined}
+            src={activeTrack?.audio || undefined}
             onPlay={() => setPlaying(true)}
             onPause={() => setPlaying(false)}
-            onEnded={nextTrack}
+            onTimeUpdate={updatePlaybackTime}
+            onEnded={() => stepTrack(1)}
           />
 
-          <div className="stationControls">
-            <button className="playWide" onClick={togglePlay}>{playing ? <Pause size={16}/> : <Play size={16}/>} {playing ? 'Pause' : 'Play'}</button>
-            <button onClick={prevTrack}><SkipBack size={16}/> Previous</button>
-            <button onClick={nextTrack}><SkipForward size={16}/> Next</button>
-            <button onClick={randomTrack}><Shuffle size={16}/> Random Stank</button>
-            <button onClick={shareTrack}><Share2 size={16}/> Share Stank</button>
+          <div className="sourceLine">
+            {!activeTrack ? (
+              <span>Choose a stank to infect your Ear Holes.</span>
+            ) : hasActiveAudio ? (
+              <a href={activeTrack.audio} target="_blank" rel="noreferrer">
+                <FileAudio size={16} />
+                Open loaded audio file
+                <ExternalLink size={14} />
+              </a>
+            ) : (
+              <span>No audio file connected for this manifest entry.</span>
+            )}
           </div>
 
-          
+          <section className="lyricsPanel" aria-label="Lyrics">
+            <div className="lyricsHeading">
+              <span>Lyrics</span>
+              {currentLyrics.length ? <b>Following track</b> : <b>Awaiting lyric timing</b>}
+            </div>
+            <div className="lyricsScroll">
+              {currentLyrics.length ? (
+                currentLyrics.map((line, index) => (
+                  <p
+                    key={`${line.time}-${index}`}
+                    ref={(element) => {
+                      lyricLineRefs.current[index] = element;
+                    }}
+                    className={index === activeLyricIndex ? 'active' : ''}
+                  >
+                    {line.text}
+                  </p>
+                ))
+              ) : (
+                <p className="lyricsEmpty">Select a track with timed lyrics to follow the transmission.</p>
+              )}
+            </div>
+          </section>
+
+          <div className="transportBar">
+            <button type="button" onClick={() => stepTrack(-1)} aria-label="Previous track">
+              <SkipBack size={18} />
+            </button>
+            <button
+              className="primaryPlay"
+              type="button"
+              onClick={togglePlay}
+              disabled={!hasActiveAudio}
+              title={hasActiveAudio ? 'Play track' : 'No audio file is connected'}
+            >
+              {playing ? <Pause size={22} /> : <Play size={22} />}
+              {playing ? 'Pause leak' : 'Start leak'}
+            </button>
+            <button type="button" onClick={() => stepTrack(1)} aria-label="Next track">
+              <SkipForward size={18} />
+            </button>
+            <button type="button" onClick={randomTrack}>
+              <Shuffle size={18} />
+              Random
+            </button>
+            <button type="button" onClick={shareTrack}>
+              <Share2 size={18} />
+              Share
+            </button>
+          </div>
+        </section>
+
+        <aside className="filterPanel">
+          <div className="filterHeader">
+            <div className="panelLabel">
+              <Search size={17} />
+              Search the spill
+            </div>
+            <button className="playlistLink" type="button" onClick={() => setPlaylistsOpen(true)}>
+              <ListMusic size={16} />
+              Playlists
+            </button>
+            <button
+              className={activeTag === 'ALL' ? 'playlistLink allTracksLink active' : 'playlistLink allTracksLink'}
+              type="button"
+              onClick={() => {
+                setActiveTag('ALL');
+                setLibraryPage(1);
+              }}
+            >
+              All tracks
+            </button>
+          </div>
+
+          <label className="searchBox">
+            <Search size={18} />
+            <input
+              value={query}
+              onChange={(event) => {
+                setQuery(event.target.value);
+                setLibraryPage(1);
+              }}
+              placeholder="Title, operator, tag..."
+            />
+          </label>
+
         </aside>
+
+        <section className="libraryPanel">
+          <div className="panelLabel">
+            <SlidersHorizontal size={17} />
+            Containment library
+          </div>
+
+          <div className="trackList">
+            {pagedTracks.map((track) => (
+              <button
+                key={track.id}
+                className={track.id === activeTrack?.id ? 'trackRow active' : 'trackRow'}
+                type="button"
+                onClick={() => selectTrack(track, false)}
+              >
+                <img src={track.cover || defaultCover} alt="" />
+                <span className="trackRowText">
+                  <b>{track.title}</b>
+                  <small>{track.artist}</small>
+                </span>
+              </button>
+            ))}
+            {!visibleTracks.length ? (
+              <p className="emptyLibrary">Nothing in this spill. Clear the search or return to all tracks.</p>
+            ) : null}
+          </div>
+          <nav className="libraryPagination" aria-label="Containment library pages">
+            <button
+              type="button"
+              title="Previous library page"
+              aria-label="Previous library page"
+              disabled={libraryPage === 1}
+              onClick={() => setLibraryPage((page) => Math.max(1, page - 1))}
+            >
+              <ChevronLeft size={15} />
+            </button>
+            <span>Page {libraryPage} / {totalLibraryPages}</span>
+            <button
+              type="button"
+              title="Next library page"
+              aria-label="Next library page"
+              disabled={libraryPage === totalLibraryPages}
+              onClick={() => setLibraryPage((page) => Math.min(totalLibraryPages, page + 1))}
+            >
+              <ChevronRight size={15} />
+            </button>
+          </nav>
+        </section>
+
+        <aside className="warningPanel">
+          <div className="panelLabel">
+            <AlertTriangle size={14} />
+            Field warnings
+          </div>
+          <ul>
+            <li>Do not clean the signal path.</li>
+            <li>Do not trust anything labeled smooth.</li>
+            <li>Report all suspicious silence.</li>
+          </ul>
+        </aside>
+
+      </section>
       </section>
 
-
-      {terminalOpen ? (
-        <section className="terminalModal" role="dialog" aria-modal="true" aria-label="Terminal Services">
-          <div className="terminalModalCard">
-            <button className="terminalClose" type="button" onClick={() => setTerminalOpen(false)}>×</button>
-
-            <p className="terminalKicker">BIG DUMB IDIOT LABS</p>
-            <h2>TERMINAL SERVICES</h2>
-
-            <div className="terminalScreen">
-              <p><b>Broadcast Division:</b> STANK RADIO</p>
-              <p><b>Transmission Status:</b> Questionably Live</p>
-              <p><b>Signal Condition:</b> Purple Contamination Stable</p>
-              <p><b>Containment Warning:</b> Do not lick the speaker grille.</p>
-              <p><b>Current Directive:</b> Keep the funk moving. Report all clean smells.</p>
+      {playlistsOpen ? (
+        <section className="playlistModal" role="dialog" aria-modal="true" aria-label="Available playlists">
+          <div className="playlistModalPanel">
+            <div className="playlistModalHead">
+              <div>
+                <p className="eyebrow">Browse by contamination class</p>
+                <h2>Playlists</h2>
+              </div>
+              <button type="button" className="modalDismiss" onClick={() => setPlaylistsOpen(false)}>
+                Close
+              </button>
             </div>
 
-            <div className="terminalActions">
-              <button type="button" onClick={() => setTerminalOpen(false)}>Close Terminal</button>
+            <div className="playlistGrid">
+              {playlists.map((playlist) => (
+                <button
+                  key={playlist.id}
+                  type="button"
+                  className="playlistCard"
+                  onClick={() => {
+                    setActiveTag(playlist.id);
+                    setQuery('');
+                    setLibraryPage(1);
+                    setPlaylistsOpen(false);
+                  }}
+                >
+                  <span className={`playlistArt ${playlist.artClass}`} aria-hidden="true" />
+                  <span className="playlistCardCopy">
+                    <b>{playlist.title}</b>
+                    <small>{playlist.count} tracks</small>
+                    <em>{playlist.description}</em>
+                  </span>
+                </button>
+              ))}
             </div>
           </div>
         </section>
       ) : null}
-
-      <footer className="mobileBottomPanel">
-        <span className="mobileBottomWarning">
-          WARNING: DO NOT APPROACH ACTIVE BROADCASTS.
-        </span>
-
-        <div className="mobileBottomControls">
-          <button type="button" onClick={() => setTerminalOpen(true)} className="mobileBottomButton">
-            📟 Terminal Services
-          </button>
-
-          <a href="/admin" className="mobileBottomButton">
-            🛡️ Containment Access
-          </a>
-
-          <div className="mobileBottomCopyright">
-            <span>©</span>
-            <span>2026</span>
-            <span>BIG DUMB IDIOT LABS</span>
-          </div>
-        </div>
-      </footer>
-
     </main>
   );
 }

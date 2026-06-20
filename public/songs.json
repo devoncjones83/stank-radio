@@ -3,21 +3,112 @@
     "title": "Containment Funk Protocol",
     "artist": "Explosive Crossfader",
     "tag": "UNCLASSIFIED STANK",
+    "playlists": ["RAP BATTLES"],
     "cover": "/stank-radio/images/stank-radio-icon.png",
-    "audio": ""
+    "audio": "",
+    "lyricsTimeline": [
+      { "time": 0, "text": "Contain the funk, the seal is gone." },
+      { "time": 8, "text": "Low-end pressure shakes the room." },
+      { "time": 16, "text": "No clean exit from the protocol." },
+      { "time": 24, "text": "Keep the dial where it starts to hum." }
+    ]
   },
   {
     "title": "Night Shift Reactor Hum",
     "artist": "Big Dumb Idiot Labs",
     "tag": "AFTER HOURS STANK",
+    "playlists": ["DREAM SYMPHONY"],
     "cover": "/stank-radio/images/stank-radio-icon.png",
-    "audio": ""
+    "audio": "",
+    "lyricsTimeline": [
+      { "time": 0, "text": "Night shift, no windows, no clocks." },
+      { "time": 9, "text": "Receiver glow on a concrete block." },
+      { "time": 18, "text": "Let the reactor sing in the back." },
+      { "time": 27, "text": "Bring the signal home in a paper sack." }
+    ]
   },
   {
     "title": "Unauthorized Bass Leakage",
     "artist": "Explosive Crossfader",
     "tag": "HAZARDOUS STANK",
+    "playlists": ["STUFF"],
     "cover": "/stank-radio/images/stank-radio-icon.png",
-    "audio": ""
+    "audio": "",
+    "lyricsTimeline": [
+      { "time": 0, "text": "Unauthorized bass in the service hall." },
+      { "time": 7, "text": "Every loose screw wants to fall." },
+      { "time": 14, "text": "Warning lamps flash in the side room." },
+      { "time": 21, "text": "Turn it up until the meters bloom." }
+    ]
+  },
+  {
+    "title": "Substation Seltzer",
+    "artist": "Wired Canteen",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": ["HOLIDAY HIJINKS"],
+    "cover": "/stank-radio/images/stank-radio-icon.png",
+    "audio": "",
+    "lyricsTimeline": [
+      { "time": 0, "text": "Cold fizz under fluorescent wire." },
+      { "time": 8, "text": "Someone tuned the hum to higher." },
+      { "time": 16, "text": "Bubbles rise in a breaker box." },
+      { "time": 24, "text": "Feet keep time in steel-toe socks." }
+    ]
+  },
+  {
+    "title": "Basement Compressor",
+    "artist": "Torque Choir",
+    "tag": "HAZARDOUS STANK",
+    "playlists": ["CONSPIRACY OR TRUTH"],
+    "cover": "/stank-radio/images/stank-radio-icon.png",
+    "audio": "",
+    "lyricsTimeline": [
+      { "time": 0, "text": "Compressor coughs beneath the stairs." },
+      { "time": 7, "text": "Pressure keeps the whole room aware." },
+      { "time": 14, "text": "Kick drum shakes the paint loose." },
+      { "time": 21, "text": "Every warning light turns chartreuse." }
+    ]
+  },
+  {
+    "title": "Valve Room Serenade",
+    "artist": "Parking Meter Saints",
+    "tag": "AFTER HOURS STANK",
+    "playlists": ["DISSIN KIDS"],
+    "cover": "/stank-radio/images/stank-radio-icon.png",
+    "audio": "",
+    "lyricsTimeline": [
+      { "time": 0, "text": "Slow valves sing through midnight steam." },
+      { "time": 9, "text": "The radio leaks into the dream." },
+      { "time": 18, "text": "No one leaves until the pipes agree." },
+      { "time": 27, "text": "Leave a little room for frequency." }
+    ]
+  },
+  {
+    "title": "Mildew on Channel Six",
+    "artist": "Static Lunch",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": ["UNCLASSIFIED STANK"],
+    "cover": "/stank-radio/images/stank-radio-icon.png",
+    "audio": "",
+    "lyricsTimeline": [
+      { "time": 0, "text": "Channel six has a weathered grin." },
+      { "time": 8, "text": "Mildew grows where the signal has been." },
+      { "time": 16, "text": "No forecast, just a heavy beat." },
+      { "time": 24, "text": "Green static under every seat." }
+    ]
+  },
+  {
+    "title": "Wrong Door Right Bass",
+    "artist": "Exit Sign Romance",
+    "tag": "HAZARDOUS STANK",
+    "playlists": ["AFTER HOURS STANK"],
+    "cover": "/stank-radio/images/stank-radio-icon.png",
+    "audio": "",
+    "lyricsTimeline": [
+      { "time": 0, "text": "Wrong door, right bass, late shift glow." },
+      { "time": 7, "text": "Follow the rattling below the floor." },
+      { "time": 14, "text": "Every wall has a better idea." },
+      { "time": 21, "text": "Turn around when the drums get near." }
+    ]
   }
 ]
