@@ -113,6 +113,7 @@ function App() {
   const [playing, setPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [playlistsOpen, setPlaylistsOpen] = useState(false);
+  const [playerModalOpen, setPlayerModalOpen] = useState(false);
   const [loadStatus, setLoadStatus] = useState('Tuning the contamination manifest');
 
   useEffect(() => {
@@ -373,11 +374,10 @@ function App() {
             {!activeTrack ? (
               <span>Choose a stank to infect your Ear Holes.</span>
             ) : hasActiveAudio ? (
-              <a href={activeTrack.audio} target="_blank" rel="noreferrer">
-                <FileAudio size={16} />
-                Open loaded audio file
-                <ExternalLink size={14} />
-              </a>
+              <button type="button" className="sourceButton" onClick={() => setPlayerModalOpen(true)}>
+                  <FileAudio size={16} />
+                  Open in-page stank player
+                </button>
             ) : (
               <span>No audio file connected for this manifest entry.</span>
             )}
@@ -533,6 +533,23 @@ function App() {
 
       </section>
       </section>
+
+      {playerModalOpen && activeTrack ? (
+        <section className="playerModal" role="dialog" aria-modal="true" aria-label="Stank player">
+          <div className="playerModalPanel">
+            <button type="button" className="modalDismiss" onClick={() => setPlayerModalOpen(false)}>
+              Close
+            </button>
+            <img className="playerModalCover" src={displayTrack.cover || defaultCover} alt="" />
+            <div className="playerModalCopy">
+              <p>{displayTrack.tag}</p>
+              <h2>{displayTrack.title}</h2>
+              <span>{displayTrack.artist}</span>
+            </div>
+            <audio className="playerModalAudio" controls src={activeTrack.audio} />
+          </div>
+        </section>
+      ) : null}
 
       {playlistsOpen ? (
         <section className="playlistModal" role="dialog" aria-modal="true" aria-label="Available playlists">
