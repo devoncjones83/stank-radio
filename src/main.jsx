@@ -151,10 +151,11 @@ function App() {
   }, [activeTag, query, tracks]);
 
   const visibleTracks = filteredTracks;
-  const totalLibraryPages = Math.max(1, Math.ceil(visibleTracks.length / TRACKS_PER_PAGE));
+  const tracksPerPage = viewMode === 'filth' ? 5 : TRACKS_PER_PAGE;
+  const totalLibraryPages = Math.max(1, Math.ceil(visibleTracks.length / tracksPerPage));
   const pagedTracks = visibleTracks.slice(
-    (libraryPage - 1) * TRACKS_PER_PAGE,
-    libraryPage * TRACKS_PER_PAGE,
+    (libraryPage - 1) * tracksPerPage,
+    libraryPage * tracksPerPage,
   );
   const activeTrack = tracks.find((track) => track.id === activeId) || null;
   const displayTrack = activeTrack || {
@@ -251,6 +252,331 @@ function App() {
 
   function updatePlaybackTime(event) {
     setCurrentTime(event.currentTarget.currentTime);
+  }
+
+  if (viewMode === 'filth') {
+    return (
+      <main className="radioApp filthUpView">
+        <div
+          className="backdrop"
+          style={{ '--app-bg': `url("${BASE}images/stank-radio-bg.png")` }}
+          aria-hidden="true"
+        />
+        <div className="scanlines" aria-hidden="true" />
+
+        <section className="industrialShell" aria-label="Filth-Up industrial console">
+          <header className="industrialHeader broadcastDeck">
+            <section className="broadcastIdentityPanel">
+              <h1>STANK RADIO</h1>
+              <strong>BIG DUMB IDIOT LABS: BROADCAST DIVISION</strong>
+              <div className="broadcastIdentityCopy">
+                <span>Infecting your Ear Holes with</span>
+                <b>MAXIMUM STANK</b>
+                <em>If it smells like a hit, it probably came from here.</em>
+              </div>
+            </section>
+
+            <section className="broadcastDefinitionPanel">
+              <p>MAXIMUM STANK: noun</p>
+              <span>
+                Maximum Stank is officially defined as a measurable cloud of musical nonsense,
+                emotional fumes, questionable rhythm choices, and audio residue so powerful
+                it makes a person nod like they understand science.
+              </span>
+            </section>
+
+            <section className="broadcastContaminantsPanel">
+              <p>FRESH AUDIO CONTAMINANTS</p>
+              <span>
+                Foul little transmissions, harvested <b>FRESH</b> from the Suno stink pipe.
+              </span>
+              <strong>PRESS PLAY AT YOUR OWN RISK.</strong>
+            </section>
+
+            <section className="broadcastStatusPanel">
+              <div className="broadcastStatusControls">
+                <div className="transmissionFlag liveContainmentBadge">
+                  <span />
+                  {playing ? 'LIVE CONTAINMENT' : 'AWAITING LEAK'}
+                </div>
+                <div className="broadcastIndexedBox broadcastStankLoadBox">
+                  <span>Stank Load</span>
+                  <b>{activeTrack ? `${stankIndex}%` : '--'}</b>
+                </div>
+                <div className="broadcastIndexedBox">
+                  <span>Indexed</span>
+                  <b>{tracks.length}</b>
+                </div>
+              </div>
+              <div className="broadcastWaveform" aria-hidden="true">
+                {roomTone.bars.concat(roomTone.bars).map((height, index) => (
+                  <i key={index} style={{ '--meter-height': `${Math.max(16, height)}%` }} />
+                ))}
+              </div>
+              <button
+                className="viewToggle"
+                type="button"
+                onClick={() => setViewMode('containment')}
+              >
+                Containment View
+              </button>
+            </section>
+          </header>
+
+          <aside className="industrialLeftRail">
+            <div className="industrialGauge">
+              <span>Containment</span>
+              <b>INDEX</b>
+              <i />
+            </div>
+            <div className="industrialGauge">
+              <span>Fumes</span>
+              <b>{activeTrack ? `${stankIndex}%` : 'IDLE'}</b>
+              <i />
+            </div>
+            <div className="industrialLedMeter" aria-hidden="true">
+              {roomTone.bars.map((height, index) => (
+                <i key={index} style={{ '--meter-height': `${height}%` }} />
+              ))}
+            </div>
+
+            <div className="industrialSignalQuality">
+              <span>Signal Quality</span>
+              <b>{playing ? 'LIVE' : 'IDLE'}</b>
+              <em>{playing ? 'LEAKING' : 'DEAD AIR'}</em>
+              <i />
+            </div>
+          </aside>
+
+          <section className="industrialMainBay">
+            <div className="industrialStatusRail">
+              <span>{playing ? 'NOW LEAKING' : 'NO TRANSMISSION SELECTED'}</span>
+              <b>88.8 STANK FM</b>
+            </div>
+
+            <div className="industrialArtworkBay">
+              <img src={displayTrack.cover || defaultCover} alt="" />
+              <em>{activeTrack ? 'ACTIVE RESIDUE' : 'AWAITING SELECTION'}</em>
+            </div>
+
+            <div className="industrialTransport">
+              <button type="button" onClick={() => stepTrack(-1)} aria-label="Previous track">
+                <SkipBack size={18} />
+              </button>
+              <button
+                className="industrialStartLeak"
+                type="button"
+                onClick={togglePlay}
+                disabled={!hasActiveAudio}
+              >
+                {playing ? <Pause size={22} /> : <Play size={22} />}
+                {playing ? 'PAUSE LEAK' : 'START LEAK'}
+              </button>
+              <button type="button" onClick={() => stepTrack(1)} aria-label="Next track">
+                <SkipForward size={18} />
+              </button>
+              <button type="button" onClick={randomTrack}>
+                <Shuffle size={18} />
+                RANDOM
+              </button>
+              <button type="button" onClick={shareTrack}>
+                <Share2 size={18} />
+                SHARE
+              </button>
+            </div>
+
+          </section>
+
+          <section className="industrialInfoBay">
+            <div className="industrialTrackTerminal">
+              <p className="trackTag">{displayTrack.tag}</p>
+              <h2>{displayTrack.title}</h2>
+              <p>{displayTrack.description}</p>
+
+            </div>
+
+            <section className="industrialLyrics" aria-label="Lyrics">
+              <div className="lyricsHeading">
+                <span>Lyrics</span>
+                {currentLyrics.length ? <b>Following track</b> : <b>Awaiting lyric timing</b>}
+              </div>
+              <div className="lyricsScroll">
+                {currentLyrics.length ? (
+                  currentLyrics.map((line, index) => (
+                    <p
+                      key={`${line.time}-${index}`}
+                      ref={(element) => {
+                        lyricLineRefs.current[index] = element;
+                      }}
+                      className={index === activeLyricIndex ? 'active' : ''}
+                    >
+                      {line.text}
+                    </p>
+                  ))
+                ) : (
+                  <p className="lyricsEmpty">Select a track with timed lyrics to follow the transmission.</p>
+                )}
+              </div>
+            </section>
+          </section>
+
+          <aside className="industrialLibraryBay">
+            <div className="filterHeader">
+              <div className="panelLabel">
+                <Search size={17} />
+                Search the spill
+              </div>
+              <button className="playlistLink" type="button" onClick={() => setPlaylistsOpen(true)}>
+                <ListMusic size={16} />
+                Playlists
+              </button>
+              <button
+                className={activeTag === 'ALL' ? 'playlistLink allTracksLink active' : 'playlistLink allTracksLink'}
+                type="button"
+                onClick={() => {
+                  setActiveTag('ALL');
+                  setLibraryPage(1);
+                }}
+              >
+                All tracks
+              </button>
+            </div>
+
+            <label className="searchBox">
+              <Search size={18} />
+              <input
+                value={query}
+                onChange={(event) => {
+                  setQuery(event.target.value);
+                  setLibraryPage(1);
+                }}
+                placeholder="Title, operator, tag..."
+              />
+            </label>
+
+            <div className="panelLabel industrialLibraryTitle">
+              <SlidersHorizontal size={17} />
+              Containment library
+            </div>
+
+            <div className="trackList">
+              {pagedTracks.map((track) => (
+                <button
+                  key={track.id}
+                  className={track.id === activeTrack?.id ? 'trackRow active' : 'trackRow'}
+                  type="button"
+                  onClick={() => selectTrack(track, false)}
+                >
+                  <img src={track.cover || defaultCover} alt="" />
+                  <span className="trackRowText">
+                    <b>{track.title}</b>
+                    <small>{track.artist}</small>
+                  </span>
+                </button>
+              ))}
+              {!visibleTracks.length ? (
+                <p className="emptyLibrary">Nothing in this spill. Clear the search or return to all tracks.</p>
+              ) : null}
+            </div>
+
+
+            <nav className="libraryPagination" aria-label="Containment library pages">
+              <button
+                type="button"
+                title="Previous library page"
+                aria-label="Previous library page"
+                disabled={libraryPage === 1}
+                onClick={() => setLibraryPage((page) => Math.max(1, page - 1))}
+              >
+                <ChevronLeft size={15} />
+              </button>
+              <span>Page {libraryPage} / {totalLibraryPages}</span>
+              <button
+                type="button"
+                title="Next library page"
+                aria-label="Next library page"
+                disabled={libraryPage === totalLibraryPages}
+                onClick={() => setLibraryPage((page) => Math.min(totalLibraryPages, page + 1))}
+              >
+                <ChevronRight size={15} />
+              </button>
+            </nav>
+          </aside>
+
+          <aside className="industrialWarningStrip">
+            <span>FIELD WARNING</span>
+            <b>DO NOT CLEAN THE SIGNAL PATH.</b>
+            <b>DO NOT TRUST ANYTHING LABELED SMOOTH.</b>
+            <b>REPORT ALL SUSPICIOUS SILENCE.</b>
+          </aside>
+
+          <audio
+            ref={audioRef}
+            src={activeTrack?.audio || undefined}
+            onPlay={() => setPlaying(true)}
+            onPause={() => setPlaying(false)}
+            onTimeUpdate={updatePlaybackTime}
+            onEnded={() => stepTrack(1)}
+          />
+        </section>
+
+        {playerModalOpen && activeTrack ? (
+          <section className="playerModal" role="dialog" aria-modal="true" aria-label="Stank player">
+            <div className="playerModalPanel">
+              <button type="button" className="modalDismiss" onClick={() => setPlayerModalOpen(false)}>
+                Close
+              </button>
+              <img className="playerModalCover" src={displayTrack.cover || defaultCover} alt="" />
+              <div className="playerModalCopy">
+                <p>{displayTrack.tag}</p>
+                <h2>{displayTrack.title}</h2>
+                <span>{displayTrack.artist}</span>
+              </div>
+              <audio className="playerModalAudio" controls src={activeTrack.audio} />
+            </div>
+          </section>
+        ) : null}
+
+        {playlistsOpen ? (
+          <section className="playlistModal" role="dialog" aria-modal="true" aria-label="Available playlists">
+            <div className="playlistModalPanel">
+              <div className="playlistModalHead">
+                <div>
+                  <p className="eyebrow">Browse by contamination class</p>
+                  <h2>Playlists</h2>
+                </div>
+                <button type="button" className="modalDismiss" onClick={() => setPlaylistsOpen(false)}>
+                  Close
+                </button>
+              </div>
+
+              <div className="playlistGrid">
+                {playlists.map((playlist) => (
+                  <button
+                    key={playlist.id}
+                    type="button"
+                    className="playlistCard"
+                    onClick={() => {
+                      setActiveTag(playlist.id);
+                      setQuery('');
+                      setLibraryPage(1);
+                      setPlaylistsOpen(false);
+                    }}
+                  >
+                    <span className={`playlistArt ${playlist.artClass}`} aria-hidden="true" />
+                    <span className="playlistCardCopy">
+                      <b>{playlist.title}</b>
+                      <small>{playlist.count} tracks</small>
+                      <em>{playlist.description}</em>
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </section>
+        ) : null}
+      </main>
+    );
   }
 
   return (
