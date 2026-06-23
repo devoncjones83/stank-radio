@@ -115,6 +115,7 @@ function App() {
   const [playlistsOpen, setPlaylistsOpen] = useState(false);
   const [playerModalOpen, setPlayerModalOpen] = useState(false);
   const [loadStatus, setLoadStatus] = useState('Tuning the contamination manifest');
+  const [viewMode, setViewMode] = useState('containment');
 
   useEffect(() => {
     fetch(`${BASE}songs.json`, { cache: 'no-store' })
@@ -253,7 +254,7 @@ function App() {
   }
 
   return (
-    <main className={playing ? 'radioApp isPlaying' : 'radioApp'}>
+    <main className={`${playing ? 'radioApp isPlaying' : 'radioApp'} ${viewMode === 'filth' ? 'filthUpView' : 'containmentView'}`}>
       <div
         className="backdrop"
         style={{ '--app-bg': `url("${BASE}images/stank-radio-bg.png")` }}
@@ -295,6 +296,15 @@ function App() {
             <b>{activeTrack ? `${stankIndex}%` : 'Idle'}</b>
           </div>
         </aside>
+
+        <button
+          className="viewToggle"
+          type="button"
+          onClick={() => setViewMode((mode) => (mode === 'containment' ? 'filth' : 'containment'))}
+          aria-pressed={viewMode === 'filth'}
+        >
+          {viewMode === 'filth' ? 'Containment View' : 'Filth-Up View'}
+        </button>
 
         <a
           className="manifestLink"
