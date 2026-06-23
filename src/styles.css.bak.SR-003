@@ -2343,3 +2343,1085 @@ dd {
     min-height: 16rem !important;
   }
 }
+
+/* === STAAAAAAAANK RADIO DESKTOP CONTAINMENT CONSOLE REDO === */
+
+@media (min-width: 1101px) {
+  .headerRoomTone,
+  .headerSignal {
+    display: none !important;
+  }
+
+  .masthead {
+    gap: 0.7rem;
+  }
+
+  .manifestLink {
+    margin-left: auto;
+  }
+
+  .workspaceGrid {
+    grid-template-columns: minmax(0, 1.42fr) minmax(20rem, 0.58fr) !important;
+    grid-template-rows: 7.1rem minmax(0, 1fr) 4.8rem !important;
+    gap: 0.55rem !important;
+  }
+
+  .heroDeck {
+    grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.65fr) !important;
+    padding: 0.65rem !important;
+    min-height: 0 !important;
+  }
+
+  .maximumStankBlock {
+    display: grid;
+    grid-template-columns: minmax(12rem, 0.55fr) minmax(16rem, 1fr);
+    gap: 0.8rem;
+    align-items: center;
+  }
+
+  .heroCopy h1 {
+    font-size: clamp(2.3rem, 3.4vw, 4.1rem) !important;
+  }
+
+  .heroTagline {
+    margin-top: 0.25rem !important;
+  }
+
+  .stankDefinition {
+    margin: 0;
+    padding: 0.55rem 0.7rem;
+    border-left: 1px solid rgba(167,255,97,.42);
+    color: rgba(246,239,212,.82);
+    font-size: 0.72rem;
+    line-height: 1.25;
+    text-shadow: 1px 1px 0 rgba(0,0,0,.8);
+  }
+
+  .pipeBrief {
+    padding: 0.55rem 0.65rem !important;
+  }
+
+  .pipeBriefLabel {
+    font-size: 0.62rem !important;
+  }
+
+  .heroDescription,
+  .riskNotice,
+  .heroFrequency {
+    font-size: 0.68rem !important;
+  }
+
+  .playerPanel {
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    padding: 0.65rem !important;
+  }
+
+  .playerPanel > .panelLabel {
+    margin-bottom: 0.45rem !important;
+  }
+
+  .playerMachine {
+    display: grid;
+    grid-template-columns: 10.5rem minmax(0, 1fr);
+    gap: 0.65rem;
+    min-height: 0;
+  }
+
+  .telemetryRail {
+    display: grid;
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .telemetryCard {
+    display: grid;
+    align-content: center;
+    gap: 0.18rem;
+    min-height: 5rem;
+    padding: 0.55rem;
+    border: 1px solid rgba(167,255,97,.5);
+    background:
+      linear-gradient(180deg, rgba(7,14,5,.92), rgba(4,7,3,.86)),
+      repeating-linear-gradient(0deg, rgba(167,255,97,.09) 0 1px, transparent 1px 6px);
+    box-shadow: inset 0 0 1rem rgba(167,255,97,.08);
+  }
+
+  .telemetryCard span,
+  .telemetryCard small {
+    color: var(--safety);
+    font-family: "Lucida Console", "Courier New", monospace;
+    font-size: 0.58rem;
+    font-weight: 1000;
+    line-height: 1.05;
+    text-transform: uppercase;
+  }
+
+  .telemetryCard small {
+    color: var(--muted);
+  }
+
+  .telemetryCard b {
+    overflow: hidden;
+    color: #a7ff61;
+    font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
+    font-size: clamp(1.45rem, 2.1vw, 2.25rem);
+    line-height: 0.9;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .roomToneCard .meterBars {
+    height: 2.8rem;
+    margin-top: 0.2rem;
+  }
+
+  .playerCore {
+    grid-template-columns: minmax(18rem, 38%) minmax(0, 1fr) !important;
+    gap: 0.65rem !important;
+    align-items: stretch !important;
+  }
+
+  .coverWell,
+  .coverWell img {
+    min-height: 20rem !important;
+    max-height: 42vh;
+  }
+
+  .trackStack {
+    justify-content: center !important;
+  }
+
+  .trackTag {
+    margin-bottom: 0.35rem !important;
+  }
+
+  .trackStack h2 {
+    font-size: clamp(2rem, 3vw, 3.35rem) !important;
+    max-height: 2.2em !important;
+  }
+
+  .trackStack > p:not(.trackTag) {
+    margin-top: 0.45rem !important;
+    font-size: 0.92rem !important;
+    line-height: 1.28 !important;
+    max-height: 3.9em !important;
+  }
+
+  .trackMeta {
+    margin-top: 0.75rem !important;
+  }
+
+  .transportBar {
+    margin-top: 0.55rem !important;
+    padding-top: 0 !important;
+  }
+
+  .sourceLine {
+    margin-top: 0.45rem !important;
+    min-height: 2rem !important;
+  }
+
+  .lyricsPanel {
+    margin-top: 0.55rem !important;
+    padding-top: 0.45rem !important;
+  }
+
+  .lyricsScroll {
+    max-height: 3.2rem !important;
+  }
+
+  .lyricsScroll p {
+    padding: 0.2rem 0 !important;
+    font-size: 0.78rem !important;
+  }
+
+  .warningPanel {
+    padding: 0.45rem 0.65rem !important;
+  }
+}
+
+@media (max-width: 1100px) {
+  .maximumStankBlock,
+  .playerMachine {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .stankDefinition {
+    margin-top: 0.75rem;
+  }
+
+  .telemetryRail {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+}
+
+/* === MOCKUP-STYLE DESKTOP STANK CONSOLE === */
+@media (min-width: 1101px) {
+  .headerRoomTone,
+  .headerSignal {
+    display: none !important;
+  }
+
+  .workspaceGrid {
+    grid-template-columns: minmax(0, 1.45fr) minmax(21rem, 0.55fr) !important;
+    grid-template-rows: 7rem minmax(0, 1fr) 4.75rem !important;
+    gap: 0.6rem !important;
+  }
+
+  .heroDeck {
+    min-height: 0 !important;
+    padding: 0.7rem !important;
+  }
+
+  .maximumStankBlock {
+    display: grid;
+    grid-template-columns: minmax(13rem, 0.55fr) minmax(18rem, 1fr);
+    gap: 0.8rem;
+    align-items: center;
+  }
+
+  .heroCopy h1 {
+    font-size: clamp(2.4rem, 3.45vw, 4rem) !important;
+  }
+
+  .stankDefinition {
+    margin: 0;
+    padding: 0.55rem 0.7rem;
+    border-left: 1px solid rgba(167, 255, 97, 0.42);
+    color: rgba(246, 239, 212, 0.82);
+    font-size: 0.72rem;
+    line-height: 1.25;
+    text-shadow: 1px 1px 0 rgba(0,0,0,.85);
+  }
+
+  .pipeBrief {
+    padding: 0.55rem 0.65rem !important;
+  }
+
+  .playerPanel {
+    padding: 0.65rem !important;
+    overflow: hidden !important;
+  }
+
+  .playerMachine {
+    display: grid;
+    grid-template-columns: 10.5rem minmax(0, 1fr);
+    gap: 0.65rem;
+    min-height: 0;
+  }
+
+  .telemetryRail {
+    display: grid;
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .telemetryCard {
+    display: grid;
+    align-content: center;
+    gap: 0.2rem;
+    min-height: 5.3rem;
+    padding: 0.55rem;
+    border: 1px solid rgba(167,255,97,.5);
+    background:
+      linear-gradient(180deg, rgba(7,14,5,.92), rgba(4,7,3,.86)),
+      repeating-linear-gradient(0deg, rgba(167,255,97,.09) 0 1px, transparent 1px 6px);
+    box-shadow: inset 0 0 1rem rgba(167,255,97,.08);
+  }
+
+  .telemetryCard span,
+  .telemetryCard small {
+    color: var(--safety);
+    font-family: "Lucida Console", "Courier New", monospace;
+    font-size: 0.58rem;
+    font-weight: 1000;
+    line-height: 1.05;
+    text-transform: uppercase;
+  }
+
+  .telemetryCard small {
+    color: var(--muted);
+  }
+
+  .telemetryCard b {
+    overflow: hidden;
+    color: #a7ff61;
+    font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
+    font-size: clamp(1.35rem, 2vw, 2.1rem);
+    line-height: 0.9;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .roomToneCard .meterBars {
+    height: 2.6rem;
+    margin-top: 0.2rem;
+  }
+
+  .playerCore {
+    grid-template-columns: minmax(15rem, 36%) minmax(0, 1fr) !important;
+    gap: 0.7rem !important;
+    align-items: stretch !important;
+  }
+
+  .coverWell,
+  .coverWell img {
+    min-height: 17rem !important;
+    max-height: 34vh !important;
+  }
+
+  .trackStack {
+    justify-content: center !important;
+  }
+
+  .trackStack h2 {
+    font-size: clamp(1.9rem, 2.8vw, 3rem) !important;
+    max-height: 2.15em !important;
+  }
+
+  .trackStack > p:not(.trackTag) {
+    margin-top: 0.45rem !important;
+    font-size: 0.88rem !important;
+    line-height: 1.25 !important;
+    max-height: 3.75em !important;
+  }
+
+  .transportBar {
+    margin-top: 0.55rem !important;
+    padding-top: 0 !important;
+  }
+
+  .sourceLine {
+    margin-top: 0.45rem !important;
+  }
+
+  .lyricsPanel {
+    margin-top: 0.5rem !important;
+    padding-top: 0.4rem !important;
+  }
+
+  .lyricsScroll {
+    max-height: 3rem !important;
+  }
+}
+
+@media (max-width: 1100px) {
+  .playerMachine {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .telemetryRail {
+    display: grid;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+}
+
+/* === INDUSTRIAL STANK RADIO CONSOLE LOOK === */
+@media (min-width: 1101px) {
+  .headerRoomTone,
+  .headerSignal {
+    display: none !important;
+  }
+
+  .radioApp {
+    background:
+      radial-gradient(circle at 50% 20%, rgba(116, 148, 75, 0.18), transparent 34%),
+      linear-gradient(135deg, #1b2118, #090c08 42%, #201816);
+  }
+
+  .masthead,
+  .heroDeck,
+  .playerPanel,
+  .filterPanel,
+  .libraryPanel,
+  .warningPanel {
+    border-color: rgba(37, 42, 33, 0.95) !important;
+    box-shadow:
+      inset 0 0 0 1px rgba(170, 255, 97, 0.12),
+      inset 0 0 28px rgba(0,0,0,.55),
+      0 0 0 1px rgba(0,0,0,.75);
+  }
+
+  .workspaceGrid {
+    grid-template-columns: minmax(0, 1.42fr) minmax(21rem, 0.58fr) !important;
+    grid-template-rows: 7.1rem minmax(0, 1fr) 4.5rem !important;
+    gap: 0.55rem !important;
+  }
+
+  .heroDeck {
+    grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.65fr) !important;
+    min-height: 0 !important;
+    padding: 0.62rem !important;
+    background:
+      linear-gradient(100deg, rgba(15, 24, 12, 0.94), rgba(6, 12, 5, 0.86)),
+      repeating-linear-gradient(90deg, rgba(167,255,97,.08) 0 1px, transparent 1px 8px),
+      var(--track-cover) !important;
+  }
+
+  .maximumStankBlock {
+    display: grid;
+    grid-template-columns: minmax(12rem, 0.5fr) minmax(18rem, 1fr);
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .heroCopy h1 {
+    font-size: clamp(2.35rem, 3.35vw, 4rem) !important;
+  }
+
+  .stankDefinition {
+    margin: 0;
+    padding: 0.58rem 0.7rem;
+    border-left: 1px solid rgba(167,255,97,.38);
+    color: rgba(246,239,212,.78);
+    font-size: 0.7rem;
+    line-height: 1.24;
+    text-shadow: 1px 1px 0 rgba(0,0,0,.8);
+  }
+
+  .playerPanel {
+    padding: 0.55rem !important;
+    overflow: hidden !important;
+    background:
+      linear-gradient(90deg, rgba(9, 13, 8, .96), rgba(4, 7, 4, .92)),
+      repeating-linear-gradient(0deg, rgba(167,255,97,.045) 0 1px, transparent 1px 5px) !important;
+  }
+
+  .playerPanel > .panelLabel {
+    margin-bottom: 0.4rem !important;
+  }
+
+  .playerMachine {
+    display: grid;
+    grid-template-columns: 10rem minmax(0, 1fr);
+    gap: 0.55rem;
+    min-height: 0;
+  }
+
+  .telemetryRail {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1.5fr;
+    gap: 0.45rem;
+  }
+
+  .telemetryGauge,
+  .telemetryBars {
+    display: grid;
+    align-content: center;
+    gap: 0.2rem;
+    min-height: 5rem;
+    padding: 0.55rem;
+    border: 2px solid rgba(32, 37, 30, 0.95);
+    background:
+      radial-gradient(circle at 50% 15%, rgba(216, 222, 172, 0.2), transparent 42%),
+      linear-gradient(180deg, rgba(48, 55, 43, .86), rgba(10, 13, 9, .96));
+    box-shadow:
+      inset 0 0 18px rgba(0,0,0,.7),
+      0 1px 0 rgba(255,255,255,.08);
+  }
+
+  .telemetryGauge span,
+  .telemetryGauge small,
+  .telemetryBars span {
+    color: var(--safety);
+    font-family: "Lucida Console", "Courier New", monospace;
+    font-size: 0.58rem;
+    font-weight: 1000;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .telemetryGauge b,
+  .telemetryBars b {
+    color: #a7ff61;
+    font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
+    font-size: clamp(1.35rem, 2vw, 2rem);
+    line-height: 0.9;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .telemetryBars .meterBars {
+    height: 4rem;
+    margin-top: 0.25rem;
+  }
+
+  .playerCore {
+    grid-template-columns: minmax(20rem, 58%) minmax(0, 1fr) !important;
+    gap: 0.55rem !important;
+    align-items: stretch !important;
+  }
+
+  .coverWell,
+  .coverWell img {
+    min-height: 23rem !important;
+    max-height: 45vh !important;
+  }
+
+  .trackStack {
+    justify-content: center !important;
+    padding: 0.75rem;
+    border: 2px solid rgba(32, 37, 30, 0.95);
+    background: rgba(5, 12, 5, .84);
+  }
+
+  .trackStack h2 {
+    font-size: clamp(2.1rem, 3.2vw, 3.4rem) !important;
+  }
+
+  .transportBar {
+    margin-top: 0.45rem !important;
+    padding-top: 0 !important;
+  }
+
+  .lyricsPanel {
+    margin-top: 0.45rem !important;
+    padding-top: 0.35rem !important;
+  }
+
+  .lyricsScroll {
+    max-height: 2.8rem !important;
+  }
+
+  .trackRow {
+    border-width: 2px !important;
+    border-color: rgba(40, 47, 37, .95) !important;
+    background:
+      linear-gradient(180deg, rgba(31, 48, 26, .92), rgba(11, 18, 10, .96)) !important;
+  }
+}
+
+/* === SR-001 Dashboard containment reskin === */
+
+.background-grid {
+  background-image:
+    linear-gradient(rgba(18, 22, 18, 0.96) 0%, rgba(18, 22, 18, 0.96) 100%),
+    linear-gradient(to right, rgba(57, 255, 20, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(57, 255, 20, 0.08) 1px, transparent 1px);
+  background-size: 100% 100%, 8px 8px, 8px 8px;
+}
+
+.text-glow {
+  text-shadow:
+    0 0 6px rgba(57, 255, 20, 0.6),
+    0 0 12px rgba(57, 255, 20, 0.3),
+    0 0 22px rgba(57, 255, 20, 0.16);
+}
+
+.dashboardContainment {
+  isolation: isolate;
+}
+
+.broadcastTerminal {
+  position: relative;
+  overflow: hidden;
+  border-color: rgba(57, 255, 20, 0.22);
+  box-shadow:
+    inset 0 0 28px rgba(0, 0, 0, 0.72),
+    0 0 28px rgba(57, 255, 20, 0.06);
+}
+
+.terminalStrip {
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .7rem 1rem;
+  border-bottom: 1px solid rgba(57, 255, 20, 0.18);
+  background: rgba(0, 0, 0, 0.48);
+  color: rgba(217, 255, 213, 0.78);
+  font-size: .68rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.terminalStrip strong {
+  color: #39ff14;
+  text-shadow: 0 0 10px rgba(57, 255, 20, .42);
+}
+
+.terminalMetrics {
+  border-color: rgba(57, 255, 20, 0.18);
+  background: rgba(0, 0, 0, 0.48);
+}
+
+.heroMetricGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: .55rem;
+  margin-top: 1rem;
+}
+
+.heroMetricGrid div,
+.sidebarMetric,
+.containmentGauge {
+  border: 1px solid rgba(63, 63, 70, .88);
+  background: rgba(0, 0, 0, .38);
+  border-radius: .75rem;
+  padding: .75rem;
+  box-shadow: inset 0 0 14px rgba(0, 0, 0, .45);
+}
+
+.heroMetricGrid span,
+.sidebarMetric span,
+.containmentGauge span {
+  display: block;
+  color: rgba(161, 161, 170, .86);
+  font-size: .62rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.heroMetricGrid b,
+.sidebarMetric b {
+  display: block;
+  margin-top: .25rem;
+  color: #39ff14;
+  font-size: .9rem;
+  text-transform: uppercase;
+}
+
+.liveContainmentBadge {
+  border-color: rgba(57, 255, 20, .72);
+  color: #39ff14;
+  box-shadow:
+    inset 0 0 12px rgba(57, 255, 20, .14),
+    0 0 18px rgba(57, 255, 20, .08);
+}
+
+.liveContainmentBadge span {
+  background: #39ff14;
+  box-shadow: 0 0 12px rgba(57, 255, 20, .95);
+}
+
+.dashboardPlayerCore {
+  grid-template-columns: minmax(8rem, 11rem) minmax(10rem, 15rem) minmax(0, 1fr);
+  align-items: stretch;
+}
+
+.containmentSidebar {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+  min-width: 0;
+}
+
+.containmentGauge {
+  display: grid;
+  place-items: center;
+  gap: .55rem;
+}
+
+.gaugeFace {
+  position: relative;
+  width: 7rem;
+  height: 3.8rem;
+  overflow: hidden;
+  border: 1px solid rgba(113, 113, 122, .55);
+  border-bottom: 0;
+  border-radius: 7rem 7rem 0 0;
+  background:
+    radial-gradient(circle at 50% 100%, rgba(57, 255, 20, .14), transparent 54%),
+    rgba(9, 12, 9, .86);
+  box-shadow: inset 0 0 16px rgba(0, 0, 0, .65);
+}
+
+.gaugeNeedle {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  height: 3.25rem;
+  background: #ff2a2a;
+  transform-origin: bottom center;
+  transform: translateX(-50%) rotate(-58deg);
+  transition: transform .55s ease;
+  box-shadow: 0 0 10px rgba(255, 42, 42, .55);
+}
+
+.gaugeNeedle.active {
+  transform: translateX(-50%) rotate(36deg);
+}
+
+.gaugeFace em {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: .25rem;
+  color: rgba(161, 161, 170, .62);
+  font-size: .55rem;
+  font-style: normal;
+  letter-spacing: .18em;
+  text-align: center;
+}
+
+@media (max-width: 980px) {
+  .dashboardPlayerCore {
+    grid-template-columns: 1fr;
+  }
+
+  .containmentSidebar {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .heroMetricGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .terminalStrip {
+    position: relative;
+    flex-direction: column;
+  }
+
+  .containmentSidebar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .heroMetricGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* === SR-002 Full-width industrial console layout === */
+
+.radioApp {
+  min-height: 100dvh;
+  padding: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 45% 25%, rgba(57,255,20,.12), transparent 32rem),
+    linear-gradient(135deg, #151713, #070907 55%, #1a1712);
+}
+
+.masthead {
+  min-height: 4.25rem;
+  margin: 0;
+  border-radius: 0;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+  background:
+    linear-gradient(90deg, rgba(38,44,33,.95), rgba(15,19,14,.96)),
+    url('/stank-radio/assets/bg-matrix-grid.png');
+  background-blend-mode: multiply;
+  box-shadow: inset 0 -1px 0 rgba(57,255,20,.2), 0 8px 22px rgba(0,0,0,.45);
+}
+
+.workspaceGrid {
+  width: 100%;
+  max-width: none;
+  height: calc(100dvh - 4.25rem);
+  padding: 0;
+  gap: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(24rem, .72fr);
+  grid-template-rows: 5.5rem minmax(0, 1fr) 4.7rem;
+  grid-template-areas:
+    "hero filters"
+    "player library"
+    "warning library";
+}
+
+.heroDeck {
+  grid-area: hero;
+  min-height: 0;
+  border-radius: 0;
+  border-left: 0;
+  border-top: 0;
+  border-right: 2px solid rgba(57,255,20,.25);
+  border-bottom: 2px solid rgba(57,255,20,.25);
+  padding: 1rem 1.1rem;
+}
+
+.heroDeck .terminalStrip {
+  display: none;
+}
+
+.heroDeck .heroCopy h1 {
+  font-size: clamp(2rem, 4vw, 3.55rem);
+  line-height: .78;
+}
+
+.heroDeck .heroTagline,
+.heroDeck .heroDescription,
+.heroDeck .pipeBriefLabel {
+  font-size: .68rem;
+}
+
+.terminalMetrics {
+  padding: .7rem;
+}
+
+.heroMetricGrid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: .35rem;
+  margin-top: .45rem;
+}
+
+.heroMetricGrid div {
+  padding: .42rem .5rem;
+  border-radius: .25rem;
+}
+
+.heroMetricGrid span {
+  font-size: .48rem;
+}
+
+.heroMetricGrid b {
+  font-size: .58rem;
+}
+
+.consoleGrid {
+  display: contents;
+}
+
+.playerPanel {
+  grid-area: player;
+  min-height: 0;
+  border-radius: 0;
+  border-left: 0;
+  border-top: 0;
+  border-right: 2px solid rgba(120,120,105,.45);
+  border-bottom: 2px solid rgba(120,120,105,.45);
+  padding: .7rem;
+  background:
+    linear-gradient(90deg, rgba(8,14,8,.94), rgba(11,17,11,.88)),
+    url('/stank-radio/assets/bg-matrix-grid.png');
+  background-size: auto, 320px 320px;
+}
+
+.playerPanel > .panelLabel {
+  height: 1.5rem;
+  margin-bottom: .45rem;
+  color: #aaff72;
+}
+
+.playerCore.dashboardPlayerCore {
+  height: calc(100% - 11rem);
+  min-height: 23rem;
+  display: grid;
+  grid-template-columns: 15rem minmax(20rem, .95fr) minmax(17rem, .8fr);
+  gap: .75rem;
+}
+
+.containmentSidebar {
+  order: 1;
+  border: 1px solid rgba(106,120,92,.55);
+  background:
+    linear-gradient(rgba(3,9,3,.74), rgba(3,9,3,.86)),
+    url('/stank-radio/assets/bg-matrix-grid.png');
+  box-shadow: inset 0 0 22px rgba(0,0,0,.75);
+  padding: .55rem;
+}
+
+.coverWell {
+  order: 2;
+  height: 100%;
+  min-height: 0;
+  border-radius: 0;
+  border: 1px solid rgba(106,120,92,.5);
+  box-shadow:
+    inset 0 0 0 1px rgba(57,255,20,.1),
+    0 0 20px rgba(57,255,20,.08);
+}
+
+.coverWell img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.trackStack {
+  order: 3;
+  min-height: 0;
+  border: 1px solid rgba(106,120,92,.55);
+  padding: 1rem;
+  background:
+    linear-gradient(rgba(5,15,5,.88), rgba(3,8,3,.94)),
+    url('/stank-radio/assets/bg-matrix-grid.png');
+  box-shadow: inset 0 0 24px rgba(0,0,0,.72);
+}
+
+.trackStack h2 {
+  color: #9cff73;
+  font-size: clamp(2rem, 3.2vw, 3.6rem);
+  line-height: .9;
+  text-transform: uppercase;
+  text-shadow: 0 0 12px rgba(57,255,20,.38);
+}
+
+.sourceLine {
+  margin-top: .55rem;
+}
+
+.lyricsPanel {
+  height: 7.2rem;
+  margin-top: .55rem;
+  border-radius: 0;
+  background:
+    linear-gradient(rgba(4,11,4,.9), rgba(2,7,2,.95)),
+    url('/stank-radio/assets/bg-matrix-grid.png');
+}
+
+.transportBar {
+  height: 2.75rem;
+  margin-top: .55rem;
+  display: grid;
+  grid-template-columns: 2.3rem minmax(9rem, 12rem) 2.3rem 1fr 1fr 3rem;
+  gap: .35rem;
+  padding: .25rem;
+  border-radius: 0;
+  background:
+    linear-gradient(180deg, #5b5a4d, #1b1c18 52%, #626050);
+  border: 2px solid rgba(0,0,0,.7);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.1);
+}
+
+.transportBar button {
+  border-radius: .12rem;
+}
+
+.filterPanel {
+  grid-area: filters;
+  border-radius: 0;
+  border-top: 0;
+  border-right: 0;
+  border-left: 2px solid rgba(80,80,70,.8);
+  border-bottom: 2px solid rgba(80,80,70,.8);
+  background:
+    linear-gradient(135deg, rgba(92,94,83,.88), rgba(20,23,19,.94));
+  box-shadow: inset 0 0 26px rgba(0,0,0,.68);
+}
+
+.searchBox {
+  height: 2.7rem;
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgba(10,13,10,.92), rgba(2,5,2,.98));
+  box-shadow:
+    inset 0 0 15px rgba(0,0,0,.8),
+    0 0 0 3px rgba(0,0,0,.25);
+}
+
+.libraryPanel {
+  grid-area: library;
+  min-height: 0;
+  border-radius: 0;
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
+  border-left: 2px solid rgba(80,80,70,.8);
+  padding: 1rem;
+  background:
+    linear-gradient(rgba(53,55,47,.92), rgba(29,31,27,.96)),
+    url('/stank-radio/assets/track-row-plate.png');
+  background-size: auto, 380px auto;
+}
+
+.libraryPanel .trackList {
+  height: calc(100% - 4.7rem);
+  overflow-y: auto;
+  display: grid;
+  grid-auto-rows: 3.1rem;
+  gap: .55rem;
+}
+
+.trackRow {
+  border-radius: .28rem;
+  border: 2px solid rgba(8,8,7,.9);
+  background:
+    linear-gradient(90deg, rgba(16,30,16,.96), rgba(42,64,41,.86), rgba(12,18,12,.96)),
+    url('/stank-radio/assets/track-row-plate.png');
+  background-size: auto, cover;
+  box-shadow:
+    inset 0 0 0 1px rgba(210,220,190,.35),
+    inset 0 0 18px rgba(57,255,20,.08),
+    0 2px 0 rgba(0,0,0,.65);
+}
+
+.trackRow.active {
+  border-color: rgba(156,255,115,.8);
+  box-shadow:
+    inset 0 0 0 1px rgba(210,255,190,.55),
+    0 0 16px rgba(57,255,20,.18);
+}
+
+.trackRow img {
+  border-radius: .08rem;
+}
+
+.libraryPagination {
+  height: 2rem;
+  margin-top: .6rem;
+}
+
+.warningPanel {
+  grid-area: warning;
+  border-radius: 0;
+  border-left: 0;
+  border-right: 2px solid rgba(120,120,105,.45);
+  border-bottom: 0;
+  padding: .45rem .7rem;
+  background:
+    linear-gradient(90deg, rgba(90,18,13,.86), rgba(8,8,6,.94)),
+    repeating-linear-gradient(135deg, rgba(255,204,0,.34) 0 12px, rgba(0,0,0,.25) 12px 24px);
+}
+
+.warningPanel ul {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .35rem;
+  margin: 0;
+}
+
+.warningPanel li {
+  font-size: .58rem;
+}
+
+@media (max-width: 1100px) {
+  .radioApp {
+    overflow: auto;
+  }
+
+  .workspaceGrid {
+    height: auto;
+    min-height: calc(100dvh - 4.25rem);
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+      "hero"
+      "filters"
+      "player"
+      "library"
+      "warning";
+  }
+
+  .playerCore.dashboardPlayerCore {
+    height: auto;
+    min-height: 0;
+    grid-template-columns: 1fr;
+  }
+
+  .libraryPanel .trackList {
+    height: auto;
+  }
+
+  .warningPanel ul {
+    grid-template-columns: 1fr;
+  }
+}

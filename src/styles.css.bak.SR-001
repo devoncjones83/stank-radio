@@ -2343,3 +2343,952 @@ dd {
     min-height: 16rem !important;
   }
 }
+
+/* === STAAAAAAAANK RADIO DESKTOP CONTAINMENT CONSOLE REDO === */
+
+@media (min-width: 1101px) {
+  .headerRoomTone,
+  .headerSignal {
+    display: none !important;
+  }
+
+  .masthead {
+    gap: 0.7rem;
+  }
+
+  .manifestLink {
+    margin-left: auto;
+  }
+
+  .workspaceGrid {
+    grid-template-columns: minmax(0, 1.42fr) minmax(20rem, 0.58fr) !important;
+    grid-template-rows: 7.1rem minmax(0, 1fr) 4.8rem !important;
+    gap: 0.55rem !important;
+  }
+
+  .heroDeck {
+    grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.65fr) !important;
+    padding: 0.65rem !important;
+    min-height: 0 !important;
+  }
+
+  .maximumStankBlock {
+    display: grid;
+    grid-template-columns: minmax(12rem, 0.55fr) minmax(16rem, 1fr);
+    gap: 0.8rem;
+    align-items: center;
+  }
+
+  .heroCopy h1 {
+    font-size: clamp(2.3rem, 3.4vw, 4.1rem) !important;
+  }
+
+  .heroTagline {
+    margin-top: 0.25rem !important;
+  }
+
+  .stankDefinition {
+    margin: 0;
+    padding: 0.55rem 0.7rem;
+    border-left: 1px solid rgba(167,255,97,.42);
+    color: rgba(246,239,212,.82);
+    font-size: 0.72rem;
+    line-height: 1.25;
+    text-shadow: 1px 1px 0 rgba(0,0,0,.8);
+  }
+
+  .pipeBrief {
+    padding: 0.55rem 0.65rem !important;
+  }
+
+  .pipeBriefLabel {
+    font-size: 0.62rem !important;
+  }
+
+  .heroDescription,
+  .riskNotice,
+  .heroFrequency {
+    font-size: 0.68rem !important;
+  }
+
+  .playerPanel {
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    padding: 0.65rem !important;
+  }
+
+  .playerPanel > .panelLabel {
+    margin-bottom: 0.45rem !important;
+  }
+
+  .playerMachine {
+    display: grid;
+    grid-template-columns: 10.5rem minmax(0, 1fr);
+    gap: 0.65rem;
+    min-height: 0;
+  }
+
+  .telemetryRail {
+    display: grid;
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .telemetryCard {
+    display: grid;
+    align-content: center;
+    gap: 0.18rem;
+    min-height: 5rem;
+    padding: 0.55rem;
+    border: 1px solid rgba(167,255,97,.5);
+    background:
+      linear-gradient(180deg, rgba(7,14,5,.92), rgba(4,7,3,.86)),
+      repeating-linear-gradient(0deg, rgba(167,255,97,.09) 0 1px, transparent 1px 6px);
+    box-shadow: inset 0 0 1rem rgba(167,255,97,.08);
+  }
+
+  .telemetryCard span,
+  .telemetryCard small {
+    color: var(--safety);
+    font-family: "Lucida Console", "Courier New", monospace;
+    font-size: 0.58rem;
+    font-weight: 1000;
+    line-height: 1.05;
+    text-transform: uppercase;
+  }
+
+  .telemetryCard small {
+    color: var(--muted);
+  }
+
+  .telemetryCard b {
+    overflow: hidden;
+    color: #a7ff61;
+    font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
+    font-size: clamp(1.45rem, 2.1vw, 2.25rem);
+    line-height: 0.9;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .roomToneCard .meterBars {
+    height: 2.8rem;
+    margin-top: 0.2rem;
+  }
+
+  .playerCore {
+    grid-template-columns: minmax(18rem, 38%) minmax(0, 1fr) !important;
+    gap: 0.65rem !important;
+    align-items: stretch !important;
+  }
+
+  .coverWell,
+  .coverWell img {
+    min-height: 20rem !important;
+    max-height: 42vh;
+  }
+
+  .trackStack {
+    justify-content: center !important;
+  }
+
+  .trackTag {
+    margin-bottom: 0.35rem !important;
+  }
+
+  .trackStack h2 {
+    font-size: clamp(2rem, 3vw, 3.35rem) !important;
+    max-height: 2.2em !important;
+  }
+
+  .trackStack > p:not(.trackTag) {
+    margin-top: 0.45rem !important;
+    font-size: 0.92rem !important;
+    line-height: 1.28 !important;
+    max-height: 3.9em !important;
+  }
+
+  .trackMeta {
+    margin-top: 0.75rem !important;
+  }
+
+  .transportBar {
+    margin-top: 0.55rem !important;
+    padding-top: 0 !important;
+  }
+
+  .sourceLine {
+    margin-top: 0.45rem !important;
+    min-height: 2rem !important;
+  }
+
+  .lyricsPanel {
+    margin-top: 0.55rem !important;
+    padding-top: 0.45rem !important;
+  }
+
+  .lyricsScroll {
+    max-height: 3.2rem !important;
+  }
+
+  .lyricsScroll p {
+    padding: 0.2rem 0 !important;
+    font-size: 0.78rem !important;
+  }
+
+  .warningPanel {
+    padding: 0.45rem 0.65rem !important;
+  }
+}
+
+@media (max-width: 1100px) {
+  .maximumStankBlock,
+  .playerMachine {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .stankDefinition {
+    margin-top: 0.75rem;
+  }
+
+  .telemetryRail {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+}
+
+/* === MOCKUP-STYLE DESKTOP STANK CONSOLE === */
+@media (min-width: 1101px) {
+  .headerRoomTone,
+  .headerSignal {
+    display: none !important;
+  }
+
+  .workspaceGrid {
+    grid-template-columns: minmax(0, 1.45fr) minmax(21rem, 0.55fr) !important;
+    grid-template-rows: 7rem minmax(0, 1fr) 4.75rem !important;
+    gap: 0.6rem !important;
+  }
+
+  .heroDeck {
+    min-height: 0 !important;
+    padding: 0.7rem !important;
+  }
+
+  .maximumStankBlock {
+    display: grid;
+    grid-template-columns: minmax(13rem, 0.55fr) minmax(18rem, 1fr);
+    gap: 0.8rem;
+    align-items: center;
+  }
+
+  .heroCopy h1 {
+    font-size: clamp(2.4rem, 3.45vw, 4rem) !important;
+  }
+
+  .stankDefinition {
+    margin: 0;
+    padding: 0.55rem 0.7rem;
+    border-left: 1px solid rgba(167, 255, 97, 0.42);
+    color: rgba(246, 239, 212, 0.82);
+    font-size: 0.72rem;
+    line-height: 1.25;
+    text-shadow: 1px 1px 0 rgba(0,0,0,.85);
+  }
+
+  .pipeBrief {
+    padding: 0.55rem 0.65rem !important;
+  }
+
+  .playerPanel {
+    padding: 0.65rem !important;
+    overflow: hidden !important;
+  }
+
+  .playerMachine {
+    display: grid;
+    grid-template-columns: 10.5rem minmax(0, 1fr);
+    gap: 0.65rem;
+    min-height: 0;
+  }
+
+  .telemetryRail {
+    display: grid;
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .telemetryCard {
+    display: grid;
+    align-content: center;
+    gap: 0.2rem;
+    min-height: 5.3rem;
+    padding: 0.55rem;
+    border: 1px solid rgba(167,255,97,.5);
+    background:
+      linear-gradient(180deg, rgba(7,14,5,.92), rgba(4,7,3,.86)),
+      repeating-linear-gradient(0deg, rgba(167,255,97,.09) 0 1px, transparent 1px 6px);
+    box-shadow: inset 0 0 1rem rgba(167,255,97,.08);
+  }
+
+  .telemetryCard span,
+  .telemetryCard small {
+    color: var(--safety);
+    font-family: "Lucida Console", "Courier New", monospace;
+    font-size: 0.58rem;
+    font-weight: 1000;
+    line-height: 1.05;
+    text-transform: uppercase;
+  }
+
+  .telemetryCard small {
+    color: var(--muted);
+  }
+
+  .telemetryCard b {
+    overflow: hidden;
+    color: #a7ff61;
+    font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
+    font-size: clamp(1.35rem, 2vw, 2.1rem);
+    line-height: 0.9;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .roomToneCard .meterBars {
+    height: 2.6rem;
+    margin-top: 0.2rem;
+  }
+
+  .playerCore {
+    grid-template-columns: minmax(15rem, 36%) minmax(0, 1fr) !important;
+    gap: 0.7rem !important;
+    align-items: stretch !important;
+  }
+
+  .coverWell,
+  .coverWell img {
+    min-height: 17rem !important;
+    max-height: 34vh !important;
+  }
+
+  .trackStack {
+    justify-content: center !important;
+  }
+
+  .trackStack h2 {
+    font-size: clamp(1.9rem, 2.8vw, 3rem) !important;
+    max-height: 2.15em !important;
+  }
+
+  .trackStack > p:not(.trackTag) {
+    margin-top: 0.45rem !important;
+    font-size: 0.88rem !important;
+    line-height: 1.25 !important;
+    max-height: 3.75em !important;
+  }
+
+  .transportBar {
+    margin-top: 0.55rem !important;
+    padding-top: 0 !important;
+  }
+
+  .sourceLine {
+    margin-top: 0.45rem !important;
+  }
+
+  .lyricsPanel {
+    margin-top: 0.5rem !important;
+    padding-top: 0.4rem !important;
+  }
+
+  .lyricsScroll {
+    max-height: 3rem !important;
+  }
+}
+
+@media (max-width: 1100px) {
+  .playerMachine {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .telemetryRail {
+    display: grid;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+}
+
+/* === INDUSTRIAL STANK RADIO CONSOLE LOOK === */
+@media (min-width: 1101px) {
+  .headerRoomTone,
+  .headerSignal {
+    display: none !important;
+  }
+
+  .radioApp {
+    background:
+      radial-gradient(circle at 50% 20%, rgba(116, 148, 75, 0.18), transparent 34%),
+      linear-gradient(135deg, #1b2118, #090c08 42%, #201816);
+  }
+
+  .masthead,
+  .heroDeck,
+  .playerPanel,
+  .filterPanel,
+  .libraryPanel,
+  .warningPanel {
+    border-color: rgba(37, 42, 33, 0.95) !important;
+    box-shadow:
+      inset 0 0 0 1px rgba(170, 255, 97, 0.12),
+      inset 0 0 28px rgba(0,0,0,.55),
+      0 0 0 1px rgba(0,0,0,.75);
+  }
+
+  .workspaceGrid {
+    grid-template-columns: minmax(0, 1.42fr) minmax(21rem, 0.58fr) !important;
+    grid-template-rows: 7.1rem minmax(0, 1fr) 4.5rem !important;
+    gap: 0.55rem !important;
+  }
+
+  .heroDeck {
+    grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.65fr) !important;
+    min-height: 0 !important;
+    padding: 0.62rem !important;
+    background:
+      linear-gradient(100deg, rgba(15, 24, 12, 0.94), rgba(6, 12, 5, 0.86)),
+      repeating-linear-gradient(90deg, rgba(167,255,97,.08) 0 1px, transparent 1px 8px),
+      var(--track-cover) !important;
+  }
+
+  .maximumStankBlock {
+    display: grid;
+    grid-template-columns: minmax(12rem, 0.5fr) minmax(18rem, 1fr);
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .heroCopy h1 {
+    font-size: clamp(2.35rem, 3.35vw, 4rem) !important;
+  }
+
+  .stankDefinition {
+    margin: 0;
+    padding: 0.58rem 0.7rem;
+    border-left: 1px solid rgba(167,255,97,.38);
+    color: rgba(246,239,212,.78);
+    font-size: 0.7rem;
+    line-height: 1.24;
+    text-shadow: 1px 1px 0 rgba(0,0,0,.8);
+  }
+
+  .playerPanel {
+    padding: 0.55rem !important;
+    overflow: hidden !important;
+    background:
+      linear-gradient(90deg, rgba(9, 13, 8, .96), rgba(4, 7, 4, .92)),
+      repeating-linear-gradient(0deg, rgba(167,255,97,.045) 0 1px, transparent 1px 5px) !important;
+  }
+
+  .playerPanel > .panelLabel {
+    margin-bottom: 0.4rem !important;
+  }
+
+  .playerMachine {
+    display: grid;
+    grid-template-columns: 10rem minmax(0, 1fr);
+    gap: 0.55rem;
+    min-height: 0;
+  }
+
+  .telemetryRail {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1.5fr;
+    gap: 0.45rem;
+  }
+
+  .telemetryGauge,
+  .telemetryBars {
+    display: grid;
+    align-content: center;
+    gap: 0.2rem;
+    min-height: 5rem;
+    padding: 0.55rem;
+    border: 2px solid rgba(32, 37, 30, 0.95);
+    background:
+      radial-gradient(circle at 50% 15%, rgba(216, 222, 172, 0.2), transparent 42%),
+      linear-gradient(180deg, rgba(48, 55, 43, .86), rgba(10, 13, 9, .96));
+    box-shadow:
+      inset 0 0 18px rgba(0,0,0,.7),
+      0 1px 0 rgba(255,255,255,.08);
+  }
+
+  .telemetryGauge span,
+  .telemetryGauge small,
+  .telemetryBars span {
+    color: var(--safety);
+    font-family: "Lucida Console", "Courier New", monospace;
+    font-size: 0.58rem;
+    font-weight: 1000;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .telemetryGauge b,
+  .telemetryBars b {
+    color: #a7ff61;
+    font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
+    font-size: clamp(1.35rem, 2vw, 2rem);
+    line-height: 0.9;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .telemetryBars .meterBars {
+    height: 4rem;
+    margin-top: 0.25rem;
+  }
+
+  .playerCore {
+    grid-template-columns: minmax(20rem, 58%) minmax(0, 1fr) !important;
+    gap: 0.55rem !important;
+    align-items: stretch !important;
+  }
+
+  .coverWell,
+  .coverWell img {
+    min-height: 23rem !important;
+    max-height: 45vh !important;
+  }
+
+  .trackStack {
+    justify-content: center !important;
+    padding: 0.75rem;
+    border: 2px solid rgba(32, 37, 30, 0.95);
+    background: rgba(5, 12, 5, .84);
+  }
+
+  .trackStack h2 {
+    font-size: clamp(2.1rem, 3.2vw, 3.4rem) !important;
+  }
+
+  .transportBar {
+    margin-top: 0.45rem !important;
+    padding-top: 0 !important;
+  }
+
+  .lyricsPanel {
+    margin-top: 0.45rem !important;
+    padding-top: 0.35rem !important;
+  }
+
+  .lyricsScroll {
+    max-height: 2.8rem !important;
+  }
+
+  .trackRow {
+    border-width: 2px !important;
+    border-color: rgba(40, 47, 37, .95) !important;
+    background:
+      linear-gradient(180deg, rgba(31, 48, 26, .92), rgba(11, 18, 10, .96)) !important;
+  }
+}
+
+/* === SR-001 Dashboard containment reskin === */
+
+.background-grid {
+  background-image:
+    linear-gradient(rgba(18, 22, 18, 0.96) 0%, rgba(18, 22, 18, 0.96) 100%),
+    linear-gradient(to right, rgba(57, 255, 20, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(57, 255, 20, 0.08) 1px, transparent 1px);
+  background-size: 100% 100%, 8px 8px, 8px 8px;
+}
+
+.text-glow {
+  text-shadow:
+    0 0 6px rgba(57, 255, 20, 0.6),
+    0 0 12px rgba(57, 255, 20, 0.3),
+    0 0 22px rgba(57, 255, 20, 0.16);
+}
+
+.dashboardContainment {
+  isolation: isolate;
+}
+
+.broadcastTerminal {
+  position: relative;
+  overflow: hidden;
+  border-color: rgba(57, 255, 20, 0.22);
+  box-shadow:
+    inset 0 0 28px rgba(0, 0, 0, 0.72),
+    0 0 28px rgba(57, 255, 20, 0.06);
+}
+
+.terminalStrip {
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .7rem 1rem;
+  border-bottom: 1px solid rgba(57, 255, 20, 0.18);
+  background: rgba(0, 0, 0, 0.48);
+  color: rgba(217, 255, 213, 0.78);
+  font-size: .68rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.terminalStrip strong {
+  color: #39ff14;
+  text-shadow: 0 0 10px rgba(57, 255, 20, .42);
+}
+
+.terminalMetrics {
+  border-color: rgba(57, 255, 20, 0.18);
+  background: rgba(0, 0, 0, 0.48);
+}
+
+.heroMetricGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: .55rem;
+  margin-top: 1rem;
+}
+
+.heroMetricGrid div,
+.sidebarMetric,
+.containmentGauge {
+  border: 1px solid rgba(63, 63, 70, .88);
+  background: rgba(0, 0, 0, .38);
+  border-radius: .75rem;
+  padding: .75rem;
+  box-shadow: inset 0 0 14px rgba(0, 0, 0, .45);
+}
+
+.heroMetricGrid span,
+.sidebarMetric span,
+.containmentGauge span {
+  display: block;
+  color: rgba(161, 161, 170, .86);
+  font-size: .62rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.heroMetricGrid b,
+.sidebarMetric b {
+  display: block;
+  margin-top: .25rem;
+  color: #39ff14;
+  font-size: .9rem;
+  text-transform: uppercase;
+}
+
+.liveContainmentBadge {
+  border-color: rgba(57, 255, 20, .72);
+  color: #39ff14;
+  box-shadow:
+    inset 0 0 12px rgba(57, 255, 20, .14),
+    0 0 18px rgba(57, 255, 20, .08);
+}
+
+.liveContainmentBadge span {
+  background: #39ff14;
+  box-shadow: 0 0 12px rgba(57, 255, 20, .95);
+}
+
+.dashboardPlayerCore {
+  grid-template-columns: minmax(8rem, 11rem) minmax(10rem, 15rem) minmax(0, 1fr);
+  align-items: stretch;
+}
+
+.containmentSidebar {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+  min-width: 0;
+}
+
+.containmentGauge {
+  display: grid;
+  place-items: center;
+  gap: .55rem;
+}
+
+.gaugeFace {
+  position: relative;
+  width: 7rem;
+  height: 3.8rem;
+  overflow: hidden;
+  border: 1px solid rgba(113, 113, 122, .55);
+  border-bottom: 0;
+  border-radius: 7rem 7rem 0 0;
+  background:
+    radial-gradient(circle at 50% 100%, rgba(57, 255, 20, .14), transparent 54%),
+    rgba(9, 12, 9, .86);
+  box-shadow: inset 0 0 16px rgba(0, 0, 0, .65);
+}
+
+.gaugeNeedle {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  height: 3.25rem;
+  background: #ff2a2a;
+  transform-origin: bottom center;
+  transform: translateX(-50%) rotate(-58deg);
+  transition: transform .55s ease;
+  box-shadow: 0 0 10px rgba(255, 42, 42, .55);
+}
+
+.gaugeNeedle.active {
+  transform: translateX(-50%) rotate(36deg);
+}
+
+.gaugeFace em {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: .25rem;
+  color: rgba(161, 161, 170, .62);
+  font-size: .55rem;
+  font-style: normal;
+  letter-spacing: .18em;
+  text-align: center;
+}
+
+@media (max-width: 980px) {
+  .dashboardPlayerCore {
+    grid-template-columns: 1fr;
+  }
+
+  .containmentSidebar {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .heroMetricGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .terminalStrip {
+    position: relative;
+    flex-direction: column;
+  }
+
+  .containmentSidebar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .heroMetricGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* === SR-001 Dashboard containment reskin === */
+
+.background-grid {
+  background-image:
+    linear-gradient(rgba(18, 22, 18, 0.96) 0%, rgba(18, 22, 18, 0.96) 100%),
+    linear-gradient(to right, rgba(57, 255, 20, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(57, 255, 20, 0.08) 1px, transparent 1px);
+  background-size: 100% 100%, 8px 8px, 8px 8px;
+}
+
+.text-glow {
+  text-shadow:
+    0 0 6px rgba(57, 255, 20, 0.6),
+    0 0 12px rgba(57, 255, 20, 0.3),
+    0 0 22px rgba(57, 255, 20, 0.16);
+}
+
+.dashboardContainment {
+  isolation: isolate;
+}
+
+.broadcastTerminal {
+  position: relative;
+  overflow: hidden;
+  border-color: rgba(57, 255, 20, 0.22);
+  box-shadow:
+    inset 0 0 28px rgba(0, 0, 0, 0.72),
+    0 0 28px rgba(57, 255, 20, 0.06);
+}
+
+.terminalStrip {
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .7rem 1rem;
+  border-bottom: 1px solid rgba(57, 255, 20, 0.18);
+  background: rgba(0, 0, 0, 0.48);
+  color: rgba(217, 255, 213, 0.78);
+  font-size: .68rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.terminalStrip strong {
+  color: #39ff14;
+  text-shadow: 0 0 10px rgba(57, 255, 20, .42);
+}
+
+.terminalMetrics {
+  border-color: rgba(57, 255, 20, 0.18);
+  background: rgba(0, 0, 0, 0.48);
+}
+
+.heroMetricGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: .55rem;
+  margin-top: 1rem;
+}
+
+.heroMetricGrid div,
+.sidebarMetric,
+.containmentGauge {
+  border: 1px solid rgba(63, 63, 70, .88);
+  background: rgba(0, 0, 0, .38);
+  border-radius: .75rem;
+  padding: .75rem;
+  box-shadow: inset 0 0 14px rgba(0, 0, 0, .45);
+}
+
+.heroMetricGrid span,
+.sidebarMetric span,
+.containmentGauge span {
+  display: block;
+  color: rgba(161, 161, 170, .86);
+  font-size: .62rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.heroMetricGrid b,
+.sidebarMetric b {
+  display: block;
+  margin-top: .25rem;
+  color: #39ff14;
+  font-size: .9rem;
+  text-transform: uppercase;
+}
+
+.liveContainmentBadge {
+  border-color: rgba(57, 255, 20, .72);
+  color: #39ff14;
+  box-shadow:
+    inset 0 0 12px rgba(57, 255, 20, .14),
+    0 0 18px rgba(57, 255, 20, .08);
+}
+
+.liveContainmentBadge span {
+  background: #39ff14;
+  box-shadow: 0 0 12px rgba(57, 255, 20, .95);
+}
+
+.dashboardPlayerCore {
+  grid-template-columns: minmax(8rem, 11rem) minmax(10rem, 15rem) minmax(0, 1fr);
+  align-items: stretch;
+}
+
+.containmentSidebar {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+  min-width: 0;
+}
+
+.containmentGauge {
+  display: grid;
+  place-items: center;
+  gap: .55rem;
+}
+
+.gaugeFace {
+  position: relative;
+  width: 7rem;
+  height: 3.8rem;
+  overflow: hidden;
+  border: 1px solid rgba(113, 113, 122, .55);
+  border-bottom: 0;
+  border-radius: 7rem 7rem 0 0;
+  background:
+    radial-gradient(circle at 50% 100%, rgba(57, 255, 20, .14), transparent 54%),
+    rgba(9, 12, 9, .86);
+  box-shadow: inset 0 0 16px rgba(0, 0, 0, .65);
+}
+
+.gaugeNeedle {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  height: 3.25rem;
+  background: #ff2a2a;
+  transform-origin: bottom center;
+  transform: translateX(-50%) rotate(-58deg);
+  transition: transform .55s ease;
+  box-shadow: 0 0 10px rgba(255, 42, 42, .55);
+}
+
+.gaugeNeedle.active {
+  transform: translateX(-50%) rotate(36deg);
+}
+
+.gaugeFace em {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: .25rem;
+  color: rgba(161, 161, 170, .62);
+  font-size: .55rem;
+  font-style: normal;
+  letter-spacing: .18em;
+  text-align: center;
+}
+
+@media (max-width: 980px) {
+  .dashboardPlayerCore {
+    grid-template-columns: 1fr;
+  }
+
+  .containmentSidebar {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .heroMetricGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .terminalStrip {
+    position: relative;
+    flex-direction: column;
+  }
+
+  .containmentSidebar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .heroMetricGrid {
+    grid-template-columns: 1fr;
+  }
+}
