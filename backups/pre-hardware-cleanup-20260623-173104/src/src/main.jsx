@@ -324,34 +324,85 @@ function App() {
             </section>
           </header>
 
-          <section className="industrialPlayerShell" aria-label="Filth-Up hardware player">
-            <div className="shellTitleStrip">
+          <aside className="industrialLeftRail">
+            <div className="industrialGauge">
+              <span>Containment</span>
+              <b>INDEX</b>
+              <i />
+            </div>
+            <div className="industrialGauge">
+              <span>Fumes</span>
+              <b>{activeTrack ? `${stankIndex}%` : 'IDLE'}</b>
+              <i />
+            </div>
+            <div className="industrialLedMeter" aria-hidden="true">
+              {roomTone.bars.map((height, index) => (
+                <i key={index} style={{ '--meter-height': `${height}%` }} />
+              ))}
+            </div>
+
+            <div className="industrialSignalQuality">
+              <span>Signal Quality</span>
+              <b>{playing ? 'CLEAR' : activeTrack ? 'LOCKED' : 'IDLE'}</b>
+              <em>{playing ? 'STABLE' : activeTrack ? 'READY' : 'DEAD AIR'}</em>
+              <i />
+            </div>
+          </aside>
+
+          <section className="industrialMainBay">
+            <div className="industrialStatusRail">
               <span>{playing ? 'NOW LEAKING' : activeTrack ? 'LEAK ARMED' : 'NO TRANSMISSION SELECTED'}</span>
               <b>88.8 STANK FM</b>
             </div>
 
-            <div className="shellMeters" aria-hidden="true">
-              <i className="shellNeedle shellNeedleIndex" />
-              <i className="shellNeedle shellNeedleFumes" />
-            </div>
-
-            <div className="shellCoverViewport">
+            <div className="industrialArtworkBay">
               <img src={displayTrack.cover || defaultCover} alt="" />
               <em>{activeTrack ? 'ACTIVE RESIDUE' : 'AWAITING SELECTION'}</em>
             </div>
 
-            <div className="shellVizViewport" aria-hidden="true">
-              <div className="shellScopeTrace" />
+            <div className="industrialTransport">
+              <button type="button" onClick={() => stepTrack(-1)} aria-label="Previous track">
+                <SkipBack size={18} />
+              </button>
+              <button
+                className="industrialStartLeak"
+                type="button"
+                onClick={togglePlay}
+                disabled={!hasActiveAudio}
+              >
+                {playing ? <Pause size={22} /> : <Play size={22} />}
+                {playing ? 'PAUSE LEAK' : 'START LEAK'}
+              </button>
+              <button type="button" onClick={() => stepTrack(1)} aria-label="Next track">
+                <SkipForward size={18} />
+              </button>
+              <button type="button" onClick={randomTrack}>
+                <Shuffle size={18} />
+                RANDOM
+              </button>
+              <button type="button" onClick={shareTrack}>
+                <Share2 size={18} />
+                SHARE
+              </button>
             </div>
 
-            <div className="shellDossierPanel">
+          </section>
+
+          <section className="industrialInfoBay">
+            <div className="industrialTrackTerminal">
               <div className="terminalPlate">TRACK DOSSIER</div>
-              <h2>{activeTrack ? displayTrack.title : 'NO TRANSMISSION SELECTED'}</h2>
+              <p className="trackTag">{activeTrack ? displayTrack.tag : 'FUMES: IDLE'}</p>
+              <h2>{displayTrack.title}</h2>
               <p>{displayTrack.description}</p>
+
             </div>
 
-            <section className="shellLyricsPanel" aria-label="Lyrics">
+            <section className="industrialLyrics" aria-label="Lyrics">
               <div className="terminalPlate">LYRIC CONTAINMENT</div>
+              <div className="lyricsHeading">
+                <span>Lyrics</span>
+                {currentLyrics.length ? <b>Following track</b> : null}
+              </div>
               <div className="lyricsScroll">
                 {currentLyrics.length ? (
                   currentLyrics.map((line, index) => (
@@ -379,38 +430,13 @@ function App() {
                         <b>AWAITING LYRIC TIMING DATA</b>
                         <span>NO SYNCHRONIZED TRANSCRIPT PRESENT</span>
                         <span>FUNK LEVELS ACCEPTABLE</span>
+                        <em>&gt;</em>
                       </>
                     )}
                   </div>
                 )}
               </div>
             </section>
-
-            <div className="industrialTransport shellTransport">
-              <button type="button" onClick={() => stepTrack(-1)} aria-label="Previous track">
-                <SkipBack size={18} />
-              </button>
-              <button
-                className="industrialStartLeak"
-                type="button"
-                onClick={togglePlay}
-                disabled={!hasActiveAudio}
-              >
-                {playing ? <Pause size={22} /> : <Play size={22} />}
-                {playing ? 'PAUSE LEAK' : 'START LEAK'}
-              </button>
-              <button type="button" onClick={() => stepTrack(1)} aria-label="Next track">
-                <SkipForward size={18} />
-              </button>
-              <button type="button" onClick={randomTrack}>
-                <Shuffle size={18} />
-                RANDOM
-              </button>
-              <button type="button" onClick={shareTrack}>
-                <Share2 size={18} />
-                SHARE
-              </button>
-            </div>
           </section>
 
           <aside className="industrialLibraryBay">

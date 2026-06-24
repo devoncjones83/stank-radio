@@ -74,7 +74,6 @@ function assetPath(path) {
   if (path.startsWith('http')) return path;
   if (path.startsWith(BASE)) return path;
   if (path.startsWith('/stank-radio/')) return path;
-  if (path.startsWith('/music/')) return path;
   if (path.startsWith('/')) return `${BASE}${path.slice(1)}`;
   if (path.startsWith('music/') || path.startsWith('images/')) return `${BASE}${path}`;
   return `${BASE}music/${path}`;
@@ -257,7 +256,7 @@ function App() {
 
   if (viewMode === 'filth') {
     return (
-      <main className={playing ? "radioApp filthUpView isPlaying" : "radioApp filthUpView"}>
+      <main className="radioApp filthUpView">
         <div
           className="backdrop"
           style={{ '--app-bg': `url("${BASE}images/stank-radio-bg.png")` }}
@@ -268,17 +267,17 @@ function App() {
         <section className="industrialShell" aria-label="Filth-Up industrial console">
           <header className="industrialHeader broadcastDeck">
             <section className="broadcastIdentityPanel">
+              <p>MAXIMUM</p>
               <h1>STANK RADIO</h1>
-              <strong>BIG DUMB IDIOT LABS: BROADCAST DIVISION</strong>
-              <div className="broadcastIdentityCopy">
-                <span>Infecting your Ear Holes with</span>
-                <b>MAXIMUM STANK</b>
-                <em>If it smells like a hit, it probably came from here.</em>
+              <div>
+                <span>PUBLIC BROADCAST</span>
+                <b>QUESTIONABLE FREQUENCY</b>
               </div>
+              <strong>88.8 STANK FM</strong>
             </section>
 
             <section className="broadcastDefinitionPanel">
-              <p>MAXIMUM STANK: noun</p>
+              <p>MAXIMUM STANK: OFFICIAL DEFINITION</p>
               <span>
                 Maximum Stank is officially defined as a measurable cloud of musical nonsense,
                 emotional fumes, questionable rhythm choices, and audio residue so powerful
@@ -300,10 +299,6 @@ function App() {
                   <span />
                   {playing ? 'LIVE CONTAINMENT' : 'AWAITING LEAK'}
                 </div>
-                <div className="broadcastIndexedBox broadcastStankLoadBox">
-                  <span>Stank Load</span>
-                  <b>{activeTrack ? `${stankIndex}%` : '--'}</b>
-                </div>
                 <div className="broadcastIndexedBox">
                   <span>Indexed</span>
                   <b>{tracks.length}</b>
@@ -324,69 +319,43 @@ function App() {
             </section>
           </header>
 
-          <section className="industrialPlayerShell" aria-label="Filth-Up hardware player">
-            <div className="shellTitleStrip">
-              <span>{playing ? 'NOW LEAKING' : activeTrack ? 'LEAK ARMED' : 'NO TRANSMISSION SELECTED'}</span>
+          <aside className="industrialLeftRail">
+            <div className="industrialGauge">
+              <span>Containment</span>
+              <b>INDEX</b>
+              <i />
+            </div>
+            <div className="industrialGauge">
+              <span>Fumes</span>
+              <b>{activeTrack ? `${stankIndex}%` : 'IDLE'}</b>
+              <i />
+            </div>
+            <div className="industrialLedMeter" aria-hidden="true">
+              {roomTone.bars.map((height, index) => (
+                <i key={index} style={{ '--meter-height': `${height}%` }} />
+              ))}
+            </div>
+
+            <div className="industrialSignalQuality">
+              <span>Signal Quality</span>
+              <b>{playing ? 'LIVE' : 'IDLE'}</b>
+              <em>{playing ? 'LEAKING' : 'DEAD AIR'}</em>
+              <i />
+            </div>
+          </aside>
+
+          <section className="industrialMainBay">
+            <div className="industrialStatusRail">
+              <span>{playing ? 'NOW LEAKING' : 'NO TRANSMISSION SELECTED'}</span>
               <b>88.8 STANK FM</b>
             </div>
 
-            <div className="shellMeters" aria-hidden="true">
-              <i className="shellNeedle shellNeedleIndex" />
-              <i className="shellNeedle shellNeedleFumes" />
-            </div>
-
-            <div className="shellCoverViewport">
+            <div className="industrialArtworkBay">
               <img src={displayTrack.cover || defaultCover} alt="" />
               <em>{activeTrack ? 'ACTIVE RESIDUE' : 'AWAITING SELECTION'}</em>
             </div>
 
-            <div className="shellVizViewport" aria-hidden="true">
-              <div className="shellScopeTrace" />
-            </div>
-
-            <div className="shellDossierPanel">
-              <div className="terminalPlate">TRACK DOSSIER</div>
-              <h2>{activeTrack ? displayTrack.title : 'NO TRANSMISSION SELECTED'}</h2>
-              <p>{displayTrack.description}</p>
-            </div>
-
-            <section className="shellLyricsPanel" aria-label="Lyrics">
-              <div className="terminalPlate">LYRIC CONTAINMENT</div>
-              <div className="lyricsScroll">
-                {currentLyrics.length ? (
-                  currentLyrics.map((line, index) => (
-                    <p
-                      key={`${line.time}-${index}`}
-                      ref={(element) => {
-                        lyricLineRefs.current[index] = element;
-                      }}
-                      className={index === activeLyricIndex ? 'active' : ''}
-                    >
-                      {line.text}
-                    </p>
-                  ))
-                ) : (
-                  <div className="lyricsEmpty industrialLyricsEmpty">
-                    {activeTrack ? (
-                      <>
-                        <b>LYRIC DATA NOT AVAILABLE</b>
-                        <span>Track indexed successfully.</span>
-                        <span>No synchronized contamination transcript found.</span>
-                        <span>Awaiting future LRC containment records.</span>
-                      </>
-                    ) : (
-                      <>
-                        <b>AWAITING LYRIC TIMING DATA</b>
-                        <span>NO SYNCHRONIZED TRANSCRIPT PRESENT</span>
-                        <span>FUNK LEVELS ACCEPTABLE</span>
-                      </>
-                    )}
-                  </div>
-                )}
-              </div>
-            </section>
-
-            <div className="industrialTransport shellTransport">
+            <div className="industrialTransport">
               <button type="button" onClick={() => stepTrack(-1)} aria-label="Previous track">
                 <SkipBack size={18} />
               </button>
@@ -411,6 +380,44 @@ function App() {
                 SHARE
               </button>
             </div>
+
+          </section>
+
+          <section className="industrialInfoBay">
+            <div className="industrialTrackTerminal">
+              <p className="trackTag">{displayTrack.tag}</p>
+              <h2>{displayTrack.title}</h2>
+              <p>{displayTrack.description}</p>
+              <dl>
+                <div><dt>Operator</dt><dd>{displayTrack.artist}</dd></div>
+                <div><dt>Stank Load</dt><dd>{activeTrack ? `${stankIndex}%` : 'None'}</dd></div>
+                <div><dt>Indexed</dt><dd>{tracks.length || 0} tracks</dd></div>
+              </dl>
+            </div>
+
+            <section className="industrialLyrics" aria-label="Lyrics">
+              <div className="lyricsHeading">
+                <span>Lyrics</span>
+                {currentLyrics.length ? <b>Following track</b> : <b>Awaiting lyric timing</b>}
+              </div>
+              <div className="lyricsScroll">
+                {currentLyrics.length ? (
+                  currentLyrics.map((line, index) => (
+                    <p
+                      key={`${line.time}-${index}`}
+                      ref={(element) => {
+                        lyricLineRefs.current[index] = element;
+                      }}
+                      className={index === activeLyricIndex ? 'active' : ''}
+                    >
+                      {line.text}
+                    </p>
+                  ))
+                ) : (
+                  <p className="lyricsEmpty">Select a track with timed lyrics to follow the transmission.</p>
+                )}
+              </div>
+            </section>
           </section>
 
           <aside className="industrialLibraryBay">
@@ -497,11 +504,10 @@ function App() {
           </aside>
 
           <aside className="industrialWarningStrip">
-            <span className="warningPlate">FIELD WARNING</span>
+            <span>FIELD WARNING</span>
             <b>DO NOT CLEAN THE SIGNAL PATH.</b>
             <b>DO NOT TRUST ANYTHING LABELED SMOOTH.</b>
             <b>REPORT ALL SUSPICIOUS SILENCE.</b>
-            <span className="warningPlate warningPlateRight">FIELD WARNING</span>
           </aside>
 
           <audio
@@ -705,7 +711,7 @@ function App() {
             </div>
 
             <div className="trackStack">
-              <p className="trackTag">{activeTrack ? displayTrack.tag : 'FUMES: IDLE'}</p>
+              <p className="trackTag">{displayTrack.tag}</p>
               <h2>{displayTrack.title}</h2>
               <p>{displayTrack.description}</p>
 
