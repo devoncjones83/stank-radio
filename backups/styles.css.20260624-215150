@@ -1,0 +1,9 @@
+
+.shellCoverViewport { outline: 3px solid red; }
+.shellVizViewport { outline: 3px solid blue; }
+.shellDossierPanel { outline: 3px solid yellow; }
+.shellLyricsPanel { outline: 3px solid cyan; }
+.industrialTransport { outline: 3px solid magenta; }
+.searchBox { outline: 3px solid red; }
+.trackList { outline: 3px solid blue; }
+.libraryPagination { outline: 3px solid yellow; }

@@ -1,0 +1,180 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background: #050604;
+  overflow: hidden;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.radioApp {
+  width: 100vw;
+  height: 100vh;
+  background: #050604;
+  overflow: hidden;
+}
+
+.backdrop,
+.scanlines {
+  display: none;
+}
+
+/* === PANEL-ONLY STANK RADIO LAYOUT === */
+
+.industrialShell {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1380fr 520fr;
+  grid-template-rows: 150fr 800fr 110fr;
+  grid-template-areas:
+    "header header"
+    "player library"
+    "footer footer";
+  gap: 0;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  background: #050604;
+}
+
+.industrialHeader {
+  grid-area: header;
+  background: url("/images/industrial-header-filthup-v1.png") center center / 100% 100% no-repeat;
+  position: relative;
+  overflow: hidden;
+}
+
+.industrialPlayerShell {
+  grid-area: player;
+  background: url("/images/industrial-player-shell-v2-final.png") center center / 100% 100% no-repeat;
+  position: relative;
+  overflow: hidden;
+}
+
+.industrialLibraryBay {
+  grid-area: library;
+  background: url("/images/industrial-library-frame-v1.png") center center / 100% 100% no-repeat;
+  position: relative;
+  overflow: hidden;
+}
+
+.industrialWarningStrip {
+  grid-area: footer;
+  background: url("/images/industrial-warning-banner-v1.png") center center / 100% 100% no-repeat;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hide all old React-generated overlay UI for now */
+
+.broadcastIdentityPanel,
+.broadcastDefinitionPanel,
+.broadcastContaminantsPanel,
+.broadcastStatusControls,
+.broadcastWaveform,
+.shellTitleStrip,
+.shellMeters,
+.shellCoverViewport,
+.shellVizViewport,
+.shellDossierPanel,
+.shellLyricsPanel,
+.industrialTransport,
+.industrialLibraryBay .filterHeader,
+.industrialLibraryBay .searchBox,
+.industrialLibraryTitle,
+.industrialLibraryBay .trackList,
+.industrialLibraryBay .libraryPagination,
+.industrialWarningStrip > * {
+  display: none !important;
+}
+
+/* Keep only the view switch button */
+
+.viewToggle {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 9999;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid rgba(186, 255, 66, 0.45);
+  background: rgba(5, 9, 3, 0.9);
+  color: #caff3a;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* Hide modals and old extras during panel-only cleanup */
+
+.playerModal,
+.playlistModal,
+audio {
+  display: none !important;
+}
+
+/* === SR-073 PANEL CANVAS ADJUSTMENTS === */
+@media (min-width: 1101px) {
+
+  .industrialShell {
+    background: #050604 !important;
+
+    grid-template-columns: 1380fr 520fr !important;
+
+    grid-template-rows:
+      180px
+      minmax(0,1fr)
+      130px !important;
+  }
+
+  .industrialHeader {
+    min-height: 180px !important;
+    height: 180px !important;
+  }
+
+  .industrialWarningStrip {
+    min-height: 130px !important;
+    height: 130px !important;
+  }
+
+  .playerPanel,
+  .libraryPanel,
+  .industrialPlayerShell,
+  .industrialLibraryBay {
+    background-color: transparent !important;
+  }
+
+  .playerPanel,
+  .libraryPanel {
+    box-shadow: none !important;
+    border: 0 !important;
+  }
+}
+
+/* === SR-075 FIX PANEL GRID ROWS === */
+.industrialShell {
+  grid-template-rows: 150px minmax(0, 1fr) 110px !important;
+}
+
+.industrialHeader {
+  min-height: 150px !important;
+  height: 150px !important;
+}
+
+.industrialWarningStrip {
+  min-height: 110px !important;
+  height: 110px !important;
+}

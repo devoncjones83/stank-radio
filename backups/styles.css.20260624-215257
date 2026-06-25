@@ -1,0 +1,298 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  background: url("/images/branding/stank-radio-bg.png") center center / cover no-repeat fixed;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.radioApp {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: transparent;
+}
+
+.industrialShell {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1380fr 520fr;
+  grid-template-rows: 150px minmax(0, 1fr) 110px;
+  grid-template-areas:
+    "header header"
+    "player library"
+    "footer footer";
+  gap: 0;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  background: transparent;
+}
+
+.industrialHeader {
+  grid-area: header;
+  background: url("/images/industrial-header-filthup-v1.png") center center / 100% 100% no-repeat;
+}
+
+.industrialPlayerShell {
+  grid-area: player;
+  position: relative;
+  background: url("/images/industrial-player-shell-v2-final.png") center center / contain no-repeat;
+}
+
+.industrialLibraryBay {
+  grid-area: library;
+  position: relative;
+  background: url("/images/industrial-library-frame-v1.png") center center / contain no-repeat;
+}
+
+.industrialWarningStrip {
+  grid-area: footer;
+  background: url("/images/industrial-warning-banner-v1.png") center center / 100% 100% no-repeat;
+}
+
+.shellCoverViewport,
+.shellVizViewport,
+.shellDossierPanel,
+.shellLyricsPanel,
+.industrialTransport,
+.searchBox,
+.trackList,
+.libraryPagination {
+  position: absolute;
+  z-index: 5;
+}
+
+.shellCoverViewport {
+  left: 25.5%;
+  top: 7.5%;
+  width: 39.5%;
+  height: 60%;
+  overflow: hidden;
+}
+
+.shellCoverViewport img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.shellCoverViewport em {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: #b7ff2b;
+  color: #061000;
+  padding: 0.4rem 0.65rem;
+  font-size: 0.75rem;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.shellVizViewport {
+  left: 68%;
+  top: 7%;
+  width: 24%;
+  height: 18%;
+  background: rgba(0, 8, 0, 0.2);
+  overflow: hidden;
+}
+
+.shellScopeTrace {
+  width: 100%;
+  height: 100%;
+  background:
+    repeating-linear-gradient(0deg, rgba(167,255,50,.1) 0 1px, transparent 1px 8px),
+    linear-gradient(90deg, transparent 0 10%, rgba(174,255,45,.65) 50%, transparent 90%);
+  animation: scopePulse 1.4s linear infinite;
+}
+
+.shellDossierPanel {
+  left: 68%;
+  top: 31%;
+  width: 24%;
+  height: 23%;
+}
+
+.shellLyricsPanel {
+  left: 68%;
+  top: 61%;
+  width: 24%;
+  height: 23%;
+}
+
+.shellDossierPanel,
+.shellLyricsPanel {
+  padding: 0.7rem;
+  color: #f4f0d6;
+  background: rgba(0, 0, 0, 0.72);
+  border-radius: 8px;
+  overflow: hidden;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.shellDossierPanel b,
+.shellLyricsPanel b {
+  color: #b7ff2b;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+}
+
+.shellDossierPanel h2 {
+  margin: 0.35rem 0;
+  color: #b7ff2b;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.shellDossierPanel p,
+.shellLyricsPanel p,
+.shellLyricsPanel span {
+  margin: 0.3rem 0;
+  font-size: 0.72rem;
+  line-height: 1.25;
+}
+
+.industrialTransport {
+  left: 54%;
+  bottom: 5.8%;
+  width: 32%;
+  height: 8%;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr 1fr 1fr;
+  gap: 0.35rem;
+}
+
+.industrialTransport button,
+.libraryPagination button {
+  border: 1px solid rgba(190,255,65,.45);
+  background: rgba(5, 12, 3, 0.72);
+  color: #caff3a;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.industrialTransport button:disabled,
+.libraryPagination button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.primaryPlay {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+}
+
+.searchBox {
+  top: 8.5%;
+  left: 9%;
+  width: 60%;
+  height: 4.8%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #caff3a;
+  background: rgba(0,0,0,.2);
+}
+
+.searchBox input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  color: #f4f0d6;
+  background: transparent;
+  font-weight: 800;
+}
+
+.trackList {
+  left: 10%;
+  right: 9%;
+  top: 32%;
+  bottom: 12%;
+  display: grid;
+  grid-template-rows: repeat(5, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+
+.trackRow {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.4rem 0.65rem;
+  border: 1px solid rgba(190,255,65,.15);
+  background: url("/images/industrial-track-row-v2.png") center center / 100% 100% no-repeat;
+  color: #f4f0d6;
+  text-align: left;
+  cursor: pointer;
+}
+
+.trackRow.active {
+  outline: 2px solid rgba(186,255,66,.8);
+}
+
+.trackRow img {
+  width: 54px;
+  height: 54px;
+  object-fit: cover;
+}
+
+.trackRow b,
+.trackRow small {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.trackRow b {
+  font-size: 0.95rem;
+}
+
+.trackRow small {
+  font-size: 0.68rem;
+  opacity: 0.85;
+}
+
+.libraryPagination {
+  left: 31%;
+  right: 24%;
+  bottom: 3.5%;
+  height: 5%;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  align-items: center;
+  gap: 0.55rem;
+  color: #f4f0d6;
+  text-align: center;
+  font-weight: 900;
+  font-size: 0.8rem;
+}
+
+audio {
+  display: none;
+}
+
+@keyframes scopePulse {
+  from { transform: translateX(-20%); }
+  to { transform: translateX(20%); }
+}
