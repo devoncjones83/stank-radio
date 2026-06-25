@@ -74,6 +74,7 @@ function assetPath(path) {
   if (path.startsWith('http')) return path;
   if (path.startsWith(BASE)) return path;
   if (path.startsWith('/stank-radio/')) return path;
+  if (path.startsWith('/music/')) return path;
   if (path.startsWith('/')) return `${BASE}${path.slice(1)}`;
   if (path.startsWith('music/') || path.startsWith('images/')) return `${BASE}${path}`;
   return `${BASE}music/${path}`;
@@ -113,7 +114,9 @@ function App() {
   const [playing, setPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [playlistsOpen, setPlaylistsOpen] = useState(false);
+  const [playerModalOpen, setPlayerModalOpen] = useState(false);
   const [loadStatus, setLoadStatus] = useState('Tuning the contamination manifest');
+  const [viewMode, setViewMode] = useState('containment');
 
   useEffect(() => {
     fetch(`${BASE}songs.json`, { cache: 'no-store' })
@@ -149,10 +152,11 @@ function App() {
   }, [activeTag, query, tracks]);
 
   const visibleTracks = filteredTracks;
-  const totalLibraryPages = Math.max(1, Math.ceil(visibleTracks.length / TRACKS_PER_PAGE));
+  const tracksPerPage = viewMode === 'filth' ? 5 : TRACKS_PER_PAGE;
+  const totalLibraryPages = Math.max(1, Math.ceil(visibleTracks.length / tracksPerPage));
   const pagedTracks = visibleTracks.slice(
-    (libraryPage - 1) * TRACKS_PER_PAGE,
-    libraryPage * TRACKS_PER_PAGE,
+    (libraryPage - 1) * tracksPerPage,
+    libraryPage * tracksPerPage,
   );
   const activeTrack = tracks.find((track) => track.id === activeId) || null;
   const displayTrack = activeTrack || {
@@ -251,8 +255,296 @@ function App() {
     setCurrentTime(event.currentTarget.currentTime);
   }
 
+  if (viewMode === 'filth') {
+    return (
+      <main className={playing ? "radioApp filthUpView isPlaying" : "radioApp filthUpView"}>
+        <div
+          className="backdrop"
+          style={{ '--app-bg': `url("${BASE}images/stank-radio-bg.png")` }}
+          aria-hidden="true"
+        />
+        <div className="scanlines" aria-hidden="true" />
+
+        <section className="industrialShell" aria-label="Filth-Up industrial console">
+          <header className="industrialHeader broadcastDeck">
+            <section className="broadcastIdentityPanel">
+              <h1>STANK RADIO</h1>
+              <strong>BIG DUMB IDIOT LABS: BROADCAST DIVISION</strong>
+              <div className="broadcastIdentityCopy">
+                <span>Infecting your Ear Holes with</span>
+                <b>MAXIMUM STANK</b>
+                <em>If it smells like a hit, it probably came from here.</em>
+              </div>
+            </section>
+
+            <section className="broadcastDefinitionPanel">
+              <p>MAXIMUM STANK: noun</p>
+              <span>
+                Maximum Stank is officially defined as a measurable cloud of musical nonsense,
+                emotional fumes, questionable rhythm choices, and audio residue so powerful
+                it makes a person nod like they understand science.
+              </span>
+            </section>
+
+            <section className="broadcastContaminantsPanel">
+              <p>FRESH AUDIO CONTAMINANTS</p>
+              <span>
+                Foul little transmissions, harvested <b>FRESH</b> from the Suno stink pipe.
+              </span>
+              <strong>PRESS PLAY AT YOUR OWN RISK.</strong>
+            </section>
+
+            <section className="broadcastStatusPanel">
+              <div className="broadcastStatusControls">
+              </div>
+              <div className="broadcastWaveform" aria-hidden="true">
+                {roomTone.bars.concat(roomTone.bars).map((height, index) => (
+                  <i key={index} style={{ '--meter-height': `${Math.max(16, height)}%` }} />
+                ))}
+              </div>
+              <button
+                className="viewToggle"
+                type="button"
+                onClick={() => setViewMode('containment')}
+              >
+                Containment View
+              </button>
+            </section>
+          </header>
+
+          <section className="industrialPlayerShell" aria-label="Filth-Up hardware player">
+            <div className="shellTitleStrip">
+              <span>{playing ? 'NOW LEAKING' : activeTrack ? 'LEAK ARMED' : 'NO TRANSMISSION SELECTED'}</span>
+              <b>88.8 STANK FM</b>
+            </div>
+
+            <div className="shellMeters" aria-hidden="true">
+              <i className="shellNeedle shellNeedleIndex" />
+              <i className="shellNeedle shellNeedleFumes" />
+            </div>
+
+            <div className="shellCoverViewport">
+              <img src={displayTrack.cover || defaultCover} alt="" />
+              <em>{activeTrack ? 'ACTIVE RESIDUE' : 'AWAITING SELECTION'}</em>
+            </div>
+
+            <div className="shellVizViewport" aria-hidden="true">
+              <div className="shellScopeTrace" />
+            </div>
+
+            <div className="shellDossierPanel">
+              <div className="terminalPlate">TRACK DOSSIER</div>
+              <h2>{activeTrack ? displayTrack.title : 'NO TRANSMISSION SELECTED'}</h2>
+              <p>{displayTrack.description}</p>
+            </div>
+
+            <section className="shellLyricsPanel" aria-label="Lyrics">
+              <div className="terminalPlate">LYRIC CONTAINMENT</div>
+              <div className="lyricsScroll">
+                {currentLyrics.length ? (
+                  currentLyrics.map((line, index) => (
+                    <p
+                      key={`${line.time}-${index}`}
+                      ref={(element) => {
+                        lyricLineRefs.current[index] = element;
+                      }}
+                      className={index === activeLyricIndex ? 'active' : ''}
+                    >
+                      {line.text}
+                    </p>
+                  ))
+                ) : (
+                  <div className="lyricsEmpty industrialLyricsEmpty">
+                    {activeTrack ? (
+                      <>
+                        <b>LYRIC DATA NOT AVAILABLE</b>
+                        <span>Track indexed successfully.</span>
+                        <span>No synchronized contamination transcript found.</span>
+                        <span>Awaiting future LRC containment records.</span>
+                      </>
+                    ) : (
+                      <>
+                        <b>AWAITING LYRIC TIMING DATA</b>
+                        <span>NO SYNCHRONIZED TRANSCRIPT PRESENT</span>
+                        <span>FUNK LEVELS ACCEPTABLE</span>
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
+            </section>
+
+            <div className="industrialTransport shellTransport">
+              <button type="button" onClick={() => stepTrack(-1)} aria-label="Previous track">
+                <SkipBack size={22} />
+              </button>
+              <button
+                className="industrialStartLeak"
+                type="button"
+                onClick={togglePlay}
+                disabled={!hasActiveAudio}
+                aria-label={playing ? 'Pause' : 'Play'}
+              >
+                {playing ? <Pause size={26} /> : <Play size={26} />}
+              </button>
+              <button type="button" onClick={() => stepTrack(1)} aria-label="Next track">
+                <SkipForward size={22} />
+              </button>
+              <button type="button" onClick={randomTrack} aria-label="Random track">
+                <Shuffle size={22} />
+              </button>
+              <button type="button" onClick={shareTrack} aria-label="Share track">
+                <Share2 size={22} />
+              </button>
+            </div>
+          </section>
+
+          <aside className="industrialLibraryBay">
+            <label className="searchBox">
+              <input
+                value={query}
+                onChange={(event) => {
+                  setQuery(event.target.value);
+                  setLibraryPage(1);
+                }}
+                placeholder="Title, operator, tag..."
+              />
+            </label>
+
+            <div className="libraryButtons">
+              <button className="playlistLink" type="button" onClick={() => setPlaylistsOpen(true)}>
+                <ListMusic size={14} />
+                Playlists
+              </button>
+              <button
+                className={activeTag === 'ALL' ? 'playlistLink allTracksLink active' : 'playlistLink allTracksLink'}
+                type="button"
+                onClick={() => {
+                  setActiveTag('ALL');
+                  setLibraryPage(1);
+                }}
+              >
+                All tracks
+              </button>
+            </div>
+
+            <div className="trackList">
+              {pagedTracks.map((track) => (
+                <button
+                  key={track.id}
+                  className={track.id === activeTrack?.id ? 'trackRow active' : 'trackRow'}
+                  type="button"
+                  onClick={() => selectTrack(track, false)}
+                >
+                  <img src={track.cover || defaultCover} alt="" />
+                  <span className="trackRowText">
+                    <b>{track.title}</b>
+                    <small>{track.artist}</small>
+                  </span>
+                </button>
+              ))}
+              {!visibleTracks.length ? (
+                <p className="emptyLibrary">Nothing in this spill. Clear the search or return to all tracks.</p>
+              ) : null}
+            </div>
+
+
+            <nav className="libraryPagination" aria-label="Containment library pages">
+              <button
+                type="button"
+                title="Previous library page"
+                aria-label="Previous library page"
+                disabled={libraryPage === 1}
+                onClick={() => setLibraryPage((page) => Math.max(1, page - 1))}
+              >
+                <ChevronLeft size={15} />
+              </button>
+              <span>Page {libraryPage} / {totalLibraryPages}</span>
+              <button
+                type="button"
+                title="Next library page"
+                aria-label="Next library page"
+                disabled={libraryPage === totalLibraryPages}
+                onClick={() => setLibraryPage((page) => Math.min(totalLibraryPages, page + 1))}
+              >
+                <ChevronRight size={15} />
+              </button>
+            </nav>
+          </aside>
+
+          <aside className="industrialWarningStrip" aria-hidden="true" />
+
+          <audio
+            ref={audioRef}
+            src={activeTrack?.audio || undefined}
+            onPlay={() => setPlaying(true)}
+            onPause={() => setPlaying(false)}
+            onTimeUpdate={updatePlaybackTime}
+            onEnded={() => stepTrack(1)}
+          />
+        </section>
+
+        {playerModalOpen && activeTrack ? (
+          <section className="playerModal" role="dialog" aria-modal="true" aria-label="Stank player">
+            <div className="playerModalPanel">
+              <button type="button" className="modalDismiss" onClick={() => setPlayerModalOpen(false)}>
+                Close
+              </button>
+              <img className="playerModalCover" src={displayTrack.cover || defaultCover} alt="" />
+              <div className="playerModalCopy">
+                <p>{displayTrack.tag}</p>
+                <h2>{displayTrack.title}</h2>
+                <span>{displayTrack.artist}</span>
+              </div>
+              <audio className="playerModalAudio" controls src={activeTrack.audio} />
+            </div>
+          </section>
+        ) : null}
+
+        {playlistsOpen ? (
+          <section className="playlistModal" role="dialog" aria-modal="true" aria-label="Available playlists">
+            <div className="playlistModalPanel">
+              <div className="playlistModalHead">
+                <div>
+                  <p className="eyebrow">Browse by contamination class</p>
+                  <h2>Playlists</h2>
+                </div>
+                <button type="button" className="modalDismiss" onClick={() => setPlaylistsOpen(false)}>
+                  Close
+                </button>
+              </div>
+
+              <div className="playlistGrid">
+                {playlists.map((playlist) => (
+                  <button
+                    key={playlist.id}
+                    type="button"
+                    className="playlistCard"
+                    onClick={() => {
+                      setActiveTag(playlist.id);
+                      setQuery('');
+                      setLibraryPage(1);
+                      setPlaylistsOpen(false);
+                    }}
+                  >
+                    <span className={`playlistArt ${playlist.artClass}`} aria-hidden="true" />
+                    <span className="playlistCardCopy">
+                      <b>{playlist.title}</b>
+                      <small>{playlist.count} tracks</small>
+                      <em>{playlist.description}</em>
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </section>
+        ) : null}
+      </main>
+    );
+  }
+
   return (
-    <main className={playing ? 'radioApp isPlaying' : 'radioApp'}>
+    <main className={`${playing ? 'radioApp isPlaying' : 'radioApp'} ${viewMode === 'filth' ? 'filthUpView' : 'containmentView'}`}>
       <div
         className="backdrop"
         style={{ '--app-bg': `url("${BASE}images/stank-radio-bg.png")` }}
@@ -269,9 +561,9 @@ function App() {
           </span>
         </a>
 
-        <div className="transmissionFlag">
+        <div className="transmissionFlag liveContainmentBadge">
           <span />
-          Live containment
+          LIVE CONTAINMENT
         </div>
 
         <aside className="headerRoomTone" aria-label="Room tone meter">
@@ -295,6 +587,15 @@ function App() {
           </div>
         </aside>
 
+        <button
+          className="viewToggle"
+          type="button"
+          onClick={() => setViewMode((mode) => (mode === 'containment' ? 'filth' : 'containment'))}
+          aria-pressed={viewMode === 'filth'}
+        >
+          {viewMode === 'filth' ? 'Containment View' : 'Filth-Up View'}
+        </button>
+
         <a
           className="manifestLink"
           href={`${BASE}songs.json`}
@@ -307,18 +608,28 @@ function App() {
         </a>
       </header>
 
-      <section className="workspaceGrid">
-      <section className="heroDeck" style={{ '--track-cover': `url("${displayTrack.cover}")` }}>
-        <div className="heroCopy">
-          <p className="eyebrow">Public Broadcast Facility <span aria-hidden="true">·</span> Questionable Frequency</p>
-          <h1><span>MAXIMUM</span><span>STANK</span></h1>
-          <p className="heroTagline">If it smells like a hit, it probably came from here.</p>
+      <section className="workspaceGrid dashboardContainment">
+      <section className="heroDeck broadcastTerminal background-grid" style={{ '--track-cover': `url("${displayTrack.cover}")` }}>
+        <div className="terminalStrip">
+          <span>Public Broadcast Facility <b aria-hidden="true">·</b> Questionable Frequency</span>
+          <strong>{playing ? 'TRANSMISSION ACTIVE' : 'AWAITING LEAK'}</strong>
         </div>
-        <div className="pipeBrief">
+
+        <div className="heroCopy">
+          <p className="eyebrow">Big Dumb Idiot Labs // Broadcast Division</p>
+          <h1 className="text-glow"><span>STANK</span><span>RADIO</span></h1>
+          <p className="heroTagline">Containment Broadcast Network</p>
+        </div>
+
+        <div className="pipeBrief terminalMetrics">
           <p className="pipeBriefLabel">Freshly audio contaminants.</p>
           <p className="heroDescription">Foul little transmissions, harvested <strong>FRESH</strong> from the Suno stink pipe.</p>
-          <p className="riskNotice">Press play at your own risk.</p>
-          <p className="heroFrequency">Frequency: 88.8 STANK FM</p>
+          <div className="heroMetricGrid">
+            <div><span>Containment Index</span><b>{tracks.length}</b></div>
+            <div><span>Signal Quality</span><b>{playing ? 'Leaking' : 'Idle'}</b></div>
+            <div><span>Fumes</span><b>{activeTrack ? `${stankIndex}%` : 'None'}</b></div>
+            <div><span>Frequency</span><b>88.8 FM</b></div>
+          </div>
         </div>
       </section>
 
@@ -329,7 +640,32 @@ function App() {
             Now leaking
           </div>
 
-          <div className="playerCore">
+          <div className="playerCore dashboardPlayerCore">
+            <aside className="containmentSidebar" aria-label="Containment meters">
+              <div className="containmentGauge">
+                <span>Containment</span>
+                <div className="gaugeFace">
+                  <i className={activeTrack ? 'gaugeNeedle active' : 'gaugeNeedle'} />
+                  <em>INDEX</em>
+                </div>
+              </div>
+
+              <div className="sidebarMetric">
+                <span>Signal</span>
+                <b>{playing ? 'LIVE' : 'STANDBY'}</b>
+              </div>
+
+              <div className="sidebarMetric">
+                <span>Stank Load</span>
+                <b>{activeTrack ? `${stankIndex}%` : '--'}</b>
+              </div>
+
+              <div className="sidebarMetric">
+                <span>Indexed</span>
+                <b>{tracks.length}</b>
+              </div>
+            </aside>
+
             <div className="coverWell">
               <img src={displayTrack.cover || defaultCover} alt="" />
               <div className="vinylBadge">
@@ -339,7 +675,7 @@ function App() {
             </div>
 
             <div className="trackStack">
-              <p className="trackTag">{displayTrack.tag}</p>
+              <p className="trackTag">{activeTrack ? displayTrack.tag : 'FUMES: IDLE'}</p>
               <h2>{displayTrack.title}</h2>
               <p>{displayTrack.description}</p>
 
@@ -373,11 +709,10 @@ function App() {
             {!activeTrack ? (
               <span>Choose a stank to infect your Ear Holes.</span>
             ) : hasActiveAudio ? (
-              <a href={activeTrack.audio} target="_blank" rel="noreferrer">
-                <FileAudio size={16} />
-                Open loaded audio file
-                <ExternalLink size={14} />
-              </a>
+              <button type="button" className="sourceButton" onClick={() => setPlayerModalOpen(true)}>
+                  <FileAudio size={16} />
+                  Open in-page stank player
+                </button>
             ) : (
               <span>No audio file connected for this manifest entry.</span>
             )}
@@ -533,6 +868,23 @@ function App() {
 
       </section>
       </section>
+
+      {playerModalOpen && activeTrack ? (
+        <section className="playerModal" role="dialog" aria-modal="true" aria-label="Stank player">
+          <div className="playerModalPanel">
+            <button type="button" className="modalDismiss" onClick={() => setPlayerModalOpen(false)}>
+              Close
+            </button>
+            <img className="playerModalCover" src={displayTrack.cover || defaultCover} alt="" />
+            <div className="playerModalCopy">
+              <p>{displayTrack.tag}</p>
+              <h2>{displayTrack.title}</h2>
+              <span>{displayTrack.artist}</span>
+            </div>
+            <audio className="playerModalAudio" controls src={activeTrack.audio} />
+          </div>
+        </section>
+      ) : null}
 
       {playlistsOpen ? (
         <section className="playlistModal" role="dialog" aria-modal="true" aria-label="Available playlists">
