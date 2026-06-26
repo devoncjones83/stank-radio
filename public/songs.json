@@ -1,226 +1,502 @@
 [
   {
-    "title": "Containment Funk Protocol",
-    "artist": "Explosive Crossfader",
+    "title": "01 Ashes",
+    "artist": "Certified Audio Contaminator",
     "tag": "UNCLASSIFIED STANK",
     "playlists": [
-      "RAP BATTLES"
+      "UNCLASSIFIED STANK"
     ],
-    "cover": "/stank-radio/images/stank-radio-icon.png",
-    "audio": "/music/songs/the-green-mile-remastered.mp3",
-    "lyricsTimeline": [
-      {
-        "time": 0,
-        "text": "Contain the funk, the seal is gone."
-      },
-      {
-        "time": 8,
-        "text": "Low-end pressure shakes the room."
-      },
-      {
-        "time": 16,
-        "text": "No clean exit from the protocol."
-      },
-      {
-        "time": 24,
-        "text": "Keep the dial where it starts to hum."
-      }
-    ]
+    "cover": "/music/covers/01-ashes.jpg",
+    "audio": "/music/songs/01-ashes.mp3"
   },
   {
-    "title": "Night Shift Reactor Hum",
-    "artist": "Big Dumb Idiot Labs",
-    "tag": "AFTER HOURS STANK",
-    "playlists": [
-      "DREAM SYMPHONY"
-    ],
-    "cover": "/stank-radio/images/stank-radio-icon.png",
-    "audio": "/music/songs/pokemaniacs-remastered.mp3",
-    "lyricsTimeline": [
-      {
-        "time": 0,
-        "text": "Night shift, no windows, no clocks."
-      },
-      {
-        "time": 9,
-        "text": "Receiver glow on a concrete block."
-      },
-      {
-        "time": 18,
-        "text": "Let the reactor sing in the back."
-      },
-      {
-        "time": 27,
-        "text": "Bring the signal home in a paper sack."
-      }
-    ]
-  },
-  {
-    "title": "Unauthorized Bass Leakage",
-    "artist": "Explosive Crossfader",
-    "tag": "HAZARDOUS STANK",
-    "playlists": [
-      "STUFF"
-    ],
-    "cover": "/stank-radio/images/stank-radio-icon.png",
-    "audio": "/music/songs/dinner-with-in-laws.mp3",
-    "lyricsTimeline": [
-      {
-        "time": 0,
-        "text": "Unauthorized bass in the service hall."
-      },
-      {
-        "time": 7,
-        "text": "Every loose screw wants to fall."
-      },
-      {
-        "time": 14,
-        "text": "Warning lamps flash in the side room."
-      },
-      {
-        "time": 21,
-        "text": "Turn it up until the meters bloom."
-      }
-    ]
-  },
-  {
-    "title": "Substation Seltzer",
-    "artist": "Wired Canteen",
+    "title": "01 C Mon Man",
+    "artist": "Certified Audio Contaminator",
     "tag": "UNCLASSIFIED STANK",
     "playlists": [
-      "HOLIDAY HIJINKS"
+      "UNCLASSIFIED STANK"
     ],
-    "cover": "/stank-radio/images/stank-radio-icon.png",
-    "audio": "/music/songs/four-buckets.mp3",
-    "lyricsTimeline": [
-      {
-        "time": 0,
-        "text": "Cold fizz under fluorescent wire."
-      },
-      {
-        "time": 8,
-        "text": "Someone tuned the hum to higher."
-      },
-      {
-        "time": 16,
-        "text": "Bubbles rise in a breaker box."
-      },
-      {
-        "time": 24,
-        "text": "Feet keep time in steel-toe socks."
-      }
-    ]
+    "cover": "/music/covers/01-c-mon-man.jpg",
+    "audio": "/music/songs/01-c-mon-man.mp3"
   },
   {
-    "title": "Basement Compressor",
-    "artist": "Torque Choir",
-    "tag": "HAZARDOUS STANK",
+    "title": "01 Follow The Chem Trails",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
     "playlists": [
-      "CONSPIRACY OR TRUTH"
+      "UNCLASSIFIED STANK"
     ],
-    "cover": "/stank-radio/images/stank-radio-icon.png",
-    "audio": "/music/songs/i-dreamt-about-a-woman-giving-birth.mp3",
-    "lyricsTimeline": [
-      {
-        "time": 0,
-        "text": "Compressor coughs beneath the stairs."
-      },
-      {
-        "time": 7,
-        "text": "Pressure keeps the whole room aware."
-      },
-      {
-        "time": 14,
-        "text": "Kick drum shakes the paint loose."
-      },
-      {
-        "time": 21,
-        "text": "Every warning light turns chartreuse."
-      }
-    ]
+    "cover": "/music/covers/01-follow-the-chem-trails.jpg",
+    "audio": "/music/songs/01-follow-the-chem-trails.mp3"
   },
   {
-    "title": "Valve Room Serenade",
-    "artist": "Parking Meter Saints",
-    "tag": "AFTER HOURS STANK",
+    "title": "01 New Years Cheer Country",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
     "playlists": [
-      "DISSIN KIDS"
+      "UNCLASSIFIED STANK"
     ],
-    "cover": "/stank-radio/images/stank-radio-icon.png",
-    "audio": "/music/songs/i-did-it-with-an-alien.mp3",
-    "lyricsTimeline": [
-      {
-        "time": 0,
-        "text": "Slow valves sing through midnight steam."
-      },
-      {
-        "time": 9,
-        "text": "The radio leaks into the dream."
-      },
-      {
-        "time": 18,
-        "text": "No one leaves until the pipes agree."
-      },
-      {
-        "time": 27,
-        "text": "Leave a little room for frequency."
-      }
-    ]
+    "cover": "/music/covers/01-new-years-cheer-country.jpg",
+    "audio": "/music/songs/01-new-years-cheer-country.mp3"
   },
   {
-    "title": "Mildew on Channel Six",
-    "artist": "Static Lunch",
+    "title": "02 Apart",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/02-apart.jpg",
+    "audio": "/music/songs/02-apart.mp3"
+  },
+  {
+    "title": "02 Flat And Lonely",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/02-flat-and-lonely.jpg",
+    "audio": "/music/songs/02-flat-and-lonely.mp3"
+  },
+  {
+    "title": "02 My Valentine S Wish",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/02-my-valentine-s-wish.jpg",
+    "audio": "/music/songs/02-my-valentine-s-wish.mp3"
+  },
+  {
+    "title": "02 T G G D O H H",
+    "artist": "Certified Audio Contaminator",
     "tag": "UNCLASSIFIED STANK",
     "playlists": [
       "UNCLASSIFIED STANK"
     ],
     "cover": "/stank-radio/images/stank-radio-icon.png",
-    "audio": "/music/songs/08-mama-bear.mp3",
-    "lyricsTimeline": [
-      {
-        "time": 0,
-        "text": "Channel six has a weathered grin."
-      },
-      {
-        "time": 8,
-        "text": "Mildew grows where the signal has been."
-      },
-      {
-        "time": 16,
-        "text": "No forecast, just a heavy beat."
-      },
-      {
-        "time": 24,
-        "text": "Green static under every seat."
-      }
-    ]
+    "audio": "/music/songs/02-t-g-g-d-o-h-h.mp3"
   },
   {
-    "title": "Wrong Door Right Bass",
-    "artist": "Exit Sign Romance",
-    "tag": "HAZARDOUS STANK",
+    "title": "03 Beast Mode",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
     "playlists": [
-      "AFTER HOURS STANK"
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/03-beast-mode.jpg",
+    "audio": "/music/songs/03-beast-mode.mp3"
+  },
+  {
+    "title": "03 Global Schmobal Climate Change",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/03-global-schmobal-climate-change.jpg",
+    "audio": "/music/songs/03-global-schmobal-climate-change.mp3"
+  },
+  {
+    "title": "03 Jellybean",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/03-jellybean.jpg",
+    "audio": "/music/songs/03-jellybean.mp3"
+  },
+  {
+    "title": "03 Menorah War Punk",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/03-menorah-war-punk.jpg",
+    "audio": "/music/songs/03-menorah-war-punk.mp3"
+  },
+  {
+    "title": "04 Kings",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/04-kings.jpg",
+    "audio": "/music/songs/04-kings.mp3"
+  },
+  {
+    "title": "04 Menorah War Metal",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/04-menorah-war-metal.jpg",
+    "audio": "/music/songs/04-menorah-war-metal.mp3"
+  },
+  {
+    "title": "04 Say What",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/04-say-what.jpg",
+    "audio": "/music/songs/04-say-what.mp3"
+  },
+  {
+    "title": "04 The Lies Of Tyson",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/04-the-lies-of-tyson.jpg",
+    "audio": "/music/songs/04-the-lies-of-tyson.mp3"
+  },
+  {
+    "title": "05 Gettim",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/05-gettim.jpg",
+    "audio": "/music/songs/05-gettim.mp3"
+  },
+  {
+    "title": "05 Holiday Misfit",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/05-holiday-misfit.jpg",
+    "audio": "/music/songs/05-holiday-misfit.mp3"
+  },
+  {
+    "title": "05 Incoherent Noise Terrance Howard Is A Lunatic",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/05-incoherent-noise-terrance-howard-is-a-lunatic.jpg",
+    "audio": "/music/songs/05-incoherent-noise-terrance-howard-is-a-lunatic.mp3"
+  },
+  {
+    "title": "05 Special Socks",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/05-special-socks.jpg",
+    "audio": "/music/songs/05-special-socks.mp3"
+  },
+  {
+    "title": "06 Flat And Lonely",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/06-flat-and-lonely.jpg",
+    "audio": "/music/songs/06-flat-and-lonely.mp3"
+  },
+  {
+    "title": "06 My Niece Anise",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/06-my-niece-anise.jpg",
+    "audio": "/music/songs/06-my-niece-anise.mp3"
+  },
+  {
+    "title": "06 So Long To A Simple Life",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/06-so-long-to-a-simple-life.jpg",
+    "audio": "/music/songs/06-so-long-to-a-simple-life.mp3"
+  },
+  {
+    "title": "06 Under Krampus Spell",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/06-under-krampus-spell.jpg",
+    "audio": "/music/songs/06-under-krampus-spell.mp3"
+  },
+  {
+    "title": "07 Krampus Curse Metal",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/07-krampus-curse-metal.jpg",
+    "audio": "/music/songs/07-krampus-curse-metal.mp3"
+  },
+  {
+    "title": "07 The Truth",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/07-the-truth.jpg",
+    "audio": "/music/songs/07-the-truth.mp3"
+  },
+  {
+    "title": "08 Absentee Father",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/08-absentee-father.jpg",
+    "audio": "/music/songs/08-absentee-father.mp3"
+  },
+  {
+    "title": "08 Heed Me St Patrick S Day",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
     ],
     "cover": "/stank-radio/images/stank-radio-icon.png",
-    "audio": "/music/songs/14-bte.mp3",
-    "lyricsTimeline": [
-      {
-        "time": 0,
-        "text": "Wrong door, right bass, late shift glow."
-      },
-      {
-        "time": 7,
-        "text": "Follow the rattling below the floor."
-      },
-      {
-        "time": 14,
-        "text": "Every wall has a better idea."
-      },
-      {
-        "time": 21,
-        "text": "Turn around when the drums get near."
-      }
-    ]
+    "audio": "/music/songs/08-heed-me-st-patrick-s-day.mp3"
+  },
+  {
+    "title": "08 Mama Bear",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/08-mama-bear.jpg",
+    "audio": "/music/songs/08-mama-bear.mp3"
+  },
+  {
+    "title": "09 New Years Cheer Power Ballad",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/09-new-years-cheer-power-ballad.jpg",
+    "audio": "/music/songs/09-new-years-cheer-power-ballad.mp3"
+  },
+  {
+    "title": "09 The Man",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/09-the-man.jpg",
+    "audio": "/music/songs/09-the-man.mp3"
+  },
+  {
+    "title": "10 Honor Of Our Ancestors Stand Up",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/10-honor-of-our-ancestors-stand-up.jpg",
+    "audio": "/music/songs/10-honor-of-our-ancestors-stand-up.mp3"
+  },
+  {
+    "title": "10 Ratpocalypse",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/10-ratpocalypse.jpg",
+    "audio": "/music/songs/10-ratpocalypse.mp3"
+  },
+  {
+    "title": "11 7 Days Kwanzaa",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/11-7-days-kwanzaa.jpg",
+    "audio": "/music/songs/11-7-days-kwanzaa.mp3"
+  },
+  {
+    "title": "12 Iftar Countdown Blues Ramadan",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/12-iftar-countdown-blues-ramadan.jpg",
+    "audio": "/music/songs/12-iftar-countdown-blues-ramadan.mp3"
+  },
+  {
+    "title": "12 Lumpy Beast",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/12-lumpy-beast.jpg",
+    "audio": "/music/songs/12-lumpy-beast.mp3"
+  },
+  {
+    "title": "14 Bte",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/14-bte.jpg",
+    "audio": "/music/songs/14-bte.mp3"
+  },
+  {
+    "title": "B T E 2026 Edition",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/stank-radio/images/stank-radio-icon.png",
+    "audio": "/music/songs/b-t-e-2026-edition.wav"
+  },
+  {
+    "title": "Coop Love Remastered",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/coop-love-remastered.jpg",
+    "audio": "/music/songs/coop-love-remastered.mp3"
+  },
+  {
+    "title": "Dinner With In Laws",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/dinner-with-in-laws.jpg",
+    "audio": "/music/songs/dinner-with-in-laws.mp3"
+  },
+  {
+    "title": "Four Buckets",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/four-buckets.jpg",
+    "audio": "/music/songs/four-buckets.mp3"
+  },
+  {
+    "title": "He Done Played Himself 2",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/stank-radio/images/stank-radio-icon.png",
+    "audio": "/music/songs/he-done-played-himself-2.mp3"
+  },
+  {
+    "title": "He Done Played Himself",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/he-done-played-himself.jpg",
+    "audio": "/music/songs/he-done-played-himself.mp3"
+  },
+  {
+    "title": "I Did It With An Alien",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/i-did-it-with-an-alien.jpg",
+    "audio": "/music/songs/i-did-it-with-an-alien.mp3"
+  },
+  {
+    "title": "I Dreamt About A Woman Giving Birth",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/i-dreamt-about-a-woman-giving-birth.jpg",
+    "audio": "/music/songs/i-dreamt-about-a-woman-giving-birth.mp3"
+  },
+  {
+    "title": "I Dreamt Of An Ugly Girl And I Feel Like A Bad Person 1",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/i-dreamt-of-an-ugly-girl-and-i-feel-like-a-bad-person-1.png",
+    "audio": "/music/songs/i-dreamt-of-an-ugly-girl-and-i-feel-like-a-bad-person-1.mp3"
+  },
+  {
+    "title": "My Valentine S Wish Vocals Remastered",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/my-valentine-s-wish-vocals-remastered.jpg",
+    "audio": "/music/songs/my-valentine-s-wish-vocals-remastered.mp3"
+  },
+  {
+    "title": "Pokemaniacs Remastered",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/pokemaniacs-remastered.jpg",
+    "audio": "/music/songs/pokemaniacs-remastered.mp3"
+  },
+  {
+    "title": "Snuggin",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/snuggin.png",
+    "audio": "/music/songs/snuggin.mp3"
+  },
+  {
+    "title": "The Green Mile Remastered",
+    "artist": "Certified Audio Contaminator",
+    "tag": "UNCLASSIFIED STANK",
+    "playlists": [
+      "UNCLASSIFIED STANK"
+    ],
+    "cover": "/music/covers/the-green-mile-remastered.jpg",
+    "audio": "/music/songs/the-green-mile-remastered.mp3"
   }
 ]
