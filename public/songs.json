@@ -1,502 +1,747 @@
 [
   {
-    "title": "01 Ashes",
+    "title": "Snuggin'",
+    "description": "\"Make a song about chickens, wearing Ugg boots and sweatpants\"",
+    "file": "/music/songs/snuggin.mp3",
+    "download": "/music/songs/snuggin.mp3",
     "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
+    "created": "",
+    "genre": "Chicken Stank",
     "playlists": [
-      "UNCLASSIFIED STANK"
+      "Powerful Stank"
     ],
-    "cover": "/music/covers/01-ashes.jpg",
-    "audio": "/music/songs/01-ashes.mp3"
+    "tag": "Chicken Stank",
+    "slug": "snuggin",
+    "cover": "/music/covers/snuggin.png"
   },
   {
-    "title": "01 C Mon Man",
+    "title": "The Green Mile (remastered)",
+    "description": "Not approved by the FDA, FCC, or neighborhood association.",
+    "file": "/music/songs/the-green-mile-remastered.mp3",
+    "download": "/music/songs/the-green-mile-remastered.mp3",
     "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
+    "created": "",
+    "genre": "Battle Stank",
+    "tag": "Unclassified Stank",
+    "slug": "the-green-mile-remastered",
+    "cover": "/music/covers/the-green-mile-remastered.jpg",
     "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/01-c-mon-man.jpg",
-    "audio": "/music/songs/01-c-mon-man.mp3"
+      "Battle Stank"
+    ]
   },
   {
-    "title": "01 Follow The Chem Trails",
+    "title": "PokeManiacs",
+    "description": "May cause spontaneous yeehaw.",
+    "file": "/music/songs/pokemaniacs-remastered.mp3",
+    "download": "/music/songs/pokemaniacs-remastered.mp3",
     "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
+    "created": "",
+    "genre": "Stanky Dissin",
+    "tag": "Unclassified Stank",
+    "slug": "pokemaniacs-remastered",
+    "cover": "/music/covers/pokemaniacs-remastered.jpg",
     "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/01-follow-the-chem-trails.jpg",
-    "audio": "/music/songs/01-follow-the-chem-trails.mp3"
-  },
-  {
-    "title": "01 New Years Cheer Country",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/01-new-years-cheer-country.jpg",
-    "audio": "/music/songs/01-new-years-cheer-country.mp3"
-  },
-  {
-    "title": "02 Apart",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/02-apart.jpg",
-    "audio": "/music/songs/02-apart.mp3"
-  },
-  {
-    "title": "02 Flat And Lonely",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/02-flat-and-lonely.jpg",
-    "audio": "/music/songs/02-flat-and-lonely.mp3"
-  },
-  {
-    "title": "02 My Valentine S Wish",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/02-my-valentine-s-wish.jpg",
-    "audio": "/music/songs/02-my-valentine-s-wish.mp3"
-  },
-  {
-    "title": "02 T G G D O H H",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/stank-radio/images/stank-radio-icon.png",
-    "audio": "/music/songs/02-t-g-g-d-o-h-h.mp3"
-  },
-  {
-    "title": "03 Beast Mode",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/03-beast-mode.jpg",
-    "audio": "/music/songs/03-beast-mode.mp3"
-  },
-  {
-    "title": "03 Global Schmobal Climate Change",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/03-global-schmobal-climate-change.jpg",
-    "audio": "/music/songs/03-global-schmobal-climate-change.mp3"
-  },
-  {
-    "title": "03 Jellybean",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/03-jellybean.jpg",
-    "audio": "/music/songs/03-jellybean.mp3"
-  },
-  {
-    "title": "03 Menorah War Punk",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/03-menorah-war-punk.jpg",
-    "audio": "/music/songs/03-menorah-war-punk.mp3"
-  },
-  {
-    "title": "04 Kings",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/04-kings.jpg",
-    "audio": "/music/songs/04-kings.mp3"
-  },
-  {
-    "title": "04 Menorah War Metal",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/04-menorah-war-metal.jpg",
-    "audio": "/music/songs/04-menorah-war-metal.mp3"
-  },
-  {
-    "title": "04 Say What",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/04-say-what.jpg",
-    "audio": "/music/songs/04-say-what.mp3"
-  },
-  {
-    "title": "04 The Lies Of Tyson",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/04-the-lies-of-tyson.jpg",
-    "audio": "/music/songs/04-the-lies-of-tyson.mp3"
-  },
-  {
-    "title": "05 Gettim",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/05-gettim.jpg",
-    "audio": "/music/songs/05-gettim.mp3"
-  },
-  {
-    "title": "05 Holiday Misfit",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/05-holiday-misfit.jpg",
-    "audio": "/music/songs/05-holiday-misfit.mp3"
-  },
-  {
-    "title": "05 Incoherent Noise Terrance Howard Is A Lunatic",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/05-incoherent-noise-terrance-howard-is-a-lunatic.jpg",
-    "audio": "/music/songs/05-incoherent-noise-terrance-howard-is-a-lunatic.mp3"
-  },
-  {
-    "title": "05 Special Socks",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/05-special-socks.jpg",
-    "audio": "/music/songs/05-special-socks.mp3"
-  },
-  {
-    "title": "06 Flat And Lonely",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/06-flat-and-lonely.jpg",
-    "audio": "/music/songs/06-flat-and-lonely.mp3"
-  },
-  {
-    "title": "06 My Niece Anise",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/06-my-niece-anise.jpg",
-    "audio": "/music/songs/06-my-niece-anise.mp3"
-  },
-  {
-    "title": "06 So Long To A Simple Life",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/06-so-long-to-a-simple-life.jpg",
-    "audio": "/music/songs/06-so-long-to-a-simple-life.mp3"
-  },
-  {
-    "title": "06 Under Krampus Spell",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/06-under-krampus-spell.jpg",
-    "audio": "/music/songs/06-under-krampus-spell.mp3"
-  },
-  {
-    "title": "07 Krampus Curse Metal",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/07-krampus-curse-metal.jpg",
-    "audio": "/music/songs/07-krampus-curse-metal.mp3"
-  },
-  {
-    "title": "07 The Truth",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/07-the-truth.jpg",
-    "audio": "/music/songs/07-the-truth.mp3"
-  },
-  {
-    "title": "08 Absentee Father",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/08-absentee-father.jpg",
-    "audio": "/music/songs/08-absentee-father.mp3"
-  },
-  {
-    "title": "08 Heed Me St Patrick S Day",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/stank-radio/images/stank-radio-icon.png",
-    "audio": "/music/songs/08-heed-me-st-patrick-s-day.mp3"
-  },
-  {
-    "title": "08 Mama Bear",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/08-mama-bear.jpg",
-    "audio": "/music/songs/08-mama-bear.mp3"
-  },
-  {
-    "title": "09 New Years Cheer Power Ballad",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/09-new-years-cheer-power-ballad.jpg",
-    "audio": "/music/songs/09-new-years-cheer-power-ballad.mp3"
-  },
-  {
-    "title": "09 The Man",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/09-the-man.jpg",
-    "audio": "/music/songs/09-the-man.mp3"
-  },
-  {
-    "title": "10 Honor Of Our Ancestors Stand Up",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/10-honor-of-our-ancestors-stand-up.jpg",
-    "audio": "/music/songs/10-honor-of-our-ancestors-stand-up.mp3"
-  },
-  {
-    "title": "10 Ratpocalypse",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/10-ratpocalypse.jpg",
-    "audio": "/music/songs/10-ratpocalypse.mp3"
-  },
-  {
-    "title": "11 7 Days Kwanzaa",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/11-7-days-kwanzaa.jpg",
-    "audio": "/music/songs/11-7-days-kwanzaa.mp3"
-  },
-  {
-    "title": "12 Iftar Countdown Blues Ramadan",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/12-iftar-countdown-blues-ramadan.jpg",
-    "audio": "/music/songs/12-iftar-countdown-blues-ramadan.mp3"
-  },
-  {
-    "title": "12 Lumpy Beast",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/12-lumpy-beast.jpg",
-    "audio": "/music/songs/12-lumpy-beast.mp3"
-  },
-  {
-    "title": "14 Bte",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/14-bte.jpg",
-    "audio": "/music/songs/14-bte.mp3"
-  },
-  {
-    "title": "B T E 2026 Edition",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/stank-radio/images/stank-radio-icon.png",
-    "audio": "/music/songs/b-t-e-2026-edition.wav"
-  },
-  {
-    "title": "Coop Love Remastered",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/coop-love-remastered.jpg",
-    "audio": "/music/songs/coop-love-remastered.mp3"
+      "Stanky Dissin"
+    ]
   },
   {
     "title": "Dinner With In Laws",
+    "description": "Recovered from a sealed funk container.",
+    "file": "/music/songs/dinner-with-in-laws.mp3",
+    "download": "/music/songs/dinner-with-in-laws.mp3",
     "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
+    "created": "",
+    "genre": "Dream Stank",
+    "tag": "Unclassified Stank",
+    "slug": "dinner-with-in-laws",
     "cover": "/music/covers/dinner-with-in-laws.jpg",
-    "audio": "/music/songs/dinner-with-in-laws.mp3"
+    "playlists": [
+      "Dream Stank"
+    ]
   },
   {
     "title": "Four Buckets",
+    "description": "Certified safe for garages, sheds, and suspicious basements.",
+    "file": "/music/songs/four-buckets.mp3",
+    "download": "/music/songs/four-buckets.mp3",
     "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
+    "created": "",
+    "genre": "Dream Stank",
     "playlists": [
-      "UNCLASSIFIED STANK"
+      "Dream Stank"
     ],
-    "cover": "/music/covers/four-buckets.jpg",
-    "audio": "/music/songs/four-buckets.mp3"
+    "tag": "Dream Stank",
+    "slug": "four-buckets",
+    "cover": "/music/covers/four-buckets.jpg"
   },
   {
-    "title": "He Done Played Himself 2",
+    "title": "I Dreamt About A Woman Giving Birth",
+    "description": "This track smells louder than it sounds.",
+    "file": "/music/songs/i-dreamt-about-a-woman-giving-birth.mp3",
+    "download": "/music/songs/i-dreamt-about-a-woman-giving-birth.mp3",
     "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
+    "created": "",
+    "genre": "Dream Stank",
+    "tag": "Unclassified Stank",
+    "slug": "i-dreamt-about-a-woman-giving-birth",
+    "cover": "/music/covers/i-dreamt-about-a-woman-giving-birth.jpg",
     "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/stank-radio/images/stank-radio-icon.png",
-    "audio": "/music/songs/he-done-played-himself-2.mp3"
+      "Dream Stank"
+    ]
+  },
+  {
+    "title": "I Did It With An Alien",
+    "description": "Recorded under questionable supervision.",
+    "file": "/music/songs/i-did-it-with-an-alien.mp3",
+    "download": "/music/songs/i-did-it-with-an-alien.mp3",
+    "artist": "Certified Audio Contaminator",
+    "created": "",
+    "genre": "Dream Stank",
+    "tag": "Unclassified Stank",
+    "slug": "i-did-it-with-an-alien",
+    "cover": "/music/covers/i-did-it-with-an-alien.jpg",
+    "playlists": [
+      "Dream Stank"
+    ]
   },
   {
     "title": "He Done Played Himself",
     "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
+    "description": "A premium-grade odor event in audio form.",
+    "genre": "Battle Stank",
+    "created": "2026-05-31",
     "playlists": [
-      "UNCLASSIFIED STANK"
+      "Battle Stank"
     ],
+    "file": "/music/songs/he-done-played-himself-2.mp3",
+    "download": "/music/songs/he-done-played-himself-2.mp3",
     "cover": "/music/covers/he-done-played-himself.jpg",
-    "audio": "/music/songs/he-done-played-himself.mp3"
+    "tag": "Unclassified Stank",
+    "slug": "he-done-played-himself"
   },
   {
-    "title": "I Did It With An Alien",
+    "title": "Ashes",
     "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
+    "description": "A premium-grade odor event in audio form.",
+    "genre": "Silly Stank",
+    "created": "2026-05-31",
     "playlists": [
-      "UNCLASSIFIED STANK"
+      "Silly Stank"
     ],
-    "cover": "/music/covers/i-did-it-with-an-alien.jpg",
-    "audio": "/music/songs/i-did-it-with-an-alien.mp3"
+    "file": "/music/songs/01-ashes.mp3",
+    "download": "/music/songs/01-ashes.mp3",
+    "tag": "Silly Stank",
+    "slug": "ashes",
+    "cover": "/music/covers/01-ashes.jpg"
   },
   {
-    "title": "I Dreamt About A Woman Giving Birth",
+    "title": "C'mon Man",
     "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
+    "description": "A premium-grade odor event in audio form.",
+    "genre": "Stanky Dissin",
+    "created": "2026-05-31",
     "playlists": [
-      "UNCLASSIFIED STANK"
+      "Stanky Dissin"
     ],
-    "cover": "/music/covers/i-dreamt-about-a-woman-giving-birth.jpg",
-    "audio": "/music/songs/i-dreamt-about-a-woman-giving-birth.mp3"
+    "file": "/music/songs/01-c-mon-man.mp3",
+    "download": "/music/songs/01-c-mon-man.mp3",
+    "tag": "Stanky Dissin",
+    "slug": "c-mon-man",
+    "cover": "/music/covers/01-c-mon-man.jpg"
   },
   {
-    "title": "I Dreamt Of An Ugly Girl And I Feel Like A Bad Person 1",
+    "title": "Follow The (Chem)trails",
     "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
+    "description": "Filed under: things that did not need to go this hard.",
+    "genre": "Stanky Dissin",
+    "created": "2026-05-31",
     "playlists": [
-      "UNCLASSIFIED STANK"
+      "Conspirital Stank"
     ],
+    "file": "/music/songs/01-follow-the-chem-trails.mp3",
+    "download": "/music/songs/01-follow-the-chem-trails.mp3",
+    "tag": "Stanky Dissin",
+    "slug": "follow-the-chem-trails",
+    "cover": "/music/covers/01-follow-the-chem-trails.jpg"
+  },
+  {
+    "title": "New Years Cheer (Country)",
+    "artist": "Certified Audio Contaminator",
+    "description": "Engineered in a lab that probably should have had supervision.",
+    "genre": "Holiday Stank",
+    "created": "2026-05-31",
+    "playlists": [
+      "Holiday Stank"
+    ],
+    "file": "/music/songs/01-new-years-cheer-country.mp3",
+    "download": "/music/songs/01-new-years-cheer-country.mp3",
+    "tag": "Unclassified Stank",
+    "slug": "new-years-cheer-country",
+    "cover": "/music/covers/01-new-years-cheer-country.jpg"
+  },
+  {
+    "title": "Apart",
+    "artist": "Certified Audio Contaminator",
+    "description": "The beat escaped containment and brought snacks.",
+    "genre": "Silly Stank",
+    "created": "2026-05-31",
+    "playlists": [
+      "Silly Stank"
+    ],
+    "file": "/music/songs/02-apart.mp3",
+    "download": "/music/songs/02-apart.mp3",
+    "tag": "Silly Stank",
+    "slug": "apart",
+    "cover": "/music/covers/02-apart.jpg"
+  },
+  {
+    "title": "Flat And Lonely",
+    "artist": "Certified Audio Contaminator",
+    "description": "Freshly extracted from the funk containment chamber.",
+    "genre": "Stanky Dissin",
+    "created": "2026-05-31",
+    "playlists": [
+      "Conspirital Stank"
+    ],
+    "file": "/music/songs/02-flat-and-lonely.mp3",
+    "download": "/music/songs/02-flat-and-lonely.mp3",
+    "tag": "Stanky Dissin",
+    "slug": "flat-and-lonely",
+    "cover": "/music/covers/02-flat-and-lonely.jpg"
+  },
+  {
+    "title": "My Valentine's Wish",
+    "artist": "Certified Audio Contaminator",
+    "description": "Filed under: things that did not need to go this hard.",
+    "genre": "Holiday Stank",
+    "created": "2026-05-31",
+    "playlists": [
+      "Holiday Stank"
+    ],
+    "file": "/music/songs/02-my-valentine-s-wish.mp3",
+    "download": "/music/songs/02-my-valentine-s-wish.mp3",
+    "tag": "Unclassified Stank",
+    "slug": "my-valentine-s-wish",
+    "cover": "/music/covers/02-my-valentine-s-wish.jpg"
+  },
+  {
+    "title": "T.G.D.D.O.H.H.",
+    "artist": "Certified Audio Contaminator",
+    "description": "A premium-grade odor event in audio form.",
+    "genre": "Stanky Dissin",
+    "created": "2026-05-31",
+    "playlists": [
+      "Stanky Dissin"
+    ],
+    "file": "/music/songs/02-t-g-g-d-o-h-h.mp3",
+    "download": "/music/songs/02-t-g-g-d-o-h-h.mp3",
+    "tag": "Unclassified Stank",
+    "slug": "t-g-g-d-o-h-h",
+    "cover": "/music/covers/02-t-g-g-d-o-h.jpg"
+  },
+  {
+    "title": "Beast Mode",
+    "artist": "Certified Audio Contaminator",
+    "description": "A questionable audio decision with excellent posture.",
+    "genre": "Stanky Dissin",
+    "created": "2026-05-31",
+    "playlists": [
+      "Stanky Dissin"
+    ],
+    "file": "/music/songs/03-beast-mode.mp3",
+    "download": "/music/songs/03-beast-mode.mp3",
+    "tag": "Unclassified Stank",
+    "slug": "beast-mode",
+    "cover": "/music/covers/03-beast-mode.jpg"
+  },
+  {
+    "title": "Global Schmobal (Climate Change)",
+    "artist": "Certified Audio Contaminator",
+    "description": "Filed under: things that did not need to go this hard.",
+    "genre": "Stanky Dissin",
+    "created": "2026-05-31",
+    "playlists": [
+      "Conspirital Stank"
+    ],
+    "file": "/music/songs/03-global-schmobal-climate-change.mp3",
+    "download": "/music/songs/03-global-schmobal-climate-change.mp3",
+    "tag": "Stanky Dissin",
+    "slug": "global-schmobal-climate-change",
+    "cover": "/music/covers/03-global-schmobal-climate-change.jpg"
+  },
+  {
+    "title": "Jellybean",
+    "artist": "Certified Audio Contaminator",
+    "description": "Filed under: things that did not need to go this hard.",
+    "genre": "Silly Stank",
+    "created": "2026-05-31",
+    "playlists": [
+      "Silly Stank"
+    ],
+    "file": "/music/songs/03-jellybean.mp3",
+    "download": "/music/songs/03-jellybean.mp3",
+    "tag": "Silly Stank",
+    "slug": "jellybean",
+    "cover": "/music/covers/03-jellybean.jpg"
+  },
+  {
+    "title": "Menorah War (Punk)",
+    "artist": "Certified Audio Contaminator",
+    "description": "A suspicious melody wearing sunglasses indoors.",
+    "genre": "Holiday Stank",
+    "created": "2026-05-31",
+    "playlists": [
+      "Holiday Stank"
+    ],
+    "file": "/music/songs/03-menorah-war-punk.mp3",
+    "download": "/music/songs/03-menorah-war-punk.mp3",
+    "tag": "Unclassified Stank",
+    "slug": "menorah-war-punk",
+    "cover": "/music/covers/03-menorah-war-punk.jpg"
+  },
+  {
+    "title": "Kings",
+    "artist": "Certified Audio Contaminator",
+    "description": "Filed under: things that did not need to go this hard.",
+    "genre": "Maximum Stank",
+    "created": "2026-05-31",
+    "playlists": [
+      "Powerful Stank"
+    ],
+    "file": "/music/songs/04-kings.mp3",
+    "download": "/music/songs/04-kings.mp3",
+    "tag": "Unclassified Stank",
+    "slug": "kings",
+    "cover": "/music/covers/04-kings.jpg"
+  },
+  {
+    "title": "Menorah War (Metal)",
+    "artist": "Certified Audio Contaminator",
+    "description": "A certified slab of sonic nonsense.",
+    "genre": "Holiday Stank",
+    "created": "2026-05-31",
+    "playlists": [
+      "Holiday Stank"
+    ],
+    "file": "/music/songs/04-menorah-war-metal.mp3",
+    "download": "/music/songs/04-menorah-war-metal.mp3",
+    "tag": "Unclassified Stank",
+    "slug": "menorah-war-metal",
+    "cover": "/music/covers/04-menorah-war-metal.jpg"
+  },
+  {
+    "title": "Say What!",
+    "artist": "Certified Audio Contaminator",
+    "description": "A certified slab of sonic nonsense.",
+    "genre": "Stanky Dissin",
+    "created": "2026-05-31",
+    "playlists": [
+      "Stanky Dissin"
+    ],
+    "file": "/music/songs/04-say-what.mp3",
+    "download": "/music/songs/04-say-what.mp3",
+    "tag": "Unclassified Stank",
+    "slug": "say-what",
+    "cover": "/music/covers/04-say-what.jpg"
+  },
+  {
+    "title": "The Lies Of Tyson",
+    "artist": "Certified Audio Contaminator",
+    "description": "Filed under: things that did not need to go this hard.",
+    "genre": "Stanky Dissin",
+    "created": "2026-05-31",
+    "playlists": [
+      "Conspirital Stank"
+    ],
+    "file": "/music/songs/04-the-lies-of-tyson.mp3",
+    "download": "/music/songs/04-the-lies-of-tyson.mp3",
+    "tag": "Stanky Dissin",
+    "slug": "the-lies-of-tyson",
+    "cover": "/music/covers/04-the-lies-of-tyson.jpg"
+  },
+  {
+    "title": "Gettim",
+    "artist": "Certified Audio Contaminator",
+    "description": "A premium-grade odor event in audio form.",
+    "genre": "Stanky Dissin",
+    "created": "2026-05-31",
+    "playlists": [
+      "Stanky Dissin"
+    ],
+    "file": "/music/songs/05-gettim.mp3",
+    "download": "/music/songs/05-gettim.mp3",
+    "tag": "Unclassified Stank",
+    "slug": "gettim",
+    "cover": "/music/covers/05-gettim.jpg"
+  },
+  {
+    "title": "Holiday Misfit",
+    "artist": "Certified Audio Contaminator",
+    "description": "Engineered in a lab that probably should have had supervision.",
+    "genre": "Holiday Stank",
+    "created": "2026-05-31",
+    "playlists": [
+      "Holiday Stank"
+    ],
+    "file": "/music/songs/05-holiday-misfit.mp3",
+    "download": "/music/songs/05-holiday-misfit.mp3",
+    "tag": "Unclassified Stank",
+    "slug": "holiday-misfit",
+    "cover": "/music/covers/05-holiday-misfit.jpg"
+  },
+  {
+    "title": "Incoherent Noise (Terrance Howard Is A Lunatic)",
+    "artist": "Certified Audio Contaminator",
+    "description": "A certified slab of sonic nonsense.",
+    "genre": "Stanky Dissin",
+    "created": "2026-05-31",
+    "playlists": [
+      "Conspirital Stank"
+    ],
+    "file": "/music/songs/05-incoherent-noise-terrance-howard-is-a-lunatic.mp3",
+    "download": "/music/songs/05-incoherent-noise-terrance-howard-is-a-lunatic.mp3",
+    "tag": "Stanky Dissin",
+    "slug": "incoherent-noise-terrance-howard-is-a-lunatic",
+    "cover": "/music/covers/05-incoherent-noise-terrance-howard-is-a-lunatic.jpg"
+  },
+  {
+    "title": "Special Socks",
+    "artist": "Certified Audio Contaminator",
+    "description": "A suspicious melody wearing sunglasses indoors.",
+    "genre": "Silly Stank",
+    "created": "2026-05-31",
+    "playlists": [
+      "Silly Stank"
+    ],
+    "file": "/music/songs/05-special-socks.mp3",
+    "download": "/music/songs/05-special-socks.mp3",
+    "tag": "Silly Stank",
+    "slug": "special-socks",
+    "cover": "/music/covers/05-special-socks.jpg"
+  },
+  {
+    "title": "Flat And Lonely",
+    "artist": "Certified Audio Contaminator",
+    "description": "The beat escaped containment and brought snacks.",
+    "genre": "Stanky Dissin",
+    "created": "2026-05-31",
+    "playlists": [
+      "Conspirital Stank"
+    ],
+    "file": "/music/songs/06-flat-and-lonely.mp3",
+    "download": "/music/songs/06-flat-and-lonely.mp3",
+    "tag": "Stanky Dissin",
+    "slug": "flat-and-lonely",
+    "cover": "/music/covers/06-flat-and-lonely.jpg"
+  },
+  {
+    "title": "My Niece, Anise",
+    "artist": "Certified Audio Contaminator",
+    "description": "Engineered in a lab that probably should have had supervision.",
+    "genre": "Stanky Dissin",
+    "created": "2026-05-31",
+    "playlists": [
+      "Stanky Dissin"
+    ],
+    "file": "/music/songs/06-my-niece-anise.mp3",
+    "download": "/music/songs/06-my-niece-anise.mp3",
+    "tag": "Unclassified Stank",
+    "slug": "my-niece-anise",
+    "cover": "/music/covers/06-my-niece-anise.jpg"
+  },
+  {
+    "title": "So Long To A Simple Life",
+    "artist": "Certified Audio Contaminator",
+    "description": "Do not operate heavy machinery while experiencing this much groove.",
+    "genre": "Stanky Dissin",
+    "created": "2026-05-31",
+    "playlists": [
+      "Conspirital Stank"
+    ],
+    "file": "/music/songs/06-so-long-to-a-simple-life.mp3",
+    "download": "/music/songs/06-so-long-to-a-simple-life.mp3",
+    "tag": "Stanky Dissin",
+    "slug": "so-long-to-a-simple-life",
+    "cover": "/music/covers/06-so-long-to-a-simple-life.jpg"
+  },
+  {
+    "title": "Under Krampus' Spell",
+    "artist": "Certified Audio Contaminator",
+    "description": "This track has been cleared for recreational stank exposure.",
+    "genre": "Holiday Stank",
+    "created": "2026-05-31",
+    "playlists": [
+      "Holiday Stank"
+    ],
+    "file": "/music/songs/06-under-krampus-spell.mp3",
+    "download": "/music/songs/06-under-krampus-spell.mp3",
+    "tag": "Unclassified Stank",
+    "slug": "under-krampus-spell",
+    "cover": "/music/covers/06-under-krampus-spell.jpg"
+  },
+  {
+    "title": "Krampus' Curse (Metal)",
+    "artist": "Certified Audio Contaminator",
+    "description": "Freshly extracted from the funk containment chamber.",
+    "genre": "Holiday Stank",
+    "created": "2026-05-31",
+    "playlists": [
+      "Holiday Stank"
+    ],
+    "file": "/music/songs/07-krampus-curse-metal.mp3",
+    "download": "/music/songs/07-krampus-curse-metal.mp3",
+    "tag": "Unclassified Stank",
+    "slug": "krampus-curse-metal",
+    "cover": "/music/covers/07-krampus-curse-metal.jpg"
+  },
+  {
+    "title": "The Truth",
+    "artist": "Certified Audio Contaminator",
+    "description": "A certified slab of sonic nonsense.",
+    "genre": "Stanky Dissin",
+    "created": "2026-05-31",
+    "playlists": [
+      "Stanky Dissin"
+    ],
+    "file": "/music/songs/07-the-truth.mp3",
+    "download": "/music/songs/07-the-truth.mp3",
+    "tag": "Stanky Dissin",
+    "slug": "the-truth",
+    "cover": "/music/covers/07-the-truth.jpg"
+  },
+  {
+    "title": "Absentee Father",
+    "artist": "Certified Audio Contaminator",
+    "description": "A questionable audio decision with excellent posture.",
+    "genre": "Silly Stank",
+    "created": "2026-05-31",
+    "playlists": [
+      "Silly Stank"
+    ],
+    "file": "/music/songs/08-absentee-father.mp3",
+    "download": "/music/songs/08-absentee-father.mp3",
+    "tag": "Silly Stank",
+    "slug": "absentee-father",
+    "cover": "/music/covers/08-absentee-father.jpg"
+  },
+  {
+    "title": "Heed Me (St. Patrick's Day)",
+    "artist": "Certified Audio Contaminator",
+    "description": "A premium-grade odor event in audio form.",
+    "genre": "Holiday Stank",
+    "created": "2026-05-31",
+    "playlists": [
+      "Holiday Stank"
+    ],
+    "file": "/music/songs/08-heed-me-st-patrick-s-day.mp3",
+    "download": "/music/songs/08-heed-me-st-patrick-s-day.mp3",
+    "tag": "Holiday Stank",
+    "slug": "heed-me-st-patrick-s-day",
+    "cover": "/music/covers/08-heed-me-st.jpg"
+  },
+  {
+    "title": "Mama Bear 🐻",
+    "artist": "Certified Audio Contaminator",
+    "description": "The beat escaped containment and brought snacks.",
+    "genre": "Stanky Dissin",
+    "created": "2026-05-31",
+    "playlists": [
+      "Stanky Dissin"
+    ],
+    "file": "/music/songs/08-mama-bear.mp3",
+    "download": "/music/songs/08-mama-bear.mp3",
+    "tag": "Unclassified Stank",
+    "slug": "mama-bear",
+    "cover": "/music/covers/08-mama-bear.jpg"
+  },
+  {
+    "title": "New Years Cheer (Power Ballad)",
+    "artist": "Certified Audio Contaminator",
+    "description": "Engineered in a lab that probably should have had supervision.",
+    "genre": "Holiday Stank",
+    "created": "2026-05-31",
+    "playlists": [
+      "Holiday Stank"
+    ],
+    "file": "/music/songs/09-new-years-cheer-power-ballad.mp3",
+    "download": "/music/songs/09-new-years-cheer-power-ballad.mp3",
+    "tag": "Unclassified Stank",
+    "slug": "new-years-cheer-power-ballad",
+    "cover": "/music/covers/09-new-years-cheer-power-ballad.jpg"
+  },
+  {
+    "title": "The Man",
+    "artist": "Certified Audio Contaminator",
+    "description": "This track has been cleared for recreational stank exposure.",
+    "genre": "Powerful Stank",
+    "created": "2026-05-31",
+    "playlists": [
+      "Powerful Stank"
+    ],
+    "file": "/music/songs/09-the-man.mp3",
+    "download": "/music/songs/09-the-man.mp3",
+    "tag": "Unclassified Stank",
+    "slug": "the-man",
+    "cover": "/music/covers/09-the-man.jpg"
+  },
+  {
+    "title": "Honor Of Our Ancestors (Stand Up!)",
+    "artist": "Certified Audio Contaminator",
+    "description": "Engineered in a lab that probably should have had supervision.",
+    "genre": "Holiday Stank",
+    "created": "2026-05-31",
+    "playlists": [
+      "Holiday Stank"
+    ],
+    "file": "/music/songs/10-honor-of-our-ancestors-stand-up.mp3",
+    "download": "/music/songs/10-honor-of-our-ancestors-stand-up.mp3",
+    "tag": "Unclassified Stank",
+    "slug": "honor-of-our-ancestors-stand-up",
+    "cover": "/music/covers/10-honor-of-our-ancestors-stand-up.jpg"
+  },
+  {
+    "title": "Ratpocalypse",
+    "artist": "Certified Audio Contaminator",
+    "description": "This track has been cleared for recreational stank exposure.",
+    "genre": "Silly Stank",
+    "created": "2026-05-31",
+    "playlists": [
+      "Powerful Stank",
+      "Silly Stank"
+    ],
+    "file": "/music/songs/10-ratpocalypse.mp3",
+    "download": "/music/songs/10-ratpocalypse.mp3",
+    "tag": "Silly Stank",
+    "slug": "ratpocalypse",
+    "cover": "/music/covers/10-ratpocalypse.jpg"
+  },
+  {
+    "title": "7 Days (Kwanzaa)",
+    "artist": "Certified Audio Contaminator",
+    "description": "Engineered in a lab that probably should have had supervision.",
+    "genre": "Holiday Stank",
+    "created": "2026-05-31",
+    "playlists": [
+      "Holiday Stank"
+    ],
+    "file": "/music/songs/11-7-days-kwanzaa.mp3",
+    "download": "/music/songs/11-7-days-kwanzaa.mp3",
+    "tag": "Unclassified Stank",
+    "slug": "7-days-kwanzaa",
+    "cover": "/music/covers/11-7-days-kwanzaa.jpg"
+  },
+  {
+    "title": "Iftar Countdown Blues (Ramadan)",
+    "artist": "Certified Audio Contaminator",
+    "description": "This track has been cleared for recreational stank exposure.",
+    "genre": "Holiday Stank",
+    "created": "2026-05-31",
+    "playlists": [
+      "Holiday Stank"
+    ],
+    "file": "/music/songs/12-iftar-countdown-blues-ramadan.mp3",
+    "download": "/music/songs/12-iftar-countdown-blues-ramadan.mp3",
+    "tag": "Unclassified Stank",
+    "slug": "iftar-countdown-blues-ramadan",
+    "cover": "/music/covers/12-iftar-countdown-blues-ramadan.jpg"
+  },
+  {
+    "title": "Lumpy Beast",
+    "artist": "Certified Audio Contaminator",
+    "description": "Filed under: things that did not need to go this hard.",
+    "genre": "Silly Stank",
+    "created": "2026-05-31",
+    "playlists": [
+      "Silly Stank"
+    ],
+    "file": "/music/songs/12-lumpy-beast.mp3",
+    "download": "/music/songs/12-lumpy-beast.mp3",
+    "tag": "Silly Stank",
+    "slug": "lumpy-beast",
+    "cover": "/music/covers/12-lumpy-beast.jpg"
+  },
+  {
+    "title": "B.T.E.",
+    "artist": "Certified Audio Contaminator",
+    "description": "From an A, to a Double-D Cup",
+    "genre": "Powerful Stank",
+    "created": "2026-05-31",
+    "playlists": [
+      "Powerful Stank"
+    ],
+    "file": "/music/songs/14-bte.mp3",
+    "download": "/music/songs/14-bte.mp3",
+    "tag": "Unclassified Stank",
+    "slug": "bte",
+    "cover": "/music/covers/14-bte.jpg"
+  },
+  {
+    "title": "He Done Played Himself",
+    "artist": "Certified Audio Contaminator",
+    "description": "A certified slab of sonic nonsense.",
+    "genre": "Battle Stank",
+    "created": "2026-05-31",
+    "playlists": [
+      "Battle Stank"
+    ],
+    "file": "/music/songs/he-done-played-himself.mp3",
+    "download": "/music/songs/he-done-played-himself.mp3",
+    "tag": "Unclassified Stank",
+    "slug": "he-done-played-himself",
+    "cover": "/music/covers/he-done-played-himself.jpg"
+  },
+  {
+    "title": "I Dreamt Of An Ugly Girl, And I Feel Like A Bad Person",
+    "artist": "Certified Audio Contaminator",
+    "description": "A questionable audio decision with excellent posture.",
+    "genre": "Dream Stank",
+    "created": "2026-05-31",
+    "playlists": [
+      "Dream Stank"
+    ],
+    "file": "/music/songs/i-dreamt-of-an-ugly-girl-and-i-feel-like-a-bad-person-1.mp3",
+    "download": "/music/songs/i-dreamt-of-an-ugly-girl-and-i-feel-like-a-bad-person-1.mp3",
     "cover": "/music/covers/i-dreamt-of-an-ugly-girl-and-i-feel-like-a-bad-person-1.png",
-    "audio": "/music/songs/i-dreamt-of-an-ugly-girl-and-i-feel-like-a-bad-person-1.mp3"
+    "slug": "i-dreamt-of-an-ugly-girl-and-i-feel-like-a-bad-person",
+    "tag": "Dream Stank"
   },
   {
-    "title": "My Valentine S Wish Vocals Remastered",
+    "title": "Coop Love (remastered)",
     "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/my-valentine-s-wish-vocals-remastered.jpg",
-    "audio": "/music/songs/my-valentine-s-wish-vocals-remastered.mp3"
+    "description": "Filed under: things that did not need to go this hard.",
+    "genre": "Unclassified Stank",
+    "created": "2026-05-31",
+    "playlists": [],
+    "file": "/music/songs/coop-love-remastered.mp3",
+    "download": "/music/songs/coop-love-remastered.mp3",
+    "cover": "/music/covers/coop-love-remastered.jpg",
+    "tag": "Unclassified Stank",
+    "slug": "coop-love-remastered"
   },
   {
-    "title": "Pokemaniacs Remastered",
+    "title": "My Valentine's Wish (vocals) (remastered)",
     "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/pokemaniacs-remastered.jpg",
-    "audio": "/music/songs/pokemaniacs-remastered.mp3"
+    "description": "The beat escaped containment and brought snacks.",
+    "genre": "Unclassified Stank",
+    "created": "2026-06-08",
+    "playlists": [],
+    "file": "/music/songs/my-valentine-s-wish-vocals-remastered.mp3",
+    "download": "/music/songs/my-valentine-s-wish-vocals-remastered.mp3",
+    "tag": "Unclassified Stank",
+    "slug": "my-valentine-s-wish-vocals-remastered",
+    "cover": "/music/covers/my-valentine-s-wish-vocals-remastered.jpg"
   },
   {
-    "title": "Snuggin",
+    "title": "B.T.E. (2026 Edition)",
     "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/snuggin.png",
-    "audio": "/music/songs/snuggin.mp3"
-  },
-  {
-    "title": "The Green Mile Remastered",
-    "artist": "Certified Audio Contaminator",
-    "tag": "UNCLASSIFIED STANK",
-    "playlists": [
-      "UNCLASSIFIED STANK"
-    ],
-    "cover": "/music/covers/the-green-mile-remastered.jpg",
-    "audio": "/music/songs/the-green-mile-remastered.mp3"
+    "description": "From an \"A\" To A \"Double D\" Cup",
+    "genre": "Powerful Stank",
+    "created": "2026-06-17",
+    "playlists": [],
+    "file": "/music/songs/b-t-e-2026-edition.wav",
+    "download": "/music/songs/b-t-e-2026-edition.wav",
+    "tag": "Unclassified Stank",
+    "slug": "b-t-e",
+    "cover": "/music/covers/b-t-e.jpeg"
   }
 ]

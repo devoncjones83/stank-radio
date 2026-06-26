@@ -23,6 +23,13 @@ import './styles.css';
 const BASE = import.meta.env.BASE_URL || '/';
 const defaultCover = `${BASE}images/stank-radio-icon.png`;
 const TRACKS_PER_PAGE = 10;
+
+function playlistSlug(value) {
+  return String(value || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
 const playlistNotes = {
   'UNCLASSIFIED STANK': 'Unfiled transmissions and residue without a clean category.',
   'AFTER HOURS STANK': 'Slow-burn radio for rooms that should have closed already.',
@@ -185,14 +192,33 @@ function App() {
     ? roomTonePresets[(selectedTrackIndex + 1) % roomTonePresets.length]
     : roomTonePresets[0];
 
-  const playlists = useMemo(
-    () =>
-      playlistDefinitions.map((playlist) => ({
-        ...playlist,
-        count: tracks.filter((track) => track.playlists.includes(playlist.id)).length,
-      })),
-    [tracks],
-  );
+  // Build the playlist list from whatever playlists actually exist in the
+  // catalog (managed by the admin tool), so new playlists appear automatically.
+  const playlists = useMemo(() => {
+    const counts = new Map();
+    const firstCover = new Map();
+    tracks.forEach((track) => {
+      track.playlists.forEach((id) => {
+        if (!id) return;
+        counts.set(id, (counts.get(id) || 0) + 1);
+        if (!firstCover.has(id) && track.cover) firstCover.set(id, track.cover);
+      });
+    });
+    return Array.from(counts.entries())
+      .sort((a, b) => a[0].localeCompare(b[0]))
+      .map(([id, count]) => {
+        const known = playlistDefinitions.find((p) => p.id === id);
+        return {
+          id,
+          title: known ? known.title : id,
+          description: known ? known.description : `${count} contaminant${count === 1 ? '' : 's'} filed under ${id}.`,
+          artClass: known ? known.artClass : 'unclassifiedStank',
+          count,
+          art: `/music/playlist-covers/${playlistSlug(id)}.png`,
+          fallbackArt: firstCover.get(id) || defaultCover,
+        };
+      });
+  }, [tracks]);
 
   useEffect(() => {
     setCurrentTime(0);
@@ -413,7 +439,15 @@ function App() {
             </label>
 
             <div className="libraryButtons">
-              <button className="playlistLink" type="button" onClick={() => setPlaylistsOpen(true)}>
+              <button
+                className="playlistLink"
+                type="button"
+                onClick={() => {
+                  setQuery('');
+                  setLibraryPage(1);
+                  setPlaylistsOpen(true);
+                }}
+              >
                 <ListMusic size={14} />
                 Playlists
               </button>
@@ -421,6 +455,7 @@ function App() {
                 className={activeTag === 'ALL' ? 'playlistLink allTracksLink active' : 'playlistLink allTracksLink'}
                 type="button"
                 onClick={() => {
+                  setQuery('');
                   setActiveTag('ALL');
                   setLibraryPage(1);
                 }}
@@ -455,7 +490,6 @@ function App() {
                 type="button"
                 title="Previous library page"
                 aria-label="Previous library page"
-                disabled={libraryPage === 1}
                 onClick={() => setLibraryPage((page) => Math.max(1, page - 1))}
               >
                 <ChevronLeft size={15} />
@@ -528,7 +562,18 @@ function App() {
                       setPlaylistsOpen(false);
                     }}
                   >
-                    <span className={`playlistArt ${playlist.artClass}`} aria-hidden="true" />
+                    <span className="playlistArt" aria-hidden="true">
+                      <img
+                        src={playlist.art}
+                        alt=""
+                        loading="lazy"
+                        onError={(event) => {
+                          if (event.currentTarget.dataset.fallbackApplied) return;
+                          event.currentTarget.dataset.fallbackApplied = '1';
+                          event.currentTarget.src = playlist.fallbackArt;
+                        }}
+                      />
+                    </span>
                     <span className="playlistCardCopy">
                       <b>{playlist.title}</b>
                       <small>{playlist.count} tracks</small>
