@@ -1,32 +1,18 @@
+/* === BASE === */
 :root {
   color: #f3edd7;
   background: #060604;
-  font-family:
-    Arial,
-    Helvetica,
-    sans-serif;
-  --tar: #060604;
-  --panel: rgba(10, 12, 8, 0.9);
-  --panel-strong: rgba(4, 5, 3, 0.96);
-  --paper: #f3edd7;
-  --muted: #b5ad91;
+  font-family: Arial, Helvetica, sans-serif;
   --acid: #a8ff32;
-  --mold: #5e8f1c;
-  --safety: #70a836;
+  --muted: #b5ad91;
+  --paper: #f3edd7;
   --blood: #f04a2f;
-  --bruise: #406481;
-  --line: rgba(243, 237, 215, 0.2);
   --green-line: rgba(168, 255, 50, 0.34);
-  --shadow: 0 22px 80px rgba(0, 0, 0, 0.58);
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
-html,
-body,
-#root {
+html, body, #root {
   width: 100%;
   height: 100%;
   margin: 0;
@@ -34,14 +20,21 @@ body,
 }
 
 body {
-  background: url("/images/branding/stank-radio-bg.png") center center / cover no-repeat fixed;
+  background-color: #111009;
+  background-image:
+    radial-gradient(ellipse at 15% 25%, rgba(80, 45, 12, 0.4) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 75%, rgba(60, 35, 8, 0.45) 0%, transparent 55%),
+    radial-gradient(ellipse at 50% 50%, rgba(25, 15, 4, 0.5) 0%, transparent 80%),
+    repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 4px),
+    repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(0,0,0,0.04) 3px, rgba(0,0,0,0.04) 4px),
+    linear-gradient(135deg, #1c1308 0%, #0e0b04 40%, #141008 70%, #0a0804 100%);
   font-family: Arial, Helvetica, sans-serif;
 }
 
-button,
-input {
-  font: inherit;
-}
+button, input { font: inherit; }
+audio { display: none; }
+
+/* === SHELL WRAPPER === */
 
 .radioApp {
   width: 100vw;
@@ -53,66 +46,168 @@ input {
 .industrialShell {
   width: 100vw;
   height: 100vh;
-  display: grid;
-  grid-template-columns: 1380fr 520fr;
-  grid-template-rows: 150px calc(100vh - 150px - 300px) 0px;
-  grid-template-areas:
-    "header header"
-    "player library"
-    "footer footer";
-  gap: 0;
-  padding: 0;
-  margin: 0;
   overflow: hidden;
+  position: relative;
   background: transparent;
 }
 
+/* === HEADER (150px tall, full width) === */
+
 .industrialHeader {
-  grid-area: header;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 150px;
+  z-index: 30;
+  overflow: hidden;
   background: url("/images/industrial-header-filthup-v1.png") center center / 100% 100% no-repeat;
 }
 
+/* Hide static copy panels — header image already shows this info */
+.broadcastIdentityPanel,
+.broadcastDefinitionPanel,
+.broadcastContaminantsPanel {
+  display: none;
+}
+
+/* Dynamic status area: live badge, stank load, view toggle */
+.broadcastStatusPanel {
+  position: absolute;
+  top: 0; right: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  z-index: 5;
+}
+
+.liveContainmentBadge {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.7rem;
+  font-weight: 900;
+  color: #b7ff2b;
+  letter-spacing: 0.08em;
+}
+
+.liveContainmentBadge span {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #b7ff2b;
+  display: inline-block;
+}
+
+.broadcastIndexedBox {
+  font-size: 0.65rem;
+  color: #b7ff2b;
+  text-align: right;
+  line-height: 1.2;
+}
+
+.broadcastIndexedBox span { display: block; opacity: 0.7; }
+.broadcastIndexedBox b { font-size: 0.9rem; }
+
+.broadcastWaveform {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 24px;
+}
+
+.broadcastWaveform i {
+  display: block;
+  width: 3px;
+  background: #a8ff32;
+  height: var(--meter-height, 30%);
+  opacity: 0.7;
+}
+
+.broadcastStatusControls {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.viewToggle {
+  border: 1px solid rgba(190, 255, 65, 0.6);
+  background: rgba(5, 12, 3, 0.85);
+  color: #caff3a;
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  padding: 0.3rem 0.7rem;
+}
+
+.viewToggle:hover {
+  background: rgba(168, 255, 50, 0.15);
+}
+
+/* === PLAYER SHELL (left panel) === */
+
 .industrialPlayerShell {
-  grid-area: player;
-  position: relative;
-  background: url("/images/industrial-player-shell-v2-final.png") left center / auto 112% no-repeat;
-}
-
-.industrialLibraryBay {
-  grid-area: library;
-  position: relative;
-  background: url("/images/industrial-library-frame-v1.png") right center / auto 112% no-repeat;
-}
-
-.industrialWarningStrip {
-  grid-area: footer;
   position: fixed;
   left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100vw;
-  height: 300px;
-  z-index: 50;
-  pointer-events: none;
-  background: url("/images/industrial-warning-banner-v1.png") center bottom / 100% 300px no-repeat;
+  top: 142px;
+  right: calc(560px + 1%);
+  height: calc(100vh - 142px - 82px);
+  z-index: 10;
+  background: url("/images/industrial-player-shell-v2-final.png") center center / 100% 100% no-repeat;
 }
+
+/* Frame image is on top of content via ::after */
+.industrialPlayerShell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("/images/industrial-player-shell-v2-final.png") center center / 100% 100% no-repeat;
+  pointer-events: none;
+  z-index: 50;
+}
+
+/* Remove the background from the shell itself so content shows through */
+.industrialPlayerShell {
+  background: none;
+}
+
+/* === PLAYER SHELL CONTENT === */
+/* Percentages match cutout positions in the frame image */
 
 .shellCoverViewport,
 .shellVizViewport,
 .shellDossierPanel,
 .shellLyricsPanel,
 .industrialTransport,
-.searchBox,
-.trackList,
-.libraryPagination {
+.shellTitleStrip {
   position: absolute;
-  z-index: 5;
 }
 
+.shellTitleStrip {
+  left: 17%;
+  top: 78%;
+  width: 40%;
+  height: 3%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 0.5rem;
+  font-size: 0.6rem;
+  font-weight: 900;
+  color: #b7ff2b;
+  letter-spacing: 0.08em;
+  z-index: 20;
+}
+
+.shellMeters { display: none; }
+
 .shellCoverViewport {
-  left: 28.2%;
-  top: 6.0%;
-  width: 38.5%;
+  left: 29%;
+  top: 6%;
+  width: 43%;
   height: 70%;
   overflow: hidden;
   z-index: 10;
@@ -127,172 +222,310 @@ input {
 
 .shellCoverViewport em {
   position: absolute;
-  top: 1rem;
-  left: 1rem;
+  top: 0.75rem; left: 0.75rem;
   background: #b7ff2b;
   color: #061000;
-  padding: 0.4rem 0.65rem;
-  font-size: 0.75rem;
+  padding: 0.3rem 0.55rem;
+  font-size: 0.7rem;
   font-weight: 900;
   font-style: normal;
 }
 
 .shellVizViewport {
   left: 68%;
-  top: 7%;
-  width: 24%;
-  height: 18%;
+  top: 6%;
+  width: 30%;
+  height: 21%;
   background: rgba(0, 8, 0, 0.2);
   overflow: hidden;
+  z-index: 20;
 }
 
 .shellScopeTrace {
   width: 100%;
   height: 100%;
   background:
-    repeating-linear-gradient(0deg, rgba(167,255,50,.1) 0 1px, transparent 1px 8px),
-    linear-gradient(90deg, transparent 0 10%, rgba(174,255,45,.65) 50%, transparent 90%);
+    repeating-linear-gradient(0deg, rgba(167, 255, 50, .1) 0 1px, transparent 1px 8px),
+    linear-gradient(90deg, transparent 0 10%, rgba(174, 255, 45, .65) 50%, transparent 90%);
   animation: scopePulse 1.4s linear infinite;
 }
 
-.shellDossierPanel {
-  left: 68%;
-  top: 31%;
-  width: 24%;
-  height: 23%;
-}
-
-.shellLyricsPanel {
-  left: 68%;
-  top: 61%;
-  width: 24%;
-  height: 23%;
+@keyframes scopePulse {
+  from { transform: translateX(-20%); }
+  to   { transform: translateX(20%); }
 }
 
 .shellDossierPanel,
 .shellLyricsPanel {
-  padding: 0.7rem;
+  left: 68%;
+  width: 30%;
+  padding: 0.6rem;
   color: #f4f0d6;
-  background: rgba(0, 0, 0, 0.72);
-  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.7);
   overflow: hidden;
   text-shadow: 1px 1px 0 #000;
+  z-index: 20;
 }
 
-.shellDossierPanel b,
-.shellLyricsPanel b {
+.shellDossierPanel { top: 29%; height: 23%; }
+.shellLyricsPanel  { top: 55%; height: 24%; }
+
+.terminalPlate {
+  font-size: 0.62rem;
+  font-weight: 900;
   color: #b7ff2b;
-  font-size: 0.7rem;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.3rem;
 }
 
 .shellDossierPanel h2 {
-  margin: 0.35rem 0;
+  margin: 0.25rem 0;
   color: #b7ff2b;
-  font-size: 1rem;
-  line-height: 1;
+  font-size: 0.9rem;
+  line-height: 1.1;
 }
 
 .shellDossierPanel p,
 .shellLyricsPanel p,
 .shellLyricsPanel span {
-  margin: 0.3rem 0;
-  font-size: 0.72rem;
+  margin: 0.2rem 0;
+  font-size: 0.68rem;
   line-height: 1.25;
 }
 
-.industrialTransport {
-  left: 54%;
-  bottom: 5.8%;
-  width: 32%;
-  height: 8%;
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr 1fr 1fr;
-  gap: 0.35rem;
+.lyricsScroll {
+  height: calc(100% - 1.4rem);
+  overflow-y: auto;
+  scrollbar-width: none;
 }
 
-.industrialTransport button,
-.libraryPagination button {
-  border: 1px solid rgba(190,255,65,.45);
-  background: rgba(5, 12, 3, 0.72);
+.lyricsScroll p {
+  color: #b5ad91;
+  transition: color 0.2s;
+}
+
+.lyricsScroll p.active {
+  color: #b7ff2b;
+  font-weight: 700;
+}
+
+.industrialLyricsEmpty {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.industrialLyricsEmpty b {
+  color: #b7ff2b;
+  font-size: 0.66rem;
+}
+
+.industrialTransport {
+  left: 52%;
+  bottom: 1%;
+  width: 34%;
+  height: 22%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 0;
+  z-index: 60;
+}
+
+.industrialTransport button {
+  width: 11%;
+  aspect-ratio: 1;
+}
+
+.industrialTransport button {
+  border: none;
+  background: rgba(5, 12, 3, 0.75);
   color: #caff3a;
+  font-size: 0.7rem;
   font-weight: 900;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
 }
 
-.industrialTransport button:disabled,
-.libraryPagination button:disabled {
+.industrialTransport button:hover {
+  background: rgba(168, 255, 50, 0.12);
+}
+
+.industrialTransport button:first-child {
+  position: relative;
+  left: 2%;
+}
+
+.industrialTransport button:nth-child(4) {
+  position: relative;
+  left: -2%;
+}
+
+.industrialTransport button:nth-child(2) {
+  position: relative;
+  left: 1%;
+}
+
+.industrialTransport button:nth-child(5) {
+  position: relative;
+  left: -3.5%;
+}
+
+.industrialTransport button:disabled {
   opacity: 0.35;
   cursor: default;
 }
 
-.primaryPlay {
-  display: inline-flex;
+.industrialStartLeak {
+  font-size: 0.8rem !important;
+  color: #caff3a !important;
+  opacity: 1 !important;
+  filter: brightness(1.4);
+}
+
+/* === LIBRARY BAY (right panel, 450px wide) === */
+
+.industrialLibraryBay {
+  position: fixed;
+  right: 0;
+  top: 150px;
+  width: calc(560px + 2%);
+  height: calc(100vh - 150px - 110px);
+  z-index: 15;
+  background: none;
+}
+
+.industrialLibraryBay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("/images/industrial-library-bg-v1.png") center center / 100% 100% no-repeat;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.industrialLibraryBay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("/images/industrial-library-frame-v1.png") center center / 100% 100% no-repeat;
+  pointer-events: none;
+  z-index: 50;
+}
+
+/* All library content absolutely positioned within bay */
+
+.libraryButtons {
+  position: absolute;
+  top: 5%;
+  left: 62%;
+  right: 2%;
+  height: 5%;
+  display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 0.3rem;
+  z-index: 5;
+}
+
+.panelLabel {
+  display: flex;
+  align-items: center;
   gap: 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 900;
+  color: #b7ff2b;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.playlistLink {
+  border: 1px solid rgba(190, 255, 65, .45);
+  background: rgba(5, 12, 3, 0.72);
+  color: #caff3a;
+  font-size: 0.68rem;
+  font-weight: 900;
+  cursor: pointer;
+  padding: 0.25rem 0.45rem;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  white-space: nowrap;
+}
+
+.playlistLink.active {
+  background: rgba(168, 255, 50, 0.18);
+  border-color: rgba(190, 255, 65, .8);
 }
 
 .searchBox {
-  top: 8.5%;
-  left: 9%;
-  width: 60%;
-  height: 4.8%;
+  position: absolute;
+  top: 5%;
+  left: 6%;
+  width: 56%;
+  height: 5%;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  color: #caff3a;
-  background: rgba(0,0,0,.2);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0 0.4rem;
+  z-index: 5;
 }
 
 .searchBox input {
   width: 100%;
   border: 0;
   outline: 0;
-  color: #f4f0d6;
+  color: #ffffff;
   background: transparent;
-  font-weight: 800;
+  font-weight: 700;
+  font-size: 0.82rem;
 }
 
 .trackList {
-  left: 6%;
-  right: 6%;
-  top: 31%;
-  bottom: 15%;
+  position: absolute;
+  left: 3%;
+  right: 2%;
+  top: 30%;
+  bottom: 10%;
   display: grid;
   grid-template-rows: repeat(5, minmax(0, 1fr));
-  gap: 0.55rem;
+  gap: 0.25rem;
+  z-index: 5;
 }
 
-.trackRow {
-  display: grid;
-  grid-template-columns: 64px minmax(0, 1fr);
-  align-items: center;
-  gap: 2.0rem;
-  padding: 0.4rem 0.65rem;
-  border: 1px solid rgba(190,255,65,.15);
-  background: url("/images/industrial-track-row-v2.png") center center / 100% 100% no-repeat;
-  color: #f4f0d6;
-  text-align: left;
-  cursor: pointer;
-}
-
-.trackRow.active {
-  outline: 2px solid rgba(186,255,66,.8);
+.emptyLibrary {
+  font-size: 0.75rem;
+  color: #b5ad91;
+  padding: 1rem 0;
 }
 
 .trackRow {
   position: relative;
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid rgba(190, 255, 65, .15);
+  background: url("/images/industrial-track-row-v2.png") center center / 100% 100% no-repeat;
+  color: #f4f0d6;
+  text-align: left;
+  cursor: pointer;
   overflow: hidden;
 }
 
+.trackRow.active {
+  outline: 2px solid rgba(186, 255, 66, .8);
+}
+
 .trackRow img {
-  width: 74px;
-  height: 53px;
+  width: 52px;
+  height: 38px;
   object-fit: cover;
-
-  margin-left: 5px;
-
   display: block;
 }
 
@@ -304,127 +537,174 @@ input {
   text-overflow: ellipsis;
 }
 
-.trackRow b {
-  font-size: 0.95rem;
-}
-
-.trackRow small {
-  font-size: 0.68rem;
-  opacity: 0.85;
-}
+.trackRow b { font-size: 0.82rem; }
+.trackRow small { font-size: 0.62rem; opacity: 0.85; }
 
 .libraryPagination {
-  left: 31%;
-  right: 24%;
-  bottom: 3.5%;
-  height: 5%;
+  position: absolute;
+  left: 6%;
+  right: 4%;
+  bottom: 4%;
+  height: 8%;
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: 0.55rem;
+  gap: 0.5rem;
   color: #f4f0d6;
   text-align: center;
   font-weight: 900;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
+  z-index: 5;
 }
 
-audio {
-  display: none;
+.libraryPagination button {
+  border: 1px solid rgba(190, 255, 65, .45);
+  background: rgba(5, 12, 3, 0.72);
+  color: #caff3a;
+  font-weight: 900;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-@keyframes scopePulse {
-  from { transform: translateX(-20%); }
-  to { transform: translateX(20%); }
+.libraryPagination button:disabled {
+  opacity: 0.35;
+  cursor: default;
 }
 
-/* DESKTOP FINAL OVERRIDE */
-.radioApp,
-.industrialShell {
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.industrialShell {
-  display: block;
-  position: relative;
-}
-
-.industrialHeader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 150px;
-  z-index: 30;
-  background: url("/images/industrial-header-filthup-v1.png") center top / 100% 150px no-repeat;
-}
-
-.industrialPlayerShell {
-  position: fixed;
-  left: 0;
-  top: 150px;
-  width: 1270px;
-  height: calc(100vh - 150px - 220px);
-  z-index: 10;
-  background: url("/images/industrial-player-shell-v2-final.png") left center / auto 118% no-repeat;
-}
-
-.industrialLibraryBay {
-  position: fixed;
-  right: -15px;
-  top: 148px;
-  width: 690px;
-  height: calc(100vh - 150px - 220px);
-  z-index: 15;
-  background: url("/images/industrial-library-frame-v1.png") right center / 100% 100% no-repeat;
-}
+/* === WARNING STRIP (bottom) === */
+/* Image is 1536x1024. Content band is ~30–46% from top.
+   We display the image at 560px tall and crop to show just the band. */
 
 .industrialWarningStrip {
   position: fixed;
-  left: 0;
-  right: 0;
-  bottom: -70px;
+  bottom: 0; left: 0; right: 0;
   width: 100vw;
-  height: 210px;
+  height: 110px;
   z-index: 60;
   pointer-events: none;
-  background: url("/images/industrial-warning-banner-v1.png") center bottom / 100% 218px no-repeat;
+  background: url("/images/industrial-warning-banner-v1.png") center 47% / 101% 560px no-repeat;
 }
 
-/* DESKTOP ALIGNMENT PATCH */
-.industrialPlayerShell {
-  top: 145px;
-  height: calc(100vh - 140px - 88px);
-  background: none;
-  isolation: isolate;
+.warningPlate {
+  display: none; /* baked into the image */
 }
 
-.industrialPlayerShell::after {
-  content: "";
-  position: absolute;
+/* === MODALS === */
+
+.playlistModal,
+.playerModal {
+  position: fixed;
   inset: 0;
-  background: url("/images/industrial-player-shell-v2-final.png") left top / 100% 100% no-repeat;
-  pointer-events: none;
-  z-index: 50;
+  background: rgba(0, 0, 0, 0.78);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-
-.shellVizViewport,
-.shellDossierPanel,
-.shellLyricsPanel,
-.industrialTransport {
-  z-index: 60;
+.playlistModalPanel,
+.playerModalPanel {
+  background: rgba(8, 12, 5, 0.97);
+  border: 1px solid rgba(168, 255, 50, 0.3);
+  padding: 2rem;
+  max-width: 90vw;
+  max-height: 85vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
 }
 
-.industrialLibraryBay {
-  top: 125px;
-  height: calc(100vh - 140px - 68px);
-  background: url("/images/industrial-library-frame-v1.png") right top / 100% 100% no-repeat;
+.playlistModalHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
 }
 
-.industrialWarningStrip {
-  bottom: -245px;
-  height: 560px;
-  background: url("/images/industrial-warning-banner-v1.png") center bottom / 101% 560px no-repeat;
+.playlistModalHead h2 {
+  color: #b7ff2b;
+  margin: 0.25rem 0 0;
+  font-size: 1.4rem;
+}
+
+.eyebrow {
+  font-size: 0.72rem;
+  color: #b5ad91;
+  letter-spacing: 0.06em;
+  margin: 0;
+}
+
+.modalDismiss {
+  border: 1px solid rgba(190, 255, 65, .4);
+  background: rgba(5, 12, 3, 0.8);
+  color: #caff3a;
+  font-weight: 900;
+  cursor: pointer;
+  padding: 0.4rem 0.9rem;
+}
+
+.playlistGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.75rem;
+}
+
+.playlistCard {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  border: 1px solid rgba(168, 255, 50, 0.2);
+  background: rgba(10, 15, 5, 0.8);
+  color: #f4f0d6;
+  cursor: pointer;
+  text-align: left;
+  padding: 0.6rem;
+}
+
+.playlistCard:hover {
+  background: rgba(168, 255, 50, 0.08);
+  border-color: rgba(168, 255, 50, 0.5);
+}
+
+.playlistArt {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  background: rgba(168, 255, 50, 0.1);
+  border: 1px solid rgba(168, 255, 50, 0.2);
+}
+
+.playlistCardCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.playlistCardCopy b { font-size: 0.82rem; color: #b7ff2b; }
+.playlistCardCopy small { font-size: 0.65rem; color: #b5ad91; }
+.playlistCardCopy em { font-size: 0.66rem; font-style: normal; color: #b5ad91; }
+
+.playerModalPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 320px;
+}
+
+.playerModalCover {
+  width: 100%;
+  max-height: 240px;
+  object-fit: cover;
+}
+
+.playerModalCopy p { margin: 0; font-size: 0.72rem; color: #b5ad91; }
+.playerModalCopy h2 { margin: 0.25rem 0; color: #b7ff2b; }
+.playerModalCopy span { font-size: 0.78rem; color: #f4f0d6; }
+
+.playerModalAudio {
+  display: block !important;
+  width: 100%;
 }
