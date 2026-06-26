@@ -1,7 +1,7 @@
 {
   "scripts": {
     "dev": "vite --host 0.0.0.0",
-    "build": "vite build",
+    "build": "vite build && mkdir -p dist/stank-radio && cp dist/index.html dist/stank-radio/index.html && cp dist/songs.json dist/stank-radio/ && cp -a dist/assets dist/stank-radio/ && cp -a dist/images dist/stank-radio/",
     "preview": "vite preview --host 0.0.0.0"
   },
   "dependencies": {
