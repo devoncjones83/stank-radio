@@ -170,6 +170,7 @@ function App() {
   const stankIndex = activeTrack
     ? Math.min(99, Math.max(43, activeTrack.title.length + activeTrack.tag.length))
     : 0;
+  const fumesMeterAngle = activeTrack ? Math.round((stankIndex / 99) * 130 - 65) : -70;
   const hasActiveAudio = Boolean(activeTrack?.audio);
   const currentLyrics = activeTrack?.lyricsTimeline || [];
   const activeLyricIndex = useMemo(() => {
@@ -320,7 +321,7 @@ function App() {
 
             <div className="shellMeters" aria-hidden="true">
               <i className="shellNeedle shellNeedleIndex" />
-              <i className="shellNeedle shellNeedleFumes" />
+              <i className="shellNeedle shellNeedleFumes" style={{ '--needle-angle': `${fumesMeterAngle}deg` }} />
             </div>
 
             <div className="shellCoverViewport">
@@ -579,7 +580,7 @@ function App() {
         <aside className="headerSignal" aria-label="Containment signal status">
           <div title={loadStatus}>
             <span>Containment index</span>
-            <b>{tracks.length}</b>
+            <b className="digitalCount">{tracks.length}</b>
           </div>
           <div>
             <span>Fumes</span>
