@@ -1,0 +1,17 @@
+{
+  "player": {
+    "candidate": "PC-legacy.png",
+    "production_file": "industrial-player-shell-v3.png",
+    "size": "1198x856"
+  },
+  "header": {
+    "candidate": "HC-legacy.png",
+    "production_file": "industrial-header-v2.png",
+    "size": "1920x150"
+  },
+  "library": {
+    "candidate": "LC-legacy.png",
+    "production_file": "industrial-library-frame-v2.png",
+    "size": "680x856"
+  }
+}

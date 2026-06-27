@@ -62,7 +62,7 @@ audio { display: none; }
   height: 150px;
   z-index: 30;
   overflow: hidden;
-  background: url("/images/production/industrial-header-v2.png?pm=2?v=hc8") center center / 100% 100% no-repeat;
+  background: url("/images/industrial-header-filthup-v1.png") center center / 100% 100% no-repeat;
 }
 
 /* Hide static copy panels — header image already shows this info */
@@ -154,11 +154,11 @@ audio { display: none; }
 .industrialPlayerShell {
   position: fixed;
   left: 0;
-  top: 160px;
+  top: 142px;
   right: calc(700px + 1%);
   height: calc(100vh - 142px - 82px);
   z-index: 10;
-  background: url("/images/production/industrial-player-shell-v3.png") center center / 100% 100% no-repeat;
+  background: url("/images/industrial-player-shell-v2-final.png") center center / 100% 100% no-repeat;
 }
 
 /* Frame image is on top of content via ::after */
@@ -166,7 +166,7 @@ audio { display: none; }
   content: "";
   position: absolute;
   inset: 0;
-  background: url("/images/production/industrial-player-shell-v3.png") center center / 100% 100% no-repeat;
+  background: url("/images/industrial-player-shell-v2-final.png") center center / 100% 100% no-repeat;
   pointer-events: none;
   z-index: 50;
 }
@@ -251,7 +251,16 @@ audio { display: none; }
   display: block;
 }
 
-
+.shellCoverViewport em {
+  position: absolute;
+  top: 0.75rem; left: 0.75rem;
+  background: #b7ff2b;
+  color: #061000;
+  padding: 0.3rem 0.55rem;
+  font-size: 0.7rem;
+  font-weight: 900;
+  font-style: normal;
+}
 
 .shellVizViewport {
   left: 73%;
@@ -437,7 +446,7 @@ audio { display: none; }
   content: "";
   position: absolute;
   inset: 0;
-  background: url("/images/production/industrial-library-frame-v2.png") center center / 100% 100% no-repeat;
+  background: url("/images/industrial-library-frame-v1.png") center center / 100% 100% no-repeat;
   pointer-events: none;
   z-index: 50;
 }
@@ -668,15 +677,13 @@ audio { display: none; }
    We display the image at 560px tall and crop to show just the band. */
 
 .industrialWarningStrip {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: auto;
-  width: 1920px;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  width: 100vw;
   height: 110px;
   z-index: 60;
   pointer-events: none;
-  background: url("/images/production/industrial-warning-footer-v2.png") center center / 100% 100% no-repeat;
+  background: url("/images/industrial-warning-banner-v1.png") center 47% / 101% 560px no-repeat;
 }
 
 .warningPlate {
@@ -983,471 +990,3 @@ audio { display: none; }
   opacity: 1;
 }
 
-
-/* === WAVEFORM + LYRIC PANEL FIX === */
-
-/* Make the waveform fill wider, but hide the janky clipped edges behind the frame */
-.shellVizViewport {
-  left: 72.7%;
-  top: 7.35%;
-  width: 24.8%;
-  height: 20.6%;
-  overflow: hidden;
-}
-
-/* Oversize the moving waveform internally so motion does not visibly die at the corners */
-.shellScopeTrace {
-  width: 140%;
-  height: 100%;
-  margin-left: -20%;
-}
-
-/* Keep idle waveform still */
-.shellScopeTrace {
-  animation: none;
-  transform: none;
-}
-
-/* Only animate while playing */
-.isPlaying .shellScopeTrace {
-  animation: scopePulseWide 1.8s linear infinite;
-}
-
-@keyframes scopePulseWide {
-  from { transform: translateX(-12%); }
-  to   { transform: translateX(12%); }
-}
-
-/* Move lyric content down and center it inside the usable screen area */
-.shellLyricsPanel {
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding-top: 1.15rem;
-  padding-bottom: 0.75rem;
-}
-
-/* The lyric text block itself gets centered lower inside the panel */
-.shellLyricsPanel .lyricsScroll {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  transform: translateY(8%);
-  overflow: hidden;
-}
-
-/* Empty lyric state centered cleanly */
-.shellLyricsPanel .industrialLyricsEmpty {
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-
-
-/* === LYRIC CLEANUP + COVER BADGE POSITION === */
-
-/* Center remaining lyric-empty text vertically in the actual visible panel */
-.shellLyricsPanel {
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.shellLyricsPanel .lyricsScroll {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: none;
-  overflow: hidden;
-}
-
-.shellLyricsPanel .industrialLyricsEmpty {
-  width: 100%;
-  min-height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-/* Move ACTIVE RESIDUE / AWAITING SELECTION badge into visible cover area */
-
-
-
-
-/* === COVER ART STATUS IMAGE === */
-.coverStatus {
-  position: absolute;
-  top: 14px;
-  left: 14px;
-  width: 230px;
-  height: 56px;
-  background-position: left top;
-  background-repeat: no-repeat;
-  background-size: contain;
-  pointer-events: none;
-  z-index: 30;
-}
-
-.coverStatus.awaiting {
-  background-image: url("/images/awaiting.png");
-}
-
-.coverStatus.active {
-  background-image: url("/images/active.png");
-}
-
-/* === MOBILE FILTH-UP START === */
-
-@media (max-width: 900px) {
-  html,
-  body,
-  #root {
-    overflow: auto;
-    height: auto;
-    min-height: 100%;
-  }
-
-  .radioApp,
-  .industrialShell {
-    width: 100%;
-    min-height: 100vh;
-    height: auto;
-    overflow: visible;
-  }
-
-  .industrialHeader,
-  .industrialPlayerShell,
-  .industrialLibraryBay,
-  .industrialWarningStrip {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: auto;
-  width: 1920px;
-  height: 110px;
-  z-index: 60;
-  pointer-events: none;
-  background: url("/images/production/industrial-warning-footer-v2.png") center center / 100% 100% no-repeat;
-}
-
-  .industrialHeader {
-    min-height: 120px;
-    background-size: cover;
-  }
-
-  .industrialPlayerShell,
-  .industrialPlayerShell::after,
-  .industrialLibraryBay::before,
-  .industrialLibraryBay::after,
-  .industrialWarningStrip {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: auto;
-  width: 1920px;
-  height: 110px;
-  z-index: 60;
-  pointer-events: none;
-  background: url("/images/production/industrial-warning-footer-v2.png") center center / 100% 100% no-repeat;
-}
-
-  .industrialShell {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 0.75rem;
-  }
-
-  .industrialPlayerShell {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .shellCoverViewport,
-  .shellVizViewport,
-  .shellDossierPanel,
-  .shellLyricsPanel,
-  .industrialTransport {
-    position: relative;
-    left: auto;
-    right: auto;
-    top: auto;
-    bottom: auto;
-    width: 100%;
-    height: auto;
-  }
-
-  .shellCoverViewport {
-    aspect-ratio: 1 / 1;
-    border: 2px solid rgba(168, 255, 50, 0.35);
-    background: rgba(0, 0, 0, 0.55);
-  }
-
-  .shellCoverViewport img {
-    width: 100%;
-    height: 100%;
-    transform: none;
-  }
-
-  .coverStatus {
-    top: 10px;
-    left: 10px;
-    width: 180px;
-    height: 44px;
-  }
-
-  .shellVizViewport {
-    height: 90px;
-    border: 1px solid rgba(168, 255, 50, 0.25);
-  }
-
-  .shellDossierPanel,
-  .shellLyricsPanel {
-    min-height: 120px;
-    padding: 1rem;
-  }
-
-  .industrialTransport {
-    min-height: 70px;
-    justify-content: center;
-    gap: 0.75rem;
-  }
-
-  .industrialTransport button {
-    width: 52px;
-    height: 52px;
-  }
-
-  .industrialLibraryBay {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .searchBox,
-  .libraryButtons,
-  .trackList,
-  .libraryPagination {
-    position: relative;
-    left: auto;
-    right: auto;
-    top: auto;
-    bottom: auto;
-    width: 100%;
-    height: auto;
-  }
-
-  .trackList {
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-  }
-
-  .trackRow {
-    min-height: 96px;
-  }
-
-  .libraryPagination {
-    min-height: 64px;
-  }
-}
-
-
-/* === POCKET FILTH BOOT PLACEHOLDER === */
-.pocketFilthBoot {
-  min-height: 100vh;
-  width: 100vw;
-  display: grid;
-  place-items: center;
-  padding: 1.25rem;
-  background:
-    radial-gradient(circle at 50% 20%, rgba(168,255,50,0.12), transparent 35%),
-    linear-gradient(180deg, #12150d, #050604);
-  color: #caff3a;
-}
-
-.pocketFilthBootPanel {
-  width: min(92vw, 420px);
-  border: 2px solid rgba(168,255,50,0.45);
-  background: rgba(0,0,0,0.72);
-  padding: 1.5rem;
-  text-align: center;
-  box-shadow: inset 0 0 24px rgba(168,255,50,0.12);
-}
-
-.pocketFilthBootPanel p,
-.pocketFilthBootPanel span {
-  margin: 0.5rem 0;
-  letter-spacing: 0.08em;
-}
-
-.pocketFilthBootPanel h1 {
-  margin: 0.4rem 0;
-  font-size: 2.2rem;
-}
-
-/* === POCKET FILTH BOOT PLACEHOLDER === */
-.pocketFilthBoot {
-  min-height: 100vh;
-  width: 100vw;
-  display: grid;
-  place-items: center;
-  padding: 1.25rem;
-  background:
-    radial-gradient(circle at 50% 20%, rgba(168,255,50,0.12), transparent 35%),
-    linear-gradient(180deg, #12150d, #050604);
-  color: #caff3a;
-}
-
-.pocketFilthBootPanel {
-  width: min(92vw, 420px);
-  border: 2px solid rgba(168,255,50,0.45);
-  background: rgba(0,0,0,0.72);
-  padding: 1.5rem;
-  text-align: center;
-  box-shadow: inset 0 0 24px rgba(168,255,50,0.12);
-}
-
-.pocketFilthBootPanel p,
-.pocketFilthBootPanel span {
-  margin: 0.5rem 0;
-  letter-spacing: 0.08em;
-}
-
-.pocketFilthBootPanel h1 {
-  margin: 0.4rem 0;
-  font-size: 2.2rem;
-}
-
-/* === FILTH-UP DESKTOP GUARD === */
-.desktopGuard {
-  min-height: 100vh;
-  width: 100vw;
-  display: grid;
-  place-items: center;
-  padding: 1.25rem;
-  background:
-    radial-gradient(circle at 50% 20%, rgba(240,74,47,0.14), transparent 38%),
-    linear-gradient(180deg, #15110b, #050403);
-  color: #f3edd7;
-}
-
-.desktopGuardPanel {
-  width: min(92vw, 620px);
-  border: 2px solid rgba(240,74,47,0.55);
-  background: rgba(0,0,0,0.76);
-  padding: 1.75rem;
-  text-align: center;
-  box-shadow: inset 0 0 30px rgba(240,74,47,0.12);
-}
-
-.desktopGuardPanel p,
-.desktopGuardPanel span,
-.desktopGuardPanel small {
-  display: block;
-  margin: 0.55rem 0;
-  letter-spacing: 0.08em;
-}
-
-.desktopGuardPanel h1 {
-  margin: 0.4rem 0;
-  color: #caff3a;
-  font-size: 2.1rem;
-}
-
-.desktopGuardPanel strong {
-  display: block;
-  color: #f04a2f;
-  margin-top: 0.75rem;
-}
-
-
-
-
-/* === FILTH-UP TRUE STAGE LOCK === */
-
-.radioApp.filthUpView {
-  width: 100vw;
-  height: 100dvh;
-  overflow: hidden;
-  position: relative;
-  display: grid;
-  place-items: start center;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-.filthStage {
-  width: 100vw;
-  height: 100dvh;
-  position: relative;
-  overflow: hidden;
-}
-
-.filthStage .industrialShell {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-.filthStage .industrialHeader {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 15%;
-}
-
-.filthStage .industrialPlayerShell {
-  position: absolute;
-  left: 0;
-  top: 15%;
-  width: 62.4%;
-  height: 73.8%;
-}
-
-.filthStage .industrialLibraryBay {
-  position: absolute;
-  right: 0;
-  top: 15%;
-  width: 38.2%;
-  height: 71%;
-}
-
-.filthStage .industrialWarningStrip {
-  display: block !important;
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 12%;
-  z-index: 100;
-  pointer-events: none;
-  background: url("/images/production/industrial-warning-footer-v2.png") center center / 100% 100% no-repeat;
-}
-
-
-/* === STANK GAP KILLER === */
-
-.filthStage .industrialPlayerShell {
-  top: 17.0%;
-}
-
-.filthStage .industrialLibraryBay {
-  top: 17.0%;
-  height: 71.2%;
-}
-
-.filthStage .industrialHeader {
-  height: 16.8%;
-}

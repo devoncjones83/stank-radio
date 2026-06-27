@@ -154,7 +154,7 @@ audio { display: none; }
 .industrialPlayerShell {
   position: fixed;
   left: 0;
-  top: 160px;
+  top: 142px;
   right: calc(700px + 1%);
   height: calc(100vh - 142px - 82px);
   z-index: 10;
@@ -1371,7 +1371,6 @@ audio { display: none; }
 
 
 
-
 /* === FILTH-UP TRUE STAGE LOCK === */
 
 .radioApp.filthUpView {
@@ -1380,14 +1379,14 @@ audio { display: none; }
   overflow: hidden;
   position: relative;
   display: grid;
-  place-items: start center;
+  place-items: center;
   padding: 0;
   box-sizing: border-box;
 }
 
 .filthStage {
-  width: 100vw;
-  height: 100dvh;
+  width: min(100vw, 177.7778dvh);
+  height: min(100dvh, 56.25vw);
   position: relative;
   overflow: hidden;
 }
@@ -1405,23 +1404,23 @@ audio { display: none; }
   top: 0;
   left: 0;
   width: 100%;
-  height: 15%;
+  height: 13.889%;
 }
 
 .filthStage .industrialPlayerShell {
   position: absolute;
   left: 0;
-  top: 15%;
+  top: 13.889%;
   width: 62.4%;
-  height: 73.8%;
+  height: 74.074%;
 }
 
 .filthStage .industrialLibraryBay {
   position: absolute;
   right: 0;
-  top: 15%;
-  width: 38.2%;
-  height: 71%;
+  top: 13.889%;
+  width: 37.6%;
+  height: 74.074%;
 }
 
 .filthStage .industrialWarningStrip {
@@ -1430,24 +1429,40 @@ audio { display: none; }
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 12%;
+  height: 12.037%;
   z-index: 100;
   pointer-events: none;
   background: url("/images/production/industrial-warning-footer-v2.png") center center / 100% 100% no-repeat;
 }
 
 
-/* === STANK GAP KILLER === */
+/* === STANK DESKTOP FILL TUNING === */
 
-.filthStage .industrialPlayerShell {
-  top: 17.0%;
+.radioApp.filthUpView {
+  place-items: start center;
 }
 
-.filthStage .industrialLibraryBay {
-  top: 17.0%;
-  height: 71.2%;
+.filthStage {
+  width: 100vw;
+  height: 100dvh;
 }
 
 .filthStage .industrialHeader {
-  height: 16.8%;
+  height: 12.5%;
+}
+
+.filthStage .industrialPlayerShell {
+  top: 12.5%;
+  width: 62.4%;
+  height: 75.5%;
+}
+
+.filthStage .industrialLibraryBay {
+  top: 12.5%;
+  width: 37.6%;
+  height: 75.5%;
+}
+
+.filthStage .industrialWarningStrip {
+  height: 12%;
 }
