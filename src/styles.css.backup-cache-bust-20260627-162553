@@ -62,7 +62,7 @@ audio { display: none; }
   height: 150px;
   z-index: 30;
   overflow: hidden;
-  background: url("/images/production/industrial-header-v2.png?pm=2?v=hc8") center center / 100% 100% no-repeat;
+  background: url("/images/production/industrial-header-v2.png?v=hc8") center center / 100% 100% no-repeat;
 }
 
 /* Hide static copy panels — header image already shows this info */
@@ -154,7 +154,7 @@ audio { display: none; }
 .industrialPlayerShell {
   position: fixed;
   left: 0;
-  top: 160px;
+  top: 142px;
   right: calc(700px + 1%);
   height: calc(100vh - 142px - 82px);
   z-index: 10;
@@ -1369,34 +1369,31 @@ audio { display: none; }
   margin-top: 0.75rem;
 }
 
-
-
-
 /* === FILTH-UP TRUE STAGE LOCK === */
 
 .radioApp.filthUpView {
   width: 100vw;
-  height: 100dvh;
+  height: 100vh;
   overflow: hidden;
   position: relative;
   display: grid;
-  place-items: start center;
-  padding: 0;
-  box-sizing: border-box;
+  place-items: center;
 }
 
 .filthStage {
-  width: 100vw;
-  height: 100dvh;
+  width: 1920px;
+  height: 1080px;
   position: relative;
   overflow: hidden;
+  transform: scale(var(--filth-stage-scale, 1));
+  transform-origin: center center;
 }
 
 .filthStage .industrialShell {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
+  width: 1920px;
+  height: 1080px;
   overflow: hidden;
 }
 
@@ -1404,50 +1401,36 @@ audio { display: none; }
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 15%;
+  width: 1920px;
+  height: 150px;
 }
 
 .filthStage .industrialPlayerShell {
   position: absolute;
   left: 0;
-  top: 15%;
-  width: 62.4%;
-  height: 73.8%;
+  top: 142px;
+  right: auto;
+  width: 1198px;
+  height: 856px;
 }
 
 .filthStage .industrialLibraryBay {
   position: absolute;
   right: 0;
-  top: 15%;
-  width: 38.2%;
-  height: 71%;
+  top: 150px;
+  width: 738px;
+  height: 820px;
 }
 
 .filthStage .industrialWarningStrip {
-  display: block !important;
   position: absolute;
-  left: 0;
   bottom: 0;
-  width: 100%;
-  height: 12%;
-  z-index: 100;
+  left: 0;
+  right: auto;
+  width: 1920px;
+  height: 110px;
+  z-index: 60;
   pointer-events: none;
   background: url("/images/production/industrial-warning-footer-v2.png") center center / 100% 100% no-repeat;
 }
 
-
-/* === STANK GAP KILLER === */
-
-.filthStage .industrialPlayerShell {
-  top: 17.0%;
-}
-
-.filthStage .industrialLibraryBay {
-  top: 17.0%;
-  height: 71.2%;
-}
-
-.filthStage .industrialHeader {
-  height: 16.8%;
-}

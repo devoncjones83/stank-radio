@@ -19,7 +19,6 @@ import {
   SlidersHorizontal,
 } from 'lucide-react';
 import './styles.css';
-import PocketFilthScanner from './layouts/PocketFilthScanner.jsx';
 
 const BASE = import.meta.env.BASE_URL || '/';
 const defaultCover = `${BASE}images/stank-radio-icon.png`;
@@ -111,64 +110,6 @@ function normalizeTrack(song, index) {
   };
 }
 
-function useHardwarePlatform() {
-  const getPlatform = () => {
-    if (window.innerWidth <= 900) return 'pocket-filth';
-    if (window.innerWidth < 1400) return 'desktop-guard';
-    return 'filth-up-console';
-  };
-
-  const [hardwarePlatform, setHardwarePlatform] = useState(getPlatform);
-
-  useEffect(() => {
-    const updateHardware = () => setHardwarePlatform(getPlatform());
-    updateHardware();
-    window.addEventListener('resize', updateHardware);
-    return () => window.removeEventListener('resize', updateHardware);
-  }, []);
-
-  return hardwarePlatform;
-}
-
-function DesktopGuard() {
-  return (
-    <main className="desktopGuard">
-      <section className="desktopGuardPanel">
-        <p>BIG DUMB IDIOT LABS</p>
-        <h1>FILTH-UP CONSOLE</h1>
-        <strong>Desktop viewport below safe operating width.</strong>
-        <span>Widen the browser to continue console operation.</span>
-        <small>POCKET FILTH activates at 900px and below.</small>
-      </section>
-    </main>
-  );
-}
-
-function useFilthStageScale() {
-  const getScale = () => {
-    const viewportHeight =
-      window.visualViewport?.height ||
-      document.documentElement.clientHeight ||
-      window.innerHeight;
-
-    return Math.min(
-      (window.innerWidth - 64) / 1920,
-      (viewportHeight - 220) / 1080,
-      1
-    );
-  };
-  const [scale, setScale] = useState(getScale);
-
-  useEffect(() => {
-    const updateScale = () => setScale(getScale());
-    updateScale();
-    window.addEventListener('resize', updateScale);
-    return () => window.removeEventListener('resize', updateScale);
-  }, []);
-
-  return scale;
-}
-
 function App() {
   const audioRef = useRef(null);
   const lyricLineRefs = useRef([]);
@@ -182,9 +123,7 @@ function App() {
   const [playlistsOpen, setPlaylistsOpen] = useState(false);
   const [playerModalOpen, setPlayerModalOpen] = useState(false);
   const [loadStatus, setLoadStatus] = useState('Tuning the contamination manifest');
-  const [viewMode, setViewMode] = useState('filth');
-  const hardwarePlatform = useHardwarePlatform();
-  const filthStageScale = useFilthStageScale();
+  const [viewMode, setViewMode] = useState('containment');
 
   useEffect(() => {
     fetch(`${BASE}songs.json`, { cache: 'no-store' })
@@ -343,18 +282,9 @@ function App() {
     setCurrentTime(event.currentTarget.currentTime);
   }
 
-  if (hardwarePlatform === 'pocket-filth') {
-    return <PocketFilthScanner />;
-  }
-
-  if (hardwarePlatform === 'desktop-guard') {
-    return <DesktopGuard />;
-  }
-
   if (viewMode === 'filth') {
     return (
-      <main className={playing ? "radioApp filthUpView isPlaying" : "radioApp filthUpView"} style={{ "--filth-stage-scale": filthStageScale }}>
-        <div className="filthStage">
+      <main className={playing ? "radioApp filthUpView isPlaying" : "radioApp filthUpView"}>
         <div
           className="backdrop"
           style={{ '--app-bg': `url("${BASE}images/stank-radio-bg.png")` }}
@@ -422,7 +352,7 @@ function App() {
 
             <div className="shellCoverViewport">
               <img src={displayTrack.cover || defaultCover} alt="" />
-              <em className={activeTrack ? "coverStatus active" : "coverStatus awaiting"} aria-hidden="true" />
+              <em>{activeTrack ? 'ACTIVE RESIDUE' : 'AWAITING SELECTION'}</em>
             </div>
 
             <div className="shellVizViewport" aria-hidden="true">
@@ -456,11 +386,9 @@ function App() {
                       <>
                         <b>LYRIC DATA NOT AVAILABLE</b>
                         <span>No synchronized contamination transcript found.</span>
-                        <span>Awaiting future LRC containment records.</span>
                       </>
                     ) : (
                       <>
-                        <b>AWAITING LYRIC TIMING DATA</b>
                         <span>NO SYNCHRONIZED TRANSCRIPT PRESENT</span>
                         <span>FUNK LEVELS ACCEPTABLE</span>
                       </>
@@ -587,8 +515,6 @@ function App() {
             onEnded={() => stepTrack(1)}
           />
         </section>
-
-        </div>
 
         {playerModalOpen && activeTrack ? (
           <section className="playerModal" role="dialog" aria-modal="true" aria-label="Stank player">

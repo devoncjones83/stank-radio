@@ -144,31 +144,6 @@ function DesktopGuard() {
   );
 }
 
-function useFilthStageScale() {
-  const getScale = () => {
-    const viewportHeight =
-      window.visualViewport?.height ||
-      document.documentElement.clientHeight ||
-      window.innerHeight;
-
-    return Math.min(
-      (window.innerWidth - 64) / 1920,
-      (viewportHeight - 220) / 1080,
-      1
-    );
-  };
-  const [scale, setScale] = useState(getScale);
-
-  useEffect(() => {
-    const updateScale = () => setScale(getScale());
-    updateScale();
-    window.addEventListener('resize', updateScale);
-    return () => window.removeEventListener('resize', updateScale);
-  }, []);
-
-  return scale;
-}
-
 function App() {
   const audioRef = useRef(null);
   const lyricLineRefs = useRef([]);
@@ -184,7 +159,6 @@ function App() {
   const [loadStatus, setLoadStatus] = useState('Tuning the contamination manifest');
   const [viewMode, setViewMode] = useState('filth');
   const hardwarePlatform = useHardwarePlatform();
-  const filthStageScale = useFilthStageScale();
 
   useEffect(() => {
     fetch(`${BASE}songs.json`, { cache: 'no-store' })
@@ -353,8 +327,7 @@ function App() {
 
   if (viewMode === 'filth') {
     return (
-      <main className={playing ? "radioApp filthUpView isPlaying" : "radioApp filthUpView"} style={{ "--filth-stage-scale": filthStageScale }}>
-        <div className="filthStage">
+      <main className={playing ? "radioApp filthUpView isPlaying" : "radioApp filthUpView"}>
         <div
           className="backdrop"
           style={{ '--app-bg': `url("${BASE}images/stank-radio-bg.png")` }}
@@ -587,8 +560,6 @@ function App() {
             onEnded={() => stepTrack(1)}
           />
         </section>
-
-        </div>
 
         {playerModalOpen && activeTrack ? (
           <section className="playerModal" role="dialog" aria-modal="true" aria-label="Stank player">

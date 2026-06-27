@@ -154,7 +154,7 @@ audio { display: none; }
 .industrialPlayerShell {
   position: fixed;
   left: 0;
-  top: 160px;
+  top: 142px;
   right: calc(700px + 1%);
   height: calc(100vh - 142px - 82px);
   z-index: 10;
@@ -1413,14 +1413,14 @@ audio { display: none; }
   left: 0;
   top: 15%;
   width: 62.4%;
-  height: 73.8%;
+  height: 73%;
 }
 
 .filthStage .industrialLibraryBay {
   position: absolute;
   right: 0;
   top: 15%;
-  width: 38.2%;
+  width: 37.6%;
   height: 71%;
 }
 
@@ -1436,18 +1436,3 @@ audio { display: none; }
   background: url("/images/production/industrial-warning-footer-v2.png") center center / 100% 100% no-repeat;
 }
 
-
-/* === STANK GAP KILLER === */
-
-.filthStage .industrialPlayerShell {
-  top: 17.0%;
-}
-
-.filthStage .industrialLibraryBay {
-  top: 17.0%;
-  height: 71.2%;
-}
-
-.filthStage .industrialHeader {
-  height: 16.8%;
-}

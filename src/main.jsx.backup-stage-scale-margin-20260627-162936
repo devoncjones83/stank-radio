@@ -145,18 +145,7 @@ function DesktopGuard() {
 }
 
 function useFilthStageScale() {
-  const getScale = () => {
-    const viewportHeight =
-      window.visualViewport?.height ||
-      document.documentElement.clientHeight ||
-      window.innerHeight;
-
-    return Math.min(
-      (window.innerWidth - 64) / 1920,
-      (viewportHeight - 220) / 1080,
-      1
-    );
-  };
+  const getScale = () => Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
   const [scale, setScale] = useState(getScale);
 
   useEffect(() => {
