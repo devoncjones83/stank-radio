@@ -62,7 +62,7 @@ audio { display: none; }
   height: 150px;
   z-index: 30;
   overflow: hidden;
-  background: url("/images/production/industrial-header-v2.png?pm=2?v=hc8") center center / 100% 100% no-repeat;
+  background: url("/images/production/industrial-header-v2.png?pm=2") center center / 100% 100% no-repeat;
 }
 
 /* Hide static copy panels — header image already shows this info */
@@ -530,11 +530,11 @@ audio { display: none; }
   position: absolute;
   left: 3%;
   right: 2%;
-  top: 30%;
-  bottom: 15%;
+  top: 29%;
+  bottom: 11.5%;
   display: grid;
   grid-template-rows: repeat(5, minmax(0, 1fr));
-  gap: 0.25rem;
+  gap: 0.08rem;
   z-index: 5;
 }
 
@@ -547,7 +547,7 @@ audio { display: none; }
 .trackRow {
   position: relative;
   display: grid;
-  grid-template-columns: 92px minmax(0, 1fr);
+  grid-template-columns: 82px minmax(0, 1fr);
   align-items: center;
   gap: 0.85rem;
   padding: 0.3rem 0.6rem 0.3rem 0.35rem;
@@ -585,8 +585,8 @@ audio { display: none; }
 .trackRow img {
   position: relative;
   z-index: 1;
-  width: 92px;
-  height: 66px;
+  width: 78px;
+  height: 56px;
   object-fit: cover;
   display: block;
 }
@@ -624,7 +624,7 @@ audio { display: none; }
   height: 100%;
   border: none;
   /* TEMP DEBUG: translucent red so button hit-area is visible */
-  background: rgba(255, 0, 0, 0.4);
+  background: transparent;
   color: #caff3a;
   font-size: 1.4rem;
   font-weight: 900;
@@ -904,9 +904,10 @@ audio { display: none; }
   width: 100%;
 }
 
-/* === PANEL TUNING: waveform, dossier, lyrics, cover art === */
 
-/* Make cover art slightly oversized and centered in the viewport */
+/* === PLAYER OVERLAY TUNING — AUTHORITATIVE === */
+
+/* Cover art slightly oversized and centered in the viewport */
 .shellCoverViewport img {
   width: 106%;
   height: 106%;
@@ -915,17 +916,46 @@ audio { display: none; }
   object-fit: cover;
   object-position: center center;
   transform: translate(-3%, -3%);
+  filter: contrast(1.06) saturate(1.05) brightness(0.96);
 }
 
-/* Enlarge waveform fill inside its hardware hole */
+/* Waveform viewport aligned to shell hardware opening */
 .shellVizViewport {
-  left: 72.2%;
-  top: 7.2%;
-  width: 25.8%;
-  height: 21.2%;
+  left: 72.7%;
+  top: 7.35%;
+  width: 24.8%;
+  height: 20.6%;
+  overflow: hidden;
 }
 
-/* Center and enlarge track dossier text */
+/* Waveform fills wider internally so motion does not die at clipped edges */
+.shellScopeTrace {
+  width: 140%;
+  height: 100%;
+  margin-left: -20%;
+  animation: idleScopeHum 5.5s ease-in-out infinite;
+  transform: none;
+  opacity: 0.82;
+  filter: drop-shadow(0 0 8px rgba(168,255,50,0.28));
+}
+
+.isPlaying .shellScopeTrace {
+  animation: scopePulseWide 1.8s linear infinite;
+  opacity: 1;
+  filter: drop-shadow(0 0 14px rgba(168,255,50,0.55));
+}
+
+@keyframes scopePulseWide {
+  from { transform: translateX(-12%); }
+  to   { transform: translateX(12%); }
+}
+
+@keyframes idleScopeHum {
+  0%, 100% { opacity: 0.68; transform: translateX(0); }
+  50% { opacity: 0.88; transform: translateX(1.5%); }
+}
+
+/* Dossier and lyric CRT typography */
 .shellDossierPanel,
 .shellLyricsPanel {
   align-items: center;
@@ -948,118 +978,15 @@ audio { display: none; }
   line-height: 1.35;
 }
 
-.industrialLyricsEmpty {
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.industrialLyricsEmpty b {
-  font-size: 0.78rem;
-}
-
-
-
-/* === WAVEFORM STATE TUNING === */
-
-/* Wider waveform viewport */
-.shellVizViewport {
-  left: 71.2%;
-  top: 7.2%;
-  width: 27.1%;
-  height: 21.2%;
-}
-
-/* Still display when idle */
-.shellScopeTrace {
-  animation: none;
-  transform: none;
-  opacity: 0.75;
-}
-
-/* Only animate while a track is playing */
-.isPlaying .shellScopeTrace {
-  animation: scopePulse 1.4s linear infinite;
-  opacity: 1;
-}
-
-
-/* === WAVEFORM + LYRIC PANEL FIX === */
-
-/* Make the waveform fill wider, but hide the janky clipped edges behind the frame */
-.shellVizViewport {
-  left: 72.7%;
-  top: 7.35%;
-  width: 24.8%;
-  height: 20.6%;
-  overflow: hidden;
-}
-
-/* Oversize the moving waveform internally so motion does not visibly die at the corners */
-.shellScopeTrace {
-  width: 140%;
-  height: 100%;
-  margin-left: -20%;
-}
-
-/* Keep idle waveform still */
-.shellScopeTrace {
-  animation: none;
-  transform: none;
-}
-
-/* Only animate while playing */
-.isPlaying .shellScopeTrace {
-  animation: scopePulseWide 1.8s linear infinite;
-}
-
-@keyframes scopePulseWide {
-  from { transform: translateX(-12%); }
-  to   { transform: translateX(12%); }
-}
-
-/* Move lyric content down and center it inside the usable screen area */
+/* Lyric viewport content centered inside usable CRT area */
 .shellLyricsPanel {
-  justify-content: center;
-  align-items: center;
-  text-align: center;
   padding-top: 1.15rem;
   padding-bottom: 0.75rem;
 }
 
-/* The lyric text block itself gets centered lower inside the panel */
 .shellLyricsPanel .lyricsScroll {
   height: 100%;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  transform: translateY(8%);
-  overflow: hidden;
-}
-
-/* Empty lyric state centered cleanly */
-.shellLyricsPanel .industrialLyricsEmpty {
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-
-
-/* === LYRIC CLEANUP + COVER BADGE POSITION === */
-
-/* Center remaining lyric-empty text vertically in the actual visible panel */
-.shellLyricsPanel {
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.shellLyricsPanel .lyricsScroll {
-  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1075,10 +1002,6 @@ audio { display: none; }
   justify-content: center;
   text-align: center;
 }
-
-/* Move ACTIVE RESIDUE / AWAITING SELECTION badge into visible cover area */
-
-
 
 
 /* === COVER ART STATUS IMAGE === */
@@ -1103,8 +1026,8 @@ audio { display: none; }
   background-image: url("/images/active.png");
 }
 
-/* === MOBILE FILTH-UP START === */
 
+/* === MOBILE / POCKET FILTH ROUTING === */
 @media (max-width: 900px) {
   html,
   body,
@@ -1113,153 +1036,7 @@ audio { display: none; }
     height: auto;
     min-height: 100%;
   }
-
-  .radioApp,
-  .industrialShell {
-    width: 100%;
-    min-height: 100vh;
-    height: auto;
-    overflow: visible;
-  }
-
-  .industrialHeader,
-  .industrialPlayerShell,
-  .industrialLibraryBay,
-  .industrialWarningStrip {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: auto;
-  width: 1920px;
-  height: 110px;
-  z-index: 60;
-  pointer-events: none;
-  background: url("/images/production/industrial-warning-footer-v2.png") center center / 100% 100% no-repeat;
 }
-
-  .industrialHeader {
-    min-height: 120px;
-    background-size: cover;
-  }
-
-  .industrialPlayerShell,
-  .industrialPlayerShell::after,
-  .industrialLibraryBay::before,
-  .industrialLibraryBay::after,
-  .industrialWarningStrip {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: auto;
-  width: 1920px;
-  height: 110px;
-  z-index: 60;
-  pointer-events: none;
-  background: url("/images/production/industrial-warning-footer-v2.png") center center / 100% 100% no-repeat;
-}
-
-  .industrialShell {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 0.75rem;
-  }
-
-  .industrialPlayerShell {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .shellCoverViewport,
-  .shellVizViewport,
-  .shellDossierPanel,
-  .shellLyricsPanel,
-  .industrialTransport {
-    position: relative;
-    left: auto;
-    right: auto;
-    top: auto;
-    bottom: auto;
-    width: 100%;
-    height: auto;
-  }
-
-  .shellCoverViewport {
-    aspect-ratio: 1 / 1;
-    border: 2px solid rgba(168, 255, 50, 0.35);
-    background: rgba(0, 0, 0, 0.55);
-  }
-
-  .shellCoverViewport img {
-    width: 100%;
-    height: 100%;
-    transform: none;
-  }
-
-  .coverStatus {
-    top: 10px;
-    left: 10px;
-    width: 180px;
-    height: 44px;
-  }
-
-  .shellVizViewport {
-    height: 90px;
-    border: 1px solid rgba(168, 255, 50, 0.25);
-  }
-
-  .shellDossierPanel,
-  .shellLyricsPanel {
-    min-height: 120px;
-    padding: 1rem;
-  }
-
-  .industrialTransport {
-    min-height: 70px;
-    justify-content: center;
-    gap: 0.75rem;
-  }
-
-  .industrialTransport button {
-    width: 52px;
-    height: 52px;
-  }
-
-  .industrialLibraryBay {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .searchBox,
-  .libraryButtons,
-  .trackList,
-  .libraryPagination {
-    position: relative;
-    left: auto;
-    right: auto;
-    top: auto;
-    bottom: auto;
-    width: 100%;
-    height: auto;
-  }
-
-  .trackList {
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-  }
-
-  .trackRow {
-    min-height: 96px;
-  }
-
-  .libraryPagination {
-    min-height: 64px;
-  }
-}
-
 
 /* === POCKET FILTH BOOT PLACEHOLDER === */
 .pocketFilthBoot {
@@ -1451,3 +1228,241 @@ audio { display: none; }
 .filthStage .industrialHeader {
   height: 16.8%;
 }
+
+/* === ECO-ELECTRIFICATION-001: POWERED MACHINE LIFE === */
+
+/* Faint machine glow behind the whole console */
+.radioApp.filthUpView::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 48% 42%, rgba(168,255,50,0.055), transparent 42%),
+    radial-gradient(ellipse at 50% 100%, rgba(255,120,20,0.06), transparent 35%);
+  z-index: 0;
+  animation: stankAmbientBreath 7.5s ease-in-out infinite;
+}
+
+@keyframes stankAmbientBreath {
+  0%, 100% { opacity: 0.75; }
+  50% { opacity: 1; }
+}
+
+/* CRT breathing on active screen regions */
+.shellVizViewport,
+.shellDossierPanel,
+.shellLyricsPanel,
+.searchBox {
+  animation: crtIdleBreath 4.8s ease-in-out infinite;
+}
+
+@keyframes crtIdleBreath {
+  0%, 100% { filter: brightness(0.96) contrast(1.04); }
+  47% { filter: brightness(1.06) contrast(1.08); }
+  51% { filter: brightness(0.98) contrast(1.05); }
+  72% { filter: brightness(1.03) contrast(1.07); }
+}
+
+/* Subtle CRT scanline glass overlay */
+.shellVizViewport::after,
+.shellDossierPanel::after,
+.shellLyricsPanel::after,
+.shellCoverViewport::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 80;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,0.035) 0px,
+      rgba(255,255,255,0.035) 1px,
+      rgba(0,0,0,0.08) 2px,
+      rgba(0,0,0,0.08) 4px
+    ),
+    radial-gradient(ellipse at 50% 20%, rgba(255,255,255,0.07), transparent 42%);
+  mix-blend-mode: screen;
+  opacity: 0.28;
+  animation: scanlineDrift 9s linear infinite;
+}
+
+@keyframes scanlineDrift {
+  from { transform: translateY(-4px); }
+  to { transform: translateY(4px); }
+}
+
+/* Idle oscilloscope: powered but not dead */
+.shellScopeTrace {
+  opacity: 0.82;
+  filter: drop-shadow(0 0 8px rgba(168,255,50,0.28));
+  animation: idleScopeHum 5.5s ease-in-out infinite;
+}
+
+@keyframes idleScopeHum {
+  0%, 100% { opacity: 0.68; transform: translateX(0); }
+  50% { opacity: 0.88; transform: translateX(1.5%); }
+}
+
+/* Playing state wakes the scope harder */
+.isPlaying .shellScopeTrace {
+  filter: drop-shadow(0 0 14px rgba(168,255,50,0.55));
+}
+
+/* Buttons feel energized */
+.industrialTransport button,
+.libraryPagination button:not(:disabled),
+.viewToggle {
+  text-shadow: 0 0 8px rgba(168,255,50,0.65);
+  box-shadow: inset 0 0 10px rgba(168,255,50,0.08);
+}
+
+.industrialTransport button:hover,
+.libraryPagination button:hover:not(:disabled),
+.viewToggle:hover {
+  filter: brightness(1.18);
+  box-shadow:
+    inset 0 0 14px rgba(168,255,50,0.18),
+    0 0 10px rgba(168,255,50,0.18);
+}
+
+/* Selected track indicator gets a slight electrical pulse */
+.trackRow.active::after {
+  animation: activeRowPulse 2.8s ease-in-out infinite;
+}
+
+@keyframes activeRowPulse {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.18); }
+}
+
+/* Cover art becomes more like glass behind a machine viewport */
+.shellCoverViewport img {
+  filter: contrast(1.06) saturate(1.05) brightness(0.96);
+}
+
+/* Remove debug pagination color if still present */
+.libraryPagination button {
+  background: transparent !important;
+}
+
+
+/* === ECO-ELECTRIFICATION-001: POWERED MACHINE LIFE === */
+
+/* Faint machine glow behind the whole console */
+.radioApp.filthUpView::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 48% 42%, rgba(168,255,50,0.055), transparent 42%),
+    radial-gradient(ellipse at 50% 100%, rgba(255,120,20,0.06), transparent 35%);
+  z-index: 0;
+  animation: stankAmbientBreath 7.5s ease-in-out infinite;
+}
+
+@keyframes stankAmbientBreath {
+  0%, 100% { opacity: 0.75; }
+  50% { opacity: 1; }
+}
+
+/* CRT breathing on active screen regions */
+.shellVizViewport,
+.shellDossierPanel,
+.shellLyricsPanel,
+.searchBox {
+  animation: crtIdleBreath 4.8s ease-in-out infinite;
+}
+
+@keyframes crtIdleBreath {
+  0%, 100% { filter: brightness(0.96) contrast(1.04); }
+  47% { filter: brightness(1.06) contrast(1.08); }
+  51% { filter: brightness(0.98) contrast(1.05); }
+  72% { filter: brightness(1.03) contrast(1.07); }
+}
+
+/* Subtle CRT scanline glass overlay */
+.shellVizViewport::after,
+.shellDossierPanel::after,
+.shellLyricsPanel::after,
+.shellCoverViewport::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 80;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,0.035) 0px,
+      rgba(255,255,255,0.035) 1px,
+      rgba(0,0,0,0.08) 2px,
+      rgba(0,0,0,0.08) 4px
+    ),
+    radial-gradient(ellipse at 50% 20%, rgba(255,255,255,0.07), transparent 42%);
+  mix-blend-mode: screen;
+  opacity: 0.28;
+  animation: scanlineDrift 9s linear infinite;
+}
+
+@keyframes scanlineDrift {
+  from { transform: translateY(-4px); }
+  to { transform: translateY(4px); }
+}
+
+/* Idle oscilloscope: powered but not dead */
+.shellScopeTrace {
+  opacity: 0.82;
+  filter: drop-shadow(0 0 8px rgba(168,255,50,0.28));
+  animation: idleScopeHum 5.5s ease-in-out infinite;
+}
+
+@keyframes idleScopeHum {
+  0%, 100% { opacity: 0.68; transform: translateX(0); }
+  50% { opacity: 0.88; transform: translateX(1.5%); }
+}
+
+/* Playing state wakes the scope harder */
+.isPlaying .shellScopeTrace {
+  filter: drop-shadow(0 0 14px rgba(168,255,50,0.55));
+}
+
+/* Buttons feel energized */
+.industrialTransport button,
+.libraryPagination button:not(:disabled),
+.viewToggle {
+  text-shadow: 0 0 8px rgba(168,255,50,0.65);
+  box-shadow: inset 0 0 10px rgba(168,255,50,0.08);
+}
+
+.industrialTransport button:hover,
+.libraryPagination button:hover:not(:disabled),
+.viewToggle:hover {
+  filter: brightness(1.18);
+  box-shadow:
+    inset 0 0 14px rgba(168,255,50,0.18),
+    0 0 10px rgba(168,255,50,0.18);
+}
+
+/* Selected track indicator gets a slight electrical pulse */
+.trackRow.active::after {
+  animation: activeRowPulse 2.8s ease-in-out infinite;
+}
+
+@keyframes activeRowPulse {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.18); }
+}
+
+/* Cover art becomes more like glass behind a machine viewport */
+.shellCoverViewport img {
+  filter: contrast(1.06) saturate(1.05) brightness(0.96);
+}
+
+/* Remove debug pagination color if still present */
+.libraryPagination button {
+  background: transparent !important;
+}
+
