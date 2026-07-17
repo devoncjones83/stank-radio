@@ -45,7 +45,7 @@ export default function FullConsoleShell({
   updatePlaybackTime,
   setPlaying,
 }) {
-  const shellImage = `${BASE}images/production/stank-radio-console-v2.png`;
+  const shellImage = `${BASE}images/production/stank-radio-console-v3.png`;
 
   return (
     <main className={playing ? 'fullConsolePage isPlaying' : 'fullConsolePage'}>
