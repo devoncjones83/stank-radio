@@ -12,28 +12,31 @@
 
 .fullConsoleStage {
   position: relative;
-  width: min(100vw, calc(100dvh * 16 / 9));
-  aspect-ratio: 16 / 9;
+  width: 100vw;
+  height: 100dvh;
   flex: none;
   overflow: hidden;
   isolation: isolate;
 }
 
+.fullConsoleBackground,
 .fullConsoleHardware {
   position: absolute;
   inset: 0;
-  z-index: 1;
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: fill;
   pointer-events: none;
   user-select: none;
 }
 
+.fullConsoleBackground { z-index: 0; }
+.fullConsoleHardware { z-index: 20; }
+
 .consoleOverlay {
   position: absolute;
-  z-index: 5;
+  z-index: 30;
   overflow: hidden;
 }
 
@@ -71,12 +74,256 @@
   line-height: 1.05;
 }
 
+.consoleEnvironmentItem {
+  z-index: 5;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 0;
+  background: transparent;
+  font-family: "Courier New", monospace;
+  text-transform: uppercase;
+}
+
+.consoleEnvironmentTitle {
+  z-index: 30;
+  box-sizing: border-box;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b8c98b;
+  font: 900 clamp(8px, 0.72vw, 18px) "Courier New", monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-shadow: 0 0 7px rgba(164, 210, 96, 0.28);
+  white-space: nowrap;
+}
+
+.consoleEnvironmentItem > img,
+.consoleStankPanel,
+.consolePanelAsset {
+  display: block;
+  object-fit: fill;
+}
+
+.consoleEnvironmentItem > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.environment-monitor {
+  --environment-indicator-left: 39.55%;
+  --environment-indicator-top: 58.35%;
+  --environment-indicator-width: 45.9%;
+  --environment-indicator-height: 9.75%;
+  --environment-indicator-gap: 3.5%;
+  --environment-indicator-lamp-scale: 0.7;
+}
+
+.environment-monitor--signal {
+  --environment-indicator-left: 36.2%;
+  --environment-indicator-top: 55.1%;
+  --environment-indicator-width: 52.35%;
+  --environment-indicator-height: 10.55%;
+  --environment-indicator-gap: 3.15%;
+}
+
+.environment-monitor--noise {
+  --environment-indicator-left: 35.4%;
+  --environment-indicator-top: 55.55%;
+  --environment-indicator-width: 56.05%;
+  --environment-indicator-height: 10.7%;
+  --environment-indicator-gap: 3%;
+}
+
+.environment-monitor--pressure {
+  --environment-indicator-left: 38.1%;
+  --environment-indicator-top: 55.75%;
+  --environment-indicator-width: 52.1%;
+  --environment-indicator-height: 10.35%;
+  --environment-indicator-gap: 4.2%;
+}
+
+.environment-indicator__row {
+  position: absolute;
+  left: var(--environment-indicator-left);
+  top: var(--environment-indicator-top);
+  z-index: 2;
+  width: var(--environment-indicator-width);
+  height: var(--environment-indicator-height);
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  align-items: stretch;
+  gap: var(--environment-indicator-gap);
+  pointer-events: none;
+}
+
+.environment-indicator__lamp {
+  width: calc(100% * var(--environment-indicator-lamp-scale));
+  height: calc(100% * var(--environment-indicator-lamp-scale));
+  align-self: center;
+  justify-self: center;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
+  box-shadow: none;
+  opacity: 1;
+  pointer-events: none;
+}
+
+.environment-indicator__lamp--active {
+  background: radial-gradient(
+    ellipse at 45% 32%,
+    rgba(229, 236, 143, 0.94) 0%,
+    rgba(151, 162, 67, 0.9) 42%,
+    rgba(65, 72, 27, 0.94) 100%
+  );
+  box-shadow:
+    0 0 4px rgba(169, 184, 76, 0.34),
+    0 0 8px rgba(122, 136, 54, 0.15),
+    inset 0 1px 1px rgba(255, 255, 210, 0.34),
+    inset 0 -2px 2px rgba(34, 39, 14, 0.76);
+  opacity: 0.96;
+}
+
+.environment-indicator__lamp--warning {
+  background: radial-gradient(ellipse at 45% 32%, #e1c27a 0%, #a47635 48%, #4b3017 100%);
+  box-shadow: 0 0 5px rgba(174, 125, 51, 0.3), inset 0 -2px 2px rgba(42, 25, 9, 0.78);
+}
+
+.environment-indicator__lamp--critical {
+  background: radial-gradient(ellipse at 45% 32%, #d18b74 0%, #8d4231 48%, #3f1d18 100%);
+  box-shadow: 0 0 5px rgba(154, 68, 48, 0.28), inset 0 -2px 2px rgba(43, 16, 13, 0.8);
+}
+
+.environment-indicator__lamp--disabled {
+  background: transparent;
+  box-shadow: none;
+  opacity: 0.35;
+}
+
+.consoleStankPanel {
+  z-index: 5;
+}
+
+.consolePanelAsset {
+  z-index: 5;
+  pointer-events: none;
+}
+
+.consoleAuxiliaryPanel {
+  object-fit: fill;
+}
+
+.consoleReturnPanel {
+  z-index: 30;
+  box-sizing: border-box;
+  display: block;
+  padding: 0;
+  text-decoration: none;
+}
+
+.consoleReturnPanel img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: fill;
+}
+
+.consoleSectorPanel > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: fill;
+}
+
+.consoleRadarSweep {
+  position: absolute;
+  left: 16%;
+  top: 28%;
+  z-index: 2;
+  width: 68%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg 322deg,
+    rgba(178, 215, 108, 0.04) 322deg,
+    rgba(190, 231, 119, 0.48) 350deg,
+    rgba(221, 249, 164, 0.78) 357deg,
+    transparent 360deg
+  );
+  filter: drop-shadow(0 0 4px rgba(174, 216, 100, 0.36));
+  transform-origin: 50% 50%;
+  animation: consoleRadarSweep 3.8s linear infinite;
+}
+
+@keyframes consoleRadarSweep {
+  to { transform: rotate(360deg); }
+}
+
+.consoleSymbolAsset {
+  object-fit: contain;
+}
+
+.consoleOutputNeedle {
+  z-index: 15;
+  pointer-events: none;
+}
+
+.consoleOutputNeedle img {
+  position: absolute;
+  left: 34%;
+  top: 50%;
+  width: 80%;
+  height: 80%;
+  display: block;
+  object-fit: fill;
+  transform: rotate(-132deg) scaleY(0.72);
+  transform-origin: 20% 50%;
+  transition: transform 380ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.consoleOutputNeedle.right img {
+  transform: rotate(-132deg) scaleY(0.72);
+}
+
+.fullConsolePage.isPlaying .consoleOutputNeedle.left img {
+  animation: consoleNeedleLeft 1.35s ease-in-out infinite alternate;
+}
+
+.fullConsolePage.isPlaying .consoleOutputNeedle.right img {
+  animation: consoleNeedleRight 1.65s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes consoleNeedleLeft {
+  0% { transform: rotate(-66.2deg) scaleY(0.72); }
+  40% { transform: rotate(-65.4deg) scaleY(0.72); }
+  72% { transform: rotate(-66.7deg) scaleY(0.72); }
+  100% { transform: rotate(-65.8deg) scaleY(0.72); }
+}
+
+@keyframes consoleNeedleRight {
+  0% { transform: rotate(-49.6deg) scaleY(0.72); }
+  35% { transform: rotate(-50.3deg) scaleY(0.72); }
+  68% { transform: rotate(-49.1deg) scaleY(0.72); }
+  100% { transform: rotate(-49.9deg) scaleY(0.72); }
+}
+
 .consoleCover {
   left: 15.05%;
   top: 17.1%;
   width: 25.8%;
   height: 40.7%;
-  background: #050505;
+  z-index: 5;
+  background: transparent;
 }
 
 .consoleCover img {
@@ -102,6 +349,7 @@
 }
 
 .consoleScope {
+  z-index: 5;
   left: 43.35%;
   top: 17.1%;
   width: 25.05%;
@@ -109,12 +357,12 @@
   padding: 2.2% 3%;
   background:
     linear-gradient(rgba(69, 99, 56, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(69, 99, 56, 0.08) 1px, transparent 1px),
-    rgba(0, 7, 3, 0.87);
+    linear-gradient(90deg, rgba(69, 99, 56, 0.08) 1px, transparent 1px);
   background-size: 8% 20%;
 }
 
 .consoleScopeTrace {
+  position: relative;
   width: 100%;
   height: 100%;
   display: flex;
@@ -122,12 +370,32 @@
   gap: 1.25%;
 }
 
+.consoleScopeTrace::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(50% - 1px);
+  height: 2px;
+  background: #8fb45d;
+  box-shadow: 0 0 0.45vw rgba(143, 180, 93, 0.58);
+}
+
 .consoleScopeTrace i {
   width: 4%;
   height: var(--scope-height);
   min-height: 8%;
+  opacity: 0;
   background: #a9d46a;
   box-shadow: 0 0 0.55vw rgba(169, 212, 106, 0.65);
+}
+
+.fullConsolePage.isPlaying .consoleScopeTrace::before {
+  opacity: 0;
+}
+
+.fullConsolePage.isPlaying .consoleScopeTrace i {
+  opacity: 0.82;
   animation: consoleScopePulse 700ms ease-in-out infinite alternate;
   animation-delay: calc(var(--scope-height) * -8ms);
 }
@@ -153,7 +421,7 @@
   flex-direction: column;
   justify-content: center;
   padding: 2.4% 3.5%;
-  background: rgba(0, 7, 3, 0.88);
+  background: transparent;
   font-family: "Courier New", monospace;
   text-align: center;
 }
@@ -194,7 +462,7 @@
   width: 25.05%;
   height: 12.7%;
   padding: 2.2% 3.2%;
-  background: rgba(0, 7, 3, 0.88);
+  background: transparent;
   font-family: "Courier New", monospace;
 }
 
@@ -246,13 +514,15 @@
   width: 25.65%;
   height: 40.75%;
   padding: 2.2% 2.4% 2.4%;
-  background: rgba(0, 6, 3, 0.86);
+  z-index: auto;
+  background: transparent;
   font-family: "Courier New", monospace;
 }
 
 .consoleSearch {
   display: block;
   height: 9%;
+  z-index: 30;
 }
 
 .consoleSearch input {
@@ -261,7 +531,7 @@
   border: 1px solid rgba(160, 190, 105, 0.28);
   outline: none;
   padding: 0 4%;
-  background: rgba(0, 0, 0, 0.74);
+  background: transparent;
   color: #c5dd8b;
   font: inherit;
   font-size: clamp(6px, 0.5vw, 13px);
@@ -277,6 +547,7 @@
   display: flex;
   gap: 3%;
   align-items: center;
+  z-index: 30;
 }
 
 .consoleLibraryActions button {
@@ -296,44 +567,57 @@
 .consoleTrackList {
   height: 73%;
   display: grid;
-  grid-template-rows: repeat(5, minmax(0, 1fr));
+  grid-template-rows: repeat(6, minmax(0, 1fr));
   gap: 1.2%;
+  position: relative;
+  z-index: 5;
 }
 
 .consoleTrackList > button {
+  position: relative;
   min-height: 0;
-  display: grid;
-  grid-template-columns: 18% minmax(0, 1fr);
-  align-items: center;
-  gap: 3%;
-  border: 1px solid transparent;
-  padding: 1.5%;
+  display: block;
+  border: 0;
+  padding: 0;
   overflow: hidden;
-  background: rgba(15, 20, 13, 0.52);
+  background: url("/images/production/track-row.png") center / 100% 100% no-repeat;
   color: #9bac82;
   text-align: left;
   cursor: pointer;
+  transition: filter 140ms ease, transform 140ms ease;
 }
 
 .consoleTrackList > button:hover,
 .consoleTrackList > button.active {
-  border-color: rgba(177, 208, 112, 0.38);
-  background: rgba(48, 61, 36, 0.48);
+  filter: brightness(1.16) saturate(1.08);
+}
+
+.consoleTrackList > button:active {
+  transform: translateY(1px);
 }
 
 .consoleTrackList img {
-  width: 100%;
-  height: 100%;
-  min-height: 0;
+  position: absolute;
+  left: 3.55%;
+  top: 13%;
+  width: 15.25%;
+  height: 74%;
   display: block;
   object-fit: cover;
 }
 
 .consoleTrackList span {
-  min-width: 0;
+  position: absolute;
+  left: 21.2%;
+  right: 14.5%;
+  top: 13%;
+  bottom: 13%;
   display: flex;
   flex-direction: column;
-  gap: 0.18vw;
+  justify-content: center;
+  gap: 0.22vw;
+  min-width: 0;
+  padding: 0 2%;
 }
 
 .consoleTrackList b,
@@ -388,41 +672,60 @@
   font-size: clamp(5px, 0.4vw, 10px);
 }
 
-.consoleSystemStatus {
-  position: absolute;
-  z-index: 6;
-  left: 43.6%;
-  top: 65.15%;
-  width: 24.5%;
-  height: 2.8%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  color: #74855d;
-  font: 600 clamp(5px, 0.38vw, 10px) "Courier New", monospace;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  white-space: nowrap;
+.consolePaginationGroup { position: static; }
+
+.consolePaginationAsset {
+  display: grid;
+  place-content: center;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #9db672;
+  font: 900 clamp(11px, 0.9vw, 22px) "Courier New", monospace;
+  text-shadow: 0 0 7px rgba(190, 225, 120, 0.45);
+  cursor: pointer;
+}
+
+.consolePaginationAsset:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+.consolePageIndicator {
+  text-align: center;
+  letter-spacing: 0.12em;
+  -webkit-text-stroke: 0.35px currentColor;
+}
+
+.consolePaginationAsset svg {
+  filter: drop-shadow(0 0 4px rgba(190, 225, 120, 0.45));
 }
 
 .consoleTransport button {
   position: absolute;
-  z-index: 10;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: 0;
   padding: 0;
   background: transparent;
-  color: transparent;
+  color: #b08c50;
   cursor: pointer;
 }
 
 .consoleTransport button svg {
-  display: none;
+  display: block;
+  width: 42%;
+  height: 42%;
+  stroke-width: 2.6;
+  filter: drop-shadow(0 1px 1px #000) drop-shadow(0 0 4px rgba(176, 140, 80, 0.38));
 }
 
 .consoleTransport button:hover {
-  background: rgba(196, 216, 115, 0.055);
-  box-shadow: inset 0 0 1.2vw rgba(196, 216, 115, 0.1);
+  background: transparent;
+  box-shadow: none;
+  color: #d2ad6b;
 }
 
 .consoleTransport button:focus-visible {
@@ -568,13 +871,8 @@
 
 @media (max-aspect-ratio: 4 / 3) and (min-width: 901px) {
   .fullConsolePage {
-    place-items: start center;
-    overflow: auto;
-  }
-
-  .fullConsoleStage {
-    width: 1400px;
-    max-width: none;
+    place-items: center;
+    overflow: hidden;
   }
 }
 
@@ -613,30 +911,35 @@
 /* Move search into the baked search slot */
 .consoleSearch {
   position: absolute;
-  left: -3%;
-  top: -11.5%;
-  width: 88%;
-  height: 7%;
+  left: 1%;
+  top: 2.5%;
+  width: 57%;
+  height: 6.5%;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .consoleSearch input {
   background: transparent;
-  border: none;
-  padding-left: 12%;
+  border: 0;
+  padding-left: 7%;
   color: #bcdf7d;
+  box-shadow: none;
 }
 
 .consoleSearch input:focus {
   outline: none;
+  box-shadow: none;
 }
 
 /* Move buttons into baked hardware buttons */
 .consoleLibraryActions {
   position: absolute;
-  top: -11.2%;
+  top: 2.5%;
   right: 1%;
-  width: 31%;
-  height: 7%;
+  width: 40%;
+  height: 6.5%;
   display: flex;
   gap: 4%;
 }
@@ -644,7 +947,7 @@
 .consoleLibraryActions button {
   flex: 1;
   justify-content: center;
-  font-size: 0;
+  font-size: clamp(5px, 0.43vw, 11px);
   border: none;
   background: transparent;
 }
@@ -653,20 +956,44 @@
   display: none;
 }
 
+.consoleLibraryAction {
+  z-index: 30;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3vw;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #a9c477;
+  font: 900 clamp(8px, 0.68vw, 16px) "Courier New", monospace;
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.consoleLibraryAction svg {
+  display: none;
+}
+
+.consoleLibraryAction:hover {
+  color: #d4e99c;
+  text-shadow: 0 0 7px rgba(183, 216, 111, 0.42);
+}
+
 /* Start library lower now that search moved */
 .consoleTrackList {
-  margin-top: 7%;
-  height: 79%;
-  gap: 2%;
+  margin-top: 15.5%;
+  height: 73.5%;
+  gap: 0.35%;
 }
 
 .consoleTrackList > button {
-  padding: 2.2%;
-  grid-template-columns: 22% 1fr;
+  padding: 0;
 }
 
 .consoleTrackList img {
-  border: 1px solid rgba(130,170,80,.25);
+  border: 0;
 }
 
 .consoleTrackList b {
@@ -722,5 +1049,266 @@
 .consoleLibrary {
   filter:
     drop-shadow(0 0 8px rgba(80,140,60,.12));
+}
+
+/* ==========================================================
+   Live console layout editor
+   ========================================================== */
+
+.layoutEditorToggle {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 300;
+  border: 1px solid rgba(183, 216, 111, 0.58);
+  padding: 10px 14px;
+  background: rgba(6, 10, 5, 0.94);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.64);
+  color: #b7d86f;
+  font: 700 11px "Courier New", monospace;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+
+.layoutEditorToggle:hover,
+.layoutEditorToggle.active {
+  border-color: #c9e58d;
+  background: #18200f;
+  color: #d7eba7;
+}
+
+.layoutEditorPanel {
+  position: fixed;
+  z-index: 290;
+  width: min(390px, calc(100vw - 36px));
+  border: 1px solid #68764d;
+  padding: 16px;
+  background:
+    linear-gradient(rgba(24, 31, 18, 0.97), rgba(5, 8, 4, 0.98)),
+    #080b06;
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.78);
+  color: #c4d79a;
+  font-family: "Courier New", monospace;
+}
+
+.consoleLibraryTitle {
+  position: absolute;
+  left: 1%;
+  top: -5.4%;
+  width: 98%;
+  height: 4.8%;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b9cf82;
+  font-size: clamp(10px, 0.82vw, 20px);
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-shadow: 0 0 7px rgba(156, 195, 91, 0.28);
+}
+
+.consoleDirectoratePlate {
+  z-index: 30;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-rows: auto minmax(12px, 1fr);
+  gap: 7%;
+  align-content: center;
+  padding: 4.5% 5% 5%;
+  background: transparent;
+  color: #9e9a83;
+  font-family: "Courier New", monospace;
+  text-align: center;
+}
+
+.consoleDirectoratePlate strong {
+  font-size: clamp(7px, 0.6vw, 15px);
+  line-height: 1;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+
+.consoleDirectorateBarcode {
+  width: 92%;
+  height: 100%;
+  justify-self: center;
+  opacity: 0.88;
+  background: repeating-linear-gradient(
+    90deg,
+    #b1ad97 0 1px,
+    transparent 1px 3px,
+    #b1ad97 3px 6px,
+    transparent 6px 8px,
+    #b1ad97 8px 9px,
+    transparent 9px 13px
+  );
+}
+
+.layoutEditorPanel header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(123, 141, 91, 0.34);
+  cursor: move;
+  touch-action: none;
+  user-select: none;
+}
+
+.layoutEditorPanel header small,
+.layoutEditorPanel header span {
+  color: #778661;
+  font-size: 9px;
+  letter-spacing: 0.09em;
+}
+
+.layoutEditorPanel header h2 {
+  margin: 4px 0 0;
+  color: #c7df8d;
+  font-size: 17px;
+}
+
+.layoutEditorPanel header > span {
+  padding-top: 3px;
+  text-align: right;
+}
+
+.layoutEditorAssetSelect {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.layoutEditorAssetSelect > span,
+.layoutEditorFields label > span {
+  color: #8fa66e;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.layoutEditorAssetSelect select,
+.layoutEditorNumber {
+  border: 1px solid #4d593b;
+  outline: none;
+  background: #090d07;
+  color: #c6d99a;
+  font: 11px "Courier New", monospace;
+}
+
+.layoutEditorAssetSelect select {
+  height: 32px;
+  padding: 0 9px;
+}
+
+.layoutEditorHint {
+  margin: 10px 0 12px;
+  color: #6f7e5c;
+  font-size: 9px;
+}
+
+.layoutEditorFields {
+  display: grid;
+  gap: 9px;
+}
+
+.layoutEditorFields label {
+  display: grid;
+  grid-template-columns: 82px minmax(0, 1fr) 68px;
+  align-items: center;
+  gap: 9px;
+}
+
+.layoutEditorFields input[type="range"] {
+  width: 100%;
+  accent-color: #aeca69;
+}
+
+.layoutEditorNumber {
+  width: 68px;
+  height: 29px;
+  padding: 0 7px;
+}
+
+.layoutEditorActions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.layoutEditorActions button {
+  border: 1px solid #52603f;
+  padding: 8px 6px;
+  background: #10160d;
+  color: #aebf89;
+  font: 700 9px "Courier New", monospace;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.layoutEditorActions button:hover {
+  border-color: #8ca463;
+  color: #d1e5a0;
+}
+
+.fullConsoleStage.layoutEditing [data-layout-id] {
+  cursor: move !important;
+  pointer-events: auto !important;
+  touch-action: none;
+  user-select: none;
+  outline: 1px dashed rgba(194, 227, 125, 0.52);
+  outline-offset: -1px;
+}
+
+.fullConsoleStage.layoutEditing .consolePanelAsset,
+.fullConsoleStage.layoutEditing .consoleOutputNeedle {
+  pointer-events: auto;
+}
+
+.fullConsoleStage.layoutEditing [data-layout-selected="true"] {
+  z-index: 40 !important;
+  outline: 2px solid #d4ef8f;
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.72),
+    0 0 18px rgba(183, 216, 111, 0.42);
+}
+
+.fullConsoleStage.layoutEditing [data-layout-selected="true"]::before {
+  content: attr(data-layout-id);
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 50;
+  padding: 3px 5px;
+  background: #d4ef8f;
+  color: #0a0d07;
+  font: 700 8px "Courier New", monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.layoutAssetResizeHandle {
+  position: absolute;
+  z-index: 100;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #0a0d07;
+  padding: 0;
+  background: #d4ef8f;
+  box-shadow: 0 0 0 1px #d4ef8f, 0 0 12px rgba(183, 216, 111, 0.72);
+  cursor: nwse-resize;
+  touch-action: none;
+}
+
+@media (max-width: 900px) {
+  .layoutEditorToggle,
+  .layoutEditorPanel {
+    display: none;
+  }
 }
 

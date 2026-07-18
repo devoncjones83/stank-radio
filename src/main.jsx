@@ -221,7 +221,7 @@ function App() {
   }, [activeTag, query, tracks]);
 
   const visibleTracks = filteredTracks;
-  const tracksPerPage = viewMode === 'filth' ? 5 : TRACKS_PER_PAGE;
+  const tracksPerPage = viewMode === 'filth' ? 6 : TRACKS_PER_PAGE;
   const totalLibraryPages = Math.max(1, Math.ceil(visibleTracks.length / tracksPerPage));
   const pagedTracks = visibleTracks.slice(
     (libraryPage - 1) * tracksPerPage,
