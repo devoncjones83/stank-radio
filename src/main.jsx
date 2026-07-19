@@ -173,6 +173,10 @@ function useFilthStageScale() {
 function App() {
   const audioRef = useRef(null);
   const lyricLineRefs = useRef([]);
+  const sharedSongRequestRef = useRef(
+    new URLSearchParams(window.location.search).get('song')?.trim() || '',
+  );
+  const sharedAutoplayTrackIdRef = useRef('');
   const [tracks, setTracks] = useState([]);
   const [activeId, setActiveId] = useState('');
   const [query, setQuery] = useState('');
@@ -197,8 +201,13 @@ function App() {
         const rawSongs = Array.isArray(data) ? data : data.songs || data.tracks || [];
         const normalized = rawSongs.map(normalizeTrack);
         const nextTracks = normalized.length ? normalized : fallbackTracks;
+        const requestedSong = sharedSongRequestRef.current.toLocaleLowerCase();
+        const requestedTrack = requestedSong
+          ? nextTracks.find((track) => track.title.trim().toLocaleLowerCase() === requestedSong)
+          : null;
+        sharedAutoplayTrackIdRef.current = requestedTrack?.audio ? requestedTrack.id : '';
         setTracks(nextTracks);
-        setActiveId('');
+        setActiveId(requestedTrack?.id || '');
         setLoadStatus(`${nextTracks.length} contaminants indexed`);
       })
       .catch((error) => {
@@ -287,6 +296,46 @@ function App() {
   }, [activeId]);
 
   useEffect(() => {
+    if (!activeTrack || sharedAutoplayTrackIdRef.current !== activeTrack.id) return undefined;
+
+    const audio = audioRef.current;
+    if (!audio) return undefined;
+
+    let cancelled = false;
+    const beginSharedTrack = () => {
+      if (cancelled) return;
+      audio.currentTime = 0;
+      const playRequest = audio.play();
+      if (!playRequest?.then) {
+        setPlaying(true);
+        sharedAutoplayTrackIdRef.current = '';
+        return;
+      }
+      playRequest
+        .then(() => {
+          if (cancelled) return;
+          setPlaying(true);
+          sharedAutoplayTrackIdRef.current = '';
+        })
+        .catch(() => {
+          if (!cancelled) setPlaying(false);
+        });
+    };
+
+    if (audio.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
+      beginSharedTrack();
+    } else {
+      audio.addEventListener('canplay', beginSharedTrack, { once: true });
+      audio.load();
+    }
+
+    return () => {
+      cancelled = true;
+      audio.removeEventListener('canplay', beginSharedTrack);
+    };
+  }, [activeTrack]);
+
+  useEffect(() => {
     setLibraryPage((page) => Math.min(page, totalLibraryPages));
   }, [totalLibraryPages]);
 
@@ -338,6 +387,7 @@ function App() {
     if (!activeTrack) return;
     const url = `${window.location.origin}${BASE}?song=${encodeURIComponent(activeTrack.title)}`;
     navigator.clipboard?.writeText(url).catch(() => {});
+    return url;
   }
 
   function updatePlaybackTime(event) {

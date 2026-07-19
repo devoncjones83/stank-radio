@@ -11,9 +11,15 @@ import {
   SkipForward,
 } from 'lucide-react';
 
+import '@fontsource/roboto-condensed/latin-700.css';
+import '@fontsource/roboto-condensed/latin-800.css';
+import '@fontsource/ibm-plex-mono/latin-500.css';
+import '@fontsource/ibm-plex-mono/latin-600.css';
+import CautionPanel from '../components/CautionPanel';
+import { cautionMessages } from '../data/cautionMessages';
 import './full-console-shell.css';
 
-const LAYOUT_STORAGE_KEY = 'stank-radio-console-layout-v16';
+const LAYOUT_STORAGE_KEY = 'stank-radio-console-layout-v17';
 
 const DEFAULT_CONSOLE_LAYOUT = {
   topLeftBiohazard: { label: 'Return to Directorate', x: 0.31, y: 0.7, w: 9.62, h: 15.9 },
@@ -21,20 +27,21 @@ const DEFAULT_CONSOLE_LAYOUT = {
   frequencyPanel: { label: 'Frequency panel', x: 35.9, y: 0.76, w: 9.98, h: 15.79 },
   liveContainmentPanel: { label: 'Live containment panel', x: 45.43, y: 0.54, w: 18.12, h: 16.67 },
   systemHealthPanel: { label: 'System health panel', x: 62.73, y: 0.65, w: 11.23, h: 16.34 },
-  transmitterStatusPanel: { label: 'Transmitter status panel', x: 73.6, y: 1.2, w: 9.3, h: 14.8 },
+  transmitterStatusPanel: { label: 'Transmitter status panel', x: 73.49, y: 1.32, w: 9.56, h: 17.32 },
   diagnosticsPanel: { label: 'Diagnostics panel', x: 83.03, y: 0.76, w: 8.42, h: 15.46 },
   topRightSector: { label: 'Top-right sector', x: 91.69, y: 1.54, w: 7.51, h: 14.37 },
   environmentTitle: { label: 'Environment Monitor title', x: 1.98, y: 18.67, w: 10, h: 4.14 },
-  environmentContainment: { label: 'Monitor: containment', x: 0, y: 22.76, w: 13.84, h: 11.55 },
-  environmentSignal: { label: 'Monitor: signal', x: 0, y: 32.55, w: 13.75, h: 14.73 },
-  environmentNoise: { label: 'Monitor: noise', x: 0.05, y: 45.12, w: 14.12, h: 13.21 },
-  environmentPressure: { label: 'Monitor: pressure', x: 0, y: 55.62, w: 14.2, h: 11.99 },
-  roomTonePanel: { label: 'Room tone panel', x: 1.4, y: 67.85, w: 11.7, h: 18.7 },
+  environmentContainment: { label: 'Monitor: containment', x: 0.2, y: 24.02, w: 14.4, h: 9.89 },
+  environmentSignal: { label: 'Monitor: signal', x: 0.68, y: 34.45, w: 13, h: 10.73 },
+  environmentNoise: { label: 'Monitor: noise', x: 0.5, y: 45.6, w: 12.95, h: 11.7 },
+  environmentPressure: { label: 'Monitor: pressure', x: 0.25, y: 55.65, w: 14.4, h: 12.32 },
+  roomTonePanel: { label: 'Room tone panel', x: 0.62, y: 66.38, w: 13.22, h: 22.43 },
   cover: { label: 'Cover art', x: 14.95, y: 19.15, w: 26.2, h: 51.7 },
-  scope: { label: 'Scope', x: 39.27, y: 57.07, w: 31.92, h: 15.48 },
-  trackData: { label: 'Track data', x: 42.27, y: 18.4, w: 26.15, h: 17.58 },
-  lyrics: { label: 'Lyrics', x: 42.63, y: 37.67, w: 25.83, h: 20.27 },
-  library: { label: 'Track library', x: 68.25, y: 18.2, w: 31.8, h: 77.65 },
+  scopeGrid: { label: 'Scope: signal grid', x: 42.08, y: 56.96, w: 26.97, h: 14.82 },
+  scope: { label: 'Scope', x: 39.75, y: 57.84, w: 31.55, h: 15.48 },
+  trackData: { label: 'Track data', x: 42.27, y: 17.05, w: 26.55, h: 21.15 },
+  lyrics: { label: 'Lyrics', x: 42.55, y: 36.6, w: 26.3, h: 22.45 },
+  library: { label: 'Track library', x: 68.25, y: 18.1, w: 31.95, h: 77.65 },
   libraryTitle: { label: 'Library: title', x: 69, y: 18.45, w: 29.1, h: 4.4 },
   librarySearch: { label: 'Library: search', x: 70.9, y: 24.85, w: 13.8, h: 4.35 },
   libraryPlaylists: { label: 'Library: playlists', x: 86.35, y: 24.55, w: 5.45, h: 5.1 },
@@ -49,9 +56,13 @@ const DEFAULT_CONSOLE_LAYOUT = {
   share: { label: 'Share control', x: 43.05, y: 75, w: 5.25, h: 9.9 },
   outputLeftMeter: { label: 'Output meter: left', x: 51, y: 76.45, w: 7.45, h: 7.85 },
   outputRightMeter: { label: 'Output meter: right', x: 59.32, y: 76.45, w: 7.7, h: 7.85 },
-  outputLeftNeedle: { label: 'Output needle: left', x: 50.9, y: 76.75, w: 7.45, h: 7.85 },
-  outputRightNeedle: { label: 'Output needle: right', x: 59.32, y: 76.75, w: 7.7, h: 7.85 },
+  outputLeftNeedle: { label: 'Output needle: left', x: 51.2, y: 77.7, w: 7.45, h: 7.85 },
+  outputRightNeedle: { label: 'Output needle: right', x: 59.5, y: 77.7, w: 7.7, h: 7.85 },
   directoratePlate: { label: 'Directorate property plate', x: 75.5, y: 84.25, w: 27.25, h: 8.15 },
+  cautionPanel1: { label: 'Caution panel 1', x: 0.2, y: 90.25, w: 19.2, h: 8.2 },
+  cautionPanel2: { label: 'Caution panel 2', x: 19.9, y: 90.25, w: 19.2, h: 8.31 },
+  cautionPanel3: { label: 'Caution panel 3', x: 39.38, y: 90.25, w: 19.2, h: 8.2 },
+  cautionPanel4: { label: 'Caution panel 4', x: 58.4, y: 90.25, w: 19.2, h: 8.2 },
 };
 
 function createDefaultLayout() {
@@ -106,7 +117,7 @@ function IndicatorRow({ id, label, value, max = 7, state = 'active' }) {
   );
 }
 
-function EnvironmentMonitor({ metrics, levels, layoutProps }) {
+function EnvironmentMonitor({ metrics, layoutProps }) {
   return metrics.map((metric) => (
     <div
       key={metric.id}
@@ -117,7 +128,7 @@ function EnvironmentMonitor({ metrics, levels, layoutProps }) {
       <IndicatorRow
         id={metric.metricId}
         label={metric.label}
-        value={levels[metric.id] || 0}
+        value={metric.max}
         max={metric.max}
       />
     </div>
@@ -155,7 +166,7 @@ export default function FullConsoleShell({
   updatePlaybackTime,
   setPlaying,
 }) {
-  const shellImage = `${BASE}images/production/stank-radio-console-shell-v8.png`;
+  const shellImage = `${BASE}images/production/stank-radio-console-v6.png`;
   const backgroundImage = `${BASE}images/production/stank-radio-console-background.png`;
   const stankPanelImage = `${BASE}images/production/stank-radio-panel-v2.png`;
   const returnPanelImage = `${BASE}images/production/return-to-directorate-panel.png`;
@@ -163,6 +174,15 @@ export default function FullConsoleShell({
   const sectorPanelImage = `${BASE}images/production/sector-panel.png`;
   const outputMeterImage = `${BASE}images/production/vu-meter-face-v2.png`;
   const outputNeedleImage = `${BASE}images/production/output-needle.png`;
+  const environmentTitleImage = `${BASE}images/production/environment-monitor-title.png`;
+  const scopeGridImage = `${BASE}images/production/signal-readout-grid.png`;
+  const cautionPanelImage = `${BASE}assets/stank-radio/caution-message-panel.png`;
+  const diagnosticsLights = [
+    { status: 'uplink', color: 'green', image: `${BASE}images/production/diagnostics-button-green.png` },
+    { status: 'latency', color: 'orange', image: `${BASE}images/production/diagnostics-button-orange.png` },
+    { status: 'packet-loss', color: 'off', image: `${BASE}images/production/diagnostics-button-off.png` },
+    { status: 'jitter', color: 'red', image: `${BASE}images/production/diagnostics-button-red.png` },
+  ];
   const auxiliaryPanels = [
     { id: 'frequencyPanel', label: 'Frequency', image: `${BASE}images/production/frequency-panel.png` },
     { id: 'liveContainmentPanel', label: 'Live containment', image: `${BASE}images/production/live-containment-panel.png` },
@@ -173,7 +193,14 @@ export default function FullConsoleShell({
   const [layoutEditing, setLayoutEditing] = useState(false);
   const [selectedLayoutId, setSelectedLayoutId] = useState('library');
   const [layout, setLayout] = useState(loadSavedLayout);
-  const [environmentLevels, setEnvironmentLevels] = useState({});
+  const [cautionPanelMessages, setCautionPanelMessages] = useState(() =>
+    Array.from(
+      { length: 4 },
+      (_, index) => index % Math.max(1, cautionMessages.length),
+    ),
+  );
+  const [changingCautionPanel, setChangingCautionPanel] = useState(null);
+  const [shareNoticeUrl, setShareNoticeUrl] = useState('');
   const [editorNotice, setEditorNotice] = useState('Saved locally');
   const [editorPosition, setEditorPosition] = useState(() => ({
     x: Math.max(18, window.innerWidth - 408),
@@ -183,6 +210,10 @@ export default function FullConsoleShell({
   const editorPanelRef = useRef(null);
   const layoutGestureRef = useRef(null);
   const editorGestureRef = useRef(null);
+  const nextCautionMessageRef = useRef(4 % Math.max(1, cautionMessages.length));
+  const nextCautionPanelRef = useRef(0);
+  const cautionFadeTimerRef = useRef(null);
+  const shareNoticeTimerRef = useRef(null);
   const selectedLayout = layout[selectedLayoutId] || DEFAULT_CONSOLE_LAYOUT[selectedLayoutId];
   const environmentItems = [
     {
@@ -190,29 +221,28 @@ export default function FullConsoleShell({
       metricId: 'containment',
       label: 'Containment',
       max: 7,
-      image: `${BASE}images/production/environment-containment.png`,
+      image: `${BASE}images/production/environment-containment-v2.png`,
     },
     {
       id: 'environmentSignal',
       metricId: 'signal',
       label: 'Signal Strength',
       max: 7,
-      image: `${BASE}images/production/environment-signal.png`,
+      image: `${BASE}images/production/environment-signal-v2.png`,
     },
     {
       id: 'environmentNoise',
       metricId: 'noise',
       label: 'Background Noise',
       max: 7,
-      image: `${BASE}images/production/environment-noise.png`,
+      image: `${BASE}images/production/environment-noise-v2.png`,
     },
     {
       id: 'environmentPressure',
       metricId: 'pressure',
       label: 'Pressure Level',
-      max: 7,
-      activeMax: 6,
-      image: `${BASE}images/production/environment-pressure.png`,
+      max: 6,
+      image: `${BASE}images/production/environment-pressure-v2.png`,
     },
   ];
 
@@ -222,18 +252,36 @@ export default function FullConsoleShell({
   }, [layout]);
 
   useEffect(() => {
-    if (!playing) {
-      setEnvironmentLevels({});
-      return;
-    }
+    if (!cautionMessages.length) return undefined;
 
-    setEnvironmentLevels(Object.fromEntries(
-      environmentItems.map((item) => [
-        item.id,
-        Math.floor(Math.random() * (item.activeMax || item.max)) + 1,
-      ]),
-    ));
-  }, [playing, activeTrack?.id]);
+    const rotationTimer = window.setInterval(() => {
+      const panelIndex = nextCautionPanelRef.current;
+      nextCautionPanelRef.current = (panelIndex + 1) % 4;
+      setChangingCautionPanel(panelIndex);
+
+      cautionFadeTimerRef.current = window.setTimeout(() => {
+        setCautionPanelMessages((current) => {
+          let messageIndex = nextCautionMessageRef.current;
+
+          if (cautionMessages.length >= 4) {
+            while (current.some((value, index) => index !== panelIndex && value === messageIndex)) {
+              messageIndex = (messageIndex + 1) % cautionMessages.length;
+            }
+          }
+
+          nextCautionMessageRef.current = (messageIndex + 1) % cautionMessages.length;
+          return current.map((value, index) => (index === panelIndex ? messageIndex : value));
+        });
+        setChangingCautionPanel(null);
+      }, 190);
+    }, 5250);
+
+    return () => {
+      window.clearInterval(rotationTimer);
+      if (cautionFadeTimerRef.current) window.clearTimeout(cautionFadeTimerRef.current);
+      if (shareNoticeTimerRef.current) window.clearTimeout(shareNoticeTimerRef.current);
+    };
+  }, []);
 
   function layoutProps(id) {
     const item = layout[id] || DEFAULT_CONSOLE_LAYOUT[id];
@@ -375,6 +423,14 @@ export default function FullConsoleShell({
       .catch(() => setEditorNotice('Copy unavailable'));
   }
 
+  function handleShareTrack() {
+    const url = shareTrack();
+    if (!url) return;
+    setShareNoticeUrl(url);
+    if (shareNoticeTimerRef.current) window.clearTimeout(shareNoticeTimerRef.current);
+    shareNoticeTimerRef.current = window.setTimeout(() => setShareNoticeUrl(''), 3200);
+  }
+
   return (
     <main className={playing ? 'fullConsolePage isPlaying' : 'fullConsolePage'}>
       <section
@@ -410,14 +466,51 @@ export default function FullConsoleShell({
         />
 
         {auxiliaryPanels.map((panel) => (
-          <img
+          <div
             key={panel.id}
             className="consoleOverlay consolePanelAsset consoleAuxiliaryPanel"
-            src={panel.image}
-            alt={panel.label}
-            draggable={false}
+            aria-label={panel.label}
             {...layoutProps(panel.id)}
-          />
+          >
+            <img src={panel.image} alt="" draggable={false} />
+            {panel.id === 'liveContainmentPanel' && (
+              <div className="liveContainmentLights" aria-hidden="true">
+                <i className="liveContainmentLight liveContainmentLight--master" />
+                <i className="liveContainmentLight liveContainmentLight--tx" />
+                <i className="liveContainmentLight liveContainmentLight--signal" />
+                <i className="liveContainmentLight liveContainmentLight--safe" />
+                <span className="liveContainmentOnAir" />
+              </div>
+            )}
+            {panel.id === 'systemHealthPanel' && (
+              <div className="systemHealthLights" aria-hidden="true">
+                {Array.from({ length: 24 }, (_, index) => (
+                  <i key={index} style={{ '--health-index': index }} />
+                ))}
+              </div>
+            )}
+            {panel.id === 'transmitterStatusPanel' && (
+              <div className="transmitterStatusLights" aria-hidden="true">
+                {Array.from({ length: 24 }, (_, index) => (
+                  <i key={index} style={{ '--transmitter-index': index }} />
+                ))}
+              </div>
+            )}
+            {panel.id === 'diagnosticsPanel' && (
+              <div className="diagnosticsStatusLights" aria-hidden="true">
+                {diagnosticsLights.map((light, index) => (
+                  <img
+                    key={light.status}
+                    className={`diagnosticsStatusLight diagnosticsStatusLight--${light.status} diagnosticsStatusLight--${light.color}`}
+                    src={light.image}
+                    alt=""
+                    draggable={false}
+                    style={{ '--diagnostics-index': index }}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
         ))}
 
         <a
@@ -446,16 +539,16 @@ export default function FullConsoleShell({
           {...layoutProps('roomTonePanel')}
         />
 
-        <h2
+        <img
           className="consoleOverlay consoleEnvironmentTitle"
+          src={environmentTitleImage}
+          alt="Environment Monitor"
+          draggable={false}
           {...layoutProps('environmentTitle')}
-        >
-          Environment Monitor
-        </h2>
+        />
 
         <EnvironmentMonitor
           metrics={environmentItems}
-          levels={environmentLevels}
           layoutProps={layoutProps}
         />
 
@@ -498,6 +591,15 @@ export default function FullConsoleShell({
           />
         </div>
 
+        <img
+          className="consoleOverlay consoleScopeGrid"
+          src={scopeGridImage}
+          alt=""
+          aria-hidden="true"
+          draggable={false}
+          {...layoutProps('scopeGrid')}
+        />
+
         <div className="consoleOverlay consoleScope" aria-hidden="true" {...layoutProps('scope')}>
           <div className="consoleScopeTrace">
             {roomTone.bars.concat(roomTone.bars).map((height, index) => (
@@ -514,10 +616,20 @@ export default function FullConsoleShell({
           aria-label="Current transmission"
           {...layoutProps('trackData')}
         >
-          <small>{playing ? 'NOW LEAKING' : activeTrack ? 'LEAK ARMED' : 'STANDBY'}</small>
+          <small>
+            {playing
+              ? 'LEAK STATUS // ACTIVE'
+              : activeTrack
+                ? 'LEAK STATUS // ARMED'
+                : 'LEAK STATUS // STANDBY'}
+          </small>
           <h1>{activeTrack ? displayTrack.title : 'NO TRANSMISSION SELECTED'}</h1>
           <h2>{displayTrack.artist}</h2>
-          <p>{displayTrack.description}</p>
+          <p>
+            {activeTrack
+              ? 'OLFACTORY OUTPUT EXCEEDS ACOUSTIC LEVEL'
+              : 'ARCHIVE CHANNEL AWAITING CONTAINMENT RECORD'}
+          </p>
         </section>
 
         <section className="consoleOverlay consoleLyrics" aria-label="Lyrics" {...layoutProps('lyrics')}>
@@ -536,11 +648,12 @@ export default function FullConsoleShell({
               ))
             ) : (
               <div className="consoleEmptyMessage">
+                <small>TRANSCRIPT STATUS</small>
                 <b>{activeTrack ? 'LYRIC DATA NOT AVAILABLE' : 'AWAITING TRANSMISSION'}</b>
                 <span>
                   {activeTrack
-                    ? 'No synchronized contamination transcript found.'
-                    : 'Select an audio contaminant from the archive.'}
+                    ? 'NO SYNCHRONIZED CONTAMINATION TRANSCRIPT FOUND IN ARCHIVE'
+                    : 'SELECT AN AUDIO CONTAMINANT FROM THE ARCHIVE'}
                 </span>
               </div>
             )}
@@ -665,6 +778,16 @@ export default function FullConsoleShell({
           <div className="consoleDirectorateBarcode" aria-hidden="true" />
         </section>
 
+        {cautionPanelMessages.map((messageIndex, panelIndex) => (
+          <CautionPanel
+            key={panelIndex}
+            assetSrc={cautionPanelImage}
+            message={cautionMessages[messageIndex] || ''}
+            changing={changingCautionPanel === panelIndex}
+            layoutProps={layoutProps(`cautionPanel${panelIndex + 1}`)}
+          />
+        ))}
+
         <div className="consoleTransport" aria-label="Playback controls">
           <button
             className="transportPrevious"
@@ -710,13 +833,20 @@ export default function FullConsoleShell({
           <button
             className="transportShare"
             type="button"
-            onClick={shareTrack}
+            onClick={handleShareTrack}
             aria-label="Share track"
             {...layoutProps('share')}
           >
             <Share2 />
           </button>
         </div>
+
+        {shareNoticeUrl ? (
+          <div className="consoleShareNotice" role="status" aria-live="polite">
+            <strong>Song Link Copied!</strong>
+            <code>{shareNoticeUrl}</code>
+          </div>
+        ) : null}
 
         <audio
           ref={audioRef}
@@ -744,14 +874,6 @@ export default function FullConsoleShell({
           />
         ) : null}
       </section>
-
-      <button
-        className={layoutEditing ? 'layoutEditorToggle active' : 'layoutEditorToggle'}
-        type="button"
-        onClick={() => setLayoutEditing((editing) => !editing)}
-      >
-        {layoutEditing ? 'DONE EDITING' : 'EDIT LAYOUT'}
-      </button>
 
       {layoutEditing ? (
         <aside
