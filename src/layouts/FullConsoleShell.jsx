@@ -19,7 +19,7 @@ import CautionPanel from '../components/CautionPanel';
 import { cautionMessages } from '../data/cautionMessages';
 import './full-console-shell.css';
 
-const LAYOUT_STORAGE_KEY = 'stank-radio-console-layout-v17';
+const LAYOUT_STORAGE_KEY = 'stank-radio-console-layout-v19';
 
 const DEFAULT_CONSOLE_LAYOUT = {
   topLeftBiohazard: { label: 'Return to Directorate', x: 0.31, y: 0.7, w: 9.62, h: 15.9 },
@@ -69,6 +69,32 @@ function createDefaultLayout() {
   return Object.fromEntries(
     Object.entries(DEFAULT_CONSOLE_LAYOUT).map(([id, item]) => [id, { ...item }]),
   );
+}
+
+function buildScopeWavePoints(bars, phase = 0) {
+  const samples = bars?.length ? bars : [50];
+  const pointCount = 241;
+
+  return Array.from({ length: pointCount }, (_, index) => {
+    const x = (index / (pointCount - 1)) * 100;
+    const progress = index / (pointCount - 1);
+    const samplePosition = progress * (samples.length - 1);
+    const sampleIndex = Math.floor(samplePosition);
+    const nextSampleIndex = Math.min(samples.length - 1, sampleIndex + 1);
+    const sampleMix = samplePosition - sampleIndex;
+    const sample =
+      (Number(samples[sampleIndex]) || 50) * (1 - sampleMix) +
+      (Number(samples[nextSampleIndex]) || 50) * sampleMix;
+    const edgeEnvelope = Math.pow(Math.sin(Math.PI * progress), 0.62);
+    const broadEnvelope = 0.64 + 0.36 * Math.pow(Math.sin(Math.PI * progress * 3.15 + 0.35), 2);
+    const amplitude = Math.min(18.5, (3.5 + sample * 0.25) * edgeEnvelope * broadEnvelope);
+    const carrier =
+      Math.sin(index * 2.42 + phase) * 0.7 +
+      Math.sin(index * 1.17 - phase * 1.6) * 0.22 +
+      Math.sin(index * 3.83 + phase * 0.7) * 0.08;
+    const y = 20 + amplitude * carrier;
+    return `${x.toFixed(3)},${y.toFixed(3)}`;
+  }).join(' ');
 }
 
 function loadSavedLayout() {
@@ -141,6 +167,7 @@ export default function FullConsoleShell({
   audioRef,
   lyricLineRefs,
   activeTrack,
+  playbackTrack,
   displayTrack,
   pagedTracks,
   visibleTracks,
@@ -215,6 +242,10 @@ export default function FullConsoleShell({
   const cautionFadeTimerRef = useRef(null);
   const shareNoticeTimerRef = useRef(null);
   const selectedLayout = layout[selectedLayoutId] || DEFAULT_CONSOLE_LAYOUT[selectedLayoutId];
+  const scopeWaveFrames = [0, 0.9, 1.8, 2.7, 3.6, 4.5].map((phase) =>
+    buildScopeWavePoints(roomTone.bars, phase),
+  );
+  const scopeWaveAnimation = [...scopeWaveFrames, scopeWaveFrames[0]].join(';');
   const environmentItems = [
     {
       id: 'environmentContainment',
@@ -602,12 +633,19 @@ export default function FullConsoleShell({
 
         <div className="consoleOverlay consoleScope" aria-hidden="true" {...layoutProps('scope')}>
           <div className="consoleScopeTrace">
-            {roomTone.bars.concat(roomTone.bars).map((height, index) => (
-              <i
-                key={index}
-                style={{ '--scope-height': `${Math.max(14, height)}%` }}
-              />
-            ))}
+            <svg viewBox="0 0 100 40" preserveAspectRatio="none">
+              <line className="consoleScopeBaseline" x1="0" y1="20" x2="100" y2="20" />
+              <polyline className="consoleScopeWave" points={scopeWaveFrames[0]}>
+                {playing ? (
+                  <animate
+                    attributeName="points"
+                    values={scopeWaveAnimation}
+                    dur="1.05s"
+                    repeatCount="indefinite"
+                  />
+                ) : null}
+              </polyline>
+            </svg>
           </div>
         </div>
 
@@ -715,18 +753,28 @@ export default function FullConsoleShell({
         >
           <div className="consoleTrackList">
             {pagedTracks.map((track) => (
-              <button
+              <div
                 key={track.id}
-                type="button"
-                className={track.id === activeTrack?.id ? 'active' : ''}
-                onClick={() => selectTrack(track, false)}
+                className={`consoleTrackRow${track.id === activeTrack?.id ? ' active' : ''}${track.id === playbackTrack?.id && playing ? ' isPlaying' : ''}`}
               >
-                <img src={track.cover || defaultCover} alt="" />
-                <span>
-                  <b>{track.title}</b>
-                  <small>{track.artist}</small>
-                </span>
-              </button>
+                <button
+                  className="consoleTrackSelect"
+                  type="button"
+                  onClick={() => selectTrack(track, false)}
+                >
+                  <img src={track.cover || defaultCover} alt="" />
+                  <span>
+                    <b>{track.title}</b>
+                    <small>{track.artist}</small>
+                  </span>
+                </button>
+                <button
+                  className="consoleTrackPlay"
+                  type="button"
+                  aria-label={`Play ${track.title}`}
+                  onClick={() => selectTrack(track, true)}
+                />
+              </div>
             ))}
 
             {!visibleTracks.length ? (
@@ -850,7 +898,7 @@ export default function FullConsoleShell({
 
         <audio
           ref={audioRef}
-          src={activeTrack?.audio || undefined}
+          src={playbackTrack?.audio || undefined}
           onPlay={() => setPlaying(true)}
           onPause={() => setPlaying(false)}
           onTimeUpdate={updatePlaybackTime}

@@ -1,0 +1,292 @@
+.pocketFilth {
+  min-height: 100dvh;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: #020302;
+  color: #d7c883;
+  font-family: "Roboto Condensed", sans-serif;
+}
+
+.pocketConsole {
+  position: relative;
+  width: min(100vw, calc(100dvh * 0.5628));
+  aspect-ratio: 941 / 1672;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.pocketShell,
+.pocketLibraryShell {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  user-select: none;
+}
+
+.pocketFrequency {
+  position: absolute;
+  z-index: 12;
+  left: 18.8%;
+  top: 8.2%;
+  width: 24.2%;
+  height: 5.7%;
+  display: grid;
+  place-items: center;
+  color: #b6a05b;
+  text-align: center;
+  text-shadow: 0 2px #000;
+}
+.pocketFrequency strong { width: 100%; color: #93ad43; font-size: clamp(19px, 6.5vw, 48px); line-height: 1; letter-spacing: 0.02em; text-align: center; text-shadow: 0 1px #000, 0 0 3px rgba(137, 174, 57, 0.25); }
+
+.pocketLiveStatus {
+  position: absolute;
+  z-index: 12;
+  left: 63.2%;
+  top: 8.15%;
+  width: 31.5%;
+  height: 7.6%;
+  display: block;
+  color: #8e9850;
+  text-align: center;
+  text-shadow: 0 1px #000;
+}
+.pocketLiveStatus i {
+  position: absolute;
+  left: 18%;
+  top: 59%;
+  width: 8.5%;
+  aspect-ratio: 1;
+  transform: translateY(-50%);
+  border-radius: 15%;
+  background: #8cbd31;
+  box-shadow: 0 0 7px rgba(163, 226, 61, 0.68);
+  animation: pocketSoftPulse 2.5s ease-in-out infinite;
+}
+.pocketLiveStatus span { position: absolute; left: 4%; top: 9%; width: 92%; font-size: clamp(8px, 2.45vw, 18px); letter-spacing: 0.06em; text-align: center; white-space: nowrap; }
+.pocketLiveStatus strong { position: absolute; left: 34%; top: 39%; width: 56%; height: 42%; display: flex; align-items: center; justify-content: center; box-sizing: border-box; border: 1px solid rgba(221, 218, 194, 0.72); background: rgba(6, 7, 6, 0.35); color: #89934f; font-size: clamp(9px, 3vw, 22px); line-height: 1; letter-spacing: 0.05em; white-space: nowrap; }
+.pocketFilth.isPlaying .pocketLiveStatus strong { color: #ff493b; background: rgba(35, 3, 2, 0.42); text-shadow: 0 0 7px rgba(255, 44, 30, 0.72); animation: pocketOnAirPulse 1.35s ease-in-out infinite; }
+@keyframes pocketOnAirPulse { 50% { color: #ff756a; background: rgba(55, 5, 3, 0.52); text-shadow: 0 0 11px rgba(255, 48, 34, 0.9); } }
+
+.pocketLibraryOpen {
+  position: absolute;
+  z-index: 20;
+  left: 3.25%;
+  top: 17.2%;
+  width: 85.4%;
+  height: 7.1%;
+  border: 0;
+  padding: 0 1.5%;
+  background: transparent;
+  color: #c5a250;
+  cursor: pointer;
+  font: 800 clamp(17px, 5.8vw, 42px) "Roboto Condensed", sans-serif;
+  letter-spacing: 0.05em;
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow: 0 2px #000;
+}
+
+.pocketPrimaryDisplay {
+  position: absolute;
+  z-index: 1;
+  left: 5.05%;
+  top: 25.35%;
+  width: 90.25%;
+  height: 31.45%;
+  overflow: hidden;
+  background: #030403;
+  clip-path: polygon(3.5% 0, 96.5% 0, 100% 5.5%, 100% 94.5%, 96.5% 100%, 3.5% 100%, 0 94.5%, 0 5.5%);
+}
+.pocketCover,
+.pocketLyricsView,
+.pocketDossier { width: 100%; height: 100%; }
+.pocketCover { display: block; object-fit: cover; background: #030403; }
+.pocketLyricsView { position: relative; }
+.pocketLyricsView > img,
+.pocketDossier { display: block; width: 100%; height: 100%; object-fit: fill; }
+.pocketLyricsCopy {
+  position: absolute;
+  inset: 14% 8% 7%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5%;
+  overflow: hidden;
+  text-align: center;
+}
+.pocketLyricsCopy p { width: 100%; margin: 0; color: #7e7654; font-size: clamp(9px, 2.8vw, 20px); line-height: 1.2; }
+.pocketLyricsCopy p.active { color: #d5be69; font-size: clamp(13px, 4vw, 29px); font-weight: 800; }
+
+.pocketNowPlaying {
+  position: absolute;
+  z-index: 12;
+  left: 23%;
+  top: 59.55%;
+  width: 54.5%;
+  height: 7.55%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5% 2.5% 1.2%;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-align: center;
+  text-shadow: 0 2px 2px #000;
+}
+.pocketNowPlaying > * { max-width: 100%; margin: 0; }
+.pocketCollection { color: #89934f; font-size: clamp(6px, 1.75vw, 13px); letter-spacing: 0.15em; line-height: 1.15; text-transform: uppercase; }
+.pocketTrackTitle { color: #e0c46b; font-size: clamp(18px, 5.3vw, 39px); font-weight: 800; line-height: 0.98; overflow-wrap: anywhere; text-transform: uppercase; }
+.pocketTrackTitle.medium { font-size: clamp(16px, 4.6vw, 34px); }
+.pocketTrackTitle.long { font-size: clamp(13px, 3.8vw, 28px); line-height: 1.02; }
+.pocketTrackTitle.extra-long { display: -webkit-box; font-size: clamp(11px, 3.15vw, 23px); line-height: 1.03; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+.pocketTrackArtist { color: #b8a566; font-size: clamp(8px, 2.25vw, 17px); line-height: 1.05; text-transform: uppercase; }
+.pocketCertification { width: 78%; margin-top: 1.5%; border-top: 1px solid rgba(132, 146, 71, 0.42); padding-top: 1%; color: #77784f; font-size: clamp(5px, 1.45vw, 11px); letter-spacing: 0.12em; line-height: 1; text-transform: uppercase; }
+
+.pocketTrackProgress {
+  --track-progress: 0%;
+  position: absolute;
+  z-index: 20;
+  left: 4.1%;
+  top: 68.55%;
+  width: 91.8%;
+  height: 2.35%;
+  display: grid;
+  grid-template-columns: 11.5% minmax(0, 1fr) 11.5%;
+  align-items: center;
+  gap: 1.7%;
+  color: #788b43;
+  font: 700 clamp(7px, 1.9vw, 15px) "Roboto Condensed", sans-serif;
+  letter-spacing: 0.04em;
+  text-align: center;
+  text-shadow: 0 1px #000;
+}
+.pocketTrackRail { position: relative; height: 20%; min-height: 3px; border: 1px solid rgba(111, 98, 66, 0.34); border-radius: 999px; background: #060706; box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.95), 0 1px rgba(112, 91, 48, 0.16); }
+.pocketTrackFill { position: absolute; inset: 0 auto 0 0; width: var(--track-progress); border-radius: inherit; background: #53643a; box-shadow: none; }
+.pocketTrackMarker { position: absolute; z-index: 2; left: var(--track-progress); top: 50%; width: clamp(11px, 3.25vw, 25px); aspect-ratio: 1; object-fit: contain; transform: translate(-50%, -50%); filter: brightness(0.78); transition: filter 150ms ease; pointer-events: none; }
+.pocketTrackRail input { position: absolute; z-index: 3; inset: -250% -1.5%; width: 103%; height: 600%; margin: 0; opacity: 0; cursor: pointer; }
+.pocketTrackRail input:disabled { cursor: default; }
+.pocketFilth.isPlaying .pocketTrackFill { background: #718940; box-shadow: inset 0 1px rgba(183, 210, 100, 0.24); }
+.pocketFilth.isPlaying .pocketTrackMarker { filter: brightness(0.9) drop-shadow(0 0 2px rgba(137, 169, 65, 0.38)); }
+
+@keyframes pocketSoftPulse { 50% { opacity: 0.76; filter: brightness(1.18); } }
+
+.pocketSignalBars {
+  position: absolute;
+  z-index: 12;
+  right: 6.55%;
+  top: 93.72%;
+  width: 27.15%;
+  height: 2.78%;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  align-items: stretch;
+  gap: 4.6%;
+  padding: 0.18% 0.25%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.pocketSignalBars i { min-width: 0; background: #b7822a; opacity: 0.62; box-shadow: inset 0 0 2px #d79b32; animation: pocketSoftPulse 3s ease-in-out calc(var(--i) * -110ms) infinite; }
+
+.pocketEnvironmentGlobe { position: absolute; z-index: 12; left: 6.3%; top: 86.45%; width: 9.1%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(132, 191, 54, 0.24) 0 34%, rgba(105, 166, 38, 0.12) 52%, transparent 72%); box-shadow: inset 0 0 5px rgba(137, 202, 54, 0.2), 0 0 4px rgba(119, 182, 46, 0.14); animation: pocketGlobePulse 3.6s ease-in-out infinite; transform-origin: center; pointer-events: none; }
+@keyframes pocketGlobePulse { 50% { opacity: 0.72; filter: brightness(1.12); } }
+.pocketFilth.isPlaying .pocketEnvironmentGlobe { overflow: hidden; clip-path: circle(47% at 50% 50%); background: radial-gradient(circle, rgba(177, 246, 67, 0.68) 0 34%, rgba(122, 205, 38, 0.36) 53%, transparent 76%); box-shadow: inset 0 0 10px rgba(190, 255, 78, 0.62); animation: pocketGlobeActivePulse 1.25s ease-in-out infinite; }
+@keyframes pocketGlobeActivePulse { 50% { opacity: 0.82; filter: brightness(1.55); } }
+.pocketDirectorateSeal { position: absolute; z-index: 12; left: 68.2%; top: 86.62%; width: 9.2%; aspect-ratio: 1; border-radius: 50%; object-fit: cover; opacity: 0.64; filter: sepia(0.28) saturate(0.78) brightness(0.78) contrast(1.18); mix-blend-mode: screen; pointer-events: none; }
+.pocketRadarSweep { position: absolute; z-index: 12; right: 6.5%; top: 86.3%; width: 9.5%; aspect-ratio: 1; border-radius: 50%; background: conic-gradient(from 0deg, transparent 0 315deg, rgba(137, 187, 55, 0.72) 350deg, transparent 360deg); animation: pocketRadar 3.2s linear infinite; transform-origin: center; }
+@keyframes pocketRadar { to { transform: rotate(1turn); } }
+
+.pocketTrackHazardGlow { position: absolute; z-index: 12; opacity: 0; pointer-events: none; transition: opacity 180ms ease; }
+.pocketTrackHazardGlow { left: 4.75%; top: 59.45%; width: 15.55%; height: 7.65%; border-radius: 8%; overflow: hidden; background: radial-gradient(ellipse at center, rgba(177, 241, 59, 0.6) 0 25%, rgba(126, 199, 39, 0.38) 43%, rgba(91, 153, 25, 0.16) 62%, transparent 82%); box-shadow: inset 0 0 11px rgba(157, 229, 53, 0.38); transform-origin: center; }
+.environment-monitor { position: absolute; z-index: 12; left: 80.5526%; top: 58.9713%; width: 13.4963%; aspect-ratio: 85 / 96; pointer-events: none; }
+.environment-monitor__shell { display: block; width: 100%; height: 100%; }
+.environment-monitor__lamps { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity 180ms ease; }
+.environment-monitor__lamp { position: absolute; width: calc(10 / 85 * 100%); height: calc(4 / 96 * 100%); box-sizing: border-box; margin: 0; transform: none; border-radius: 12%; background: #86aa39; box-shadow: inset 0 0 2px rgba(216, 244, 116, 0.5), 0 0 2px rgba(113, 164, 42, 0.34); animation: pocketLevelFlicker 1.6s ease-in-out calc(var(--i) * -70ms) infinite alternate; }
+.pocketFilth.isPlaying .pocketTrackHazardGlow,
+.pocketFilth.isPlaying .environment-monitor__lamps { opacity: 0.9; }
+.environment-monitor.is-debugging .environment-monitor__lamps { opacity: 1; }
+.environment-monitor.is-debugging .environment-monitor__lamp { background: rgba(255, 0, 0, 0.7); box-shadow: none; animation: none; }
+.pocketFilth.isPlaying .pocketTrackHazardGlow { animation: pocketHazardPulse 1.05s ease-in-out infinite; }
+@keyframes pocketHazardPulse { 50% { opacity: 0.68; filter: brightness(1.48); box-shadow: inset 0 0 16px rgba(185, 255, 69, 0.58); } }
+@keyframes pocketLevelFlicker { to { opacity: 0.54; filter: brightness(0.83); } }
+
+.pocketTransport,
+.pocketTabs { position: absolute; z-index: 20; display: grid; }
+.pocketTransport { left: 4.05%; top: 72.35%; width: 91.7%; height: 8.55%; grid-template-columns: repeat(5, 1fr); gap: 2.3%; }
+.pocketTabs { left: 3.5%; top: 81.45%; width: 93%; height: 3.95%; grid-template-columns: repeat(3, 1fr); gap: 1.2%; }
+.pocketTransport button,
+.pocketTabs button { border: 0; padding: 0; background: transparent; cursor: pointer; }
+.pocketTransport button { display: grid; place-items: center; color: #bd9450; }
+.pocketTransport button:active { background: transparent; filter: brightness(1.5); transform: scale(0.96); }
+.pocketTransport button:nth-child(2) { color: #8da83e; }
+.pocketTransport button:nth-child(2):active { color: #b1d35a; }
+.pocketTransport svg { width: 40%; height: 40%; stroke-width: 2.4; transform: translateY(-8%); }
+.pocketTabs button { color: #ae8848; font: 800 clamp(10px, 3.4vw, 25px) "Roboto Condensed", sans-serif; letter-spacing: 0.07em; text-transform: uppercase; }
+.pocketTabs button.active { color: #a8ac54; box-shadow: inset 0 -3px rgba(142, 181, 52, 0.68); }
+
+.pocketEnvironmentReadout { position: absolute; z-index: 12; left: 20%; top: 86.25%; width: 59%; height: 6.4%; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-evenly; padding: 1.05% 2.5% 0.95% 3.2%; box-sizing: border-box; color: #85894b; font-size: clamp(11px, 3.15vw, 23px); font-weight: 700; letter-spacing: 0.025em; line-height: 1.12; text-shadow: 0 1px #000; }
+.pocketEnvironmentReadout span { display: block; white-space: nowrap; }
+.pocketEnvironmentReadout strong { color: #b5aa61; font-weight: 800; }
+.pocketWarning { position: absolute; z-index: 12; left: 18.5%; top: 93.2%; width: 43.5%; height: 3.8%; display: flex; align-items: center; justify-content: center; box-sizing: border-box; padding: 0 4%; overflow: hidden; color: #c7a04d; font-size: clamp(8px, 2.25vw, 17px); font-weight: 800; line-height: 1.05; text-align: center; text-transform: uppercase; }
+
+.pocketLibraryDrawer { position: fixed; z-index: 500; inset: 0; display: grid; place-items: end center; background: rgba(0, 0, 0, 0); pointer-events: none; transform: translateY(105%); transition: transform 420ms cubic-bezier(0.2, 0.8, 0.25, 1), background 260ms ease; }
+.pocketLibraryDrawer.open { pointer-events: auto; transform: translateY(0); background: rgba(0, 0, 0, 0.72); }
+.pocketLibraryStage { position: relative; width: min(100vw, calc(100dvh * 0.5628)); aspect-ratio: 1188 / 1324; overflow: hidden; }
+.pocketLibraryList { position: absolute; z-index: 3; left: 6.7%; top: 25.1%; width: 87.6%; height: 67.5%; display: grid; grid-template-rows: repeat(6, minmax(0, 1fr)); align-content: start; gap: 0.8%; overflow: hidden; background: #030403; }
+.pocketTrackRow { position: relative; min-height: 0; overflow: hidden; background: #040504; cursor: pointer; }
+.pocketTrackRow:focus-visible { outline: 1px solid rgba(192, 151, 64, 0.9); outline-offset: -2px; }
+.pocketTrackShell { position: absolute; z-index: 3; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.pocketTrackCover { position: absolute; z-index: 1; left: 13.8%; top: 14%; width: 10%; height: 72%; object-fit: cover; }
+.pocketTrackSelect { position: absolute; z-index: 5; left: 24%; top: 10%; width: 61%; height: 80%; display: flex; flex-direction: column; justify-content: center; border: 0; background: transparent; color: #cabb78; text-align: left; pointer-events: none; }
+.pocketTrackSelect b,
+.pocketTrackSelect span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pocketTrackSelect b { font-size: clamp(10px, 3.4vw, 23px); }
+.pocketTrackSelect span { color: #8e9461; font-size: clamp(8px, 2.5vw, 17px); }
+.pocketTrackPlay { position: absolute; z-index: 7; right: 2.6%; top: 12%; width: 10.5%; height: 76%; border: 0; background: transparent; pointer-events: none; }
+.pocketTrackLamp { position: absolute; z-index: 6; left: 4.65%; top: 27%; width: 4.7%; height: 46%; display: grid; grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(6, 1fr); grid-auto-flow: column; gap: 13% 20%; opacity: 0.88; pointer-events: none; }
+.pocketTrackLamp i { min-width: 0; min-height: 0; border-radius: 16%; background: #bd872c; box-shadow: inset 0 0 2px rgba(245, 192, 72, 0.7), 0 0 3px rgba(216, 151, 39, 0.45); animation: pocketSoftPulse 3.4s ease-in-out calc(var(--i) * -95ms) infinite; }
+.pocketTrackRow.active { filter: brightness(1.2); }
+
+.pocketLibrarySearch { position: absolute; z-index: 20; left: 7.5%; top: 15.8%; width: 41%; height: 6.4%; box-sizing: border-box; border: 0; outline: 0; padding: 0 2% 0 7.5%; background: transparent; color: #d2bf72; font: 700 clamp(12px, 3.5vw, 24px) "Roboto Condensed", sans-serif; }
+.pocketLibrarySearch::placeholder { color: rgba(172, 174, 82, 0.7); }
+.pocketLibraryClose,
+.pocketLibraryPlaylists,
+.pocketLibraryAll,
+.pocketLibraryPrevious,
+.pocketLibraryNext { position: absolute; z-index: 20; border: 0; padding: 0; background: transparent; cursor: pointer; }
+.pocketLibraryClose { right: 6.4%; top: 6%; width: 9.4%; height: 8%; }
+.pocketLibraryPlaylists { left: 52%; top: 15.3%; width: 20%; height: 7.5%; }
+.pocketLibraryAll { right: 6.3%; top: 15.3%; width: 20%; height: 7.5%; }
+.pocketLibraryPrevious { left: 14%; bottom: 1.4%; width: 13%; height: 6%; }
+.pocketLibraryNext { right: 15%; bottom: 1.4%; width: 13%; height: 6%; }
+.pocketLibraryPrevious:disabled,
+.pocketLibraryNext:disabled { opacity: 0.25; }
+.pocketLibraryPage { position: absolute; z-index: 12; left: 41%; bottom: 2.5%; width: 18%; color: #b99745; text-align: center; font-weight: 800; }
+.pocketPlaylistMenu { grid-row: 1 / -1; overflow: auto; padding: 2%; }
+.pocketPlaylistMenu button { width: 100%; display: grid; grid-template-columns: 16% 1fr; align-items: center; gap: 4%; border: 0; border-bottom: 1px solid #493d27; padding: 2.2%; background: transparent; color: #c8af68; text-align: left; cursor: pointer; }
+.pocketPlaylistArt { width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid rgba(151, 121, 57, 0.5); }
+.pocketPlaylistCopy b,
+.pocketPlaylistCopy small { display: block; }
+.pocketPlaylistCopy small { margin-top: 1%; color: #7e825b; font-size: 0.82em; }
+.pocketNoTracks { grid-row: 1 / -1; display: grid; place-items: center; color: #ad9655; text-align: center; }
+
+.pocketShareNotice { position: fixed; z-index: 800; left: 5%; right: 5%; bottom: 4%; padding: 0.75rem; border: 1px solid #8e7136; background: rgba(5, 6, 5, 0.96); color: #ddc46f; text-align: center; box-shadow: 0 8px 30px #000; }
+.pocketShareNotice strong,
+.pocketShareNotice span { display: block; }
+.pocketShareNotice span { margin-top: 0.25rem; overflow: hidden; color: #999568; font-size: 0.72rem; text-overflow: ellipsis; white-space: nowrap; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pocketLibraryDrawer { transition-duration: 1ms; }
+  .pocketLiveStatus i,
+  .pocketLiveStatus strong,
+  .pocketSignalBars i,
+  .pocketEnvironmentGlobe,
+  .pocketTrackHazardGlow,
+  .environment-monitor__lamp,
+  .pocketRadarSweep { animation: none !important; }
+}

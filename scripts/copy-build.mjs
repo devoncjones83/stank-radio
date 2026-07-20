@@ -6,7 +6,7 @@ const nestedDirectory = resolve(distDirectory, 'stank-radio');
 
 mkdirSync(nestedDirectory, { recursive: true });
 
-for (const entry of ['index.html', 'songs.json', 'assets', 'images']) {
+for (const entry of ['index.html', 'songs.json', 'assets', 'images', 'music']) {
   const source = resolve(distDirectory, entry);
   if (!existsSync(source)) continue;
 

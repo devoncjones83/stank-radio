@@ -62,6 +62,8 @@ const fallbackTracks = [
     title: 'Containment Funk Protocol',
     artist: 'Explosive Crossfader',
     tag: 'UNCLASSIFIED STANK',
+    collection: 'UNCLASSIFIED STANK',
+    certification: 'Certified Audio Contamination',
     playlists: ['Fallback Stank'],
     description: 'Fallback stank engaged. The funk refuses to die.',
     cover: defaultCover,
@@ -83,7 +85,7 @@ function assetPath(path) {
   if (path.startsWith('http')) return path;
   if (path.startsWith(BASE)) return path;
   if (path.startsWith('/stank-radio/')) return path;
-  if (path.startsWith('/music/')) return path;
+  if (path.startsWith('/music/')) return `${BASE}${path.slice(1)}`;
   if (path.startsWith('/')) return `${BASE}${path.slice(1)}`;
   if (path.startsWith('music/') || path.startsWith('images/')) return `${BASE}${path}`;
   return `${BASE}music/${path}`;
@@ -92,12 +94,18 @@ function assetPath(path) {
 function normalizeTrack(song, index) {
   const playlists = cleanArray(song.playlists || song.playlist || song.collection);
   const tag = song.tag || song.classification || song.genre || 'UNCLASSIFIED STANK';
+  const suppliedArtist = song.performingEntity || song.artist || song.author || song.creator || 'The Containment Unit';
+  const artist = /^certified audio contaminator$/i.test(suppliedArtist)
+    ? 'The Containment Unit'
+    : suppliedArtist;
 
   return {
     id: `${song.title || song.name || song.filename || 'track'}-${index}`,
     title: song.title || song.name || song.track || song.filename || `Unlabeled Stank ${index + 1}`,
-    artist: song.artist || song.author || song.creator || 'Certified Audio Contaminator',
+    artist,
     tag,
+    collection: song.collection || tag,
+    certification: song.certification || 'Certified Audio Contamination',
     playlists,
     description: song.description || song.lyrics || 'No field notes provided. The funk speaks for itself.',
     lyricsTimeline: Array.isArray(song.lyricsTimeline)
@@ -179,6 +187,7 @@ function App() {
   const sharedAutoplayTrackIdRef = useRef('');
   const [tracks, setTracks] = useState([]);
   const [activeId, setActiveId] = useState('');
+  const [playbackId, setPlaybackId] = useState('');
   const [query, setQuery] = useState('');
   const [activeTag, setActiveTag] = useState('ALL');
   const [libraryPage, setLibraryPage] = useState(1);
@@ -208,6 +217,7 @@ function App() {
         sharedAutoplayTrackIdRef.current = requestedTrack?.audio ? requestedTrack.id : '';
         setTracks(nextTracks);
         setActiveId(requestedTrack?.id || '');
+        setPlaybackId(requestedTrack?.audio ? requestedTrack.id : '');
         setLoadStatus(`${nextTracks.length} contaminants indexed`);
       })
       .catch((error) => {
@@ -237,19 +247,25 @@ function App() {
     libraryPage * tracksPerPage,
   );
   const activeTrack = tracks.find((track) => track.id === activeId) || null;
+  const playbackTrack = tracks.find((track) => track.id === playbackId) || null;
   const displayTrack = activeTrack || {
     title: 'No transmission selected',
     artist: 'Choose a track from the library',
     tag: 'Fumes: idle',
+    collection: 'Containment standby',
+    certification: 'Certified Audio Contamination',
     description: 'The fumes stay still until someone chooses a stank.',
     cover: defaultCover,
   };
   const activeIndex = activeTrack ? visibleTracks.findIndex((track) => track.id === activeTrack.id) : -1;
+  const playbackIndex = playbackTrack
+    ? visibleTracks.findIndex((track) => track.id === playbackTrack.id)
+    : activeIndex;
   const stankIndex = activeTrack
     ? Math.min(99, Math.max(43, activeTrack.title.length + activeTrack.tag.length))
     : 0;
   const fumesMeterAngle = activeTrack ? Math.round((stankIndex / 99) * 130 - 65) : -70;
-  const hasActiveAudio = Boolean(activeTrack?.audio);
+  const hasActiveAudio = Boolean((playbackTrack || activeTrack)?.audio);
   const currentLyrics = activeTrack?.lyricsTimeline || [];
   const activeLyricIndex = useMemo(() => {
     if (!currentLyrics.length) return -1;
@@ -293,10 +309,10 @@ function App() {
 
   useEffect(() => {
     setCurrentTime(0);
-  }, [activeId]);
+  }, [playbackId]);
 
   useEffect(() => {
-    if (!activeTrack || sharedAutoplayTrackIdRef.current !== activeTrack.id) return undefined;
+    if (!playbackTrack || sharedAutoplayTrackIdRef.current !== playbackTrack.id) return undefined;
 
     const audio = audioRef.current;
     if (!audio) return undefined;
@@ -333,7 +349,7 @@ function App() {
       cancelled = true;
       audio.removeEventListener('canplay', beginSharedTrack);
     };
-  }, [activeTrack]);
+  }, [playbackTrack]);
 
   useEffect(() => {
     setLibraryPage((page) => Math.min(page, totalLibraryPages));
@@ -346,22 +362,31 @@ function App() {
 
   function selectTrack(track, autoplay = false) {
     setActiveId(track.id);
-    setPlaying(false);
+    if (!autoplay) return;
+
+    sharedAutoplayTrackIdRef.current = track.id;
+    if (playbackTrack?.id !== track.id) {
+      setPlaying(false);
+      setPlaybackId(track.id);
+      return;
+    }
+
     window.setTimeout(() => {
       if (!audioRef.current) return;
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
       setCurrentTime(0);
-      if (autoplay) {
-        audioRef.current.play().then(() => setPlaying(true)).catch(() => {});
-      }
+      audioRef.current.play().then(() => {
+        setPlaying(true);
+        sharedAutoplayTrackIdRef.current = '';
+      }).catch(() => {});
     }, 50);
   }
 
   function stepTrack(direction) {
-    if (!visibleTracks.length || activeIndex < 0) return;
-    const nextIndex = (activeIndex + direction + visibleTracks.length) % visibleTracks.length;
-    selectTrack(visibleTracks[nextIndex], false);
+    if (!visibleTracks.length || playbackIndex < 0) return;
+    const nextIndex = (playbackIndex + direction + visibleTracks.length) % visibleTracks.length;
+    selectTrack(visibleTracks[nextIndex], true);
   }
 
   function randomTrack() {
@@ -374,7 +399,11 @@ function App() {
   }
 
   function togglePlay() {
-    if (!audioRef.current || !hasActiveAudio) return;
+    if (!playbackTrack && activeTrack?.audio) {
+      selectTrack(activeTrack, true);
+      return;
+    }
+    if (!audioRef.current || !playbackTrack?.audio) return;
     if (audioRef.current.paused) {
       audioRef.current.play().then(() => setPlaying(true)).catch(() => {});
     } else {
@@ -395,7 +424,36 @@ function App() {
   }
 
   if (hardwarePlatform === 'pocket-filth') {
-    return <PocketFilthScanner />;
+    return (
+      <PocketFilthScanner
+        BASE={BASE}
+        defaultCover={defaultCover}
+        audioRef={audioRef}
+        activeTrack={activeTrack}
+        playbackTrack={playbackTrack}
+        displayTrack={displayTrack}
+        pagedTracks={pagedTracks}
+        visibleTracks={visibleTracks}
+        playing={playing}
+        currentTime={currentTime}
+        currentLyrics={currentLyrics}
+        activeLyricIndex={activeLyricIndex}
+        libraryPage={libraryPage}
+        totalLibraryPages={totalLibraryPages}
+        playlists={playlists}
+        query={query}
+        setQuery={setQuery}
+        setActiveTag={setActiveTag}
+        setLibraryPage={setLibraryPage}
+        selectTrack={selectTrack}
+        togglePlay={togglePlay}
+        stepTrack={stepTrack}
+        randomTrack={randomTrack}
+        shareTrack={shareTrack}
+        updatePlaybackTime={updatePlaybackTime}
+        setPlaying={setPlaying}
+      />
+    );
   }
 
   if (hardwarePlatform === 'desktop-guard') {
@@ -410,6 +468,7 @@ function App() {
         audioRef={audioRef}
         lyricLineRefs={lyricLineRefs}
         activeTrack={activeTrack}
+        playbackTrack={playbackTrack}
         displayTrack={displayTrack}
         pagedTracks={pagedTracks}
         visibleTracks={visibleTracks}
@@ -594,7 +653,7 @@ function App() {
 
           <audio
             ref={audioRef}
-            src={activeTrack?.audio || undefined}
+            src={playbackTrack?.audio || undefined}
             onPlay={() => setPlaying(true)}
             onPause={() => setPlaying(false)}
             onTimeUpdate={updatePlaybackTime}
@@ -710,18 +769,26 @@ function App() {
 
           <div className="trackList">
             {pagedTracks.map((track) => (
-              <button
+              <div
                 key={track.id}
                 className={track.id === activeTrack?.id ? 'trackRow active' : 'trackRow'}
-                type="button"
-                onClick={() => selectTrack(track, false)}
               >
-                <img src={track.cover || defaultCover} alt="" />
-                <span className="trackRowText">
-                  <b>{track.title}</b>
-                  <small>{track.artist}</small>
-                </span>
-              </button>
+                <button type="button" className="trackRowSelect" onClick={() => selectTrack(track, false)}>
+                  <img src={track.cover || defaultCover} alt="" />
+                  <span className="trackRowText">
+                    <b>{track.title}</b>
+                    <small>{track.artist}</small>
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  className="trackRowPlay"
+                  aria-label={`Play ${track.title}`}
+                  onClick={() => selectTrack(track, true)}
+                >
+                  <Play size={17} />
+                </button>
+              </div>
             ))}
             {!visibleTracks.length ? (
               <p className="emptyLibrary">Nothing in this spill. Clear the search or return to all tracks.</p>
