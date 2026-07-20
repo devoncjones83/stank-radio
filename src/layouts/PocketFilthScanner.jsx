@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Pause, Play, Share2, Shuffle, SkipBack, SkipForward } from 'lucide-react';
 import { cautionMessages } from '../data/cautionMessages';
 import './pocket-filth.css';
@@ -45,17 +45,8 @@ export default function PocketFilthScanner({
     () => ENVIRONMENT_STATUSES[Math.floor(Math.random() * ENVIRONMENT_STATUSES.length)],
   );
   const [signalStability, setSignalStability] = useState(() => 82 + Math.floor(Math.random() * 16));
-  const librarySearchRef = useRef(null);
-
   useEffect(() => {
     if (!libraryOpen) setPlaylistMenuOpen(false);
-    if (!libraryOpen) return undefined;
-
-    const frame = window.requestAnimationFrame(() => {
-      librarySearchRef.current?.focus();
-      librarySearchRef.current?.select();
-    });
-    return () => window.cancelAnimationFrame(frame);
   }, [libraryOpen]);
 
   useEffect(() => {
@@ -136,10 +127,7 @@ export default function PocketFilthScanner({
         <button
           className="pocketLibraryOpen"
           type="button"
-          onClick={() => {
-            setLibraryOpen(true);
-            librarySearchRef.current?.focus({ preventScroll: true });
-          }}
+          onClick={() => setLibraryOpen(true)}
           aria-label="Open containment library"
         >
           <span>CONTAINMENT LIBRARY</span>
@@ -270,6 +258,7 @@ export default function PocketFilthScanner({
         <div className="pocketWarning" aria-live="polite">{cautionMessages[warningIndex] || ''}</div>
 
         <img className="pocketShell" src={`${BASE}images/mobile/pocket-filth-shell-v2.png`} alt="" />
+        <img className="pocketHeaderPlate" src={`${BASE}images/mobile/pocket-filth-header.png`} alt="" />
 
         <audio
           ref={audioRef}
@@ -346,7 +335,7 @@ export default function PocketFilthScanner({
                 </div>
                 <div className="pocketTrackPlay" aria-hidden="true" />
                 <div className="pocketTrackLamp" aria-hidden="true">
-                  {Array.from({ length: 12 }, (_, index) => <i key={index} style={{ '--i': index }} />)}
+                  {Array.from({ length: 18 }, (_, index) => <i key={index} style={{ '--i': index }} />)}
                 </div>
                 <img className="pocketTrackShell" src={`${BASE}images/mobile/pocket-filth-track-row.png`} alt="" />
               </div>
@@ -355,7 +344,6 @@ export default function PocketFilthScanner({
           </div>
 
           <input
-            ref={librarySearchRef}
             className="pocketLibrarySearch"
             value={query}
             onChange={(event) => {

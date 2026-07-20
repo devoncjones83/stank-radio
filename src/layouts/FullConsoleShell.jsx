@@ -488,13 +488,27 @@ export default function FullConsoleShell({
           draggable={false}
         />
 
-        <img
+        <div
           className="consoleOverlay consoleStankPanel"
-          src={stankPanelImage}
-          alt="Stank Radio"
-          draggable={false}
+          aria-label="Stank Radio"
           {...layoutProps('stankPanel')}
-        />
+        >
+          <img src={stankPanelImage} alt="" draggable={false} />
+
+          <div className="stankPanelStatusLights" aria-hidden="true">
+            {[10.5, 16.8, 24.1, 31.3, 38.2, 45.7, 51.2, 57.9, 64.8, 71.7, 78].map(
+              (left, index) => (
+                <i
+                  key={left}
+                  style={{
+                    '--stank-panel-lamp-left': `${left}%`,
+                    '--stank-panel-lamp-delay': `${index * -110}ms`,
+                  }}
+                />
+              ),
+            )}
+          </div>
+        </div>
 
         {auxiliaryPanels.map((panel) => (
           <div
@@ -654,7 +668,7 @@ export default function FullConsoleShell({
           aria-label="Current transmission"
           {...layoutProps('trackData')}
         >
-          <small>
+          <small className={!activeTrack ? 'isEmpty' : undefined}>
             {playing
               ? 'LEAK STATUS // ACTIVE'
               : activeTrack

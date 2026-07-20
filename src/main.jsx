@@ -85,7 +85,7 @@ function assetPath(path) {
   if (path.startsWith('http')) return path;
   if (path.startsWith(BASE)) return path;
   if (path.startsWith('/stank-radio/')) return path;
-  if (path.startsWith('/music/')) return `${BASE}${path.slice(1)}`;
+  if (path.startsWith('/music/')) return path;
   if (path.startsWith('/')) return `${BASE}${path.slice(1)}`;
   if (path.startsWith('music/') || path.startsWith('images/')) return `${BASE}${path}`;
   return `${BASE}music/${path}`;
@@ -391,11 +391,15 @@ function App() {
 
   function randomTrack() {
     if (!visibleTracks.length) return;
+
+    const currentIndex = playbackIndex >= 0 ? playbackIndex : activeIndex;
     let nextIndex = Math.floor(Math.random() * visibleTracks.length);
-    if (visibleTracks.length > 1 && nextIndex === activeIndex) {
+
+    if (visibleTracks.length > 1 && nextIndex === currentIndex) {
       nextIndex = (nextIndex + 1) % visibleTracks.length;
     }
-    selectTrack(visibleTracks[nextIndex], false);
+
+    selectTrack(visibleTracks[nextIndex], true);
   }
 
   function togglePlay() {
