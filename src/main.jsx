@@ -390,8 +390,9 @@ function App() {
   }
 
   function stepTrack(direction) {
-    if (!visibleTracks.length || playbackIndex < 0) return;
-    const nextIndex = (playbackIndex + direction + visibleTracks.length) % visibleTracks.length;
+    if (!visibleTracks.length) return;
+    const currentIndex = playbackIndex >= 0 ? playbackIndex : Math.max(0, activeIndex);
+    const nextIndex = (currentIndex + direction + visibleTracks.length) % visibleTracks.length;
     selectTrack(visibleTracks[nextIndex], true);
   }
 

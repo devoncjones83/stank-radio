@@ -15,6 +15,8 @@ import { cautionMessages } from '../data/cautionMessages';
 import './full-console-shell.css';
 
 const LAYOUT_STORAGE_KEY = 'stank-radio-console-layout-v20';
+const DESKTOP_CANVAS_WIDTH = 1672;
+const DESKTOP_CANVAS_HEIGHT = 941;
 
 const DEFAULT_CONSOLE_LAYOUT = {
   topLeftBiohazard: { label: 'Return to Directorate', x: 0.31, y: 0.7, w: 9.62, h: 15.9 },
@@ -63,6 +65,9 @@ const DEFAULT_CONSOLE_LAYOUT = {
   cautionPanel2: { label: 'Caution panel 2', x: 19.9, y: 90.25, w: 19.2, h: 8.31 },
   cautionPanel3: { label: 'Caution panel 3', x: 39.38, y: 90.25, w: 19.2, h: 8.2 },
   cautionPanel4: { label: 'Caution panel 4', x: 58.4, y: 90.25, w: 19.2, h: 8.2 },
+  playlistModalClose: { label: 'Playlist modal: close control', x: 94, y: 2.2, w: 4.2, h: 7.45 },
+  playlistModalRows: { label: 'Playlist modal: playlist rows', x: 7.3, y: 22.6, w: 82.5, h: 63.9 },
+  playlistModalKnob: { label: 'Playlist modal: scrollbar knob', x: 88.57, y: 26.55, w: 2.75, h: 46 },
 };
 
 function createDefaultLayout() {
@@ -203,6 +208,10 @@ export default function FullConsoleShell({
   const monitorBackgroundImage = `${BASE}images/production/monitor-bg.png`;
   const transcriptPanelImage = `${BASE}images/production/transcript-feed-panel.png`;
   const transmissionStatusPanelImage = `${BASE}images/production/transmission-status-panel.png`;
+  const playlistShellImage = `${BASE}images/production/playlist-shell.png`;
+  const playlistRowImage = `${BASE}images/production/playlist-row.png`;
+  const playlistKnobImage = `${BASE}images/production/playlist-knob.png`;
+  const playlistCloseImage = `${BASE}images/production/playlist-close-button.png`;
   const cautionPanelImage = `${BASE}assets/stank-radio/caution-message-panel.png`;
   const diagnosticsLights = [
     { status: 'uplink', color: 'green', image: `${BASE}images/production/diagnostics-button-green.png` },
@@ -234,20 +243,26 @@ export default function FullConsoleShell({
   );
   const [changingCautionPanel, setChangingCautionPanel] = useState(null);
   const [shareNoticeUrl, setShareNoticeUrl] = useState('');
+  const [playlistScrollProgress, setPlaylistScrollProgress] = useState(0);
   const [editorNotice, setEditorNotice] = useState('Saved locally');
   const [editorPosition, setEditorPosition] = useState(() => ({
-    x: Math.max(18, window.innerWidth - 408),
+    x: DESKTOP_CANVAS_WIDTH - 408,
     y: 18,
   }));
+  const [desktopScale, setDesktopScale] = useState(1);
+  const desktopViewportRef = useRef(null);
   const stageRef = useRef(null);
   const editorPanelRef = useRef(null);
+  const playlistModalPanelRef = useRef(null);
   const layoutGestureRef = useRef(null);
   const editorGestureRef = useRef(null);
   const nextCautionMessageRef = useRef(4 % Math.max(1, cautionMessages.length));
   const nextCautionPanelRef = useRef(0);
   const cautionFadeTimerRef = useRef(null);
   const shareNoticeTimerRef = useRef(null);
+  const playlistGridRef = useRef(null);
   const selectedLayout = layout[selectedLayoutId] || DEFAULT_CONSOLE_LAYOUT[selectedLayoutId];
+  const editingPlaylistModal = selectedLayoutId.startsWith('playlistModal');
   const scopeWaveFrames = [0, 0.9, 1.8, 2.7, 3.6, 4.5].map((phase) =>
     buildScopeWavePoints(roomTone.bars, phase),
   );
@@ -293,6 +308,42 @@ export default function FullConsoleShell({
   }, [layout]);
 
   useEffect(() => {
+    const viewport = desktopViewportRef.current;
+    if (!viewport) return undefined;
+
+    const updateScale = () => {
+      const nextScale = Math.min(
+        viewport.clientWidth / DESKTOP_CANVAS_WIDTH,
+        viewport.clientHeight / DESKTOP_CANVAS_HEIGHT,
+      );
+      setDesktopScale(Number.isFinite(nextScale) && nextScale > 0 ? nextScale : 1);
+    };
+
+    const observer = new ResizeObserver(updateScale);
+    observer.observe(viewport);
+    updateScale();
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (layoutEditing && editingPlaylistModal) setPlaylistsOpen(true);
+  }, [editingPlaylistModal, layoutEditing, setPlaylistsOpen]);
+
+  useEffect(() => {
+    if (!playlistsOpen) return undefined;
+
+    setPlaylistScrollProgress(0);
+    if (playlistGridRef.current) playlistGridRef.current.scrollTop = 0;
+
+    const closeOnEscape = (event) => {
+      if (event.key === 'Escape') setPlaylistsOpen(false);
+    };
+
+    window.addEventListener('keydown', closeOnEscape);
+    return () => window.removeEventListener('keydown', closeOnEscape);
+  }, [playlistsOpen, setPlaylistsOpen]);
+
+  useEffect(() => {
     if (!cautionMessages.length) return undefined;
 
     const rotationTimer = window.setInterval(() => {
@@ -324,7 +375,7 @@ export default function FullConsoleShell({
     };
   }, []);
 
-  function layoutProps(id) {
+  function layoutProps(id, surface = 'console') {
     const item = layout[id] || DEFAULT_CONSOLE_LAYOUT[id];
     return {
       'data-layout-id': id,
@@ -337,7 +388,7 @@ export default function FullConsoleShell({
       },
       onPointerDown: (event) => {
         if (!layoutEditing) return;
-        startLayoutGesture(event, id, 'move');
+        startLayoutGesture(event, id, 'move', surface);
       },
       onPointerMove: updateLayoutGesture,
       onPointerUp: finishLayoutGesture,
@@ -345,7 +396,7 @@ export default function FullConsoleShell({
     };
   }
 
-  function startLayoutGesture(event, id, mode) {
+  function startLayoutGesture(event, id, mode, surface = 'console') {
     if (!layoutEditing) return;
     const item = layout[id] || DEFAULT_CONSOLE_LAYOUT[id];
     event.preventDefault();
@@ -358,13 +409,16 @@ export default function FullConsoleShell({
       startX: event.clientX,
       startY: event.clientY,
       item: { ...item },
+      surface,
     };
     event.currentTarget.setPointerCapture?.(event.pointerId);
   }
 
   function updateLayoutGesture(event) {
     const gesture = layoutGestureRef.current;
-    const stage = stageRef.current?.getBoundingClientRect();
+    const stage = (gesture.surface === 'playlist'
+      ? playlistModalPanelRef.current
+      : stageRef.current)?.getBoundingClientRect();
     if (!gesture || gesture.pointerId !== event.pointerId || !stage) return;
     event.preventDefault();
     event.stopPropagation();
@@ -409,8 +463,8 @@ export default function FullConsoleShell({
       pointerId: event.pointerId,
       startX: event.clientX,
       startY: event.clientY,
-      panelX: panel.left,
-      panelY: panel.top,
+      panelX: editorPosition.x,
+      panelY: editorPosition.y,
     };
     event.currentTarget.setPointerCapture?.(event.pointerId);
   }
@@ -421,8 +475,8 @@ export default function FullConsoleShell({
     if (!gesture || gesture.pointerId !== event.pointerId || !panel) return;
     event.preventDefault();
     setEditorPosition({
-      x: Math.max(0, Math.min(window.innerWidth - panel.width, gesture.panelX + event.clientX - gesture.startX)),
-      y: Math.max(0, Math.min(window.innerHeight - panel.height, gesture.panelY + event.clientY - gesture.startY)),
+      x: Math.max(0, Math.min(DESKTOP_CANVAS_WIDTH - panel.width / desktopScale, gesture.panelX + (event.clientX - gesture.startX) / desktopScale)),
+      y: Math.max(0, Math.min(DESKTOP_CANVAS_HEIGHT - panel.height / desktopScale, gesture.panelY + (event.clientY - gesture.startY) / desktopScale)),
     });
   }
 
@@ -457,6 +511,11 @@ export default function FullConsoleShell({
     setSelectedLayoutId('library');
   }
 
+  function selectLayoutAsset(id) {
+    setSelectedLayoutId(id);
+    if (id.startsWith('playlistModal')) setPlaylistsOpen(true);
+  }
+
   function copyLayoutJson() {
     navigator.clipboard
       ?.writeText(JSON.stringify(layout, null, 2))
@@ -474,6 +533,18 @@ export default function FullConsoleShell({
 
   return (
     <main className={playing ? 'fullConsolePage isPlaying' : 'fullConsolePage'}>
+      <div className="stankDesktopViewport" ref={desktopViewportRef}>
+        <div
+          className="stankDesktopScaledBounds"
+          style={{
+            width: `${DESKTOP_CANVAS_WIDTH * desktopScale}px`,
+            height: `${DESKTOP_CANVAS_HEIGHT * desktopScale}px`,
+          }}
+        >
+          <div
+            className="stankDesktopCanvas"
+            style={{ transform: `scale(${desktopScale})` }}
+          >
       <section
         ref={stageRef}
         className={layoutEditing ? 'fullConsoleStage layoutEditing' : 'fullConsoleStage'}
@@ -682,7 +753,7 @@ export default function FullConsoleShell({
           {...layoutProps('trackData')}
         >
           <img className="consoleMonitorBackground" src={monitorBackgroundImage} alt="" draggable={false} />
-          <div className="consoleMonitorContent">
+          <div className={activeTrack ? 'consoleMonitorContent' : 'consoleMonitorContent isEmpty'}>
             <small className={!activeTrack ? 'isEmpty' : undefined}>
               {playing
                 ? 'LEAK STATUS // ACTIVE'
@@ -692,11 +763,7 @@ export default function FullConsoleShell({
             </small>
             <h1>{activeTrack ? displayTrack.title : 'NO TRANSMISSION SELECTED'}</h1>
             <h2>{displayTrack.artist}</h2>
-            <p>
-              {activeTrack
-                ? 'OLFACTORY OUTPUT EXCEEDS ACOUSTIC LEVEL'
-                : 'ARCHIVE CHANNEL AWAITING CONTAINMENT RECORD'}
-            </p>
+            {activeTrack ? <p>OLFACTORY OUTPUT EXCEEDS ACOUSTIC LEVEL</p> : null}
           </div>
           <img className="consoleMonitorFrame" src={transmissionStatusPanelImage} alt="" draggable={false} />
         </section>
@@ -942,7 +1009,7 @@ export default function FullConsoleShell({
           </div>
         ) : null}
 
-        {layoutEditing && selectedLayout ? (
+        {layoutEditing && selectedLayout && !editingPlaylistModal ? (
           <button
             className="layoutAssetResizeHandle"
             type="button"
@@ -952,7 +1019,7 @@ export default function FullConsoleShell({
               left: `calc(${selectedLayout.x + selectedLayout.w}% - 8px)`,
               top: `calc(${selectedLayout.y + selectedLayout.h}% - 8px)`,
             }}
-            onPointerDown={(event) => startLayoutGesture(event, selectedLayoutId, 'resize')}
+            onPointerDown={(event) => startLayoutGesture(event, selectedLayoutId, 'resize', 'console')}
             onPointerMove={updateLayoutGesture}
             onPointerUp={finishLayoutGesture}
             onPointerCancel={finishLayoutGesture}
@@ -992,7 +1059,7 @@ export default function FullConsoleShell({
             <span>Asset</span>
             <select
               value={selectedLayoutId}
-              onChange={(event) => setSelectedLayoutId(event.target.value)}
+              onChange={(event) => selectLayoutAsset(event.target.value)}
             >
               {Object.entries(layout).map(([id, item]) => (
                 <option key={id} value={id}>{item.label}</option>
@@ -1041,24 +1108,60 @@ export default function FullConsoleShell({
       ) : null}
 
       {playlistsOpen ? (
-        <section className="consoleModal" role="dialog" aria-modal="true" aria-label="Playlists">
-          <div className="consoleModalPanel">
-            <header>
-              <div>
-                <small>ARCHIVE CLASSIFICATION</small>
-                <h2>PLAYLISTS</h2>
-              </div>
-              <button type="button" onClick={() => setPlaylistsOpen(false)}>
-                Close
-              </button>
-            </header>
-
-            <div className="consolePlaylistGrid">
+        <section
+          className="consoleModal"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Playlists"
+          onPointerDown={(event) => {
+            if (!layoutEditing && event.target === event.currentTarget) setPlaylistsOpen(false);
+          }}
+        >
+          <div
+            ref={playlistModalPanelRef}
+            className="consoleModalPanel"
+            style={{ '--playlist-shell-image': `url("${playlistShellImage}")` }}
+          >
+            <button
+              type="button"
+              className="consoleModalClose"
+              {...layoutProps('playlistModalClose', 'playlist')}
+              onClick={(event) => {
+                if (layoutEditing) {
+                  event.preventDefault();
+                  return;
+                }
+                setPlaylistsOpen(false);
+              }}
+              aria-label="Close playlists"
+            >
+              <img
+                src={playlistCloseImage}
+                alt=""
+                aria-hidden="true"
+                draggable="false"
+              />
+            </button>
+            <div
+              className="consolePlaylistGrid"
+              ref={playlistGridRef}
+              {...layoutProps('playlistModalRows', 'playlist')}
+              onScroll={(event) => {
+                const grid = event.currentTarget;
+                const maximum = grid.scrollHeight - grid.clientHeight;
+                setPlaylistScrollProgress(maximum > 0 ? grid.scrollTop / maximum : 0);
+              }}
+            >
               {playlists.map((playlist) => (
                 <button
                   key={playlist.id}
                   type="button"
-                  onClick={() => {
+                  style={{ '--playlist-row-image': `url("${playlistRowImage}")` }}
+                  onClick={(event) => {
+                    if (layoutEditing) {
+                      event.preventDefault();
+                      return;
+                    }
                     setActiveTag(playlist.id);
                     setQuery('');
                     setLibraryPage(1);
@@ -1081,9 +1184,39 @@ export default function FullConsoleShell({
                 </button>
               ))}
             </div>
+            <img
+              className="consolePlaylistKnob"
+              src={playlistKnobImage}
+              alt=""
+              aria-hidden="true"
+              {...layoutProps('playlistModalKnob', 'playlist')}
+              style={{
+                ...layoutProps('playlistModalKnob', 'playlist').style,
+                '--playlist-scroll-progress': playlistScrollProgress,
+              }}
+            />
+            {layoutEditing && selectedLayout && editingPlaylistModal ? (
+              <button
+                className="layoutAssetResizeHandle"
+                type="button"
+                aria-label={`Resize ${selectedLayout.label}`}
+                title={`Resize ${selectedLayout.label}`}
+                style={{
+                  left: `calc(${selectedLayout.x + selectedLayout.w}% - 8px)`,
+                  top: `calc(${selectedLayout.y + selectedLayout.h}% - 8px)`,
+                }}
+                onPointerDown={(event) => startLayoutGesture(event, selectedLayoutId, 'resize', 'playlist')}
+                onPointerMove={updateLayoutGesture}
+                onPointerUp={finishLayoutGesture}
+                onPointerCancel={finishLayoutGesture}
+              />
+            ) : null}
           </div>
         </section>
       ) : null}
+          </div>
+        </div>
+      </div>
     </main>
   );
 }
