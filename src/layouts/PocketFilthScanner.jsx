@@ -1,33 +1,37 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Pause, Play, Share2, Shuffle, SkipBack, SkipForward } from 'lucide-react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import PlayerIcon from '../components/PlayerIcon';
 import { cautionMessages } from '../data/cautionMessages';
 import './pocket-filth.css';
 
 const ENVIRONMENT_STATUSES = ['STABLE', 'CONTAINED', 'PUTRID', 'AGGRESSIVE', 'HAZARDOUS'];
 const LEVEL_METER_COLUMNS = [23, 39, 55];
 const LEVEL_METER_ROWS = [15, 23, 32, 41, 50, 58, 67, 75];
-const MOBILE_LAYOUT_STORAGE_KEY = 'stank-radio-pocket-layout-v2';
+const LEVEL_METER_WIDTH = 113.81;
+const LEVEL_METER_HEIGHT = 86.91;
+const MOBILE_DESIGN_WIDTH = 497;
+const MOBILE_DESIGN_HEIGHT = 896;
+const MOBILE_LAYOUT_STORAGE_KEY = 'stank-radio-pocket-layout-v3-pixels';
 const DEFAULT_MOBILE_LAYOUT = {
-  shell: { label: 'Mobile shell', x: 0, y: 0, w: 100, h: 100 },
-  liveStatus: { label: 'Live containment status', x: 62.85, y: 5.585972070772803, w: 36.6, h: 8.725611171690879 },
-  liveStatusLight: { label: 'STANDBY / ON AIR light', x: 69.9, y: 10.914633296985473, w: 21.1, h: 4.728416757536319 },
-  libraryOpen: { label: 'Containment library control', x: 3.25, y: 17.4, w: 85.4, h: 7.8 },
-  primaryDisplay: { label: 'Cover / information display', x: 4.05, y: 27.575122234338178, w: 93.30000000000001, h: 33.3 },
-  nowPlaying: { label: 'Track information', x: 22.3, y: 61.05, w: 56.4, h: 8.05 },
-  trackLevelMeter: { label: 'Track level meter', x: 76.3, y: 60.85, w: 22.9, h: 9.7 },
-  trackCurrentTime: { label: 'Track time: elapsed', x: 3.0999999999999996, y: 69.5, w: 11.76, h: 4 },
-  trackFill: { label: 'Track progress: green line', x: 18.5, y: 71.16, w: 65.65, h: 0.72 },
-  trackMarker: { label: 'Track progress: position button', x: 19.1, y: 70.8, w: 60.35, h: 1.72 },
-  trackDuration: { label: 'Track time: duration', x: 85.34, y: 69.5, w: 11.16, h: 4 },
-  hazardGlow: { label: 'Track hazard glow', x: 3.8, y: 60.95, w: 17, h: 8.1 },
-  environmentGlobe: { label: 'Environment globe', x: 5.3, y: 88.8, w: 9.6, h: 5.1 },
-  directorateSeal: { label: 'Directorate seal', x: 62.80000000000001, y: 88.33743888283092, w: 13.4, h: 6.418172288859966 },
-  radarSymbol: { label: 'Radar symbol', x: 84.5, y: 88.75, w: 9.5, h: 5.35 },
-  radarSweep: { label: 'Radar sweep', x: 84.35, y: 88.65, w: 9.5, h: 5.35 },
-  transport: { label: 'Player controls', x: 4.5, y: 74.35, w: 91.7, h: 8.55 },
-  tabs: { label: 'Information tabs', x: 3.5, y: 83.25, w: 93, h: 4.05 },
-  environmentReadout: { label: 'Environment readout', x: 18.8, y: 88.05, w: 61.4, h: 6.8 },
-  warning: { label: 'Warning message', x: 18.5, y: 95.25, w: 43.5, h: 3.8 },
+  shell: { label: 'Mobile shell', x: 0, y: 0, w: 497, h: 896 },
+  liveStatus: { label: 'Live containment status', x: 312.36, y: 50.05, w: 181.9, h: 78.18 },
+  liveStatusLight: { label: 'STANDBY / ON AIR light', x: 347.4, y: 97.8, w: 104.87, h: 42.37 },
+  libraryOpen: { label: 'Containment library control', x: 16.15, y: 155.9, w: 424.44, h: 69.89 },
+  primaryDisplay: { label: 'Cover / information display', x: 20.13, y: 247.07, w: 463.7, h: 298.37 },
+  nowPlaying: { label: 'Track information', x: 110.83, y: 547.01, w: 280.31, h: 72.13 },
+  trackLevelMeter: { label: 'Track level meter', x: 379.21, y: 545.22, w: 113.81, h: 86.91 },
+  trackCurrentTime: { label: 'Track time: elapsed', x: 15.41, y: 622.72, w: 58.45, h: 35.84 },
+  trackFill: { label: 'Track progress: green line', x: 91.94, y: 637.59, w: 326.28, h: 6.45 },
+  trackMarker: { label: 'Track progress: position button', x: 94.93, y: 634.37, w: 299.94, h: 15.41 },
+  trackDuration: { label: 'Track time: duration', x: 424.14, y: 622.72, w: 55.47, h: 35.84 },
+  hazardGlow: { label: 'Track hazard glow', x: 18.89, y: 546.11, w: 84.49, h: 72.58 },
+  environmentGlobe: { label: 'Environment globe', x: 26.34, y: 795.65, w: 47.71, h: 45.7 },
+  directorateSeal: { label: 'Directorate seal', x: 312.12, y: 791.5, w: 66.6, h: 57.51 },
+  radarSymbol: { label: 'Radar symbol', x: 419.96, y: 795.2, w: 47.21, h: 47.94 },
+  radarSweep: { label: 'Radar sweep', x: 419.22, y: 794.3, w: 47.21, h: 47.94 },
+  transport: { label: 'Player controls', x: 22.36, y: 666.18, w: 455.75, h: 76.61 },
+  tabs: { label: 'Information tabs', x: 17.39, y: 745.92, w: 462.21, h: 36.29 },
+  environmentReadout: { label: 'Environment readout', x: 93.44, y: 788.93, w: 305.16, h: 60.93 },
+  warning: { label: 'Warning message', x: 91.94, y: 853.44, w: 216.19, h: 34.05 },
 };
 
 function createDefaultMobileLayout() {
@@ -87,6 +91,8 @@ export default function PocketFilthScanner({
   const [mobileLayout, setMobileLayout] = useState(loadMobileLayout);
   const [mobileEditorNotice, setMobileEditorNotice] = useState('Saved locally');
   const [mobileEditorPosition, setMobileEditorPosition] = useState({ x: 12, y: 76 });
+  const [mobileStageScale, setMobileStageScale] = useState(1);
+  const pocketWrapperRef = useRef(null);
   const pocketConsoleRef = useRef(null);
   const mobileLayoutGestureRef = useRef(null);
   const mobileEditorDragRef = useRef(null);
@@ -94,6 +100,19 @@ export default function PocketFilthScanner({
     () => ENVIRONMENT_STATUSES[Math.floor(Math.random() * ENVIRONMENT_STATUSES.length)],
   );
   const [signalStability, setSignalStability] = useState(() => 82 + Math.floor(Math.random() * 16));
+  useLayoutEffect(() => {
+    const wrapper = pocketWrapperRef.current;
+    if (!wrapper) return undefined;
+
+    const updateScale = () => {
+      setMobileStageScale(wrapper.clientWidth / MOBILE_DESIGN_WIDTH || 1);
+    };
+    updateScale();
+    const observer = new ResizeObserver(updateScale);
+    observer.observe(wrapper);
+    return () => observer.disconnect();
+  }, []);
+
   useEffect(() => {
     if (!libraryOpen) {
       setPlaylistMenuOpen(false);
@@ -176,10 +195,10 @@ export default function PocketFilthScanner({
     return {
       'data-mobile-layout-id': id,
       style: {
-        left: `${item.x}%`,
-        top: `${item.y}%`,
-        width: `${item.w}%`,
-        height: `${item.h}%`,
+        left: `${item.x}px`,
+        top: `${item.y}px`,
+        width: `${item.w}px`,
+        height: `${item.h}px`,
         ...extraStyle,
       },
       onPointerDown: (event) => {
@@ -215,18 +234,18 @@ export default function PocketFilthScanner({
     if (!gesture || !stage || gesture.pointerId !== event.pointerId) return;
     const bounds = stage.getBoundingClientRect();
     if (!bounds.width || !bounds.height) return;
-    const deltaX = ((event.clientX - gesture.startX) / bounds.width) * 100;
-    const deltaY = ((event.clientY - gesture.startY) / bounds.height) * 100;
+    const deltaX = ((event.clientX - gesture.startX) / bounds.width) * MOBILE_DESIGN_WIDTH;
+    const deltaY = ((event.clientY - gesture.startY) / bounds.height) * MOBILE_DESIGN_HEIGHT;
     const next = gesture.mode === 'resize'
       ? {
           ...gesture.item,
-          w: Math.max(0.5, Math.min(100 - gesture.item.x, gesture.item.w + deltaX)),
-          h: Math.max(0.5, Math.min(100 - gesture.item.y, gesture.item.h + deltaY)),
+          w: Math.max(2, Math.min(MOBILE_DESIGN_WIDTH - gesture.item.x, gesture.item.w + deltaX)),
+          h: Math.max(2, Math.min(MOBILE_DESIGN_HEIGHT - gesture.item.y, gesture.item.h + deltaY)),
         }
       : {
           ...gesture.item,
-          x: Math.max(0, Math.min(100 - gesture.item.w, gesture.item.x + deltaX)),
-          y: Math.max(0, Math.min(100 - gesture.item.h, gesture.item.y + deltaY)),
+          x: Math.max(0, Math.min(MOBILE_DESIGN_WIDTH - gesture.item.w, gesture.item.x + deltaX)),
+          y: Math.max(0, Math.min(MOBILE_DESIGN_HEIGHT - gesture.item.h, gesture.item.y + deltaY)),
         };
     setMobileLayout((current) => ({ ...current, [gesture.id]: next }));
   }
@@ -241,11 +260,12 @@ export default function PocketFilthScanner({
   function updateSelectedMobileLayout(field, value) {
     const number = Number(value);
     if (!Number.isFinite(number)) return;
+    const limit = field === 'x' || field === 'w' ? MOBILE_DESIGN_WIDTH : MOBILE_DESIGN_HEIGHT;
     setMobileLayout((current) => ({
       ...current,
       [selectedMobileLayoutId]: {
         ...current[selectedMobileLayoutId],
-        [field]: Math.max(0, Math.min(100, number)),
+        [field]: Math.max(0, Math.min(limit, number)),
       },
     }));
   }
@@ -300,6 +320,8 @@ export default function PocketFilthScanner({
     (activeTrack ? 'Lyrics unavailable for this contained transmission.' : 'Select a transmission from the containment library.');
   const boundedTime = duration ? Math.min(currentTime, duration) : 0;
   const progress = duration ? (boundedTime / duration) * 100 : 0;
+  const trackFillProgress = (progress / 100) * 326.28;
+  const trackMarkerProgress = (progress / 100) * 299.94;
   const titleLength = displayTrack.title.length;
   const titleSize = titleLength <= 18 ? 'short' : titleLength <= 34 ? 'medium' : titleLength <= 58 ? 'long' : 'extra-long';
   const confusionRating = activeTrack
@@ -311,11 +333,13 @@ export default function PocketFilthScanner({
 
   return (
     <main className={`pocketFilth${playing ? ' isPlaying' : ''}`}>
-      <section
-        ref={pocketConsoleRef}
-        className={`pocketConsole${mobileLayoutEditing ? ' mobileLayoutEditing' : ''}`}
-        aria-label="Stank Radio Pocket Filth player"
-      >
+      <div className="pocketConsoleWrapper" ref={pocketWrapperRef}>
+        <section
+          ref={pocketConsoleRef}
+          className={`pocketConsole${mobileLayoutEditing ? ' mobileLayoutEditing' : ''}`}
+          style={{ transform: `scale(${mobileStageScale})` }}
+          aria-label="Stank Radio Pocket Filth player"
+        >
         <div
           className="pocketLiveStatus"
           aria-label="Live containment"
@@ -402,10 +426,10 @@ export default function PocketFilthScanner({
                 className={lit ? 'isLit' : ''}
                 key={`${column}-${row}`}
                 style={{
-                  left: `${(left / 85) * 100}%`,
-                  top: `${(top / 96) * 100}%`,
-                  width: `${(10 / 85) * 100}%`,
-                  height: `${(4 / 96) * 100}%`,
+                  left: `${(left / 85) * LEVEL_METER_WIDTH}px`,
+                  top: `${(top / 96) * LEVEL_METER_HEIGHT}px`,
+                  width: `${(10 / 85) * LEVEL_METER_WIDTH}px`,
+                  height: `${(4 / 96) * LEVEL_METER_HEIGHT}px`,
                 }}
               />
             );
@@ -418,13 +442,13 @@ export default function PocketFilthScanner({
         <div
           className="pocketTrackFillAsset"
           aria-hidden="true"
-          {...mobileLayoutProps('trackFill', { '--track-progress': `${progress}%` })}
+          {...mobileLayoutProps('trackFill', { '--track-progress-px': `${trackFillProgress}px` })}
         >
           <span className="pocketTrackFill" />
         </div>
         <div
           className="pocketTrackMarkerAsset"
-          {...mobileLayoutProps('trackMarker', { '--track-progress': `${progress}%` })}
+          {...mobileLayoutProps('trackMarker', { '--track-progress-px': `${trackMarkerProgress}px` })}
         >
           <img
             className="pocketTrackMarker"
@@ -460,11 +484,11 @@ export default function PocketFilthScanner({
         <div className="pocketRadarSweep" aria-hidden="true" {...mobileLayoutProps('radarSweep')} />
 
         <div className="pocketTransport" aria-label="Playback controls" {...mobileLayoutProps('transport')}>
-          <button type="button" aria-label="Share track" onClick={handleShare}><Share2 /></button>
-          <button type="button" aria-label="Previous track" onClick={() => stepTrack(-1)}><SkipBack /></button>
-          <button type="button" aria-label={playing ? 'Pause' : 'Play'} onClick={togglePlay}>{playing ? <Pause /> : <Play />}</button>
-          <button type="button" aria-label="Next track" onClick={() => stepTrack(1)}><SkipForward /></button>
-          <button type="button" aria-label="Shuffle selection" onClick={randomTrack}><Shuffle /></button>
+          <button type="button" className="playerButton" aria-label="Share track" onClick={handleShare}><PlayerIcon type="share" /></button>
+          <button type="button" className="playerButton" aria-label="Previous track" onClick={() => stepTrack(-1)}><PlayerIcon type="previous" /></button>
+          <button type="button" className={`playerButton playerButton--primary${playing ? ' is-active' : ''}`} aria-label={playing ? 'Pause' : 'Play'} onClick={togglePlay}><PlayerIcon type={playing ? 'pause' : 'play'} /></button>
+          <button type="button" className="playerButton" aria-label="Next track" onClick={() => stepTrack(1)}><PlayerIcon type="next" /></button>
+          <button type="button" className="playerButton" aria-label="Shuffle selection" onClick={randomTrack}><PlayerIcon type="shuffle" /></button>
         </div>
 
         <nav className="pocketTabs" aria-label="Track information" {...mobileLayoutProps('tabs')}>
@@ -503,10 +527,10 @@ export default function PocketFilthScanner({
           <div
             className="mobileLayoutSelection"
             style={{
-              left: `${selectedMobileLayout.x}%`,
-              top: `${selectedMobileLayout.y}%`,
-              width: `${selectedMobileLayout.w}%`,
-              height: `${selectedMobileLayout.h}%`,
+              left: `${selectedMobileLayout.x}px`,
+              top: `${selectedMobileLayout.y}px`,
+              width: `${selectedMobileLayout.w}px`,
+              height: `${selectedMobileLayout.h}px`,
             }}
             onPointerDown={(event) => startMobileLayoutGesture(event, selectedMobileLayoutId, 'move')}
             onPointerMove={updateMobileLayoutGesture}
@@ -525,7 +549,8 @@ export default function PocketFilthScanner({
           </div>
         ) : null}
 
-      </section>
+        </section>
+      </div>
 
       <button
         className={mobileLayoutEditing ? 'mobileLayoutEditorToggle active' : 'mobileLayoutEditorToggle'}
@@ -570,26 +595,26 @@ export default function PocketFilthScanner({
 
           <div className="mobileLayoutEditorFields">
             {[
-              ['x', 'X'],
-              ['y', 'Y'],
-              ['w', 'Width'],
-              ['h', 'Height'],
-            ].map(([field, label]) => (
+              ['x', 'X', MOBILE_DESIGN_WIDTH],
+              ['y', 'Y', MOBILE_DESIGN_HEIGHT],
+              ['w', 'Width', MOBILE_DESIGN_WIDTH],
+              ['h', 'Height', MOBILE_DESIGN_HEIGHT],
+            ].map(([field, label, max]) => (
               <label key={field}>
                 <span>{label}</span>
                 <input
                   type="range"
                   min="0"
-                  max="100"
-                  step="0.05"
+                  max={max}
+                  step="0.25"
                   value={selectedMobileLayout[field]}
                   onChange={(event) => updateSelectedMobileLayout(field, event.target.value)}
                 />
                 <input
                   type="number"
                   min="0"
-                  max="100"
-                  step="0.05"
+                  max={max}
+                  step="0.25"
                   value={selectedMobileLayout[field]}
                   onChange={(event) => updateSelectedMobileLayout(field, event.target.value)}
                 />

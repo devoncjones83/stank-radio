@@ -10,10 +10,6 @@ import {
   SkipForward,
 } from 'lucide-react';
 
-import '@fontsource/roboto-condensed/latin-700.css';
-import '@fontsource/roboto-condensed/latin-800.css';
-import '@fontsource/ibm-plex-mono/latin-500.css';
-import '@fontsource/ibm-plex-mono/latin-600.css';
 import CautionPanel from '../components/CautionPanel';
 import { cautionMessages } from '../data/cautionMessages';
 import './full-console-shell.css';

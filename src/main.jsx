@@ -18,6 +18,7 @@ import {
   SkipForward,
   SlidersHorizontal,
 } from 'lucide-react';
+import '@fontsource/barlow-condensed/latin-800.css';
 import './styles.css';
 import PocketFilthScanner from './layouts/PocketFilthScanner.jsx';
 import FullConsoleShell from './layouts/FullConsoleShell.jsx';

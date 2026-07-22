@@ -1331,6 +1331,20 @@
   pointer-events: none;
 }
 
+.fullConsolePage button,
+.fullConsolePage input,
+.fullConsolePage select,
+.fullConsolePage time,
+.fullConsolePage strong,
+.fullConsolePage small,
+.fullConsolePage h1,
+.fullConsolePage h2,
+.fullConsolePage p,
+.fullConsolePage span {
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-weight: 800;
+}
+
 .consoleLibraryTitle img,
 .consoleLibraryAction img {
   display: block;
@@ -1697,14 +1711,15 @@
   --stank-text-secondary: #aaa778;
   --stank-text-muted: #73765b;
   --stank-text-disabled: #565947;
-  --stank-font-primary: "Roboto Condensed", "Arial Narrow", Arial, sans-serif;
-  --stank-font-technical: "IBM Plex Mono", "Courier New", monospace;
+  --stank-font-primary: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  --stank-font-technical: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
   --track-title-color: #d8c58a;
   --classification-color: #aaa477;
   --operational-label-color: #7f825e;
   --diagnostic-text-color: #73745b;
   color: var(--stank-text-primary);
   font-family: var(--stank-font-primary);
+  font-weight: 800;
   text-shadow:
     0 1px 1px rgba(0, 0, 0, 0.95),
     0 0 3px rgba(217, 210, 162, 0.12);

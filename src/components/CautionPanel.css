@@ -1,6 +1,6 @@
 .consoleOverlay.consoleCautionPanel {
   --warning-text-color: #d3b46f;
-  --warning-font-family: "Roboto Condensed", "Arial Narrow", "Helvetica Condensed", Arial, sans-serif;
+  --warning-font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
   --warning-font-weight: 800;
   --warning-letter-spacing: 0.055em;
   --warning-line-height: 1.04;
