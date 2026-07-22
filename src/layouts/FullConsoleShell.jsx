@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import {
   ChevronLeft,
   ChevronRight,
-  ListMusic,
   Pause,
   Play,
   Share2,
@@ -19,18 +18,23 @@ import CautionPanel from '../components/CautionPanel';
 import { cautionMessages } from '../data/cautionMessages';
 import './full-console-shell.css';
 
-const LAYOUT_STORAGE_KEY = 'stank-radio-console-layout-v19';
+const LAYOUT_STORAGE_KEY = 'stank-radio-console-layout-v20';
 
 const DEFAULT_CONSOLE_LAYOUT = {
   topLeftBiohazard: { label: 'Return to Directorate', x: 0.31, y: 0.7, w: 9.62, h: 15.9 },
   stankPanel: { label: 'Stank Radio panel', x: 9.83, y: 0, w: 26.05, h: 17.96 },
   frequencyPanel: { label: 'Frequency panel', x: 35.9, y: 0.76, w: 9.98, h: 15.79 },
   liveContainmentPanel: { label: 'Live containment panel', x: 45.43, y: 0.54, w: 18.12, h: 16.67 },
+  liveContainmentMasterLight: { label: 'Live containment: master lamp', x: 46.5, y: 4, w: 1.39, h: 2.52 },
+  liveContainmentTxLight: { label: 'Live containment: TX Active lamp', x: 47, y: 12.3, w: 0.82, h: 1.15 },
+  liveContainmentSignalLight: { label: 'Live containment: Signal Lock lamp', x: 52.25, y: 12.3, w: 0.8, h: 1.2 },
+  liveContainmentSafeLight: { label: 'Live containment: Safe Mode lamp', x: 57.8, y: 12.25, w: 0.82, h: 1.15 },
+  liveContainmentOnAir: { label: 'Live containment: ON AIR lamp', x: 58.8, y: 3.64, w: 3.17, h: 4.92 },
   systemHealthPanel: { label: 'System health panel', x: 62.73, y: 0.65, w: 11.23, h: 16.34 },
   transmitterStatusPanel: { label: 'Transmitter status panel', x: 73.49, y: 1.32, w: 9.56, h: 17.32 },
   diagnosticsPanel: { label: 'Diagnostics panel', x: 83.03, y: 0.76, w: 8.42, h: 15.46 },
   topRightSector: { label: 'Top-right sector', x: 91.69, y: 1.54, w: 7.51, h: 14.37 },
-  environmentTitle: { label: 'Environment Monitor title', x: 1.98, y: 18.67, w: 10, h: 4.14 },
+  environmentTitle: { label: 'Environment Monitor title', x: 0.65, y: 18.25, w: 12.7, h: 6 },
   environmentContainment: { label: 'Monitor: containment', x: 0.2, y: 24.02, w: 14.4, h: 9.89 },
   environmentSignal: { label: 'Monitor: signal', x: 0.68, y: 34.45, w: 13, h: 10.73 },
   environmentNoise: { label: 'Monitor: noise', x: 0.5, y: 45.6, w: 12.95, h: 11.7 },
@@ -39,13 +43,13 @@ const DEFAULT_CONSOLE_LAYOUT = {
   cover: { label: 'Cover art', x: 14.95, y: 19.15, w: 26.2, h: 51.7 },
   scopeGrid: { label: 'Scope: signal grid', x: 42.08, y: 56.96, w: 26.97, h: 14.82 },
   scope: { label: 'Scope', x: 39.75, y: 57.84, w: 31.55, h: 15.48 },
-  trackData: { label: 'Track data', x: 42.27, y: 17.05, w: 26.55, h: 21.15 },
-  lyrics: { label: 'Lyrics', x: 42.55, y: 36.6, w: 26.3, h: 22.45 },
+  trackData: { label: 'Track data', x: 42, y: 17.6, w: 26.95, h: 19.35 },
+  lyrics: { label: 'Lyrics', x: 42.05, y: 36.8, w: 26.85, h: 21.9 },
   library: { label: 'Track library', x: 68.25, y: 18.1, w: 31.95, h: 77.65 },
-  libraryTitle: { label: 'Library: title', x: 69, y: 18.45, w: 29.1, h: 4.4 },
+  libraryTitle: { label: 'Library: title', x: 69.7, y: 18.15, w: 29.45, h: 5.15 },
   librarySearch: { label: 'Library: search', x: 70.9, y: 24.85, w: 13.8, h: 4.35 },
-  libraryPlaylists: { label: 'Library: playlists', x: 86.35, y: 24.55, w: 5.45, h: 5.1 },
-  libraryAllTracks: { label: 'Library: all tracks', x: 92.45, y: 24.85, w: 5.45, h: 5.1 },
+  libraryPlaylists: { label: 'Library: playlists', x: 85.95, y: 24.05, w: 6.1, h: 6 },
+  libraryAllTracks: { label: 'Library: all tracks', x: 92.3, y: 24.05, w: 6.1, h: 6 },
   pagePrevious: { label: 'Pagination: previous', x: 77, y: 82.5, w: 2.8, h: 4.2 },
   pageIndicator: { label: 'Pagination: indicator', x: 80.5, y: 82.1, w: 6.9, h: 5.2 },
   pageNext: { label: 'Pagination: next', x: 88.05, y: 82.5, w: 2.8, h: 4.45 },
@@ -154,7 +158,7 @@ function EnvironmentMonitor({ metrics, layoutProps }) {
       <IndicatorRow
         id={metric.metricId}
         label={metric.label}
-        value={metric.max}
+        value={metric.value}
         max={metric.max}
       />
     </div>
@@ -164,7 +168,6 @@ function EnvironmentMonitor({ metrics, layoutProps }) {
 export default function FullConsoleShell({
   BASE,
   defaultCover,
-  audioRef,
   lyricLineRefs,
   activeTrack,
   playbackTrack,
@@ -190,8 +193,6 @@ export default function FullConsoleShell({
   stepTrack,
   randomTrack,
   shareTrack,
-  updatePlaybackTime,
-  setPlaying,
 }) {
   const shellImage = `${BASE}images/production/stank-radio-console-v6.png`;
   const backgroundImage = `${BASE}images/production/stank-radio-console-background.png`;
@@ -203,6 +204,9 @@ export default function FullConsoleShell({
   const outputNeedleImage = `${BASE}images/production/output-needle.png`;
   const environmentTitleImage = `${BASE}images/production/environment-monitor-title.png`;
   const scopeGridImage = `${BASE}images/production/signal-readout-grid.png`;
+  const monitorBackgroundImage = `${BASE}images/production/monitor-bg.png`;
+  const transcriptPanelImage = `${BASE}images/production/transcript-feed-panel.png`;
+  const transmissionStatusPanelImage = `${BASE}images/production/transmission-status-panel.png`;
   const cautionPanelImage = `${BASE}assets/stank-radio/caution-message-panel.png`;
   const diagnosticsLights = [
     { status: 'uplink', color: 'green', image: `${BASE}images/production/diagnostics-button-green.png` },
@@ -220,6 +224,12 @@ export default function FullConsoleShell({
   const [layoutEditing, setLayoutEditing] = useState(false);
   const [selectedLayoutId, setSelectedLayoutId] = useState('library');
   const [layout, setLayout] = useState(loadSavedLayout);
+  const [environmentLampLevels] = useState(() => ({
+    containment: 3 + Math.floor(Math.random() * 5),
+    signal: 3 + Math.floor(Math.random() * 5),
+    noise: 3 + Math.floor(Math.random() * 5),
+    pressure: 3 + Math.floor(Math.random() * 4),
+  }));
   const [cautionPanelMessages, setCautionPanelMessages] = useState(() =>
     Array.from(
       { length: 4 },
@@ -252,6 +262,7 @@ export default function FullConsoleShell({
       metricId: 'containment',
       label: 'Containment',
       max: 7,
+      value: environmentLampLevels.containment,
       image: `${BASE}images/production/environment-containment-v2.png`,
     },
     {
@@ -259,6 +270,7 @@ export default function FullConsoleShell({
       metricId: 'signal',
       label: 'Signal Strength',
       max: 7,
+      value: environmentLampLevels.signal,
       image: `${BASE}images/production/environment-signal-v2.png`,
     },
     {
@@ -266,6 +278,7 @@ export default function FullConsoleShell({
       metricId: 'noise',
       label: 'Background Noise',
       max: 7,
+      value: environmentLampLevels.noise,
       image: `${BASE}images/production/environment-noise-v2.png`,
     },
     {
@@ -273,6 +286,7 @@ export default function FullConsoleShell({
       metricId: 'pressure',
       label: 'Pressure Level',
       max: 6,
+      value: environmentLampLevels.pressure,
       image: `${BASE}images/production/environment-pressure-v2.png`,
     },
   ];
@@ -494,20 +508,6 @@ export default function FullConsoleShell({
           {...layoutProps('stankPanel')}
         >
           <img src={stankPanelImage} alt="" draggable={false} />
-
-          <div className="stankPanelStatusLights" aria-hidden="true">
-            {[10.5, 16.8, 24.1, 31.3, 38.2, 45.7, 51.2, 57.9, 64.8, 71.7, 78].map(
-              (left, index) => (
-                <i
-                  key={left}
-                  style={{
-                    '--stank-panel-lamp-left': `${left}%`,
-                    '--stank-panel-lamp-delay': `${index * -110}ms`,
-                  }}
-                />
-              ),
-            )}
-          </div>
         </div>
 
         {auxiliaryPanels.map((panel) => (
@@ -518,15 +518,6 @@ export default function FullConsoleShell({
             {...layoutProps(panel.id)}
           >
             <img src={panel.image} alt="" draggable={false} />
-            {panel.id === 'liveContainmentPanel' && (
-              <div className="liveContainmentLights" aria-hidden="true">
-                <i className="liveContainmentLight liveContainmentLight--master" />
-                <i className="liveContainmentLight liveContainmentLight--tx" />
-                <i className="liveContainmentLight liveContainmentLight--signal" />
-                <i className="liveContainmentLight liveContainmentLight--safe" />
-                <span className="liveContainmentOnAir" />
-              </div>
-            )}
             {panel.id === 'systemHealthPanel' && (
               <div className="systemHealthLights" aria-hidden="true">
                 {Array.from({ length: 24 }, (_, index) => (
@@ -557,6 +548,32 @@ export default function FullConsoleShell({
             )}
           </div>
         ))}
+
+        <i
+          className="consoleOverlay liveContainmentLight liveContainmentLight--master"
+          aria-label="Live containment master lamp"
+          {...layoutProps('liveContainmentMasterLight')}
+        />
+        <i
+          className="consoleOverlay liveContainmentLight liveContainmentLight--tx"
+          aria-label="Live containment TX Active lamp"
+          {...layoutProps('liveContainmentTxLight')}
+        />
+        <i
+          className="consoleOverlay liveContainmentLight liveContainmentLight--signal"
+          aria-label="Live containment Signal Lock lamp"
+          {...layoutProps('liveContainmentSignalLight')}
+        />
+        <i
+          className="consoleOverlay liveContainmentLight liveContainmentLight--safe"
+          aria-label="Live containment Safe Mode lamp"
+          {...layoutProps('liveContainmentSafeLight')}
+        />
+        <span
+          className="consoleOverlay liveContainmentOnAir"
+          aria-label="Live containment ON AIR lamp"
+          {...layoutProps('liveContainmentOnAir')}
+        />
 
         <a
           className="consoleOverlay consoleReturnPanel"
@@ -668,56 +685,66 @@ export default function FullConsoleShell({
           aria-label="Current transmission"
           {...layoutProps('trackData')}
         >
-          <small className={!activeTrack ? 'isEmpty' : undefined}>
-            {playing
-              ? 'LEAK STATUS // ACTIVE'
-              : activeTrack
-                ? 'LEAK STATUS // ARMED'
-                : 'LEAK STATUS // STANDBY'}
-          </small>
-          <h1>{activeTrack ? displayTrack.title : 'NO TRANSMISSION SELECTED'}</h1>
-          <h2>{displayTrack.artist}</h2>
-          <p>
-            {activeTrack
-              ? 'OLFACTORY OUTPUT EXCEEDS ACOUSTIC LEVEL'
-              : 'ARCHIVE CHANNEL AWAITING CONTAINMENT RECORD'}
-          </p>
+          <img className="consoleMonitorBackground" src={monitorBackgroundImage} alt="" draggable={false} />
+          <div className="consoleMonitorContent">
+            <small className={!activeTrack ? 'isEmpty' : undefined}>
+              {playing
+                ? 'LEAK STATUS // ACTIVE'
+                : activeTrack
+                  ? 'LEAK STATUS // ARMED'
+                  : 'LEAK STATUS // STANDBY'}
+            </small>
+            <h1>{activeTrack ? displayTrack.title : 'NO TRANSMISSION SELECTED'}</h1>
+            <h2>{displayTrack.artist}</h2>
+            <p>
+              {activeTrack
+                ? 'OLFACTORY OUTPUT EXCEEDS ACOUSTIC LEVEL'
+                : 'ARCHIVE CHANNEL AWAITING CONTAINMENT RECORD'}
+            </p>
+          </div>
+          <img className="consoleMonitorFrame" src={transmissionStatusPanelImage} alt="" draggable={false} />
         </section>
 
         <section className="consoleOverlay consoleLyrics" aria-label="Lyrics" {...layoutProps('lyrics')}>
-          <div className="consoleLyricsScroll">
-            {currentLyrics.length ? (
-              currentLyrics.map((line, index) => (
-                <p
-                  key={`${line.time}-${index}`}
-                  ref={(element) => {
-                    lyricLineRefs.current[index] = element;
-                  }}
-                  className={index === activeLyricIndex ? 'active' : ''}
-                >
-                  {line.text}
-                </p>
-              ))
-            ) : (
-              <div className="consoleEmptyMessage">
-                <small>TRANSCRIPT STATUS</small>
-                <b>{activeTrack ? 'LYRIC DATA NOT AVAILABLE' : 'AWAITING TRANSMISSION'}</b>
-                <span>
-                  {activeTrack
-                    ? 'NO SYNCHRONIZED CONTAMINATION TRANSCRIPT FOUND IN ARCHIVE'
-                    : 'SELECT AN AUDIO CONTAMINANT FROM THE ARCHIVE'}
-                </span>
-              </div>
-            )}
+          <img className="consoleMonitorBackground" src={monitorBackgroundImage} alt="" draggable={false} />
+          <div className="consoleMonitorContent consoleLyricsScroll">
+              {currentLyrics.length ? (
+                currentLyrics.map((line, index) => (
+                  <p
+                    key={`${line.time}-${index}`}
+                    ref={(element) => {
+                      lyricLineRefs.current[index] = element;
+                    }}
+                    className={index === activeLyricIndex ? 'active' : ''}
+                  >
+                    {line.text}
+                  </p>
+                ))
+              ) : (
+                <div className="consoleEmptyMessage">
+                  <b>{activeTrack ? 'LYRIC DATA NOT AVAILABLE' : 'AWAITING TRANSMISSION'}</b>
+                  <span>
+                    {activeTrack
+                      ? 'NO SYNCHRONIZED CONTAMINATION TRANSCRIPT FOUND IN ARCHIVE'
+                      : 'SELECT AN AUDIO CONTAMINANT FROM THE ARCHIVE'}
+                  </span>
+                </div>
+              )}
           </div>
+          <img className="consoleMonitorFrame" src={transcriptPanelImage} alt="" draggable={false} />
         </section>
 
-        <h2
+        <div
           className="consoleOverlay consoleLibraryTitle"
+          aria-label="Containment Library"
           {...layoutProps('libraryTitle')}
         >
-          Containment Library
-        </h2>
+          <img
+            src={`${BASE}images/production/containment-library-panel.png`}
+            alt=""
+            draggable={false}
+          />
+        </div>
 
         <label
           className="consoleOverlay consoleSearch"
@@ -743,8 +770,12 @@ export default function FullConsoleShell({
           }}
           {...layoutProps('libraryPlaylists')}
         >
-          <ListMusic size={13} />
-          Playlists
+          <img
+            src={`${BASE}images/production/library-playlists-panel.png`}
+            alt=""
+            draggable={false}
+          />
+          <span className="srOnly">Playlists</span>
         </button>
 
         <button
@@ -757,7 +788,12 @@ export default function FullConsoleShell({
           }}
           {...layoutProps('libraryAllTracks')}
         >
-          All Tracks
+          <img
+            src={`${BASE}images/production/library-all-tracks-panel.png`}
+            alt=""
+            draggable={false}
+          />
+          <span className="srOnly">All Tracks</span>
         </button>
 
         <aside
@@ -910,15 +946,6 @@ export default function FullConsoleShell({
           </div>
         ) : null}
 
-        <audio
-          ref={audioRef}
-          src={playbackTrack?.audio || undefined}
-          onPlay={() => setPlaying(true)}
-          onPause={() => setPlaying(false)}
-          onTimeUpdate={updatePlaybackTime}
-          onEnded={() => stepTrack(1)}
-        />
-
         {layoutEditing && selectedLayout ? (
           <button
             className="layoutAssetResizeHandle"
@@ -936,6 +963,14 @@ export default function FullConsoleShell({
           />
         ) : null}
       </section>
+
+      <button
+        className={layoutEditing ? 'layoutEditorToggle active' : 'layoutEditorToggle'}
+        type="button"
+        onClick={() => setLayoutEditing((editing) => !editing)}
+      >
+        {layoutEditing ? 'DONE EDITING' : 'EDIT LAYOUT'}
+      </button>
 
       {layoutEditing ? (
         <aside

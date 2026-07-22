@@ -185,15 +185,7 @@
     inset 0 1px 1px rgba(255, 240, 190, 0.4),
     inset 0 -2px 2px rgba(49, 27, 7, 0.78);
   opacity: 0.96;
-  animation: consoleAmberSoftPulse 5.8s ease-in-out infinite;
-}
-
-.environment-indicator__lamp--active:nth-child(2n) {
-  animation-delay: -1.7s;
-}
-
-.environment-indicator__lamp--active:nth-child(3n) {
-  animation-delay: -3.4s;
+  animation: consoleAmberSoftPulse 4.2s ease-in-out infinite;
 }
 
 .environment-indicator__lamp--warning {
@@ -225,29 +217,6 @@
   height: 100%;
   display: block;
   object-fit: fill;
-}
-
-.stankPanelStatusLights {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-}
-
-.stankPanelStatusLights i {
-  position: absolute;
-  left: var(--stank-panel-lamp-left);
-  top: 44%;
-  width: 4.5%;
-  height: 56%;
-  display: block;
-  border-radius: 14%;
-  background: radial-gradient(ellipse at 44% 31%, rgba(229, 255, 153, 0.98) 0%, rgba(121, 197, 47, 0.96) 35%, rgba(48, 112, 16, 0.96) 70%, rgba(14, 47, 7, 0.98) 100%);
-  box-shadow: 0 0 4px rgba(137, 221, 55, 0.68), 0 0 9px rgba(75, 164, 25, 0.42), inset 0 1px 2px rgba(235, 255, 187, 0.58), inset 0 -2px 2px rgba(15, 50, 7, 0.82);
-  mix-blend-mode: screen;
-  transform: translate(-50%, -50%);
-  animation: consoleGreenPulse 2.65s ease-in-out infinite;
-  animation-delay: var(--stank-panel-lamp-delay);
 }
 
 .consolePanelAsset {
@@ -454,8 +423,14 @@
 }
 
 @keyframes consoleAmberSoftPulse {
-  0%, 100% { opacity: 0.91; filter: brightness(0.97); }
-  50% { opacity: 0.98; filter: brightness(1.035); }
+  0%, 100% {
+    opacity: 0.82;
+    filter: brightness(0.9) saturate(0.96) drop-shadow(0 0 1px rgba(202, 137, 42, 0.25));
+  }
+  50% {
+    opacity: 1;
+    filter: brightness(1.22) saturate(1.14) drop-shadow(0 0 4px rgba(238, 169, 58, 0.68));
+  }
 }
 
 @keyframes consoleGreenPulse {
@@ -1025,6 +1000,25 @@
   filter: drop-shadow(0 1px 1px #000) drop-shadow(0 0 4px rgba(176, 140, 80, 0.38));
 }
 
+.consoleTransport .transportPlay {
+  color: #8eae42;
+}
+
+.consoleTransport .transportPlay svg {
+  width: 58%;
+  height: 58%;
+  stroke-width: 2.85;
+  filter: drop-shadow(0 1px 1px #000) drop-shadow(0 0 5px rgba(132, 177, 55, 0.58));
+}
+
+.consoleTransport .transportPlay:hover {
+  color: #b4d85a;
+}
+
+.consoleTransport .transportPlay:disabled {
+  color: #64763a;
+}
+
 .consoleTransport button:hover {
   background: transparent;
   box-shadow: none;
@@ -1332,6 +1326,36 @@
   text-shadow: 0 0 7px rgba(183, 216, 111, 0.42);
 }
 
+.consoleLibraryTitle {
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.consoleLibraryTitle img,
+.consoleLibraryAction img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+.consoleLibraryAction {
+  overflow: hidden;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* Start library lower now that search moved */
 .consoleTrackList {
   margin-top: 15.5%;
@@ -1405,6 +1429,28 @@
 /* ==========================================================
    Live console layout editor
    ========================================================== */
+
+.layoutEditorToggle {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 300;
+  border: 1px solid rgba(183, 216, 111, 0.58);
+  padding: 10px 14px;
+  background: rgba(6, 10, 5, 0.94);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.64);
+  color: #b7d86f;
+  font: 700 11px "Courier New", monospace;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+
+.layoutEditorToggle:hover,
+.layoutEditorToggle.active {
+  border-color: #c9e58d;
+  background: #18200f;
+  color: #d7eba7;
+}
 
 .layoutEditorPanel {
   position: fixed;
@@ -1635,6 +1681,7 @@
 }
 
 @media (max-width: 900px) {
+  .layoutEditorToggle,
   .layoutEditorPanel {
     display: none;
   }
@@ -1884,5 +1931,75 @@
 
 .consoleDirectoratePlate {
   color: var(--stank-text-secondary);
+}
+
+/* Layered monitor assemblies: texture, live content, then the metal bezel. */
+.consoleTrackData,
+.consoleLyrics {
+  isolation: isolate;
+  overflow: hidden;
+  padding: 0;
+}
+
+.consoleMonitorBackground,
+.consoleMonitorFrame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: fill;
+  pointer-events: none;
+  user-select: none;
+}
+
+.consoleMonitorBackground {
+  z-index: 0;
+}
+
+.consoleTrackData::after,
+.consoleLyrics::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 3.5%;
+  pointer-events: none;
+  background-image:
+    repeating-radial-gradient(circle at 22% 37%, rgba(224, 232, 204, 0.18) 0 0.45px, transparent 0.8px 2.8px),
+    repeating-linear-gradient(0deg, rgba(205, 217, 187, 0.08) 0 1px, transparent 1px 4px);
+  background-size: 4px 3px, 100% 4px;
+  mix-blend-mode: screen;
+  opacity: 0.13;
+  animation: consoleMonitorStatic 780ms steps(2, end) infinite;
+}
+
+@keyframes consoleMonitorStatic {
+  0% { background-position: 0 0, 0 0; opacity: 0.09; }
+  35% { background-position: 2px -1px, 0 1px; opacity: 0.15; }
+  70% { background-position: -1px 2px, 0 -1px; opacity: 0.11; }
+  100% { background-position: 1px 1px, 0 0; opacity: 0.13; }
+}
+
+.consoleMonitorFrame {
+  z-index: 3;
+}
+
+.consoleMonitorContent {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.consoleTrackData .consoleMonitorContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 13% 5% 4%;
+}
+
+.consoleLyrics .consoleMonitorContent {
+  padding: 14% 5% 5%;
 }
 

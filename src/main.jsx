@@ -99,6 +99,9 @@ function normalizeTrack(song, index) {
     ? 'The Containment Unit'
     : suppliedArtist;
 
+  const audioSource = song.audio || song.src || song.file || song.path || song.url || '';
+  const isLocalBeastModeTest = import.meta.env.DEV && /(?:^|\/)03-beast-mode\.mp3(?:$|[?#])/i.test(audioSource);
+
   return {
     id: `${song.title || song.name || song.filename || 'track'}-${index}`,
     title: song.title || song.name || song.track || song.filename || `Unlabeled Stank ${index + 1}`,
@@ -115,7 +118,8 @@ function normalizeTrack(song, index) {
           .sort((a, b) => a.time - b.time)
       : [],
     created: song.created || song.date || song.uploaded || '',
-    audio: assetPath(song.audio || song.src || song.file || song.path || song.url || ''),
+    // Local-only test route. Production continues to use the main site's /music/ library.
+    audio: isLocalBeastModeTest ? `${BASE}music/songs/03-beast-mode.mp3` : assetPath(audioSource),
     cover: assetPath(song.cover || song.coverArt || song.image || song.artwork || defaultCover),
   };
 }
@@ -193,6 +197,7 @@ function App() {
   const [libraryPage, setLibraryPage] = useState(1);
   const [playing, setPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
   const [playlistsOpen, setPlaylistsOpen] = useState(false);
   const [playerModalOpen, setPlayerModalOpen] = useState(false);
   const [loadStatus, setLoadStatus] = useState('Tuning the contamination manifest');
@@ -309,6 +314,7 @@ function App() {
 
   useEffect(() => {
     setCurrentTime(0);
+    setDuration(0);
   }, [playbackId]);
 
   useEffect(() => {
@@ -377,9 +383,8 @@ function App() {
       audioRef.current.currentTime = 0;
       setCurrentTime(0);
       audioRef.current.play().then(() => {
-        setPlaying(true);
         sharedAutoplayTrackIdRef.current = '';
-      }).catch(() => {});
+      }).catch(() => setPlaying(false));
     }, 50);
   }
 
@@ -409,12 +414,34 @@ function App() {
     }
     if (!audioRef.current || !playbackTrack?.audio) return;
     if (audioRef.current.paused) {
-      audioRef.current.play().then(() => setPlaying(true)).catch(() => {});
+      audioRef.current.play().catch(() => setPlaying(false));
     } else {
       audioRef.current.pause();
-      setPlaying(false);
     }
   }
+
+  useEffect(() => {
+    if (hardwarePlatform === 'pocket-filth') return undefined;
+
+    const handleDesktopSpace = (event) => {
+      if (event.code !== 'Space' && event.key !== ' ') return;
+
+      const target = event.target;
+      if (
+        target instanceof HTMLElement
+        && target.closest('input, textarea, select, [contenteditable="true"]')
+      ) return;
+
+      // Stop Space from triggering whichever desktop button currently has focus.
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+      if (!event.repeat && activeTrack) togglePlay();
+    };
+
+    window.addEventListener('keydown', handleDesktopSpace, { capture: true });
+    return () => window.removeEventListener('keydown', handleDesktopSpace, { capture: true });
+  }, [activeId, hardwarePlatform, playbackId, playing]);
 
   function shareTrack() {
     if (!activeTrack) return;
@@ -427,9 +454,36 @@ function App() {
     setCurrentTime(event.currentTarget.currentTime);
   }
 
+  function updatePlaybackDuration(event) {
+    const nextDuration = event.currentTarget.duration;
+    setDuration(Number.isFinite(nextDuration) ? nextDuration : 0);
+  }
+
+  const sharedAudio = (
+    <audio
+      key="stank-radio-shared-audio"
+      ref={audioRef}
+      src={playbackTrack?.audio || undefined}
+      onPlay={() => setPlaying(true)}
+      onPause={() => setPlaying(false)}
+      onAbort={() => setPlaying(false)}
+      onEmptied={() => setPlaying(false)}
+      onError={() => setPlaying(false)}
+      onTimeUpdate={updatePlaybackTime}
+      onLoadedMetadata={updatePlaybackDuration}
+      onDurationChange={updatePlaybackDuration}
+      onEnded={() => {
+        setPlaying(false);
+        stepTrack(1);
+      }}
+    />
+  );
+
   if (hardwarePlatform === 'pocket-filth') {
     return (
-      <PocketFilthScanner
+      <>
+        {sharedAudio}
+        <PocketFilthScanner
         BASE={BASE}
         defaultCover={defaultCover}
         audioRef={audioRef}
@@ -440,6 +494,7 @@ function App() {
         visibleTracks={visibleTracks}
         playing={playing}
         currentTime={currentTime}
+        duration={duration}
         currentLyrics={currentLyrics}
         activeLyricIndex={activeLyricIndex}
         libraryPage={libraryPage}
@@ -454,22 +509,22 @@ function App() {
         stepTrack={stepTrack}
         randomTrack={randomTrack}
         shareTrack={shareTrack}
-        updatePlaybackTime={updatePlaybackTime}
-        setPlaying={setPlaying}
-      />
+        />
+      </>
     );
   }
 
   if (hardwarePlatform === 'desktop-guard') {
-    return <DesktopGuard />;
+    return <>{sharedAudio}<DesktopGuard /></>;
   }
 
   if (viewMode === 'filth') {
     return (
-      <FullConsoleShell
+      <>
+        {sharedAudio}
+        <FullConsoleShell
         BASE={BASE}
         defaultCover={defaultCover}
-        audioRef={audioRef}
         lyricLineRefs={lyricLineRefs}
         activeTrack={activeTrack}
         playbackTrack={playbackTrack}
@@ -496,14 +551,15 @@ function App() {
         stepTrack={stepTrack}
         randomTrack={randomTrack}
         shareTrack={shareTrack}
-        updatePlaybackTime={updatePlaybackTime}
-        setPlaying={setPlaying}
-      />
+        />
+      </>
     );
   }
 
   return (
-    <main className={`${playing ? 'radioApp isPlaying' : 'radioApp'} ${viewMode === 'filth' ? 'filthUpView' : 'containmentView'}`}>
+    <>
+      {sharedAudio}
+      <main className={`${playing ? 'radioApp isPlaying' : 'radioApp'} ${viewMode === 'filth' ? 'filthUpView' : 'containmentView'}`}>
       <div
         className="backdrop"
         style={{ '--app-bg': `url("${BASE}images/stank-radio-bg.png")` }}
@@ -654,15 +710,6 @@ function App() {
               </dl>
             </div>
           </div>
-
-          <audio
-            ref={audioRef}
-            src={playbackTrack?.audio || undefined}
-            onPlay={() => setPlaying(true)}
-            onPause={() => setPlaying(false)}
-            onTimeUpdate={updatePlaybackTime}
-            onEnded={() => stepTrack(1)}
-          />
 
           <div className="sourceLine">
             {!activeTrack ? (
@@ -891,7 +938,8 @@ function App() {
           </div>
         </section>
       ) : null}
-    </main>
+      </main>
+    </>
   );
 }
 
