@@ -14,7 +14,7 @@ import CautionPanel from '../components/CautionPanel';
 import { cautionMessages } from '../data/cautionMessages';
 import './full-console-shell.css';
 
-const LAYOUT_STORAGE_KEY = 'stank-radio-console-layout-v20';
+const LAYOUT_STORAGE_KEY = 'stank-radio-console-layout-v21';
 const DESKTOP_CANVAS_WIDTH = 1672;
 const DESKTOP_CANVAS_HEIGHT = 941;
 
@@ -41,9 +41,9 @@ const DEFAULT_CONSOLE_LAYOUT = {
   cover: { label: 'Cover art', x: 14.95, y: 19.15, w: 26.2, h: 51.7 },
   scopeGrid: { label: 'Scope: signal grid', x: 42.08, y: 56.96, w: 26.97, h: 14.82 },
   scope: { label: 'Scope', x: 39.75, y: 57.84, w: 31.55, h: 15.48 },
-  trackData: { label: 'Track data', x: 42, y: 17.6, w: 26.95, h: 19.35 },
+  trackData: { label: 'Track data', x: 42, y: 17.4, w: 26.95, h: 19.35 },
   lyrics: { label: 'Lyrics', x: 42.05, y: 36.8, w: 26.85, h: 21.9 },
-  library: { label: 'Track library', x: 68.25, y: 18.1, w: 31.95, h: 77.65 },
+  library: { label: 'Track library', x: 68.4, y: 20.6, w: 31.6, h: 75.35 },
   libraryTitle: { label: 'Library: title', x: 69.7, y: 18.15, w: 29.45, h: 5.15 },
   librarySearch: { label: 'Library: search', x: 70.9, y: 24.85, w: 13.8, h: 4.35 },
   libraryPlaylists: { label: 'Library: playlists', x: 85.95, y: 24.05, w: 6.1, h: 6 },
@@ -60,14 +60,14 @@ const DEFAULT_CONSOLE_LAYOUT = {
   outputRightMeter: { label: 'Output meter: right', x: 59.32, y: 76.45, w: 7.7, h: 7.85 },
   outputLeftNeedle: { label: 'Output needle: left', x: 51.2, y: 77.7, w: 7.45, h: 7.85 },
   outputRightNeedle: { label: 'Output needle: right', x: 59.5, y: 77.7, w: 7.7, h: 7.85 },
-  directoratePlate: { label: 'Directorate property plate', x: 75.5, y: 84.25, w: 27.25, h: 8.15 },
+  directoratePlate: { label: 'Directorate property plate', x: 75.65, y: 86.3, w: 27.06, h: 6.4 },
   cautionPanel1: { label: 'Caution panel 1', x: 0.2, y: 90.25, w: 19.2, h: 8.2 },
   cautionPanel2: { label: 'Caution panel 2', x: 19.9, y: 90.25, w: 19.2, h: 8.31 },
   cautionPanel3: { label: 'Caution panel 3', x: 39.38, y: 90.25, w: 19.2, h: 8.2 },
   cautionPanel4: { label: 'Caution panel 4', x: 58.4, y: 90.25, w: 19.2, h: 8.2 },
-  playlistModalClose: { label: 'Playlist modal: close control', x: 94, y: 2.2, w: 4.2, h: 7.45 },
-  playlistModalRows: { label: 'Playlist modal: playlist rows', x: 7.3, y: 22.6, w: 82.5, h: 63.9 },
-  playlistModalKnob: { label: 'Playlist modal: scrollbar knob', x: 88.57, y: 26.55, w: 2.75, h: 46 },
+  playlistModalClose: { label: 'Playlist modal: close control', x: 94.67, y: 2.2, w: 4.2, h: 7.45 },
+  playlistModalRows: { label: 'Playlist modal: playlist rows', x: 10.41, y: 24.99, w: 78.07, h: 59.31 },
+  playlistModalKnob: { label: 'Playlist modal: scrollbar knob', x: 88.57, y: 26.55, w: 2.67, h: 14.63 },
 };
 
 function createDefaultLayout() {
@@ -1026,14 +1026,6 @@ export default function FullConsoleShell({
           />
         ) : null}
       </section>
-
-      <button
-        className={layoutEditing ? 'layoutEditorToggle active' : 'layoutEditorToggle'}
-        type="button"
-        onClick={() => setLayoutEditing((editing) => !editing)}
-      >
-        {layoutEditing ? 'DONE EDITING' : 'EDIT LAYOUT'}
-      </button>
 
       {layoutEditing ? (
         <aside

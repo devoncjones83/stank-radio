@@ -211,6 +211,12 @@ export default function PocketFilthScanner({
     };
   }
 
+  function mobileTimeLayoutProps(id) {
+    const item = mobileLayout[id] || DEFAULT_MOBILE_LAYOUT[id];
+    const fontSize = Math.max(12, Math.min(item.h * 0.48, item.w * 0.46));
+    return mobileLayoutProps(id, { '--pocket-time-font-size': `${fontSize}px` });
+  }
+
   function startMobileLayoutGesture(event, id, mode) {
     if (!mobileLayoutEditing) return;
     const item = mobileLayout[id] || DEFAULT_MOBILE_LAYOUT[id];
@@ -436,8 +442,8 @@ export default function PocketFilthScanner({
           }))}
         </div>
 
-        <time className="pocketTrackTime pocketTrackTime--elapsed" {...mobileLayoutProps('trackCurrentTime')}>
-          {formatTime(boundedTime)}
+        <time className="pocketTrackTime pocketTrackTime--elapsed" {...mobileTimeLayoutProps('trackCurrentTime')}>
+          <span>{formatTime(boundedTime)}</span>
         </time>
         <div
           className="pocketTrackFillAsset"
@@ -467,8 +473,8 @@ export default function PocketFilthScanner({
             aria-label="Seek through track"
           />
         </div>
-        <time className="pocketTrackTime pocketTrackTime--duration" {...mobileLayoutProps('trackDuration')}>
-          {formatTime(duration)}
+        <time className="pocketTrackTime pocketTrackTime--duration" {...mobileTimeLayoutProps('trackDuration')}>
+          <span>{formatTime(duration)}</span>
         </time>
 
         <div className="pocketTrackHazardGlow" aria-hidden="true" {...mobileLayoutProps('hazardGlow')} />
@@ -551,14 +557,6 @@ export default function PocketFilthScanner({
 
         </section>
       </div>
-
-      <button
-        className={mobileLayoutEditing ? 'mobileLayoutEditorToggle active' : 'mobileLayoutEditorToggle'}
-        type="button"
-        onClick={() => setMobileLayoutEditing((editing) => !editing)}
-      >
-        {mobileLayoutEditing ? 'DONE' : 'EDIT LAYOUT'}
-      </button>
 
       {mobileLayoutEditing ? (
         <aside

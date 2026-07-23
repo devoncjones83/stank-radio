@@ -137,11 +137,14 @@
 .pocketTrackTime {
   position: absolute;
   z-index: 20;
+  display: grid;
+  place-items: center;
   color: #788b43;
-  font: 800 10px/36px "Barlow Condensed", "Arial Narrow", sans-serif;
+  font: 800 var(--pocket-time-font-size, 17px) / 1 "Barlow Condensed", "Arial Narrow", sans-serif;
   letter-spacing: 0.04em;
   text-align: center;
   text-shadow: 0 1px #000;
+  white-space: nowrap;
 }
 .pocketTrackFillAsset,
 .pocketTrackMarkerAsset { --track-progress-px: 0px; position: absolute; z-index: 20; }
