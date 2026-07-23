@@ -5,6 +5,7 @@ import './CautionPanel.css';
 type CautionPanelProps = {
   assetSrc: string;
   message: string;
+  classification: string;
   changing: boolean;
   layoutProps: HTMLAttributes<HTMLElement>;
 };
@@ -12,6 +13,7 @@ type CautionPanelProps = {
 export default function CautionPanel({
   assetSrc,
   message,
+  classification,
   changing,
   layoutProps,
 }: CautionPanelProps) {
@@ -28,10 +30,9 @@ export default function CautionPanel({
         aria-hidden="true"
         draggable={false}
       />
-      <span
-        className={`consoleCautionPanel__message${changing ? ' isChanging' : ''}`}
-      >
-        {message}
+      <span className="consoleCautionPanel__message">
+        <small>{classification}</small>
+        <b className={changing ? 'isChanging' : ''}>{message}</b>
       </span>
     </section>
   );

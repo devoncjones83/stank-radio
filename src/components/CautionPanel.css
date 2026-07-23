@@ -26,6 +26,8 @@
   inset: 0 4% 0 28.5%;
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex-direction: column;
   box-sizing: border-box;
   min-width: 0;
   min-height: 2.08em;
@@ -34,13 +36,13 @@
   opacity: 1;
   color: var(--warning-text-color);
   font-family: var(--warning-font-family);
-  font-size: clamp(10px, 1.05vw, 14px);
+  font-size: inherit;
   font-weight: var(--warning-font-weight);
   line-height: var(--warning-line-height);
   letter-spacing: var(--warning-letter-spacing);
   hyphens: none;
   overflow-wrap: normal;
-  text-align: left;
+  text-align: center;
   text-shadow:
     0 1px 0 rgba(0, 0, 0, 1),
     0 0 2px rgba(211, 180, 111, 0.08);
@@ -50,7 +52,36 @@
   transition: opacity 190ms ease;
 }
 
-.consoleCautionPanel__message.isChanging {
+.consoleCautionPanel__message small,
+.consoleCautionPanel__message b {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+}
+
+.consoleCautionPanel__message small {
+  margin-bottom: 2px;
+  color: rgba(211, 180, 111, 0.72);
+  font-size: clamp(6px, 0.55vw, 9px);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1;
+}
+
+.consoleCautionPanel__message b {
+  font-size: clamp(9px, 0.92vw, 13px);
+  font-weight: var(--warning-font-weight);
+  line-height: var(--warning-line-height);
+}
+
+.consoleCautionPanel__message b {
+  opacity: 1;
+  transition: opacity 190ms ease;
+}
+
+.consoleCautionPanel__message b.isChanging {
   opacity: 0;
 }
 

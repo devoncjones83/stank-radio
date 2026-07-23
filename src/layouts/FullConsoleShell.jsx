@@ -14,7 +14,7 @@ import CautionPanel from '../components/CautionPanel';
 import { cautionMessages } from '../data/cautionMessages';
 import './full-console-shell.css';
 
-const LAYOUT_STORAGE_KEY = 'stank-radio-console-layout-v21';
+const LAYOUT_STORAGE_KEY = 'stank-radio-console-layout-v22';
 const DESKTOP_CANVAS_WIDTH = 1672;
 const DESKTOP_CANVAS_HEIGHT = 941;
 
@@ -51,11 +51,11 @@ const DEFAULT_CONSOLE_LAYOUT = {
   pagePrevious: { label: 'Pagination: previous', x: 77, y: 82.5, w: 2.8, h: 4.2 },
   pageIndicator: { label: 'Pagination: indicator', x: 80.5, y: 82.1, w: 6.9, h: 5.2 },
   pageNext: { label: 'Pagination: next', x: 88.05, y: 82.5, w: 2.8, h: 4.45 },
-  previous: { label: 'Previous control', x: 15.3, y: 75, w: 5.25, h: 9.9 },
-  play: { label: 'Play control', x: 22.8, y: 75, w: 5.65, h: 9.9 },
-  next: { label: 'Next control', x: 30.4, y: 75, w: 5.25, h: 9.9 },
-  shuffle: { label: 'Shuffle control', x: 37.2, y: 75, w: 5.25, h: 9.9 },
-  share: { label: 'Share control', x: 43.05, y: 75, w: 5.25, h: 9.9 },
+  share: { label: 'Share control', x: 15.3, y: 75, w: 5.25, h: 9.9 },
+  previous: { label: 'Previous control', x: 22.8, y: 75, w: 5.25, h: 9.9 },
+  play: { label: 'Play control', x: 30.4, y: 75, w: 5.65, h: 9.9 },
+  next: { label: 'Next control', x: 37.2, y: 75, w: 5.25, h: 9.9 },
+  shuffle: { label: 'Shuffle control', x: 43.05, y: 75, w: 5.25, h: 9.9 },
   outputLeftMeter: { label: 'Output meter: left', x: 51, y: 76.45, w: 7.45, h: 7.85 },
   outputRightMeter: { label: 'Output meter: right', x: 59.32, y: 76.45, w: 7.7, h: 7.85 },
   outputLeftNeedle: { label: 'Output needle: left', x: 51.2, y: 77.7, w: 7.45, h: 7.85 },
@@ -166,6 +166,119 @@ function EnvironmentMonitor({ metrics, layoutProps }) {
   ));
 }
 
+function clamp(value, minimum, maximum) {
+  return Math.max(minimum, Math.min(maximum, value));
+}
+
+function stableTrackNumber(track, offset = 0) {
+  if (!track?.id) return 0;
+  return Array.from(track.id).reduce((total, character) => total + character.charCodeAt(0), offset);
+}
+
+function formatRuntime(value) {
+  if (!Number.isFinite(value) || value < 0) return '--:--';
+  const totalSeconds = Math.floor(value);
+  const seconds = String(totalSeconds % 60).padStart(2, '0');
+  const minutes = Math.floor(totalSeconds / 60);
+  if (minutes < 60) return `${String(minutes).padStart(2, '0')}:${seconds}`;
+  return `${Math.floor(minutes / 60)}:${String(minutes % 60).padStart(2, '0')}:${seconds}`;
+}
+
+function StatusMeter({ label, value, suffix, activeSegments, ariaLabel }) {
+  return (
+    <section className="transmissionStatusMeter" aria-label={ariaLabel}>
+      <b>{label}</b>
+      <div className="transmissionStatusMeter__segments" aria-hidden="true">
+        {Array.from({ length: 6 }, (_, index) => (
+          <i key={index} className={index < activeSegments ? 'isActive' : ''} />
+        ))}
+      </div>
+      <span>{value}{suffix}</span>
+    </section>
+  );
+}
+
+function TransmissionStatusDisplay({
+  activeTrack,
+  displayTrack,
+  playing,
+  currentTime,
+  duration,
+  visibleTracks,
+  flavorText,
+}) {
+  const containmentLevel = activeTrack
+    ? clamp(Number(activeTrack.containmentLevel) || 38 + (stableTrackNumber(activeTrack, 17) % 55), 0, 100)
+    : null;
+  const signalPercent = activeTrack
+    ? clamp(
+      44 + (stableTrackNumber(activeTrack, 5) % 32) + (playing ? Math.round(Math.sin((currentTime || 0) * 2.35) * 8) : 0),
+      12,
+      96,
+    )
+    : 0;
+  const signalDb = activeTrack ? -Math.max(3.1, 42 - signalPercent * 0.34) : null;
+  const playbackState = !activeTrack ? 'idle' : playing ? 'playing' : 'paused';
+  const activeTrackIndex = activeTrack
+    ? visibleTracks.findIndex((track) => track.id === activeTrack.id)
+    : -1;
+  const nextTrackCount = activeTrackIndex >= 0
+    ? Math.max(0, visibleTracks.length - activeTrackIndex - 1)
+    : 0;
+  const footer = [
+    ['ARCHIVE', activeTrack ? 'CONNECTED' : 'STANDBY', Boolean(activeTrack)],
+    ['SIGNAL LOCK', activeTrack ? (playing ? 'VERIFIED' : 'HELD') : '---', Boolean(activeTrack)],
+    ['CONTAINMENT', activeTrack ? (playing ? 'ARMED' : 'SECURED') : 'IDLE', Boolean(activeTrack)],
+    ['RUNTIME', activeTrack ? `${formatRuntime(currentTime)} / ${formatRuntime(duration)}` : '--:-- / --:--', Boolean(activeTrack)],
+    ['INTEGRITY', activeTrack ? 'STABLE' : '---', Boolean(activeTrack)],
+    ['NEXT TX', activeTrack ? (nextTrackCount ? String(nextTrackCount) : 'EMPTY') : 'EMPTY', Boolean(activeTrack && nextTrackCount)],
+  ];
+  const topStatus = playbackState === 'idle'
+    ? 'ARCHIVE STATUS // STANDBY'
+    : playbackState === 'playing'
+      ? 'LEAK STATUS // ARMED'
+      : 'TRANSMISSION SUSPENDED';
+
+  return (
+    <div className="transmissionStatusDisplay">
+      <div className="transmissionStatusDisplay__body">
+        <StatusMeter
+          label="SIGNAL STRENGTH"
+          value={signalDb === null ? '--.-' : signalDb.toFixed(1)}
+          suffix=" dB"
+          activeSegments={Math.ceil(signalPercent / 100 * 6)}
+          ariaLabel={`Signal strength ${signalDb === null ? 'unavailable' : `${signalDb.toFixed(1)} decibels`}`}
+        />
+
+        <div className="transmissionStatusDisplay__center" aria-live="polite">
+          <small>{topStatus}</small>
+          <h1>{activeTrack ? displayTrack.title : 'NO TRANSMISSION SELECTED'}</h1>
+          <h2>{activeTrack ? displayTrack.artist : 'CHOOSE A TRACK FROM THE LIBRARY'}</h2>
+          <p>{activeTrack ? flavorText : 'AWAITING SELECTION'}</p>
+        </div>
+
+        <StatusMeter
+          label="CONTAINMENT LEVEL"
+          value={containmentLevel === null ? '--' : containmentLevel}
+          suffix="%"
+          activeSegments={containmentLevel === null ? 0 : Math.ceil(containmentLevel / 100 * 6)}
+          ariaLabel={`Containment level ${containmentLevel === null ? 'unavailable' : `${containmentLevel} percent`}`}
+        />
+      </div>
+
+      <div className="transmissionStatusDisplay__footer">
+        {footer.map(([heading, value, active]) => (
+          <div className="transmissionStatusFooterItem" key={heading}>
+            <b>{heading}</b>
+            <span title={value}>{value}</span>
+            <i className={active ? 'isActive' : ''} aria-label={active ? `${heading} active` : `${heading} inactive`} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function FullConsoleShell({
   BASE,
   defaultCover,
@@ -178,6 +291,8 @@ export default function FullConsoleShell({
   query,
   playing,
   hasActiveAudio,
+  currentTime,
+  duration,
   currentLyrics,
   activeLyricIndex,
   libraryPage,
@@ -249,7 +364,10 @@ export default function FullConsoleShell({
     x: DESKTOP_CANVAS_WIDTH - 408,
     y: 18,
   }));
-  const [desktopScale, setDesktopScale] = useState(1);
+  const [desktopScale, setDesktopScale] = useState(() => ({
+    x: Math.max(0.01, window.innerWidth / DESKTOP_CANVAS_WIDTH),
+    y: Math.max(0.01, window.innerHeight / DESKTOP_CANVAS_HEIGHT),
+  }));
   const desktopViewportRef = useRef(null);
   const stageRef = useRef(null);
   const editorPanelRef = useRef(null);
@@ -267,6 +385,23 @@ export default function FullConsoleShell({
     buildScopeWavePoints(roomTone.bars, phase),
   );
   const scopeWaveAnimation = [...scopeWaveFrames, scopeWaveFrames[0]].join(';');
+  const transmissionFlavorPool = [
+    'OLFACTORY OUTPUT EXCEEDS ACOUSTIC LEVEL',
+    'PSYCHOLOGICAL DRIFT WITHIN LIMITS',
+    'MEMETIC EXPOSURE ACCEPTABLE',
+    'PERSONNEL INTEGRITY STABLE',
+    'SIGNAL CONTAINS TRACE WOMBAT ACTIVITY',
+    'ARCHIVE INTEGRITY VERIFIED',
+    'UNAUTHORIZED TOE TAPPING DETECTED',
+    'CONTAINMENT SEAL HOLDING',
+    'COGNITIVE CONTAMINATION MINIMAL',
+  ];
+  const activeTransmissionFlavor = activeTrack
+    ? transmissionFlavorPool[
+      Array.from(activeTrack.id).reduce((total, character) => total + character.charCodeAt(0), 0)
+      % transmissionFlavorPool.length
+    ]
+    : 'NO TRANSMISSION LOADED';
   const environmentItems = [
     {
       id: 'environmentContainment',
@@ -311,18 +446,35 @@ export default function FullConsoleShell({
     const viewport = desktopViewportRef.current;
     if (!viewport) return undefined;
 
+    let resizeFrame = 0;
     const updateScale = () => {
-      const nextScale = Math.min(
-        viewport.clientWidth / DESKTOP_CANVAS_WIDTH,
-        viewport.clientHeight / DESKTOP_CANVAS_HEIGHT,
-      );
-      setDesktopScale(Number.isFinite(nextScale) && nextScale > 0 ? nextScale : 1);
+      window.cancelAnimationFrame(resizeFrame);
+      resizeFrame = window.requestAnimationFrame(() => {
+        const viewportRect = viewport.getBoundingClientRect();
+        const viewportWidth = viewportRect.width || window.innerWidth;
+        const viewportHeight = viewportRect.height || window.innerHeight;
+        const nextScale = {
+          x: viewportWidth / DESKTOP_CANVAS_WIDTH,
+          y: viewportHeight / DESKTOP_CANVAS_HEIGHT,
+        };
+        if (
+          Number.isFinite(nextScale.x) && nextScale.x > 0 &&
+          Number.isFinite(nextScale.y) && nextScale.y > 0
+        ) {
+          setDesktopScale(nextScale);
+        }
+      });
     };
 
     const observer = new ResizeObserver(updateScale);
     observer.observe(viewport);
+    window.addEventListener('resize', updateScale);
     updateScale();
-    return () => observer.disconnect();
+    return () => {
+      window.cancelAnimationFrame(resizeFrame);
+      window.removeEventListener('resize', updateScale);
+      observer.disconnect();
+    };
   }, []);
 
   useEffect(() => {
@@ -475,8 +627,8 @@ export default function FullConsoleShell({
     if (!gesture || gesture.pointerId !== event.pointerId || !panel) return;
     event.preventDefault();
     setEditorPosition({
-      x: Math.max(0, Math.min(DESKTOP_CANVAS_WIDTH - panel.width / desktopScale, gesture.panelX + (event.clientX - gesture.startX) / desktopScale)),
-      y: Math.max(0, Math.min(DESKTOP_CANVAS_HEIGHT - panel.height / desktopScale, gesture.panelY + (event.clientY - gesture.startY) / desktopScale)),
+      x: Math.max(0, Math.min(DESKTOP_CANVAS_WIDTH - panel.width / desktopScale.x, gesture.panelX + (event.clientX - gesture.startX) / desktopScale.x)),
+      y: Math.max(0, Math.min(DESKTOP_CANVAS_HEIGHT - panel.height / desktopScale.y, gesture.panelY + (event.clientY - gesture.startY) / desktopScale.y)),
     });
   }
 
@@ -537,13 +689,13 @@ export default function FullConsoleShell({
         <div
           className="stankDesktopScaledBounds"
           style={{
-            width: `${DESKTOP_CANVAS_WIDTH * desktopScale}px`,
-            height: `${DESKTOP_CANVAS_HEIGHT * desktopScale}px`,
+            width: `${DESKTOP_CANVAS_WIDTH * desktopScale.x}px`,
+            height: `${DESKTOP_CANVAS_HEIGHT * desktopScale.y}px`,
           }}
         >
           <div
             className="stankDesktopCanvas"
-            style={{ transform: `scale(${desktopScale})` }}
+            style={{ transform: `scale(${desktopScale.x}, ${desktopScale.y})` }}
           >
       <section
         ref={stageRef}
@@ -753,18 +905,15 @@ export default function FullConsoleShell({
           {...layoutProps('trackData')}
         >
           <img className="consoleMonitorBackground" src={monitorBackgroundImage} alt="" draggable={false} />
-          <div className={activeTrack ? 'consoleMonitorContent' : 'consoleMonitorContent isEmpty'}>
-            <small className={!activeTrack ? 'isEmpty' : undefined}>
-              {playing
-                ? 'LEAK STATUS // ACTIVE'
-                : activeTrack
-                  ? 'LEAK STATUS // ARMED'
-                  : 'LEAK STATUS // STANDBY'}
-            </small>
-            <h1>{activeTrack ? displayTrack.title : 'NO TRANSMISSION SELECTED'}</h1>
-            <h2>{displayTrack.artist}</h2>
-            {activeTrack ? <p>OLFACTORY OUTPUT EXCEEDS ACOUSTIC LEVEL</p> : null}
-          </div>
+          <TransmissionStatusDisplay
+            activeTrack={activeTrack}
+            displayTrack={displayTrack}
+            playing={playing}
+            currentTime={currentTime}
+            duration={duration}
+            visibleTracks={visibleTracks}
+            flavorText={activeTransmissionFlavor}
+          />
           <img className="consoleMonitorFrame" src={transmissionStatusPanelImage} alt="" draggable={false} />
         </section>
 
@@ -873,7 +1022,7 @@ export default function FullConsoleShell({
                 <button
                   className="consoleTrackSelect"
                   type="button"
-                  onClick={() => selectTrack(track, false)}
+                  onClick={() => selectTrack(track, true)}
                 >
                   <img src={track.cover || defaultCover} alt="" />
                   <span>
@@ -944,12 +1093,23 @@ export default function FullConsoleShell({
             key={panelIndex}
             assetSrc={cautionPanelImage}
             message={cautionMessages[messageIndex] || ''}
+            classification={['SYSTEM NOTICE', 'DIRECTORATE ADVISORY', 'OPERATIONAL WARNING', 'CONTAINMENT BULLETIN'][panelIndex]}
             changing={changingCautionPanel === panelIndex}
             layoutProps={layoutProps(`cautionPanel${panelIndex + 1}`)}
           />
         ))}
 
         <div className="consoleTransport" aria-label="Playback controls">
+          <button
+            className="transportShare"
+            type="button"
+            onClick={handleShareTrack}
+            aria-label="Share track"
+            {...layoutProps('share')}
+          >
+            <Share2 />
+          </button>
+
           <button
             className="transportPrevious"
             type="button"
@@ -991,15 +1151,6 @@ export default function FullConsoleShell({
             <Shuffle />
           </button>
 
-          <button
-            className="transportShare"
-            type="button"
-            onClick={handleShareTrack}
-            aria-label="Share track"
-            {...layoutProps('share')}
-          >
-            <Share2 />
-          </button>
         </div>
 
         {shareNoticeUrl ? (

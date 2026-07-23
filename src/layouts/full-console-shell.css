@@ -2,8 +2,6 @@
   width: 100%;
   height: 100dvh;
   min-height: 0;
-  display: grid;
-  place-items: center;
   overflow: hidden;
   background:
     radial-gradient(circle at center, rgba(68, 57, 35, 0.18), transparent 55%),
@@ -13,10 +11,13 @@
 
 .stankDesktopViewport {
   width: 100%;
-  height: 100%;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
+  height: 100dvh;
+  min-height: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 .stankDesktopScaledBounds {
@@ -900,6 +901,27 @@
   transform: translateY(1px);
 }
 
+.consoleTrackData em {
+  display: block;
+  max-width: 100%;
+  margin: clamp(5px, 0.32vw, 7px) 0 0;
+  overflow: hidden;
+  color: var(--operational-label-color);
+  font-size: clamp(7px, 0.42vw, 9px);
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.consoleTrackRow.isPlaying .consoleTrackPlay {
+  background: radial-gradient(ellipse at center, rgba(169, 217, 64, 0.35), rgba(169, 217, 64, 0.1) 42%, transparent 73%);
+  filter: drop-shadow(0 0 4px rgba(169, 217, 64, 0.78));
+}
+
 .consoleTrackList img {
   position: absolute;
   left: 3.55%;
@@ -1289,13 +1311,6 @@
   will-change: transform;
 }
 
-@media (max-aspect-ratio: 4 / 3) and (min-width: 901px) {
-  .fullConsolePage {
-    place-items: center;
-    overflow: hidden;
-  }
-}
-
 /* ==========================================================
    STANK RADIO ECO-001
    Hardware alignment polish
@@ -1582,7 +1597,7 @@
 }
 
 .consoleDirectoratePlate strong {
-  font-size: clamp(7px, 0.6vw, 15px);
+  font-size: clamp(9px, 0.78vw, 19px);
   line-height: 1;
   letter-spacing: 0.1em;
   white-space: nowrap;
@@ -2121,6 +2136,204 @@
 
 .consoleTrackData .consoleMonitorContent.isEmpty small {
   display: none;
+}
+
+/* Transmission Status v2: stable instrumentation grid within the existing panel. */
+.consoleTrackData .transmissionStatusDisplay {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) 27%;
+  width: 100%;
+  height: 100%;
+  padding: 14% 5% 5%;
+  color: var(--stank-text-primary);
+  font-family: var(--stank-font-technical);
+  text-align: center;
+}
+
+.transmissionStatusDisplay__body {
+  display: grid;
+  grid-template-columns: minmax(16%, 20%) minmax(0, 1fr) minmax(16%, 20%);
+  min-height: 0;
+  gap: clamp(4px, 0.35vw, 8px);
+}
+
+.transmissionStatusMeter {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  min-width: 0;
+  padding: 0 1px;
+  color: var(--operational-label-color);
+  font-size: clamp(6px, 0.39vw, 9px);
+  letter-spacing: 0.08em;
+  line-height: 1;
+}
+
+.transmissionStatusMeter > b {
+  display: block;
+  min-height: 2em;
+  font-size: inherit;
+  font-weight: 800;
+  line-height: 0.95;
+  overflow-wrap: anywhere;
+}
+
+.transmissionStatusMeter > span {
+  display: block;
+  margin-top: 3px;
+  color: var(--stank-text-secondary);
+  font-size: clamp(6px, 0.42vw, 10px);
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.transmissionStatusMeter__segments {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 0;
+  margin: 3px 0 0;
+  padding: 1px 0;
+}
+
+.transmissionStatusMeter__segments i,
+.transmissionStatusFooterItem i {
+  box-sizing: border-box;
+  border: 1px solid rgba(93, 118, 58, 0.54);
+  background: linear-gradient(145deg, #222b1b, #081006 62%, #020502);
+  box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.9);
+}
+
+.transmissionStatusMeter__segments i {
+  width: 70%;
+  height: 10%;
+  min-height: 3px;
+}
+
+.transmissionStatusMeter__segments i.isActive,
+.transmissionStatusFooterItem i.isActive {
+  border-color: rgba(184, 222, 99, 0.84);
+  background: linear-gradient(145deg, #d5ef83, #83b83f 45%, #315b16 100%);
+  box-shadow:
+    inset 0 1px 1px rgba(239, 255, 188, 0.68),
+    0 0 4px rgba(135, 194, 59, 0.28);
+}
+
+.transmissionStatusDisplay__center {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2%;
+}
+
+.transmissionStatusDisplay__center small {
+  margin: 0;
+  color: var(--operational-label-color);
+  font-size: clamp(7px, 0.47vw, 10px);
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.transmissionStatusDisplay__center h1 {
+  display: -webkit-box;
+  max-width: 100%;
+  margin: clamp(5px, 0.35vw, 8px) 0 0;
+  overflow: hidden;
+  color: var(--track-title-color);
+  font-size: clamp(12px, 1.28vw, 23px);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.transmissionStatusDisplay__center h2,
+.transmissionStatusDisplay__center p {
+  max-width: 100%;
+  margin: clamp(4px, 0.28vw, 6px) 0 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.transmissionStatusDisplay__center h2 {
+  color: var(--classification-color);
+  font-size: clamp(7px, 0.48vw, 10px);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: 0.06em;
+}
+
+.transmissionStatusDisplay__center p {
+  color: var(--diagnostic-text-color);
+  font-size: clamp(7px, 0.43vw, 9px);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: 0.04em;
+}
+
+.transmissionStatusDisplay__footer {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  align-items: end;
+  gap: 2px;
+  min-width: 0;
+  border-top: 1px solid rgba(181, 165, 110, 0.2);
+  padding-top: 4px;
+}
+
+.transmissionStatusFooterItem {
+  display: grid;
+  grid-template-rows: auto minmax(1.1em, auto) auto;
+  justify-items: center;
+  min-width: 0;
+  gap: 2px;
+}
+
+.transmissionStatusFooterItem b {
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--operational-label-color);
+  font-size: clamp(5px, 0.32vw, 7px);
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.transmissionStatusFooterItem span {
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--stank-text-secondary);
+  font-size: clamp(5px, 0.34vw, 8px);
+  font-weight: 600;
+  line-height: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.transmissionStatusFooterItem i {
+  width: clamp(5px, 0.38vw, 8px);
+  height: clamp(5px, 0.38vw, 8px);
+  border-radius: 50%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .transmissionStatusMeter__segments i,
+  .transmissionStatusFooterItem i {
+    transition: none;
+  }
 }
 
 .consoleLyrics .consoleMonitorContent {

@@ -127,8 +127,10 @@ function normalizeTrack(song, index) {
 
 function useHardwarePlatform() {
   const getPlatform = () => {
-    if (window.innerWidth <= 900) return 'pocket-filth';
-    if (window.innerWidth < 1400) return 'desktop-guard';
+    // The desktop console is a fixed canvas. Below its practical operating
+    // width, use the purpose-built Pocket Filth interface instead of showing
+    // the old blank desktop guard while a resize is in progress.
+    if (window.innerWidth < 1100) return 'pocket-filth';
     return 'filth-up-console';
   };
 
@@ -536,6 +538,8 @@ function App() {
         query={query}
         playing={playing}
         hasActiveAudio={hasActiveAudio}
+        currentTime={currentTime}
+        duration={duration}
         currentLyrics={currentLyrics}
         activeLyricIndex={activeLyricIndex}
         libraryPage={libraryPage}
