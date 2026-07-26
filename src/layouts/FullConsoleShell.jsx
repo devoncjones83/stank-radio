@@ -14,7 +14,7 @@ import CautionPanel from '../components/CautionPanel';
 import { cautionMessages } from '../data/cautionMessages';
 import './full-console-shell.css';
 
-const LAYOUT_STORAGE_KEY = 'stank-radio-console-layout-v22';
+const LAYOUT_STORAGE_KEY = 'stank-radio-console-layout-v23';
 const DESKTOP_CANVAS_WIDTH = 1672;
 const DESKTOP_CANVAS_HEIGHT = 941;
 
@@ -42,6 +42,15 @@ const DEFAULT_CONSOLE_LAYOUT = {
   scopeGrid: { label: 'Scope: signal grid', x: 42.08, y: 56.96, w: 26.97, h: 14.82 },
   scope: { label: 'Scope', x: 39.75, y: 57.84, w: 31.55, h: 15.48 },
   trackData: { label: 'Track data', x: 42, y: 17.4, w: 26.95, h: 19.35 },
+  transmissionSignalMeter: { label: 'Transmission status: signal strength meter', x: 43.35, y: 20.05, w: 3.75, h: 10.2 },
+  transmissionReadout: { label: 'Transmission status: primary readout', x: 46.55, y: 20.5, w: 17.3, h: 10.85 },
+  transmissionContainmentMeter: { label: 'Transmission status: containment meter', x: 63.95, y: 20.05, w: 3.75, h: 10.2 },
+  transmissionArchive: { label: 'Transmission status: archive field', x: 43.25, y: 31.45, w: 4.05, h: 4.2 },
+  transmissionSignalLock: { label: 'Transmission status: signal lock field', x: 47.4, y: 31.45, w: 4.05, h: 4.2 },
+  transmissionContainment: { label: 'Transmission status: containment field', x: 51.55, y: 31.45, w: 4.05, h: 4.2 },
+  transmissionRuntime: { label: 'Transmission status: runtime field', x: 55.7, y: 31.45, w: 4.05, h: 4.2 },
+  transmissionIntegrity: { label: 'Transmission status: integrity field', x: 59.85, y: 31.45, w: 4.05, h: 4.2 },
+  transmissionNext: { label: 'Transmission status: next transmission field', x: 64, y: 31.45, w: 4.05, h: 4.2 },
   lyrics: { label: 'Lyrics', x: 42.05, y: 36.8, w: 26.85, h: 21.9 },
   library: { label: 'Track library', x: 68.4, y: 20.6, w: 31.6, h: 75.35 },
   libraryTitle: { label: 'Library: title', x: 69.7, y: 18.15, w: 29.45, h: 5.15 },
@@ -184,9 +193,9 @@ function formatRuntime(value) {
   return `${Math.floor(minutes / 60)}:${String(minutes % 60).padStart(2, '0')}:${seconds}`;
 }
 
-function StatusMeter({ label, value, suffix, activeSegments, ariaLabel }) {
+function StatusMeter({ label, value, suffix, activeSegments, ariaLabel, className = '', ...props }) {
   return (
-    <section className="transmissionStatusMeter" aria-label={ariaLabel}>
+    <section className={`transmissionStatusMeter ${className}`} aria-label={ariaLabel} {...props}>
       <b>{label}</b>
       <div className="transmissionStatusMeter__segments" aria-hidden="true">
         {Array.from({ length: 6 }, (_, index) => (
@@ -206,6 +215,7 @@ function TransmissionStatusDisplay({
   duration,
   visibleTracks,
   flavorText,
+  layoutProps,
 }) {
   const containmentLevel = activeTrack
     ? clamp(Number(activeTrack.containmentLevel) || 38 + (stableTrackNumber(activeTrack, 17) % 55), 0, 100)
@@ -239,18 +249,24 @@ function TransmissionStatusDisplay({
       ? 'LEAK STATUS // ARMED'
       : 'TRANSMISSION SUSPENDED';
 
+  const footerIds = [
+    'transmissionArchive', 'transmissionSignalLock', 'transmissionContainment',
+    'transmissionRuntime', 'transmissionIntegrity', 'transmissionNext',
+  ];
+
   return (
     <div className="transmissionStatusDisplay">
-      <div className="transmissionStatusDisplay__body">
         <StatusMeter
+          className="consoleOverlay"
           label="SIGNAL STRENGTH"
           value={signalDb === null ? '--.-' : signalDb.toFixed(1)}
           suffix=" dB"
           activeSegments={Math.ceil(signalPercent / 100 * 6)}
           ariaLabel={`Signal strength ${signalDb === null ? 'unavailable' : `${signalDb.toFixed(1)} decibels`}`}
+          {...layoutProps('transmissionSignalMeter')}
         />
 
-        <div className="transmissionStatusDisplay__center" aria-live="polite">
+        <div className="consoleOverlay transmissionStatusDisplay__center" aria-live="polite" {...layoutProps('transmissionReadout')}>
           <small>{topStatus}</small>
           <h1>{activeTrack ? displayTrack.title : 'NO TRANSMISSION SELECTED'}</h1>
           <h2>{activeTrack ? displayTrack.artist : 'CHOOSE A TRACK FROM THE LIBRARY'}</h2>
@@ -258,23 +274,22 @@ function TransmissionStatusDisplay({
         </div>
 
         <StatusMeter
+          className="consoleOverlay"
           label="CONTAINMENT LEVEL"
           value={containmentLevel === null ? '--' : containmentLevel}
           suffix="%"
           activeSegments={containmentLevel === null ? 0 : Math.ceil(containmentLevel / 100 * 6)}
           ariaLabel={`Containment level ${containmentLevel === null ? 'unavailable' : `${containmentLevel} percent`}`}
+          {...layoutProps('transmissionContainmentMeter')}
         />
-      </div>
 
-      <div className="transmissionStatusDisplay__footer">
-        {footer.map(([heading, value, active]) => (
-          <div className="transmissionStatusFooterItem" key={heading}>
+      {footer.map(([heading, value, active], index) => (
+          <div className="consoleOverlay transmissionStatusFooterItem" key={heading} {...layoutProps(footerIds[index])}>
             <b>{heading}</b>
             <span title={value}>{value}</span>
             <i className={active ? 'isActive' : ''} aria-label={active ? `${heading} active` : `${heading} inactive`} />
           </div>
         ))}
-      </div>
     </div>
   );
 }
@@ -905,17 +920,18 @@ export default function FullConsoleShell({
           {...layoutProps('trackData')}
         >
           <img className="consoleMonitorBackground" src={monitorBackgroundImage} alt="" draggable={false} />
-          <TransmissionStatusDisplay
-            activeTrack={activeTrack}
-            displayTrack={displayTrack}
-            playing={playing}
-            currentTime={currentTime}
-            duration={duration}
-            visibleTracks={visibleTracks}
-            flavorText={activeTransmissionFlavor}
-          />
           <img className="consoleMonitorFrame" src={transmissionStatusPanelImage} alt="" draggable={false} />
         </section>
+        <TransmissionStatusDisplay
+          activeTrack={activeTrack}
+          displayTrack={displayTrack}
+          playing={playing}
+          currentTime={currentTime}
+          duration={duration}
+          visibleTracks={visibleTracks}
+          flavorText={activeTransmissionFlavor}
+          layoutProps={layoutProps}
+        />
 
         <section className="consoleOverlay consoleLyrics" aria-label="Lyrics" {...layoutProps('lyrics')}>
           <img className="consoleMonitorBackground" src={monitorBackgroundImage} alt="" draggable={false} />

@@ -10,7 +10,7 @@ const LEVEL_METER_WIDTH = 113.81;
 const LEVEL_METER_HEIGHT = 86.91;
 const MOBILE_DESIGN_WIDTH = 497;
 const MOBILE_DESIGN_HEIGHT = 896;
-const MOBILE_LAYOUT_STORAGE_KEY = 'stank-radio-pocket-layout-v3-pixels';
+const MOBILE_LAYOUT_STORAGE_KEY = 'stank-radio-pocket-layout-v4-pixels';
 const DEFAULT_MOBILE_LAYOUT = {
   shell: { label: 'Mobile shell', x: 0, y: 0, w: 497, h: 896 },
   liveStatus: { label: 'Live containment status', x: 312.36, y: 50.05, w: 181.9, h: 78.18 },
@@ -19,10 +19,10 @@ const DEFAULT_MOBILE_LAYOUT = {
   primaryDisplay: { label: 'Cover / information display', x: 20.13, y: 247.07, w: 463.7, h: 298.37 },
   nowPlaying: { label: 'Track information', x: 110.83, y: 547.01, w: 280.31, h: 72.13 },
   trackLevelMeter: { label: 'Track level meter', x: 379.21, y: 545.22, w: 113.81, h: 86.91 },
-  trackCurrentTime: { label: 'Track time: elapsed', x: 15.41, y: 622.72, w: 58.45, h: 35.84 },
+  trackCurrentTime: { label: 'Track time: elapsed', x: 15.41, y: 619.5, w: 77, h: 58.5 },
   trackFill: { label: 'Track progress: green line', x: 91.94, y: 637.59, w: 326.28, h: 6.45 },
   trackMarker: { label: 'Track progress: position button', x: 94.93, y: 634.37, w: 299.94, h: 15.41 },
-  trackDuration: { label: 'Track time: duration', x: 424.14, y: 622.72, w: 55.47, h: 35.84 },
+  trackDuration: { label: 'Track time: duration', x: 411, y: 613, w: 77, h: 58.5 },
   hazardGlow: { label: 'Track hazard glow', x: 18.89, y: 546.11, w: 84.49, h: 72.58 },
   environmentGlobe: { label: 'Environment globe', x: 26.34, y: 795.65, w: 47.71, h: 45.7 },
   directorateSeal: { label: 'Directorate seal', x: 312.12, y: 791.5, w: 66.6, h: 57.51 },
@@ -31,7 +31,7 @@ const DEFAULT_MOBILE_LAYOUT = {
   transport: { label: 'Player controls', x: 22.36, y: 666.18, w: 455.75, h: 76.61 },
   tabs: { label: 'Information tabs', x: 17.39, y: 745.92, w: 462.21, h: 36.29 },
   environmentReadout: { label: 'Environment readout', x: 93.44, y: 788.93, w: 305.16, h: 60.93 },
-  warning: { label: 'Warning message', x: 91.94, y: 853.44, w: 216.19, h: 34.05 },
+  warning: { label: 'Warning message', x: 93.75, y: 853.75, w: 222.25, h: 34.05 },
 };
 
 function createDefaultMobileLayout() {
@@ -213,7 +213,9 @@ export default function PocketFilthScanner({
 
   function mobileTimeLayoutProps(id) {
     const item = mobileLayout[id] || DEFAULT_MOBILE_LAYOUT[id];
-    const fontSize = Math.max(12, Math.min(item.h * 0.48, item.w * 0.46));
+    // Keep the timestamps subordinate to the progress rail even when their
+    // editable bounding boxes are enlarged in the layout editor.
+    const fontSize = Math.max(9, Math.min(13, item.h * 0.3, item.w * 0.3));
     return mobileLayoutProps(id, { '--pocket-time-font-size': `${fontSize}px` });
   }
 
@@ -390,7 +392,7 @@ export default function PocketFilthScanner({
                   <p className={lyricStart + index === activeLyricIndex ? 'active' : ''} key={`${line.time}-${index}`}>
                     {line.text}
                   </p>
-                )) : <p className="active">{lyricText}</p>}
+                )) : <p className="active pocketLyricsFallback">{lyricText}</p>}
               </div>
             </div>
           ) : null}
@@ -557,6 +559,7 @@ export default function PocketFilthScanner({
 
         </section>
       </div>
+
 
       {mobileLayoutEditing ? (
         <aside

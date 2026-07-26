@@ -97,6 +97,22 @@
 }
 .pocketLyricsCopy p { width: 390px; height: 36px; margin: 5px 0; overflow: hidden; color: #7e7654; font-size: 16px; line-height: 36px; white-space: nowrap; text-overflow: ellipsis; }
 .pocketLyricsCopy p.active { color: #d5be69; font-size: 23px; font-weight: 800; }
+.pocketLyricsCopy p.pocketLyricsFallback {
+  display: grid;
+  width: 100%;
+  height: 64px;
+  margin: 0;
+  padding: 0 14px;
+  box-sizing: border-box;
+  place-items: center;
+  overflow: hidden;
+  font-size: 20px;
+  line-height: 23px;
+  overflow-wrap: anywhere;
+  text-align: center;
+  text-overflow: clip;
+  white-space: normal;
+}
 
 .pocketNowPlaying {
   position: absolute;
@@ -139,6 +155,7 @@
   z-index: 20;
   display: grid;
   place-items: center;
+  transform: translateY(-7px);
   color: #788b43;
   font: 800 var(--pocket-time-font-size, 17px) / 1 "Barlow Condensed", "Arial Narrow", sans-serif;
   letter-spacing: 0.04em;
@@ -146,6 +163,7 @@
   text-shadow: 0 1px #000;
   white-space: nowrap;
 }
+.pocketTrackTime--duration { transform: none; }
 .pocketTrackFillAsset,
 .pocketTrackMarkerAsset { --track-progress-px: 0px; position: absolute; z-index: 20; }
 .pocketTrackFillAsset { pointer-events: none; }

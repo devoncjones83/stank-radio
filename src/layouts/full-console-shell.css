@@ -2138,15 +2138,36 @@
   display: none;
 }
 
-/* Transmission Status v2: stable instrumentation grid within the existing panel. */
+/* Transmission Status v2: every live instrument is a stage-level editor asset. */
+.transmissionStatusDisplay {
+  display: contents;
+}
+
+.consoleOverlay.transmissionStatusMeter,
+.consoleOverlay.transmissionStatusDisplay__center,
+.consoleOverlay.transmissionStatusFooterItem {
+  z-index: 35;
+}
+
+.consoleOverlay.transmissionStatusMeter {
+  padding: 0 1px;
+}
+
+.consoleOverlay.transmissionStatusDisplay__center {
+  padding: 0 2%;
+}
+
+.consoleOverlay.transmissionStatusFooterItem {
+  align-content: center;
+  padding: 1px;
+}
+
+.transmissionStatusDisplay__body {
+  display: contents;
+}
+
+/* Retained for legacy saved layouts that still place a complete status assembly. */
 .consoleTrackData .transmissionStatusDisplay {
-  position: relative;
-  z-index: 2;
-  display: grid;
-  grid-template-rows: minmax(0, 1fr) 27%;
-  width: 100%;
-  height: 100%;
-  padding: 14% 5% 5%;
   color: var(--stank-text-primary);
   font-family: var(--stank-font-technical);
   text-align: center;
@@ -2165,9 +2186,10 @@
   min-width: 0;
   padding: 0 1px;
   color: var(--operational-label-color);
-  font-size: clamp(6px, 0.39vw, 9px);
+  font-size: 10px;
   letter-spacing: 0.08em;
   line-height: 1;
+  text-align: center;
 }
 
 .transmissionStatusMeter > b {
@@ -2181,11 +2203,13 @@
 
 .transmissionStatusMeter > span {
   display: block;
+  justify-self: center;
   margin-top: 3px;
   color: var(--stank-text-secondary);
-  font-size: clamp(6px, 0.42vw, 10px);
+  font-size: 12px;
   letter-spacing: 0;
   white-space: nowrap;
+  text-align: center;
 }
 
 .transmissionStatusMeter__segments {
@@ -2229,6 +2253,7 @@
   align-items: center;
   justify-content: center;
   padding: 0 2%;
+  text-align: center;
 }
 
 .transmissionStatusDisplay__center small {
@@ -2254,6 +2279,7 @@
   text-transform: uppercase;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+  text-align: center;
 }
 
 .transmissionStatusDisplay__center h2,
@@ -2298,13 +2324,14 @@
   justify-items: center;
   min-width: 0;
   gap: 2px;
+  text-align: center;
 }
 
 .transmissionStatusFooterItem b {
   max-width: 100%;
   overflow: hidden;
   color: var(--operational-label-color);
-  font-size: clamp(5px, 0.32vw, 7px);
+  font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.05em;
   line-height: 1;
@@ -2316,7 +2343,7 @@
   max-width: 100%;
   overflow: hidden;
   color: var(--stank-text-secondary);
-  font-size: clamp(5px, 0.34vw, 8px);
+  font-size: 11px;
   font-weight: 600;
   line-height: 1;
   text-overflow: ellipsis;
