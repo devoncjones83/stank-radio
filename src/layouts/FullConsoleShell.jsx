@@ -194,13 +194,16 @@ function formatRuntime(value) {
 }
 
 function StatusMeter({ label, value, suffix, activeSegments, ariaLabel, className = '', ...props }) {
+  const segmentCount = 12;
   return (
     <section className={`transmissionStatusMeter ${className}`} aria-label={ariaLabel} {...props}>
       <b>{label}</b>
       <div className="transmissionStatusMeter__segments" aria-hidden="true">
-        {Array.from({ length: 6 }, (_, index) => (
-          <i key={index} className={index < activeSegments ? 'isActive' : ''} />
-        ))}
+        {Array.from({ length: segmentCount }, (_, index) => {
+          const isActive = index < activeSegments;
+          const band = index >= 10 ? 'isCritical' : index >= 8 ? 'isWarning' : '';
+          return <i key={index} className={[isActive && 'isActive', isActive && band].filter(Boolean).join(' ')} />;
+        })}
       </div>
       <span>{value}{suffix}</span>
     </section>
@@ -261,16 +264,16 @@ function TransmissionStatusDisplay({
           label="SIGNAL STRENGTH"
           value={signalDb === null ? '--.-' : signalDb.toFixed(1)}
           suffix=" dB"
-          activeSegments={Math.ceil(signalPercent / 100 * 6)}
+          activeSegments={Math.ceil(signalPercent / 100 * 12)}
           ariaLabel={`Signal strength ${signalDb === null ? 'unavailable' : `${signalDb.toFixed(1)} decibels`}`}
           {...layoutProps('transmissionSignalMeter')}
         />
 
-        <div className="consoleOverlay transmissionStatusDisplay__center" aria-live="polite" {...layoutProps('transmissionReadout')}>
+        <div className={`consoleOverlay transmissionStatusDisplay__center ${activeTrack ? 'hasTrack' : 'isIdle'}`} aria-live="polite" {...layoutProps('transmissionReadout')}>
           <small>{topStatus}</small>
           <h1>{activeTrack ? displayTrack.title : 'NO TRANSMISSION SELECTED'}</h1>
           <h2>{activeTrack ? displayTrack.artist : 'CHOOSE A TRACK FROM THE LIBRARY'}</h2>
-          <p>{activeTrack ? flavorText : 'AWAITING SELECTION'}</p>
+          {activeTrack ? <p>{flavorText}</p> : null}
         </div>
 
         <StatusMeter
@@ -278,7 +281,7 @@ function TransmissionStatusDisplay({
           label="CONTAINMENT LEVEL"
           value={containmentLevel === null ? '--' : containmentLevel}
           suffix="%"
-          activeSegments={containmentLevel === null ? 0 : Math.ceil(containmentLevel / 100 * 6)}
+          activeSegments={containmentLevel === null ? 0 : Math.ceil(containmentLevel / 100 * 12)}
           ariaLabel={`Containment level ${containmentLevel === null ? 'unavailable' : `${containmentLevel} percent`}`}
           {...layoutProps('transmissionContainmentMeter')}
         />
