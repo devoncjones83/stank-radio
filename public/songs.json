@@ -128,8 +128,8 @@
     "playlists": [
       "Silly Stank"
     ],
-    "file": "/music/songs/01-ashes.mp3",
-    "download": "/music/songs/01-ashes.mp3",
+    "file": "/music/songs/ashes.mp3",
+    "download": "/music/songs/ashes.mp3",
     "tag": "Silly Stank",
     "slug": "ashes",
     "cover": "/music/covers/01-ashes.jpg"
@@ -143,8 +143,8 @@
     "playlists": [
       "Stanky Dissin"
     ],
-    "file": "/music/songs/01-c-mon-man.mp3",
-    "download": "/music/songs/01-c-mon-man.mp3",
+    "file": "/music/songs/c-mon-man.mp3",
+    "download": "/music/songs/c-mon-man.mp3",
     "tag": "Stanky Dissin",
     "slug": "c-mon-man",
     "cover": "/music/covers/01-c-mon-man.jpg"
@@ -158,8 +158,8 @@
     "playlists": [
       "Conspirital Stank"
     ],
-    "file": "/music/songs/01-follow-the-chem-trails.mp3",
-    "download": "/music/songs/01-follow-the-chem-trails.mp3",
+    "file": "/music/songs/follow-the-chem-trails.mp3",
+    "download": "/music/songs/follow-the-chem-trails.mp3",
     "tag": "Stanky Dissin",
     "slug": "follow-the-chem-trails",
     "cover": "/music/covers/01-follow-the-chem-trails.jpg"
@@ -173,8 +173,8 @@
     "playlists": [
       "Holiday Stank"
     ],
-    "file": "/music/songs/01-new-years-cheer-country.mp3",
-    "download": "/music/songs/01-new-years-cheer-country.mp3",
+    "file": "/music/songs/new-years-cheer-country.mp3",
+    "download": "/music/songs/new-years-cheer-country.mp3",
     "tag": "Unclassified Stank",
     "slug": "new-years-cheer-country",
     "cover": "/music/covers/01-new-years-cheer-country.jpg"
@@ -188,8 +188,8 @@
     "playlists": [
       "Silly Stank"
     ],
-    "file": "/music/songs/02-apart.mp3",
-    "download": "/music/songs/02-apart.mp3",
+    "file": "/music/songs/apart.mp3",
+    "download": "/music/songs/apart.mp3",
     "tag": "Silly Stank",
     "slug": "apart",
     "cover": "/music/covers/02-apart.jpg"
@@ -203,8 +203,8 @@
     "playlists": [
       "Conspirital Stank"
     ],
-    "file": "/music/songs/02-flat-and-lonely.mp3",
-    "download": "/music/songs/02-flat-and-lonely.mp3",
+    "file": "/music/songs/flat-and-lonely.mp3",
+    "download": "/music/songs/flat-and-lonely.mp3",
     "tag": "Stanky Dissin",
     "slug": "flat-and-lonely",
     "cover": "/music/covers/02-flat-and-lonely.jpg"
@@ -218,8 +218,8 @@
     "playlists": [
       "Holiday Stank"
     ],
-    "file": "/music/songs/02-my-valentine-s-wish.mp3",
-    "download": "/music/songs/02-my-valentine-s-wish.mp3",
+    "file": "/music/songs/my-valentine-s-wish.mp3",
+    "download": "/music/songs/my-valentine-s-wish.mp3",
     "tag": "Unclassified Stank",
     "slug": "my-valentine-s-wish",
     "cover": "/music/covers/02-my-valentine-s-wish.jpg"
@@ -233,8 +233,8 @@
     "playlists": [
       "Stanky Dissin"
     ],
-    "file": "/music/songs/02-t-g-g-d-o-h-h.mp3",
-    "download": "/music/songs/02-t-g-g-d-o-h-h.mp3",
+    "file": "/music/songs/t-g-g-d-o-h-h.mp3",
+    "download": "/music/songs/t-g-g-d-o-h-h.mp3",
     "tag": "Unclassified Stank",
     "slug": "t-g-g-d-o-h-h",
     "cover": "/music/covers/02-t-g-g-d-o-h.jpg"
@@ -248,8 +248,8 @@
     "playlists": [
       "Stanky Dissin"
     ],
-    "file": "/music/songs/03-beast-mode.mp3",
-    "download": "/music/songs/03-beast-mode.mp3",
+    "file": "/music/songs/beast-mode.mp3",
+    "download": "/music/songs/beast-mode.mp3",
     "tag": "Unclassified Stank",
     "slug": "beast-mode",
     "cover": "/music/covers/03-beast-mode.jpg"
@@ -263,8 +263,8 @@
     "playlists": [
       "Conspirital Stank"
     ],
-    "file": "/music/songs/03-global-schmobal-climate-change.mp3",
-    "download": "/music/songs/03-global-schmobal-climate-change.mp3",
+    "file": "/music/songs/global-schmobal-climate-change.mp3",
+    "download": "/music/songs/global-schmobal-climate-change.mp3",
     "tag": "Stanky Dissin",
     "slug": "global-schmobal-climate-change",
     "cover": "/music/covers/03-global-schmobal-climate-change.jpg"
@@ -278,8 +278,8 @@
     "playlists": [
       "Silly Stank"
     ],
-    "file": "/music/songs/03-jellybean.mp3",
-    "download": "/music/songs/03-jellybean.mp3",
+    "file": "/music/songs/jellybean.mp3",
+    "download": "/music/songs/jellybean.mp3",
     "tag": "Silly Stank",
     "slug": "jellybean",
     "cover": "/music/covers/03-jellybean.jpg"
@@ -293,8 +293,8 @@
     "playlists": [
       "Holiday Stank"
     ],
-    "file": "/music/songs/03-menorah-war-punk.mp3",
-    "download": "/music/songs/03-menorah-war-punk.mp3",
+    "file": "/music/songs/menorah-war-punk.mp3",
+    "download": "/music/songs/menorah-war-punk.mp3",
     "tag": "Unclassified Stank",
     "slug": "menorah-war-punk",
     "cover": "/music/covers/03-menorah-war-punk.jpg"
@@ -308,8 +308,8 @@
     "playlists": [
       "Powerful Stank"
     ],
-    "file": "/music/songs/04-kings.mp3",
-    "download": "/music/songs/04-kings.mp3",
+    "file": "/music/songs/kings.mp3",
+    "download": "/music/songs/kings.mp3",
     "tag": "Unclassified Stank",
     "slug": "kings",
     "cover": "/music/covers/04-kings.jpg"
@@ -323,8 +323,8 @@
     "playlists": [
       "Holiday Stank"
     ],
-    "file": "/music/songs/04-menorah-war-metal.mp3",
-    "download": "/music/songs/04-menorah-war-metal.mp3",
+    "file": "/music/songs/menorah-war-metal.mp3",
+    "download": "/music/songs/menorah-war-metal.mp3",
     "tag": "Unclassified Stank",
     "slug": "menorah-war-metal",
     "cover": "/music/covers/04-menorah-war-metal.jpg"
@@ -338,8 +338,8 @@
     "playlists": [
       "Stanky Dissin"
     ],
-    "file": "/music/songs/04-say-what.mp3",
-    "download": "/music/songs/04-say-what.mp3",
+    "file": "/music/songs/say-what.mp3",
+    "download": "/music/songs/say-what.mp3",
     "tag": "Unclassified Stank",
     "slug": "say-what",
     "cover": "/music/covers/04-say-what.jpg"
@@ -353,8 +353,8 @@
     "playlists": [
       "Conspirital Stank"
     ],
-    "file": "/music/songs/04-the-lies-of-tyson.mp3",
-    "download": "/music/songs/04-the-lies-of-tyson.mp3",
+    "file": "/music/songs/the-lies-of-tyson.mp3",
+    "download": "/music/songs/the-lies-of-tyson.mp3",
     "tag": "Stanky Dissin",
     "slug": "the-lies-of-tyson",
     "cover": "/music/covers/04-the-lies-of-tyson.jpg"
@@ -368,8 +368,8 @@
     "playlists": [
       "Stanky Dissin"
     ],
-    "file": "/music/songs/05-gettim.mp3",
-    "download": "/music/songs/05-gettim.mp3",
+    "file": "/music/songs/gettim.mp3",
+    "download": "/music/songs/gettim.mp3",
     "tag": "Unclassified Stank",
     "slug": "gettim",
     "cover": "/music/covers/05-gettim.jpg"
@@ -383,8 +383,8 @@
     "playlists": [
       "Holiday Stank"
     ],
-    "file": "/music/songs/05-holiday-misfit.mp3",
-    "download": "/music/songs/05-holiday-misfit.mp3",
+    "file": "/music/songs/holiday-misfit.mp3",
+    "download": "/music/songs/holiday-misfit.mp3",
     "tag": "Unclassified Stank",
     "slug": "holiday-misfit",
     "cover": "/music/covers/05-holiday-misfit.jpg"
@@ -398,8 +398,8 @@
     "playlists": [
       "Conspirital Stank"
     ],
-    "file": "/music/songs/05-incoherent-noise-terrance-howard-is-a-lunatic.mp3",
-    "download": "/music/songs/05-incoherent-noise-terrance-howard-is-a-lunatic.mp3",
+    "file": "/music/songs/incoherent-noise-terrance-howard-is-a-lunatic.mp3",
+    "download": "/music/songs/incoherent-noise-terrance-howard-is-a-lunatic.mp3",
     "tag": "Stanky Dissin",
     "slug": "incoherent-noise-terrance-howard-is-a-lunatic",
     "cover": "/music/covers/05-incoherent-noise-terrance-howard-is-a-lunatic.jpg"
@@ -413,8 +413,8 @@
     "playlists": [
       "Silly Stank"
     ],
-    "file": "/music/songs/05-special-socks.mp3",
-    "download": "/music/songs/05-special-socks.mp3",
+    "file": "/music/songs/special-socks.mp3",
+    "download": "/music/songs/special-socks.mp3",
     "tag": "Silly Stank",
     "slug": "special-socks",
     "cover": "/music/covers/05-special-socks.jpg"
@@ -428,8 +428,8 @@
     "playlists": [
       "Conspirital Stank"
     ],
-    "file": "/music/songs/06-flat-and-lonely.mp3",
-    "download": "/music/songs/06-flat-and-lonely.mp3",
+    "file": "/music/songs/flat-and-lonely.mp3",
+    "download": "/music/songs/flat-and-lonely.mp3",
     "tag": "Stanky Dissin",
     "slug": "flat-and-lonely",
     "cover": "/music/covers/06-flat-and-lonely.jpg"
@@ -443,8 +443,8 @@
     "playlists": [
       "Stanky Dissin"
     ],
-    "file": "/music/songs/06-my-niece-anise.mp3",
-    "download": "/music/songs/06-my-niece-anise.mp3",
+    "file": "/music/songs/my-niece-anise.mp3",
+    "download": "/music/songs/my-niece-anise.mp3",
     "tag": "Unclassified Stank",
     "slug": "my-niece-anise",
     "cover": "/music/covers/06-my-niece-anise.jpg"
@@ -458,8 +458,8 @@
     "playlists": [
       "Conspirital Stank"
     ],
-    "file": "/music/songs/06-so-long-to-a-simple-life.mp3",
-    "download": "/music/songs/06-so-long-to-a-simple-life.mp3",
+    "file": "/music/songs/so-long-to-a-simple-life.mp3",
+    "download": "/music/songs/so-long-to-a-simple-life.mp3",
     "tag": "Stanky Dissin",
     "slug": "so-long-to-a-simple-life",
     "cover": "/music/covers/06-so-long-to-a-simple-life.jpg"
@@ -473,8 +473,8 @@
     "playlists": [
       "Holiday Stank"
     ],
-    "file": "/music/songs/06-under-krampus-spell.mp3",
-    "download": "/music/songs/06-under-krampus-spell.mp3",
+    "file": "/music/songs/under-krampus-spell.mp3",
+    "download": "/music/songs/under-krampus-spell.mp3",
     "tag": "Unclassified Stank",
     "slug": "under-krampus-spell",
     "cover": "/music/covers/06-under-krampus-spell.jpg"
@@ -488,8 +488,8 @@
     "playlists": [
       "Holiday Stank"
     ],
-    "file": "/music/songs/07-krampus-curse-metal.mp3",
-    "download": "/music/songs/07-krampus-curse-metal.mp3",
+    "file": "/music/songs/krampus-curse-metal.mp3",
+    "download": "/music/songs/krampus-curse-metal.mp3",
     "tag": "Unclassified Stank",
     "slug": "krampus-curse-metal",
     "cover": "/music/covers/07-krampus-curse-metal.jpg"
@@ -503,8 +503,8 @@
     "playlists": [
       "Stanky Dissin"
     ],
-    "file": "/music/songs/07-the-truth.mp3",
-    "download": "/music/songs/07-the-truth.mp3",
+    "file": "/music/songs/the-truth.mp3",
+    "download": "/music/songs/the-truth.mp3",
     "tag": "Stanky Dissin",
     "slug": "the-truth",
     "cover": "/music/covers/07-the-truth.jpg"
@@ -518,8 +518,8 @@
     "playlists": [
       "Silly Stank"
     ],
-    "file": "/music/songs/08-absentee-father.mp3",
-    "download": "/music/songs/08-absentee-father.mp3",
+    "file": "/music/songs/absentee-father.mp3",
+    "download": "/music/songs/absentee-father.mp3",
     "tag": "Silly Stank",
     "slug": "absentee-father",
     "cover": "/music/covers/08-absentee-father.jpg"
@@ -533,14 +533,14 @@
     "playlists": [
       "Holiday Stank"
     ],
-    "file": "/music/songs/08-heed-me-st-patrick-s-day.mp3",
-    "download": "/music/songs/08-heed-me-st-patrick-s-day.mp3",
+    "file": "/music/songs/heed-me-st-patrick-s-day.mp3",
+    "download": "/music/songs/heed-me-st-patrick-s-day.mp3",
     "tag": "Holiday Stank",
     "slug": "heed-me-st-patrick-s-day",
     "cover": "/music/covers/08-heed-me-st.jpg"
   },
   {
-    "title": "Mama Bear 🐻",
+    "title": "Mama Bear ðŸ»",
     "artist": "Certified Audio Contaminator",
     "description": "The beat escaped containment and brought snacks.",
     "genre": "Stanky Dissin",
@@ -548,8 +548,8 @@
     "playlists": [
       "Stanky Dissin"
     ],
-    "file": "/music/songs/08-mama-bear.mp3",
-    "download": "/music/songs/08-mama-bear.mp3",
+    "file": "/music/songs/mama-bear.mp3",
+    "download": "/music/songs/mama-bear.mp3",
     "tag": "Unclassified Stank",
     "slug": "mama-bear",
     "cover": "/music/covers/08-mama-bear.jpg"
@@ -563,8 +563,8 @@
     "playlists": [
       "Holiday Stank"
     ],
-    "file": "/music/songs/09-new-years-cheer-power-ballad.mp3",
-    "download": "/music/songs/09-new-years-cheer-power-ballad.mp3",
+    "file": "/music/songs/new-years-cheer-power-ballad.mp3",
+    "download": "/music/songs/new-years-cheer-power-ballad.mp3",
     "tag": "Unclassified Stank",
     "slug": "new-years-cheer-power-ballad",
     "cover": "/music/covers/09-new-years-cheer-power-ballad.jpg"
@@ -578,8 +578,8 @@
     "playlists": [
       "Powerful Stank"
     ],
-    "file": "/music/songs/09-the-man.mp3",
-    "download": "/music/songs/09-the-man.mp3",
+    "file": "/music/songs/the-man.mp3",
+    "download": "/music/songs/the-man.mp3",
     "tag": "Unclassified Stank",
     "slug": "the-man",
     "cover": "/music/covers/09-the-man.jpg"
@@ -593,8 +593,8 @@
     "playlists": [
       "Holiday Stank"
     ],
-    "file": "/music/songs/10-honor-of-our-ancestors-stand-up.mp3",
-    "download": "/music/songs/10-honor-of-our-ancestors-stand-up.mp3",
+    "file": "/music/songs/honor-of-our-ancestors-stand-up.mp3",
+    "download": "/music/songs/honor-of-our-ancestors-stand-up.mp3",
     "tag": "Unclassified Stank",
     "slug": "honor-of-our-ancestors-stand-up",
     "cover": "/music/covers/10-honor-of-our-ancestors-stand-up.jpg"
@@ -609,8 +609,8 @@
       "Powerful Stank",
       "Silly Stank"
     ],
-    "file": "/music/songs/10-ratpocalypse.mp3",
-    "download": "/music/songs/10-ratpocalypse.mp3",
+    "file": "/music/songs/ratpocalypse.mp3",
+    "download": "/music/songs/ratpocalypse.mp3",
     "tag": "Silly Stank",
     "slug": "ratpocalypse",
     "cover": "/music/covers/10-ratpocalypse.jpg"
@@ -624,8 +624,8 @@
     "playlists": [
       "Holiday Stank"
     ],
-    "file": "/music/songs/11-7-days-kwanzaa.mp3",
-    "download": "/music/songs/11-7-days-kwanzaa.mp3",
+    "file": "/music/songs/7-days-kwanzaa.mp3",
+    "download": "/music/songs/7-days-kwanzaa.mp3",
     "tag": "Unclassified Stank",
     "slug": "7-days-kwanzaa",
     "cover": "/music/covers/11-7-days-kwanzaa.jpg"
@@ -639,8 +639,8 @@
     "playlists": [
       "Holiday Stank"
     ],
-    "file": "/music/songs/12-iftar-countdown-blues-ramadan.mp3",
-    "download": "/music/songs/12-iftar-countdown-blues-ramadan.mp3",
+    "file": "/music/songs/iftar-countdown-blues-ramadan.mp3",
+    "download": "/music/songs/iftar-countdown-blues-ramadan.mp3",
     "tag": "Unclassified Stank",
     "slug": "iftar-countdown-blues-ramadan",
     "cover": "/music/covers/12-iftar-countdown-blues-ramadan.jpg"
@@ -654,8 +654,8 @@
     "playlists": [
       "Silly Stank"
     ],
-    "file": "/music/songs/12-lumpy-beast.mp3",
-    "download": "/music/songs/12-lumpy-beast.mp3",
+    "file": "/music/songs/lumpy-beast.mp3",
+    "download": "/music/songs/lumpy-beast.mp3",
     "tag": "Silly Stank",
     "slug": "lumpy-beast",
     "cover": "/music/covers/12-lumpy-beast.jpg"
@@ -669,8 +669,8 @@
     "playlists": [
       "Powerful Stank"
     ],
-    "file": "/music/songs/14-bte.mp3",
-    "download": "/music/songs/14-bte.mp3",
+    "file": "/music/songs/bte.mp3",
+    "download": "/music/songs/bte.mp3",
     "tag": "Unclassified Stank",
     "slug": "bte",
     "cover": "/music/covers/14-bte.jpg"

@@ -27,6 +27,17 @@ const BASE = import.meta.env.BASE_URL || '/';
 const defaultCover = `${BASE}images/stank-radio-icon.png`;
 const TRACKS_PER_PAGE = 10;
 
+function normalizeProductionAudioPath(path) {
+  // The published music library omits the two-digit catalog prefix found in
+  // older manifests (for example, `04-kings.mp3` is deployed as `kings.mp3`).
+  // Normalize the source at runtime so both legacy and corrected manifests
+  // resolve to the same production audio files.
+  return String(path || '').replace(
+    /^(\/music\/songs\/)\d{2}-(.+\.mp3(?:[?#].*)?)$/i,
+    '$1$2',
+  );
+}
+
 function playlistSlug(value) {
   return String(value || '')
     .toLowerCase()
@@ -92,6 +103,67 @@ function assetPath(path) {
   return `${BASE}music/${path}`;
 }
 
+function lyricFileStem(track) {
+  const audioFile = String(track?.audio || '').split(/[?#]/)[0].split('/').pop() || '';
+  const fileStem = audioFile.replace(/\.[^.]+$/, '').trim();
+  if (fileStem) return fileStem;
+
+  return String(track?.title || '')
+    .toLowerCase()
+    .replace(/\([^)]*\)/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+function parseLyricsFile(contents) {
+  const parsed = [];
+  const untimed = [];
+  const timestampPattern = /\[(\d{1,2}):(\d{2})(?:[.:](\d{1,3}))?\]/g;
+
+  String(contents || '')
+    .replace(/\r\n?/g, '\n')
+    .split('\n')
+    .forEach((rawLine) => {
+      const timestamps = [...rawLine.matchAll(timestampPattern)];
+      const text = rawLine.replace(timestampPattern, '').trim();
+      if (!text) return;
+
+      if (!timestamps.length) {
+        untimed.push(text);
+        return;
+      }
+
+      timestamps.forEach((match) => {
+        const minutes = Number(match[1]) || 0;
+        const seconds = Number(match[2]) || 0;
+        const fraction = match[3] ? Number(`0.${match[3]}`) : 0;
+        parsed.push({ time: minutes * 60 + seconds + fraction, text });
+      });
+    });
+
+  if (parsed.length) return parsed.sort((a, b) => a.time - b.time);
+  return untimed.map((text, index) => ({ time: index * 4, text }));
+}
+
+function lyricFileCandidates(track) {
+  const audioStem = lyricFileStem(track);
+  const titleStem = String(track?.title || '')
+    .toLowerCase()
+    .replace(/\([^)]*\)/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+  const stems = [...new Set([audioStem, titleStem].filter(Boolean))];
+
+  return stems.flatMap((stem) => [
+    // Prefer an app-local lyric file for standalone/testing deployments,
+    // then fall back to the main site's shared music library.
+    `${BASE}music/lyrics/${encodeURIComponent(stem)}.lrc`,
+    `${BASE}music/lyrics/${encodeURIComponent(stem)}.txt`,
+    `/music/lyrics/${encodeURIComponent(stem)}.lrc`,
+    `/music/lyrics/${encodeURIComponent(stem)}.txt`,
+  ]);
+}
+
 function normalizeTrack(song, index) {
   const playlists = cleanArray(song.playlists || song.playlist || song.collection);
   const tag = song.tag || song.classification || song.genre || 'UNCLASSIFIED STANK';
@@ -100,8 +172,10 @@ function normalizeTrack(song, index) {
     ? 'The Containment Unit'
     : suppliedArtist;
 
-  const audioSource = song.audio || song.src || song.file || song.path || song.url || '';
+  const requestedAudioSource = song.audio || song.src || song.file || song.path || song.url || '';
+  const audioSource = normalizeProductionAudioPath(requestedAudioSource);
   const isLocalBeastModeTest = import.meta.env.DEV && /(?:^|\/)03-beast-mode\.mp3(?:$|[?#])/i.test(audioSource);
+  const isLocalGreenMileTest = import.meta.env.DEV && /(?:^|\/)the-green-mile-remastered\.mp3(?:$|[?#])/i.test(audioSource);
 
   return {
     id: `${song.title || song.name || song.filename || 'track'}-${index}`,
@@ -120,7 +194,13 @@ function normalizeTrack(song, index) {
       : [],
     created: song.created || song.date || song.uploaded || '',
     // Local-only test route. Production continues to use the main site's /music/ library.
-    audio: isLocalBeastModeTest ? `${BASE}music/songs/03-beast-mode.mp3` : assetPath(audioSource),
+    // Local test files live under this app's Vite public directory. Production
+    // continues to resolve the catalog through the main site's /music/ path.
+    audio: isLocalBeastModeTest
+      ? `${BASE}music/songs/03-beast-mode.mp3`
+      : isLocalGreenMileTest
+        ? `${BASE}music/songs/the-green-mile-remastered.mp3`
+        : assetPath(audioSource),
     cover: assetPath(song.cover || song.coverArt || song.image || song.artwork || defaultCover),
   };
 }
@@ -201,6 +281,7 @@ function App() {
   const [playing, setPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [externalLyrics, setExternalLyrics] = useState([]);
   const [playlistsOpen, setPlaylistsOpen] = useState(false);
   const [playerModalOpen, setPlayerModalOpen] = useState(false);
   const [loadStatus, setLoadStatus] = useState('Tuning the contamination manifest');
@@ -274,7 +355,7 @@ function App() {
     : 0;
   const fumesMeterAngle = activeTrack ? Math.round((stankIndex / 99) * 130 - 65) : -70;
   const hasActiveAudio = Boolean((playbackTrack || activeTrack)?.audio);
-  const currentLyrics = activeTrack?.lyricsTimeline || [];
+  const currentLyrics = activeTrack?.lyricsTimeline?.length ? activeTrack.lyricsTimeline : externalLyrics;
   const activeLyricIndex = useMemo(() => {
     if (!currentLyrics.length) return -1;
     return currentLyrics.reduce(
@@ -286,6 +367,39 @@ function App() {
   const roomTone = activeTrack
     ? roomTonePresets[(selectedTrackIndex + 1) % roomTonePresets.length]
     : roomTonePresets[0];
+
+  useEffect(() => {
+    let cancelled = false;
+
+    if (!activeTrack || activeTrack.lyricsTimeline?.length) {
+      setExternalLyrics([]);
+      return undefined;
+    }
+
+    const loadExternalLyrics = async () => {
+      for (const lyricUrl of lyricFileCandidates(activeTrack)) {
+        try {
+          const response = await fetch(lyricUrl, { cache: 'no-store' });
+          if (!response.ok) continue;
+
+          const timeline = parseLyricsFile(await response.text());
+          if (timeline.length) {
+            if (!cancelled) setExternalLyrics(timeline);
+            return;
+          }
+        } catch {
+          // A song may not have a matching lyric file. Try the next supported extension.
+        }
+      }
+
+      if (!cancelled) setExternalLyrics([]);
+    };
+
+    loadExternalLyrics();
+    return () => {
+      cancelled = true;
+    };
+  }, [activeTrack?.id]);
 
   // Build the playlist list from whatever playlists actually exist in the
   // catalog (managed by the admin tool), so new playlists appear automatically.
