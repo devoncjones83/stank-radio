@@ -60,6 +60,7 @@ export default function PocketFilthScanner({
   activeTrack,
   playbackTrack,
   displayTrack,
+  tracks,
   pagedTracks,
   visibleTracks,
   playing,
@@ -79,11 +80,14 @@ export default function PocketFilthScanner({
   stepTrack,
   randomTrack,
   shareTrack,
+  sharePlaylist,
 }) {
   const [libraryOpen, setLibraryOpen] = useState(false);
   const [playlistMenuOpen, setPlaylistMenuOpen] = useState(false);
+  const [selectedPlaylist, setSelectedPlaylist] = useState(null);
   const [activePane, setActivePane] = useState('transmission');
   const [shareNotice, setShareNotice] = useState('');
+  const [shareNoticeType, setShareNoticeType] = useState('Song');
   const [trackMeterLevels, setTrackMeterLevels] = useState([1, 1, 1]);
   const [warningIndex, setWarningIndex] = useState(0);
   const [mobileLayoutEditing, setMobileLayoutEditing] = useState(false);
@@ -176,6 +180,19 @@ export default function PocketFilthScanner({
   function handleShare() {
     const url = shareTrack?.();
     if (!url) return;
+    setShareNoticeType('Song');
+    setShareNotice(url);
+    window.setTimeout(() => setShareNotice(''), 2600);
+  }
+
+  const selectedPlaylistTracks = selectedPlaylist
+    ? tracks.filter((track) => track.playlists.includes(selectedPlaylist.id))
+    : [];
+
+  function handlePlaylistShare() {
+    const url = sharePlaylist?.(selectedPlaylist);
+    if (!url) return;
+    setShareNoticeType('Playlist');
     setShareNotice(url);
     window.setTimeout(() => setShareNotice(''), 2600);
   }
@@ -187,6 +204,7 @@ export default function PocketFilthScanner({
 
   function closeLibrary() {
     setQuery('');
+    setSelectedPlaylist(null);
     setLibraryOpen(false);
   }
 
@@ -645,8 +663,8 @@ export default function PocketFilthScanner({
                     key={playlist.id}
                     type="button"
                     onClick={() => {
-                      setActiveTag(playlist.id);
                       setLibraryPage(1);
+                      setSelectedPlaylist(playlist);
                       setPlaylistMenuOpen(false);
                     }}
                   >
@@ -664,6 +682,37 @@ export default function PocketFilthScanner({
                     </span>
                   </button>
                 ))}
+              </div>
+            ) : selectedPlaylist ? (
+              <div className="pocketPlaylistDetail">
+                <div className="pocketPlaylistDetailToolbar">
+                  <button type="button" onClick={() => setSelectedPlaylist(null)}>BACK</button>
+                  <strong>{selectedPlaylist.title}</strong>
+                  <button type="button" onClick={handlePlaylistShare}>SHARE PLAYLIST</button>
+                </div>
+                <div className="pocketPlaylistTracks">
+                  {selectedPlaylistTracks.map((track) => (
+                    <div
+                      className={`pocketTrackRow${track.id === activeTrack?.id ? ' active' : ''}`}
+                      key={track.id}
+                      role="button"
+                      tabIndex="0"
+                      aria-label={`Play ${track.title}`}
+                      onClick={() => playLibraryTrack(track)}
+                      onKeyDown={(event) => {
+                        if (event.key === 'Enter' || event.key === ' ') {
+                          event.preventDefault();
+                          playLibraryTrack(track);
+                        }
+                      }}
+                    >
+                      <img className="pocketTrackCover" src={track.cover || defaultCover} alt="" onError={(event) => { event.currentTarget.src = defaultCover; }} />
+                      <div className="pocketTrackSelect"><b>{track.title}</b></div>
+                      <div className="pocketTrackPlay" aria-hidden="true" />
+                      <img className="pocketTrackShell" src={`${BASE}images/mobile/pocket-filth-track-row.png`} alt="" />
+                    </div>
+                  ))}
+                </div>
               </div>
             ) : pagedTracks.map((track) => (
               <div
@@ -690,13 +739,12 @@ export default function PocketFilthScanner({
                 />
                 <div className="pocketTrackSelect">
                   <b>{track.title}</b>
-                  <span>{track.artist}</span>
                 </div>
                 <div className="pocketTrackPlay" aria-hidden="true" />
                 <img className="pocketTrackShell" src={`${BASE}images/mobile/pocket-filth-track-row.png`} alt="" />
               </div>
             ))}
-            {!playlistMenuOpen && !visibleTracks.length ? <p className="pocketNoTracks">NO CONTAINMENT RECORDS FOUND</p> : null}
+            {!playlistMenuOpen && !selectedPlaylist && !visibleTracks.length ? <p className="pocketNoTracks">NO CONTAINMENT RECORDS FOUND</p> : null}
           </div>
 
           <input
@@ -716,6 +764,7 @@ export default function PocketFilthScanner({
             onClick={() => {
               setQuery('');
               setLibraryPage(1);
+              setSelectedPlaylist(null);
               setPlaylistMenuOpen((open) => !open);
             }}
             aria-label="Playlists"
@@ -727,6 +776,7 @@ export default function PocketFilthScanner({
               setQuery('');
               setActiveTag('ALL');
               setLibraryPage(1);
+              setSelectedPlaylist(null);
               setPlaylistMenuOpen(false);
             }}
             aria-label="All tracks"
@@ -734,25 +784,25 @@ export default function PocketFilthScanner({
           <button
             className="pocketLibraryPrevious"
             type="button"
-            disabled={libraryPage <= 1 || playlistMenuOpen}
+            disabled={libraryPage <= 1 || playlistMenuOpen || selectedPlaylist}
             onClick={() => setLibraryPage((page) => Math.max(1, page - 1))}
             aria-label="Previous library page"
           />
           <button
             className="pocketLibraryNext"
             type="button"
-            disabled={libraryPage >= totalLibraryPages || playlistMenuOpen}
+            disabled={libraryPage >= totalLibraryPages || playlistMenuOpen || selectedPlaylist}
             onClick={() => setLibraryPage((page) => Math.min(totalLibraryPages, page + 1))}
             aria-label="Next library page"
           />
-          <span className="pocketLibraryPage">{libraryPage} / {totalLibraryPages}</span>
+          <span className="pocketLibraryPage">{selectedPlaylist ? 'PLAYLIST' : `${libraryPage} / ${totalLibraryPages}`}</span>
           <img className="pocketLibraryShell" src={`${BASE}images/mobile/pocket-filth-library.png`} alt="" />
         </div>
       </section>
 
       {shareNotice ? (
         <div className="pocketShareNotice" role="status">
-          <strong>Song Link Copied!</strong>
+          <strong>{shareNoticeType} Link Copied!</strong>
           <span>{shareNotice}</span>
         </div>
       ) : null}

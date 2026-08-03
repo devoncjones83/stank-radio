@@ -1215,6 +1215,47 @@
   outline: none;
 }
 
+.consolePlaylistDetailToolbar {
+  position: absolute;
+  z-index: 5;
+  left: 12%;
+  right: 12%;
+  top: 14.5%;
+  display: grid;
+  grid-template-columns: 1fr minmax(0, 1.4fr) 1fr;
+  align-items: center;
+  gap: 2%;
+  color: #c8b77e;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.consolePlaylistDetailToolbar strong {
+  overflow: hidden;
+  font-size: 22px;
+  letter-spacing: 0.08em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.consolePlaylistDetailToolbar button {
+  border: 1px solid rgba(166, 138, 76, 0.68);
+  padding: 0.45em 0.7em;
+  background: rgba(7, 7, 6, 0.74);
+  color: #cfb879;
+  font: 800 15px/1 "Barlow Condensed", "Arial Narrow", sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.consolePlaylistDetailToolbar button:hover,
+.consolePlaylistDetailToolbar button:focus-visible {
+  border-color: #b6d860;
+  color: #d8e78d;
+  outline: none;
+}
+
 .consolePlaylistGrid {
   position: absolute;
   display: grid;

@@ -404,6 +404,11 @@
 .pocketPlaylistCopy b,
 .pocketPlaylistCopy small { display: block; }
 .pocketPlaylistCopy small { margin-top: 1%; color: #7e825b; font-size: 0.82em; }
+.pocketPlaylistDetail { grid-row: 1 / -1; display: grid; grid-template-rows: auto minmax(0, 1fr); min-height: 0; }
+.pocketPlaylistDetailToolbar { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 2%; min-height: 12%; padding: 1% 2%; border-bottom: 1px solid rgba(151, 121, 57, 0.45); color: #cfb66d; text-align: center; }
+.pocketPlaylistDetailToolbar strong { overflow: hidden; font-size: clamp(10px, 3vw, 20px); text-overflow: ellipsis; white-space: nowrap; }
+.pocketPlaylistDetailToolbar button { border: 1px solid rgba(151, 121, 57, 0.6); padding: 0.3em 0.45em; background: rgba(3, 4, 3, 0.82); color: #cfb66d; font: 800 clamp(8px, 2.2vw, 14px) "Barlow Condensed", "Arial Narrow", sans-serif; cursor: pointer; }
+.pocketPlaylistTracks { display: grid; grid-template-rows: repeat(auto-fit, minmax(13%, 1fr)); gap: 1%; min-height: 0; overflow: auto; padding: 1%; }
 .pocketNoTracks { grid-row: 1 / -1; display: grid; place-items: center; color: #ad9655; text-align: center; }
 
 .pocketShareNotice { position: fixed; z-index: 800; left: 5%; right: 5%; bottom: 4%; padding: 0.75rem; border: 1px solid #8e7136; background: rgba(5, 6, 5, 0.96); color: #ddc46f; text-align: center; box-shadow: 0 8px 30px #000; }

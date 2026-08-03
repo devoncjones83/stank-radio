@@ -271,6 +271,9 @@ function App() {
   const sharedSongRequestRef = useRef(
     new URLSearchParams(window.location.search).get('song')?.trim() || '',
   );
+  const sharedPlaylistRequestRef = useRef(
+    new URLSearchParams(window.location.search).get('playlist')?.trim() || '',
+  );
   const sharedAutoplayTrackIdRef = useRef('');
   const [tracks, setTracks] = useState([]);
   const [activeId, setActiveId] = useState('');
@@ -303,10 +306,17 @@ function App() {
         const requestedTrack = requestedSong
           ? nextTracks.find((track) => track.title.trim().toLocaleLowerCase() === requestedSong)
           : null;
+        const requestedPlaylist = sharedPlaylistRequestRef.current.toLocaleLowerCase();
+        const matchingPlaylist = requestedPlaylist
+          ? nextTracks
+            .flatMap((track) => track.playlists)
+            .find((playlist) => playlist.toLocaleLowerCase() === requestedPlaylist)
+          : '';
         sharedAutoplayTrackIdRef.current = requestedTrack?.audio ? requestedTrack.id : '';
         setTracks(nextTracks);
         setActiveId(requestedTrack?.id || '');
         setPlaybackId(requestedTrack?.audio ? requestedTrack.id : '');
+        if (matchingPlaylist) setActiveTag(matchingPlaylist);
         setLoadStatus(`${nextTracks.length} contaminants indexed`);
       })
       .catch((error) => {
@@ -568,6 +578,13 @@ function App() {
     return url;
   }
 
+  function sharePlaylist(playlist) {
+    if (!playlist?.id) return '';
+    const url = `${window.location.origin}${BASE}?playlist=${encodeURIComponent(playlist.id)}`;
+    navigator.clipboard?.writeText(url).catch(() => {});
+    return url;
+  }
+
   function updatePlaybackTime(event) {
     setCurrentTime(event.currentTarget.currentTime);
   }
@@ -608,6 +625,7 @@ function App() {
         activeTrack={activeTrack}
         playbackTrack={playbackTrack}
         displayTrack={displayTrack}
+        tracks={tracks}
         pagedTracks={pagedTracks}
         visibleTracks={visibleTracks}
         playing={playing}
@@ -627,6 +645,7 @@ function App() {
         stepTrack={stepTrack}
         randomTrack={randomTrack}
         shareTrack={shareTrack}
+        sharePlaylist={sharePlaylist}
         />
       </>
     );
@@ -644,6 +663,7 @@ function App() {
         BASE={BASE}
         defaultCover={defaultCover}
         lyricLineRefs={lyricLineRefs}
+        tracks={tracks}
         activeTrack={activeTrack}
         playbackTrack={playbackTrack}
         displayTrack={displayTrack}
@@ -671,6 +691,7 @@ function App() {
         stepTrack={stepTrack}
         randomTrack={randomTrack}
         shareTrack={shareTrack}
+        sharePlaylist={sharePlaylist}
         />
       </>
     );

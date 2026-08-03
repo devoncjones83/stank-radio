@@ -301,6 +301,7 @@ export default function FullConsoleShell({
   BASE,
   defaultCover,
   lyricLineRefs,
+  tracks,
   activeTrack,
   playbackTrack,
   displayTrack,
@@ -327,6 +328,7 @@ export default function FullConsoleShell({
   stepTrack,
   randomTrack,
   shareTrack,
+  sharePlaylist,
 }) {
   const shellImage = `${BASE}images/production/stank-radio-console-v6.png`;
   const backgroundImage = `${BASE}images/production/stank-radio-console-background.png`;
@@ -377,6 +379,7 @@ export default function FullConsoleShell({
   const [changingCautionPanel, setChangingCautionPanel] = useState(null);
   const [shareNoticeUrl, setShareNoticeUrl] = useState('');
   const [playlistScrollProgress, setPlaylistScrollProgress] = useState(0);
+  const [selectedPlaylist, setSelectedPlaylist] = useState(null);
   const [editorNotice, setEditorNotice] = useState('Saved locally');
   const [editorPosition, setEditorPosition] = useState(() => ({
     x: DESKTOP_CANVAS_WIDTH - 408,
@@ -512,6 +515,23 @@ export default function FullConsoleShell({
     window.addEventListener('keydown', closeOnEscape);
     return () => window.removeEventListener('keydown', closeOnEscape);
   }, [playlistsOpen, setPlaylistsOpen]);
+
+  const selectedPlaylistTracks = selectedPlaylist
+    ? tracks.filter((track) => track.playlists.includes(selectedPlaylist.id))
+    : [];
+
+  function closePlaylistModal() {
+    setSelectedPlaylist(null);
+    setPlaylistsOpen(false);
+  }
+
+  function showPlaylistShareNotice() {
+    const url = sharePlaylist?.(selectedPlaylist);
+    if (!url) return;
+    setShareNoticeUrl(url);
+    if (shareNoticeTimerRef.current) window.clearTimeout(shareNoticeTimerRef.current);
+    shareNoticeTimerRef.current = window.setTimeout(() => setShareNoticeUrl(''), 3200);
+  }
 
   useEffect(() => {
     if (!cautionMessages.length) return undefined;
@@ -1276,7 +1296,7 @@ export default function FullConsoleShell({
           aria-modal="true"
           aria-label="Playlists"
           onPointerDown={(event) => {
-            if (!layoutEditing && event.target === event.currentTarget) setPlaylistsOpen(false);
+            if (!layoutEditing && event.target === event.currentTarget) closePlaylistModal();
           }}
         >
           <div
@@ -1293,7 +1313,7 @@ export default function FullConsoleShell({
                   event.preventDefault();
                   return;
                 }
-                setPlaylistsOpen(false);
+                closePlaylistModal();
               }}
               aria-label="Close playlists"
             >
@@ -1304,8 +1324,15 @@ export default function FullConsoleShell({
                 draggable="false"
               />
             </button>
+            {selectedPlaylist ? (
+              <div className="consolePlaylistDetailToolbar">
+                <button type="button" onClick={() => setSelectedPlaylist(null)}>Back to playlists</button>
+                <strong>{selectedPlaylist.title}</strong>
+                <button type="button" onClick={showPlaylistShareNotice}>Share playlist</button>
+              </div>
+            ) : null}
             <div
-              className="consolePlaylistGrid"
+              className={`consolePlaylistGrid${selectedPlaylist ? ' isDetail' : ''}`}
               ref={playlistGridRef}
               {...layoutProps('playlistModalRows', 'playlist')}
               onScroll={(event) => {
@@ -1314,9 +1341,9 @@ export default function FullConsoleShell({
                 setPlaylistScrollProgress(maximum > 0 ? grid.scrollTop / maximum : 0);
               }}
             >
-              {playlists.map((playlist) => (
+              {(selectedPlaylist ? selectedPlaylistTracks : playlists).map((item) => (
                 <button
-                  key={playlist.id}
+                  key={item.id}
                   type="button"
                   style={{ '--playlist-row-image': `url("${playlistRowImage}")` }}
                   onClick={(event) => {
@@ -1324,24 +1351,28 @@ export default function FullConsoleShell({
                       event.preventDefault();
                       return;
                     }
-                    setActiveTag(playlist.id);
-                    setQuery('');
-                    setLibraryPage(1);
-                    setPlaylistsOpen(false);
+                    if (selectedPlaylist) {
+                      selectTrack(item, true);
+                      closePlaylistModal();
+                      return;
+                    }
+                    setSelectedPlaylist(item);
+                    setPlaylistScrollProgress(0);
+                    if (playlistGridRef.current) playlistGridRef.current.scrollTop = 0;
                   }}
                 >
                   <img
-                    src={playlist.art}
+                    src={selectedPlaylist ? item.cover : item.art}
                     alt=""
                     onError={(event) => {
                       if (event.currentTarget.dataset.fallbackApplied) return;
                       event.currentTarget.dataset.fallbackApplied = '1';
-                      event.currentTarget.src = playlist.fallbackArt;
+                      event.currentTarget.src = selectedPlaylist ? defaultCover : item.fallbackArt;
                     }}
                   />
                   <span>
-                    <b>{playlist.title}</b>
-                    <small>{playlist.count} tracks</small>
+                    <b>{item.title}</b>
+                    <small>{selectedPlaylist ? item.artist : `${item.count} tracks`}</small>
                   </span>
                 </button>
               ))}
