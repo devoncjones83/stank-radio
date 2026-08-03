@@ -18,11 +18,32 @@ import {
   SkipForward,
   SlidersHorizontal,
 } from 'lucide-react';
+import '@fontsource/barlow-condensed/latin-800.css';
 import './styles.css';
+import PocketFilthScanner from './layouts/PocketFilthScanner.jsx';
+import FullConsoleShell from './layouts/FullConsoleShell.jsx';
 
 const BASE = import.meta.env.BASE_URL || '/';
 const defaultCover = `${BASE}images/stank-radio-icon.png`;
 const TRACKS_PER_PAGE = 10;
+
+function normalizeProductionAudioPath(path) {
+  // The published music library omits the two-digit catalog prefix found in
+  // older manifests (for example, `04-kings.mp3` is deployed as `kings.mp3`).
+  // Normalize the source at runtime so both legacy and corrected manifests
+  // resolve to the same production audio files.
+  return String(path || '').replace(
+    /^(\/music\/songs\/)\d{2}-(.+\.mp3(?:[?#].*)?)$/i,
+    '$1$2',
+  );
+}
+
+function playlistSlug(value) {
+  return String(value || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
 const playlistNotes = {
   'UNCLASSIFIED STANK': 'Unfiled transmissions and residue without a clean category.',
   'AFTER HOURS STANK': 'Slow-burn radio for rooms that should have closed already.',
@@ -53,6 +74,8 @@ const fallbackTracks = [
     title: 'Containment Funk Protocol',
     artist: 'Explosive Crossfader',
     tag: 'UNCLASSIFIED STANK',
+    collection: 'UNCLASSIFIED STANK',
+    certification: 'Certified Audio Contamination',
     playlists: ['Fallback Stank'],
     description: 'Fallback stank engaged. The funk refuses to die.',
     cover: defaultCover,
@@ -80,15 +103,87 @@ function assetPath(path) {
   return `${BASE}music/${path}`;
 }
 
+function lyricFileStem(track) {
+  const audioFile = String(track?.audio || '').split(/[?#]/)[0].split('/').pop() || '';
+  const fileStem = audioFile.replace(/\.[^.]+$/, '').trim();
+  if (fileStem) return fileStem;
+
+  return String(track?.title || '')
+    .toLowerCase()
+    .replace(/\([^)]*\)/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+function parseLyricsFile(contents) {
+  const parsed = [];
+  const untimed = [];
+  const timestampPattern = /\[(\d{1,2}):(\d{2})(?:[.:](\d{1,3}))?\]/g;
+
+  String(contents || '')
+    .replace(/\r\n?/g, '\n')
+    .split('\n')
+    .forEach((rawLine) => {
+      const timestamps = [...rawLine.matchAll(timestampPattern)];
+      const text = rawLine.replace(timestampPattern, '').trim();
+      if (!text) return;
+
+      if (!timestamps.length) {
+        untimed.push(text);
+        return;
+      }
+
+      timestamps.forEach((match) => {
+        const minutes = Number(match[1]) || 0;
+        const seconds = Number(match[2]) || 0;
+        const fraction = match[3] ? Number(`0.${match[3]}`) : 0;
+        parsed.push({ time: minutes * 60 + seconds + fraction, text });
+      });
+    });
+
+  if (parsed.length) return parsed.sort((a, b) => a.time - b.time);
+  return untimed.map((text, index) => ({ time: index * 4, text }));
+}
+
+function lyricFileCandidates(track) {
+  const audioStem = lyricFileStem(track);
+  const titleStem = String(track?.title || '')
+    .toLowerCase()
+    .replace(/\([^)]*\)/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+  const stems = [...new Set([audioStem, titleStem].filter(Boolean))];
+
+  return stems.flatMap((stem) => [
+    // Prefer an app-local lyric file for standalone/testing deployments,
+    // then fall back to the main site's shared music library.
+    `${BASE}music/lyrics/${encodeURIComponent(stem)}.lrc`,
+    `${BASE}music/lyrics/${encodeURIComponent(stem)}.txt`,
+    `/music/lyrics/${encodeURIComponent(stem)}.lrc`,
+    `/music/lyrics/${encodeURIComponent(stem)}.txt`,
+  ]);
+}
+
 function normalizeTrack(song, index) {
   const playlists = cleanArray(song.playlists || song.playlist || song.collection);
   const tag = song.tag || song.classification || song.genre || 'UNCLASSIFIED STANK';
+  const suppliedArtist = song.performingEntity || song.artist || song.author || song.creator || 'The Containment Unit';
+  const artist = /^certified audio contaminator$/i.test(suppliedArtist)
+    ? 'The Containment Unit'
+    : suppliedArtist;
+
+  const requestedAudioSource = song.audio || song.src || song.file || song.path || song.url || '';
+  const audioSource = normalizeProductionAudioPath(requestedAudioSource);
+  const isLocalBeastModeTest = import.meta.env.DEV && /(?:^|\/)03-beast-mode\.mp3(?:$|[?#])/i.test(audioSource);
+  const isLocalGreenMileTest = import.meta.env.DEV && /(?:^|\/)the-green-mile-remastered\.mp3(?:$|[?#])/i.test(audioSource);
 
   return {
     id: `${song.title || song.name || song.filename || 'track'}-${index}`,
     title: song.title || song.name || song.track || song.filename || `Unlabeled Stank ${index + 1}`,
-    artist: song.artist || song.author || song.creator || 'Certified Audio Contaminator',
+    artist,
     tag,
+    collection: song.collection || tag,
+    certification: song.certification || 'Certified Audio Contamination',
     playlists,
     description: song.description || song.lyrics || 'No field notes provided. The funk speaks for itself.',
     lyricsTimeline: Array.isArray(song.lyricsTimeline)
@@ -98,25 +193,104 @@ function normalizeTrack(song, index) {
           .sort((a, b) => a.time - b.time)
       : [],
     created: song.created || song.date || song.uploaded || '',
-    audio: assetPath(song.audio || song.src || song.file || song.path || song.url || ''),
+    // Local-only test route. Production continues to use the main site's /music/ library.
+    // Local test files live under this app's Vite public directory. Production
+    // continues to resolve the catalog through the main site's /music/ path.
+    audio: isLocalBeastModeTest
+      ? `${BASE}music/songs/03-beast-mode.mp3`
+      : isLocalGreenMileTest
+        ? `${BASE}music/songs/the-green-mile-remastered.mp3`
+        : assetPath(audioSource),
     cover: assetPath(song.cover || song.coverArt || song.image || song.artwork || defaultCover),
   };
+}
+
+function useHardwarePlatform() {
+  const getPlatform = () => {
+    // The desktop console is a fixed canvas. Below its practical operating
+    // width, use the purpose-built Pocket Filth interface instead of showing
+    // the old blank desktop guard while a resize is in progress.
+    if (window.innerWidth < 1100) return 'pocket-filth';
+    return 'filth-up-console';
+  };
+
+  const [hardwarePlatform, setHardwarePlatform] = useState(getPlatform);
+
+  useEffect(() => {
+    const updateHardware = () => setHardwarePlatform(getPlatform());
+    updateHardware();
+    window.addEventListener('resize', updateHardware);
+    return () => window.removeEventListener('resize', updateHardware);
+  }, []);
+
+  return hardwarePlatform;
+}
+
+function DesktopGuard() {
+  return (
+    <main className="desktopGuard">
+      <section className="desktopGuardPanel">
+        <p>BIG DUMB IDIOT LABS</p>
+        <h1>FILTH-UP CONSOLE</h1>
+        <strong>Desktop viewport below safe operating width.</strong>
+        <span>Widen the browser to continue console operation.</span>
+        <small>POCKET FILTH activates at 900px and below.</small>
+      </section>
+    </main>
+  );
+}
+
+function useFilthStageScale() {
+  const getScale = () => {
+    const viewportHeight =
+      window.visualViewport?.height ||
+      document.documentElement.clientHeight ||
+      window.innerHeight;
+
+    return Math.min(
+      (window.innerWidth - 64) / 1920,
+      (viewportHeight - 220) / 1080,
+      1
+    );
+  };
+  const [scale, setScale] = useState(getScale);
+
+  useEffect(() => {
+    const updateScale = () => setScale(getScale());
+    updateScale();
+    window.addEventListener('resize', updateScale);
+    return () => window.removeEventListener('resize', updateScale);
+  }, []);
+
+  return scale;
 }
 
 function App() {
   const audioRef = useRef(null);
   const lyricLineRefs = useRef([]);
+  const sharedSongRequestRef = useRef(
+    new URLSearchParams(window.location.search).get('song')?.trim() || '',
+  );
+  const sharedPlaylistRequestRef = useRef(
+    new URLSearchParams(window.location.search).get('playlist')?.trim() || '',
+  );
+  const sharedAutoplayTrackIdRef = useRef('');
   const [tracks, setTracks] = useState([]);
   const [activeId, setActiveId] = useState('');
+  const [playbackId, setPlaybackId] = useState('');
   const [query, setQuery] = useState('');
   const [activeTag, setActiveTag] = useState('ALL');
   const [libraryPage, setLibraryPage] = useState(1);
   const [playing, setPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [externalLyrics, setExternalLyrics] = useState([]);
   const [playlistsOpen, setPlaylistsOpen] = useState(false);
   const [playerModalOpen, setPlayerModalOpen] = useState(false);
   const [loadStatus, setLoadStatus] = useState('Tuning the contamination manifest');
-  const [viewMode, setViewMode] = useState('containment');
+  const [viewMode, setViewMode] = useState('filth');
+  const hardwarePlatform = useHardwarePlatform();
+  const filthStageScale = useFilthStageScale();
 
   useEffect(() => {
     fetch(`${BASE}songs.json`, { cache: 'no-store' })
@@ -128,8 +302,21 @@ function App() {
         const rawSongs = Array.isArray(data) ? data : data.songs || data.tracks || [];
         const normalized = rawSongs.map(normalizeTrack);
         const nextTracks = normalized.length ? normalized : fallbackTracks;
+        const requestedSong = sharedSongRequestRef.current.toLocaleLowerCase();
+        const requestedTrack = requestedSong
+          ? nextTracks.find((track) => track.title.trim().toLocaleLowerCase() === requestedSong)
+          : null;
+        const requestedPlaylist = sharedPlaylistRequestRef.current.toLocaleLowerCase();
+        const matchingPlaylist = requestedPlaylist
+          ? nextTracks
+            .flatMap((track) => track.playlists)
+            .find((playlist) => playlist.toLocaleLowerCase() === requestedPlaylist)
+          : '';
+        sharedAutoplayTrackIdRef.current = requestedTrack?.audio ? requestedTrack.id : '';
         setTracks(nextTracks);
-        setActiveId('');
+        setActiveId(requestedTrack?.id || '');
+        setPlaybackId(requestedTrack?.audio ? requestedTrack.id : '');
+        if (matchingPlaylist) setActiveTag(matchingPlaylist);
         setLoadStatus(`${nextTracks.length} contaminants indexed`);
       })
       .catch((error) => {
@@ -152,26 +339,33 @@ function App() {
   }, [activeTag, query, tracks]);
 
   const visibleTracks = filteredTracks;
-  const tracksPerPage = viewMode === 'filth' ? 5 : TRACKS_PER_PAGE;
+  const tracksPerPage = viewMode === 'filth' ? 6 : TRACKS_PER_PAGE;
   const totalLibraryPages = Math.max(1, Math.ceil(visibleTracks.length / tracksPerPage));
   const pagedTracks = visibleTracks.slice(
     (libraryPage - 1) * tracksPerPage,
     libraryPage * tracksPerPage,
   );
   const activeTrack = tracks.find((track) => track.id === activeId) || null;
+  const playbackTrack = tracks.find((track) => track.id === playbackId) || null;
   const displayTrack = activeTrack || {
     title: 'No transmission selected',
     artist: 'Choose a track from the library',
     tag: 'Fumes: idle',
+    collection: 'Containment standby',
+    certification: 'Certified Audio Contamination',
     description: 'The fumes stay still until someone chooses a stank.',
     cover: defaultCover,
   };
   const activeIndex = activeTrack ? visibleTracks.findIndex((track) => track.id === activeTrack.id) : -1;
+  const playbackIndex = playbackTrack
+    ? visibleTracks.findIndex((track) => track.id === playbackTrack.id)
+    : activeIndex;
   const stankIndex = activeTrack
     ? Math.min(99, Math.max(43, activeTrack.title.length + activeTrack.tag.length))
     : 0;
-  const hasActiveAudio = Boolean(activeTrack?.audio);
-  const currentLyrics = activeTrack?.lyricsTimeline || [];
+  const fumesMeterAngle = activeTrack ? Math.round((stankIndex / 99) * 130 - 65) : -70;
+  const hasActiveAudio = Boolean((playbackTrack || activeTrack)?.audio);
+  const currentLyrics = activeTrack?.lyricsTimeline?.length ? activeTrack.lyricsTimeline : externalLyrics;
   const activeLyricIndex = useMemo(() => {
     if (!currentLyrics.length) return -1;
     return currentLyrics.reduce(
@@ -184,18 +378,111 @@ function App() {
     ? roomTonePresets[(selectedTrackIndex + 1) % roomTonePresets.length]
     : roomTonePresets[0];
 
-  const playlists = useMemo(
-    () =>
-      playlistDefinitions.map((playlist) => ({
-        ...playlist,
-        count: tracks.filter((track) => track.playlists.includes(playlist.id)).length,
-      })),
-    [tracks],
-  );
+  useEffect(() => {
+    let cancelled = false;
+
+    if (!activeTrack || activeTrack.lyricsTimeline?.length) {
+      setExternalLyrics([]);
+      return undefined;
+    }
+
+    const loadExternalLyrics = async () => {
+      for (const lyricUrl of lyricFileCandidates(activeTrack)) {
+        try {
+          const response = await fetch(lyricUrl, { cache: 'no-store' });
+          if (!response.ok) continue;
+
+          const timeline = parseLyricsFile(await response.text());
+          if (timeline.length) {
+            if (!cancelled) setExternalLyrics(timeline);
+            return;
+          }
+        } catch {
+          // A song may not have a matching lyric file. Try the next supported extension.
+        }
+      }
+
+      if (!cancelled) setExternalLyrics([]);
+    };
+
+    loadExternalLyrics();
+    return () => {
+      cancelled = true;
+    };
+  }, [activeTrack?.id]);
+
+  // Build the playlist list from whatever playlists actually exist in the
+  // catalog (managed by the admin tool), so new playlists appear automatically.
+  const playlists = useMemo(() => {
+    const counts = new Map();
+    const firstCover = new Map();
+    tracks.forEach((track) => {
+      track.playlists.forEach((id) => {
+        if (!id) return;
+        counts.set(id, (counts.get(id) || 0) + 1);
+        if (!firstCover.has(id) && track.cover) firstCover.set(id, track.cover);
+      });
+    });
+    return Array.from(counts.entries())
+      .sort((a, b) => a[0].localeCompare(b[0]))
+      .map(([id, count]) => {
+        const known = playlistDefinitions.find((p) => p.id === id);
+        return {
+          id,
+          title: known ? known.title : id,
+          description: known ? known.description : `${count} contaminant${count === 1 ? '' : 's'} filed under ${id}.`,
+          artClass: known ? known.artClass : 'unclassifiedStank',
+          count,
+          art: `/music/playlist-covers/${playlistSlug(id)}.png`,
+          fallbackArt: firstCover.get(id) || defaultCover,
+        };
+      });
+  }, [tracks]);
 
   useEffect(() => {
     setCurrentTime(0);
-  }, [activeId]);
+    setDuration(0);
+  }, [playbackId]);
+
+  useEffect(() => {
+    if (!playbackTrack || sharedAutoplayTrackIdRef.current !== playbackTrack.id) return undefined;
+
+    const audio = audioRef.current;
+    if (!audio) return undefined;
+
+    let cancelled = false;
+    const beginSharedTrack = () => {
+      if (cancelled) return;
+      audio.currentTime = 0;
+      const playRequest = audio.play();
+      if (!playRequest?.then) {
+        setPlaying(true);
+        sharedAutoplayTrackIdRef.current = '';
+        return;
+      }
+      playRequest
+        .then(() => {
+          if (cancelled) return;
+          setPlaying(true);
+          sharedAutoplayTrackIdRef.current = '';
+        })
+        .catch(() => {
+          if (!cancelled) setPlaying(false);
+        });
+    };
+
+    if (audio.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
+      beginSharedTrack();
+    } else {
+      audio.addEventListener('canplay', beginSharedTrack, { once: true });
+      audio.load();
+    }
+
+    return () => {
+      cancelled = true;
+      audio.removeEventListener('canplay', beginSharedTrack);
+    };
+  }, [playbackTrack]);
 
   useEffect(() => {
     setLibraryPage((page) => Math.min(page, totalLibraryPages));
@@ -208,343 +495,212 @@ function App() {
 
   function selectTrack(track, autoplay = false) {
     setActiveId(track.id);
-    setPlaying(false);
+    if (!autoplay) return;
+
+    sharedAutoplayTrackIdRef.current = track.id;
+    if (playbackTrack?.id !== track.id) {
+      setPlaying(false);
+      setPlaybackId(track.id);
+      return;
+    }
+
     window.setTimeout(() => {
       if (!audioRef.current) return;
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
       setCurrentTime(0);
-      if (autoplay) {
-        audioRef.current.play().then(() => setPlaying(true)).catch(() => {});
-      }
+      audioRef.current.play().then(() => {
+        sharedAutoplayTrackIdRef.current = '';
+      }).catch(() => setPlaying(false));
     }, 50);
   }
 
   function stepTrack(direction) {
-    if (!visibleTracks.length || activeIndex < 0) return;
-    const nextIndex = (activeIndex + direction + visibleTracks.length) % visibleTracks.length;
-    selectTrack(visibleTracks[nextIndex], false);
+    if (!visibleTracks.length) return;
+    const currentIndex = playbackIndex >= 0 ? playbackIndex : Math.max(0, activeIndex);
+    const nextIndex = (currentIndex + direction + visibleTracks.length) % visibleTracks.length;
+    selectTrack(visibleTracks[nextIndex], true);
   }
 
   function randomTrack() {
     if (!visibleTracks.length) return;
+
+    const currentIndex = playbackIndex >= 0 ? playbackIndex : activeIndex;
     let nextIndex = Math.floor(Math.random() * visibleTracks.length);
-    if (visibleTracks.length > 1 && nextIndex === activeIndex) {
+
+    if (visibleTracks.length > 1 && nextIndex === currentIndex) {
       nextIndex = (nextIndex + 1) % visibleTracks.length;
     }
-    selectTrack(visibleTracks[nextIndex], false);
+
+    selectTrack(visibleTracks[nextIndex], true);
   }
 
   function togglePlay() {
-    if (!audioRef.current || !hasActiveAudio) return;
+    if (!playbackTrack && activeTrack?.audio) {
+      selectTrack(activeTrack, true);
+      return;
+    }
+    if (!audioRef.current || !playbackTrack?.audio) return;
     if (audioRef.current.paused) {
-      audioRef.current.play().then(() => setPlaying(true)).catch(() => {});
+      audioRef.current.play().catch(() => setPlaying(false));
     } else {
       audioRef.current.pause();
-      setPlaying(false);
     }
   }
+
+  useEffect(() => {
+    if (hardwarePlatform === 'pocket-filth') return undefined;
+
+    const handleDesktopSpace = (event) => {
+      if (event.code !== 'Space' && event.key !== ' ') return;
+
+      const target = event.target;
+      if (
+        target instanceof HTMLElement
+        && target.closest('input, textarea, select, [contenteditable="true"]')
+      ) return;
+
+      // Stop Space from triggering whichever desktop button currently has focus.
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+      if (!event.repeat && activeTrack) togglePlay();
+    };
+
+    window.addEventListener('keydown', handleDesktopSpace, { capture: true });
+    return () => window.removeEventListener('keydown', handleDesktopSpace, { capture: true });
+  }, [activeId, hardwarePlatform, playbackId, playing]);
 
   function shareTrack() {
     if (!activeTrack) return;
     const url = `${window.location.origin}${BASE}?song=${encodeURIComponent(activeTrack.title)}`;
     navigator.clipboard?.writeText(url).catch(() => {});
+    return url;
+  }
+
+  function sharePlaylist(playlist) {
+    if (!playlist?.id) return '';
+    const url = `${window.location.origin}${BASE}?playlist=${encodeURIComponent(playlist.id)}`;
+    navigator.clipboard?.writeText(url).catch(() => {});
+    return url;
   }
 
   function updatePlaybackTime(event) {
     setCurrentTime(event.currentTarget.currentTime);
   }
 
+  function updatePlaybackDuration(event) {
+    const nextDuration = event.currentTarget.duration;
+    setDuration(Number.isFinite(nextDuration) ? nextDuration : 0);
+  }
+
+  const sharedAudio = (
+    <audio
+      key="stank-radio-shared-audio"
+      ref={audioRef}
+      src={playbackTrack?.audio || undefined}
+      onPlay={() => setPlaying(true)}
+      onPause={() => setPlaying(false)}
+      onAbort={() => setPlaying(false)}
+      onEmptied={() => setPlaying(false)}
+      onError={() => setPlaying(false)}
+      onTimeUpdate={updatePlaybackTime}
+      onLoadedMetadata={updatePlaybackDuration}
+      onDurationChange={updatePlaybackDuration}
+      onEnded={() => {
+        setPlaying(false);
+        stepTrack(1);
+      }}
+    />
+  );
+
+  if (hardwarePlatform === 'pocket-filth') {
+    return (
+      <>
+        {sharedAudio}
+        <PocketFilthScanner
+        BASE={BASE}
+        defaultCover={defaultCover}
+        audioRef={audioRef}
+        activeTrack={activeTrack}
+        playbackTrack={playbackTrack}
+        displayTrack={displayTrack}
+        tracks={tracks}
+        pagedTracks={pagedTracks}
+        visibleTracks={visibleTracks}
+        playing={playing}
+        currentTime={currentTime}
+        duration={duration}
+        currentLyrics={currentLyrics}
+        activeLyricIndex={activeLyricIndex}
+        libraryPage={libraryPage}
+        totalLibraryPages={totalLibraryPages}
+        playlists={playlists}
+        query={query}
+        setQuery={setQuery}
+        setActiveTag={setActiveTag}
+        setLibraryPage={setLibraryPage}
+        selectTrack={selectTrack}
+        togglePlay={togglePlay}
+        stepTrack={stepTrack}
+        randomTrack={randomTrack}
+        shareTrack={shareTrack}
+        sharePlaylist={sharePlaylist}
+        />
+      </>
+    );
+  }
+
+  if (hardwarePlatform === 'desktop-guard') {
+    return <>{sharedAudio}<DesktopGuard /></>;
+  }
+
   if (viewMode === 'filth') {
     return (
-      <main className={playing ? "radioApp filthUpView isPlaying" : "radioApp filthUpView"}>
-        <div
-          className="backdrop"
-          style={{ '--app-bg': `url("${BASE}images/stank-radio-bg.png")` }}
-          aria-hidden="true"
+      <>
+        {sharedAudio}
+        <FullConsoleShell
+        BASE={BASE}
+        defaultCover={defaultCover}
+        lyricLineRefs={lyricLineRefs}
+        tracks={tracks}
+        activeTrack={activeTrack}
+        playbackTrack={playbackTrack}
+        displayTrack={displayTrack}
+        pagedTracks={pagedTracks}
+        visibleTracks={visibleTracks}
+        query={query}
+        playing={playing}
+        hasActiveAudio={hasActiveAudio}
+        currentTime={currentTime}
+        duration={duration}
+        currentLyrics={currentLyrics}
+        activeLyricIndex={activeLyricIndex}
+        libraryPage={libraryPage}
+        totalLibraryPages={totalLibraryPages}
+        roomTone={roomTone}
+        loadStatus={loadStatus}
+        playlists={playlists}
+        playlistsOpen={playlistsOpen}
+        setPlaylistsOpen={setPlaylistsOpen}
+        setActiveTag={setActiveTag}
+        setQuery={setQuery}
+        setLibraryPage={setLibraryPage}
+        selectTrack={selectTrack}
+        togglePlay={togglePlay}
+        stepTrack={stepTrack}
+        randomTrack={randomTrack}
+        shareTrack={shareTrack}
+        sharePlaylist={sharePlaylist}
         />
-        <div className="scanlines" aria-hidden="true" />
-
-        <section className="industrialShell" aria-label="Filth-Up industrial console">
-          <header className="industrialHeader broadcastDeck">
-            <section className="broadcastIdentityPanel">
-              <h1>STANK RADIO</h1>
-              <strong>BIG DUMB IDIOT LABS: BROADCAST DIVISION</strong>
-              <div className="broadcastIdentityCopy">
-                <span>Infecting your Ear Holes with</span>
-                <b>MAXIMUM STANK</b>
-                <em>If it smells like a hit, it probably came from here.</em>
-              </div>
-            </section>
-
-            <section className="broadcastDefinitionPanel">
-              <p>MAXIMUM STANK: noun</p>
-              <span>
-                Maximum Stank is officially defined as a measurable cloud of musical nonsense,
-                emotional fumes, questionable rhythm choices, and audio residue so powerful
-                it makes a person nod like they understand science.
-              </span>
-            </section>
-
-            <section className="broadcastContaminantsPanel">
-              <p>FRESH AUDIO CONTAMINANTS</p>
-              <span>
-                Foul little transmissions, harvested <b>FRESH</b> from the Suno stink pipe.
-              </span>
-              <strong>PRESS PLAY AT YOUR OWN RISK.</strong>
-            </section>
-
-            <section className="broadcastStatusPanel">
-              <div className="broadcastStatusControls">
-              </div>
-              <div className="broadcastWaveform" aria-hidden="true">
-                {roomTone.bars.concat(roomTone.bars).map((height, index) => (
-                  <i key={index} style={{ '--meter-height': `${Math.max(16, height)}%` }} />
-                ))}
-              </div>
-              <button
-                className="viewToggle"
-                type="button"
-                onClick={() => setViewMode('containment')}
-              >
-                Containment View
-              </button>
-            </section>
-          </header>
-
-          <section className="industrialPlayerShell" aria-label="Filth-Up hardware player">
-            <div className="shellTitleStrip">
-              <span>{playing ? 'NOW LEAKING' : activeTrack ? 'LEAK ARMED' : 'NO TRANSMISSION SELECTED'}</span>
-              <b>88.8 STANK FM</b>
-            </div>
-
-            <div className="shellMeters" aria-hidden="true">
-              <i className="shellNeedle shellNeedleIndex" />
-              <i className="shellNeedle shellNeedleFumes" />
-            </div>
-
-            <div className="shellCoverViewport">
-              <img src={displayTrack.cover || defaultCover} alt="" />
-              <em>{activeTrack ? 'ACTIVE RESIDUE' : 'AWAITING SELECTION'}</em>
-            </div>
-
-            <div className="shellVizViewport" aria-hidden="true">
-              <div className="shellScopeTrace" />
-            </div>
-
-            <div className="shellDossierPanel">
-              <div className="terminalPlate">TRACK DOSSIER</div>
-              <h2>{activeTrack ? displayTrack.title : 'NO TRANSMISSION SELECTED'}</h2>
-              <p>{displayTrack.description}</p>
-            </div>
-
-            <section className="shellLyricsPanel" aria-label="Lyrics">
-              <div className="terminalPlate">LYRIC CONTAINMENT</div>
-              <div className="lyricsScroll">
-                {currentLyrics.length ? (
-                  currentLyrics.map((line, index) => (
-                    <p
-                      key={`${line.time}-${index}`}
-                      ref={(element) => {
-                        lyricLineRefs.current[index] = element;
-                      }}
-                      className={index === activeLyricIndex ? 'active' : ''}
-                    >
-                      {line.text}
-                    </p>
-                  ))
-                ) : (
-                  <div className="lyricsEmpty industrialLyricsEmpty">
-                    {activeTrack ? (
-                      <>
-                        <b>LYRIC DATA NOT AVAILABLE</b>
-                        <span>Track indexed successfully.</span>
-                        <span>No synchronized contamination transcript found.</span>
-                        <span>Awaiting future LRC containment records.</span>
-                      </>
-                    ) : (
-                      <>
-                        <b>AWAITING LYRIC TIMING DATA</b>
-                        <span>NO SYNCHRONIZED TRANSCRIPT PRESENT</span>
-                        <span>FUNK LEVELS ACCEPTABLE</span>
-                      </>
-                    )}
-                  </div>
-                )}
-              </div>
-            </section>
-
-            <div className="industrialTransport shellTransport">
-              <button type="button" onClick={() => stepTrack(-1)} aria-label="Previous track">
-                <SkipBack size={22} />
-              </button>
-              <button
-                className="industrialStartLeak"
-                type="button"
-                onClick={togglePlay}
-                disabled={!hasActiveAudio}
-                aria-label={playing ? 'Pause' : 'Play'}
-              >
-                {playing ? <Pause size={26} /> : <Play size={26} />}
-              </button>
-              <button type="button" onClick={() => stepTrack(1)} aria-label="Next track">
-                <SkipForward size={22} />
-              </button>
-              <button type="button" onClick={randomTrack} aria-label="Random track">
-                <Shuffle size={22} />
-              </button>
-              <button type="button" onClick={shareTrack} aria-label="Share track">
-                <Share2 size={22} />
-              </button>
-            </div>
-          </section>
-
-          <aside className="industrialLibraryBay">
-            <label className="searchBox">
-              <input
-                value={query}
-                onChange={(event) => {
-                  setQuery(event.target.value);
-                  setLibraryPage(1);
-                }}
-                placeholder="Title, operator, tag..."
-              />
-            </label>
-
-            <div className="libraryButtons">
-              <button className="playlistLink" type="button" onClick={() => setPlaylistsOpen(true)}>
-                <ListMusic size={14} />
-                Playlists
-              </button>
-              <button
-                className={activeTag === 'ALL' ? 'playlistLink allTracksLink active' : 'playlistLink allTracksLink'}
-                type="button"
-                onClick={() => {
-                  setActiveTag('ALL');
-                  setLibraryPage(1);
-                }}
-              >
-                All tracks
-              </button>
-            </div>
-
-            <div className="trackList">
-              {pagedTracks.map((track) => (
-                <button
-                  key={track.id}
-                  className={track.id === activeTrack?.id ? 'trackRow active' : 'trackRow'}
-                  type="button"
-                  onClick={() => selectTrack(track, false)}
-                >
-                  <img src={track.cover || defaultCover} alt="" />
-                  <span className="trackRowText">
-                    <b>{track.title}</b>
-                    <small>{track.artist}</small>
-                  </span>
-                </button>
-              ))}
-              {!visibleTracks.length ? (
-                <p className="emptyLibrary">Nothing in this spill. Clear the search or return to all tracks.</p>
-              ) : null}
-            </div>
-
-
-            <nav className="libraryPagination" aria-label="Containment library pages">
-              <button
-                type="button"
-                title="Previous library page"
-                aria-label="Previous library page"
-                disabled={libraryPage === 1}
-                onClick={() => setLibraryPage((page) => Math.max(1, page - 1))}
-              >
-                <ChevronLeft size={15} />
-              </button>
-              <span>Page {libraryPage} / {totalLibraryPages}</span>
-              <button
-                type="button"
-                title="Next library page"
-                aria-label="Next library page"
-                disabled={libraryPage === totalLibraryPages}
-                onClick={() => setLibraryPage((page) => Math.min(totalLibraryPages, page + 1))}
-              >
-                <ChevronRight size={15} />
-              </button>
-            </nav>
-          </aside>
-
-          <aside className="industrialWarningStrip" aria-hidden="true" />
-
-          <audio
-            ref={audioRef}
-            src={activeTrack?.audio || undefined}
-            onPlay={() => setPlaying(true)}
-            onPause={() => setPlaying(false)}
-            onTimeUpdate={updatePlaybackTime}
-            onEnded={() => stepTrack(1)}
-          />
-        </section>
-
-        {playerModalOpen && activeTrack ? (
-          <section className="playerModal" role="dialog" aria-modal="true" aria-label="Stank player">
-            <div className="playerModalPanel">
-              <button type="button" className="modalDismiss" onClick={() => setPlayerModalOpen(false)}>
-                Close
-              </button>
-              <img className="playerModalCover" src={displayTrack.cover || defaultCover} alt="" />
-              <div className="playerModalCopy">
-                <p>{displayTrack.tag}</p>
-                <h2>{displayTrack.title}</h2>
-                <span>{displayTrack.artist}</span>
-              </div>
-              <audio className="playerModalAudio" controls src={activeTrack.audio} />
-            </div>
-          </section>
-        ) : null}
-
-        {playlistsOpen ? (
-          <section className="playlistModal" role="dialog" aria-modal="true" aria-label="Available playlists">
-            <div className="playlistModalPanel">
-              <div className="playlistModalHead">
-                <div>
-                  <p className="eyebrow">Browse by contamination class</p>
-                  <h2>Playlists</h2>
-                </div>
-                <button type="button" className="modalDismiss" onClick={() => setPlaylistsOpen(false)}>
-                  Close
-                </button>
-              </div>
-
-              <div className="playlistGrid">
-                {playlists.map((playlist) => (
-                  <button
-                    key={playlist.id}
-                    type="button"
-                    className="playlistCard"
-                    onClick={() => {
-                      setActiveTag(playlist.id);
-                      setQuery('');
-                      setLibraryPage(1);
-                      setPlaylistsOpen(false);
-                    }}
-                  >
-                    <span className={`playlistArt ${playlist.artClass}`} aria-hidden="true" />
-                    <span className="playlistCardCopy">
-                      <b>{playlist.title}</b>
-                      <small>{playlist.count} tracks</small>
-                      <em>{playlist.description}</em>
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          </section>
-        ) : null}
-      </main>
+      </>
     );
   }
 
   return (
-    <main className={`${playing ? 'radioApp isPlaying' : 'radioApp'} ${viewMode === 'filth' ? 'filthUpView' : 'containmentView'}`}>
+    <>
+      {sharedAudio}
+      <main className={`${playing ? 'radioApp isPlaying' : 'radioApp'} ${viewMode === 'filth' ? 'filthUpView' : 'containmentView'}`}>
       <div
         className="backdrop"
         style={{ '--app-bg': `url("${BASE}images/stank-radio-bg.png")` }}
@@ -579,7 +735,7 @@ function App() {
         <aside className="headerSignal" aria-label="Containment signal status">
           <div title={loadStatus}>
             <span>Containment index</span>
-            <b>{tracks.length}</b>
+            <b className="digitalCount">{tracks.length}</b>
           </div>
           <div>
             <span>Fumes</span>
@@ -696,15 +852,6 @@ function App() {
             </div>
           </div>
 
-          <audio
-            ref={audioRef}
-            src={activeTrack?.audio || undefined}
-            onPlay={() => setPlaying(true)}
-            onPause={() => setPlaying(false)}
-            onTimeUpdate={updatePlaybackTime}
-            onEnded={() => stepTrack(1)}
-          />
-
           <div className="sourceLine">
             {!activeTrack ? (
               <span>Choose a stank to infect your Ear Holes.</span>
@@ -814,18 +961,26 @@ function App() {
 
           <div className="trackList">
             {pagedTracks.map((track) => (
-              <button
+              <div
                 key={track.id}
                 className={track.id === activeTrack?.id ? 'trackRow active' : 'trackRow'}
-                type="button"
-                onClick={() => selectTrack(track, false)}
               >
-                <img src={track.cover || defaultCover} alt="" />
-                <span className="trackRowText">
-                  <b>{track.title}</b>
-                  <small>{track.artist}</small>
-                </span>
-              </button>
+                <button type="button" className="trackRowSelect" onClick={() => selectTrack(track, false)}>
+                  <img src={track.cover || defaultCover} alt="" />
+                  <span className="trackRowText">
+                    <b>{track.title}</b>
+                    <small>{track.artist}</small>
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  className="trackRowPlay"
+                  aria-label={`Play ${track.title}`}
+                  onClick={() => selectTrack(track, true)}
+                >
+                  <Play size={17} />
+                </button>
+              </div>
             ))}
             {!visibleTracks.length ? (
               <p className="emptyLibrary">Nothing in this spill. Clear the search or return to all tracks.</p>
@@ -924,7 +1079,8 @@ function App() {
           </div>
         </section>
       ) : null}
-    </main>
+      </main>
+    </>
   );
 }
 

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
 /* === BASE === */
 :root {
   color: #f3edd7;
@@ -60,7 +62,7 @@ audio { display: none; }
   height: 150px;
   z-index: 30;
   overflow: hidden;
-  background: url("/images/industrial-header-filthup-v1.png") center center / 100% 100% no-repeat;
+  background: url("/images/production/industrial-header-v2.png?pm=2") center center / 100% 100% no-repeat;
 }
 
 /* Hide static copy panels — header image already shows this info */
@@ -152,11 +154,11 @@ audio { display: none; }
 .industrialPlayerShell {
   position: fixed;
   left: 0;
-  top: 142px;
-  right: calc(560px + 1%);
+  top: 160px;
+  right: calc(700px + 1%);
   height: calc(100vh - 142px - 82px);
   z-index: 10;
-  background: url("/images/industrial-player-shell-v2-final.png") center center / 100% 100% no-repeat;
+  background: url("/images/production/industrial-player-shell-v3.png") center center / 100% 100% no-repeat;
 }
 
 /* Frame image is on top of content via ::after */
@@ -164,7 +166,7 @@ audio { display: none; }
   content: "";
   position: absolute;
   inset: 0;
-  background: url("/images/industrial-player-shell-v2-final.png") center center / 100% 100% no-repeat;
+  background: url("/images/production/industrial-player-shell-v3.png") center center / 100% 100% no-repeat;
   pointer-events: none;
   z-index: 50;
 }
@@ -187,28 +189,57 @@ audio { display: none; }
 }
 
 .shellTitleStrip {
-  left: 17%;
-  top: 78%;
-  width: 40%;
-  height: 3%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 0.5rem;
-  font-size: 0.6rem;
-  font-weight: 900;
-  color: #b7ff2b;
-  letter-spacing: 0.08em;
-  z-index: 20;
+  display: none;
 }
 
-.shellMeters { display: none; }
+/* Fumes gauge — positioned over the meter dial in the shell image */
+.shellMeters {
+  position: absolute;
+  left: 3%;
+  top: 55%;
+  width: 25%;
+  height: 20%;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.shellNeedleIndex { display: none; }
+
+/* Fumes needle pivot centered at bottom of meter area */
+.shellNeedleFumes {
+  display: block;
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  width: 3px;
+  height: 44%;
+  background: linear-gradient(to top, #caff3a, rgba(202, 255, 58, 0.5));
+  transform-origin: bottom center;
+  transform: translateX(-50%) rotate(var(--needle-angle, -70deg));
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border-radius: 2px 2px 0 0;
+  box-shadow: 0 0 4px rgba(202, 255, 58, 0.6);
+}
+
+/* Pivot pin */
+.shellNeedleFumes::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #caff3a;
+  box-shadow: 0 0 6px rgba(202, 255, 58, 0.8);
+}
 
 .shellCoverViewport {
-  left: 29%;
-  top: 6%;
+  left: 26%;
+  top: 4%;
   width: 43%;
-  height: 70%;
+  height: 74%;
   overflow: hidden;
   z-index: 10;
 }
@@ -220,22 +251,13 @@ audio { display: none; }
   display: block;
 }
 
-.shellCoverViewport em {
-  position: absolute;
-  top: 0.75rem; left: 0.75rem;
-  background: #b7ff2b;
-  color: #061000;
-  padding: 0.3rem 0.55rem;
-  font-size: 0.7rem;
-  font-weight: 900;
-  font-style: normal;
-}
+
 
 .shellVizViewport {
-  left: 68%;
-  top: 6%;
-  width: 30%;
-  height: 21%;
+  left: 73%;
+  top: 8%;
+  width: 24%;
+  height: 19%;
   background: rgba(0, 8, 0, 0.2);
   overflow: hidden;
   z-index: 20;
@@ -257,14 +279,17 @@ audio { display: none; }
 
 .shellDossierPanel,
 .shellLyricsPanel {
-  left: 68%;
-  width: 30%;
-  padding: 0.6rem;
+  left: 73%;
+  width: 24%;
+  padding: 0.6rem 0.8rem;
   color: #f4f0d6;
   background: rgba(0, 0, 0, 0.7);
   overflow: hidden;
   text-shadow: 1px 1px 0 #000;
   z-index: 20;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .shellDossierPanel { top: 29%; height: 23%; }
@@ -393,7 +418,7 @@ audio { display: none; }
   position: fixed;
   right: 0;
   top: 150px;
-  width: calc(560px + 2%);
+  width: calc(700px + 2%);
   height: calc(100vh - 150px - 110px);
   z-index: 15;
   background: none;
@@ -412,7 +437,7 @@ audio { display: none; }
   content: "";
   position: absolute;
   inset: 0;
-  background: url("/images/industrial-library-frame-v1.png") center center / 100% 100% no-repeat;
+  background: url("/images/production/industrial-library-frame-v2.png") center center / 100% 100% no-repeat;
   pointer-events: none;
   z-index: 50;
 }
@@ -421,14 +446,21 @@ audio { display: none; }
 
 .libraryButtons {
   position: absolute;
-  top: 5%;
-  left: 62%;
+  top: 2.5%;
+  left: 55%;
   right: 2%;
-  height: 5%;
+  height: 10%;
   display: flex;
   align-items: center;
-  gap: 0.3rem;
+  justify-content: flex-end;
+  gap: 0.4rem;
   z-index: 5;
+}
+
+.libraryButtons .playlistLink {
+  padding: 0.35rem 0.7rem;
+  font-size: 0.78rem;
+  height: 100%;
 }
 
 .panelLabel {
@@ -479,21 +511,30 @@ audio { display: none; }
   width: 100%;
   border: 0;
   outline: 0;
-  color: #ffffff;
+  color: #caff3a;
   background: transparent;
   font-weight: 700;
   font-size: 0.82rem;
+  caret-color: #caff3a;
+}
+
+.searchBox input::placeholder {
+  color: rgba(202, 255, 58, 0.45);
+}
+
+.searchBox {
+  border-bottom: 1px solid rgba(202, 255, 58, 0.3);
 }
 
 .trackList {
   position: absolute;
   left: 3%;
   right: 2%;
-  top: 30%;
-  bottom: 10%;
+  top: 29%;
+  bottom: 11.5%;
   display: grid;
   grid-template-rows: repeat(5, minmax(0, 1fr));
-  gap: 0.25rem;
+  gap: 0.08rem;
   z-index: 5;
 }
 
@@ -505,28 +546,88 @@ audio { display: none; }
 
 .trackRow {
   position: relative;
-  display: grid;
-  grid-template-columns: 52px minmax(0, 1fr);
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.3rem 0.5rem;
-  border: 1px solid rgba(190, 255, 65, .15);
-  background: url("/images/industrial-track-row-v2.png") center center / 100% 100% no-repeat;
+  display: block;
+  padding: 0;
+  border: none;
+  /* Layer 1: track row background metal texture */
+  background: url("/images/industrial-track-row-bg.png") center center / 100% 100% no-repeat;
   color: #f4f0d6;
   text-align: left;
   cursor: pointer;
   overflow: hidden;
 }
 
-.trackRow.active {
-  outline: 2px solid rgba(186, 255, 66, .8);
+.trackRowSelect {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 82px minmax(0, 1fr);
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.3rem 3.1rem 0.3rem 0.35rem;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
 }
 
+.trackRowPlay {
+  position: absolute;
+  z-index: 3;
+  right: 0.7rem;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(8, 10, 8, 0.72);
+  color: #d5bd72;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.trackRowPlay:active {
+  color: #fff0a6;
+  transform: translateY(calc(-50% + 1px));
+}
+
+/* Layer 3: track row frame (on top, corners cover the cover-art edges) */
+.trackRow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("/images/industrial-track-row-v5-off.png") center center / 100% 100% no-repeat;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.trackRow.active {
+  background: url("/images/industrial-track-row-bg.png") center center / 100% 100% no-repeat;
+}
+
+.trackRow.active::after {
+  background: url("/images/industrial-track-row-v5-on.png") center center / 100% 100% no-repeat;
+  box-shadow: none !important;
+  outline: none !important;
+  border: none !important;
+}
+
+/* Layer 2: cover art + text, between bg and frame */
 .trackRow img {
-  width: 52px;
-  height: 38px;
+  position: relative;
+  z-index: 1;
+  width: 78px;
+  height: 56px;
   object-fit: cover;
   display: block;
+}
+
+.trackRow .trackRowText {
+  position: relative;
+  z-index: 1;
 }
 
 .trackRow b,
@@ -537,42 +638,63 @@ audio { display: none; }
   text-overflow: ellipsis;
 }
 
-.trackRow b { font-size: 0.82rem; }
-.trackRow small { font-size: 0.62rem; opacity: 0.85; }
+.trackRow b { font-size: 1.1rem; }
+.trackRow small { font-size: 0.82rem; opacity: 0.85; }
 
 .libraryPagination {
   position: absolute;
-  left: 6%;
-  right: 4%;
-  bottom: 4%;
+  left: 0;
+  right: 0;
+  bottom: 2%;
   height: 8%;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: 0.5rem;
-  color: #f4f0d6;
-  text-align: center;
-  font-weight: 900;
-  font-size: 0.78rem;
   z-index: 5;
 }
 
+/* Transparent click targets overlaying the green arrow graphics */
 .libraryPagination button {
-  border: 1px solid rgba(190, 255, 65, .45);
-  background: rgba(5, 12, 3, 0.72);
+  position: absolute;
+  top: 0;
+  width: 13%;
+  height: 100%;
+  border: none;
+  /* TEMP DEBUG: translucent red so button hit-area is visible */
+  background: transparent;
   color: #caff3a;
+  font-size: 1.4rem;
   font-weight: 900;
   cursor: pointer;
-  padding: 0.25rem 0.5rem;
-  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background 0.15s;
+}
+
+.libraryPagination button:first-child { left: 18%; }
+.libraryPagination button:last-child  { left: 69%; }
+
+.libraryPagination button:hover:not(:disabled) {
+  background: rgba(168, 255, 50, 0.12);
 }
 
 .libraryPagination button:disabled {
-  opacity: 0.35;
+  opacity: 0;
   cursor: default;
+  pointer-events: none;
+}
+
+/* Page indicator centered between the two buttons */
+.libraryPagination span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #caff3a;
+  font-family: 'VT323', monospace;
+  font-size: 1.3rem;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 6px rgba(202, 255, 58, 0.7);
+  white-space: nowrap;
 }
 
 /* === WARNING STRIP (bottom) === */
@@ -580,17 +702,68 @@ audio { display: none; }
    We display the image at 560px tall and crop to show just the band. */
 
 .industrialWarningStrip {
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  width: 100vw;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: auto;
+  width: 1920px;
   height: 110px;
   z-index: 60;
   pointer-events: none;
-  background: url("/images/industrial-warning-banner-v1.png") center 47% / 101% 560px no-repeat;
+  background: url("/images/production/industrial-warning-footer-v2.png") center center / 100% 100% no-repeat;
 }
 
 .warningPlate {
   display: none; /* baked into the image */
+}
+
+/* === CONTAINMENT VIEW — header signal panel === */
+
+.headerSignal {
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+.headerSignal > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  border: 1px solid rgba(190, 255, 65, 0.3);
+  background: rgba(5, 12, 3, 0.75);
+  padding: 0.3rem 0.7rem;
+  min-width: 80px;
+  text-align: center;
+}
+
+.headerSignal span {
+  font-size: 0.6rem;
+  font-weight: 900;
+  color: #b5ad91;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.headerSignal b {
+  font-size: 1.1rem;
+  color: #caff3a;
+  line-height: 1;
+}
+
+/* Digital grainy track count display */
+.digitalCount {
+  font-family: 'VT323', monospace;
+  font-size: 2.4rem;
+  line-height: 1;
+  color: #caff3a;
+  letter-spacing: 0.05em;
+  text-shadow:
+    0 0 6px rgba(202, 255, 58, 0.9),
+    0 0 14px rgba(202, 255, 58, 0.5),
+    1px 1px 0 rgba(0, 0, 0, 0.8);
+  filter: contrast(1.1);
 }
 
 /* === MODALS === */
@@ -606,7 +779,6 @@ audio { display: none; }
   justify-content: center;
 }
 
-.playlistModalPanel,
 .playerModalPanel {
   background: rgba(8, 12, 5, 0.97);
   border: 1px solid rgba(168, 255, 50, 0.3);
@@ -617,17 +789,41 @@ audio { display: none; }
   scrollbar-width: thin;
 }
 
+/* === INDUSTRIAL PLAYLIST MODAL === */
+.playlistModalPanel {
+  width: min(1100px, 92vw);
+  max-height: 88vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  padding: 1.75rem 2rem 2rem;
+  color: #f4f0d6;
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.18) 3px, rgba(0,0,0,0.18) 4px),
+    linear-gradient(135deg, #1c1308 0%, #0e0b04 45%, #14100a 75%, #0a0804 100%);
+  border: 2px solid rgba(168, 255, 50, 0.45);
+  border-radius: 6px;
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,0.6),
+    0 0 40px rgba(168, 255, 50, 0.12),
+    inset 0 0 60px rgba(0,0,0,0.55);
+}
+
 .playlistModalHead {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(168, 255, 50, 0.25);
 }
 
 .playlistModalHead h2 {
   color: #b7ff2b;
   margin: 0.25rem 0 0;
-  font-size: 1.4rem;
+  font-size: 1.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-shadow: 0 0 12px rgba(168, 255, 50, 0.4);
 }
 
 .eyebrow {
@@ -648,44 +844,77 @@ audio { display: none; }
 
 .playlistGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
 }
 
 .playlistCard {
   display: flex;
-  gap: 0.75rem;
+  gap: 1rem;
   align-items: center;
-  border: 1px solid rgba(168, 255, 50, 0.2);
-  background: rgba(10, 15, 5, 0.8);
+  border: 1px solid rgba(168, 255, 50, 0.25);
+  background:
+    linear-gradient(135deg, rgba(20, 28, 10, 0.9), rgba(8, 12, 5, 0.92));
   color: #f4f0d6;
   cursor: pointer;
   text-align: left;
-  padding: 0.6rem;
+  padding: 0.85rem;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 4px 12px rgba(0,0,0,0.4);
+  transition: transform 0.12s, border-color 0.12s, box-shadow 0.12s;
 }
 
 .playlistCard:hover {
-  background: rgba(168, 255, 50, 0.08);
-  border-color: rgba(168, 255, 50, 0.5);
+  background: linear-gradient(135deg, rgba(30, 42, 14, 0.95), rgba(12, 18, 6, 0.95));
+  border-color: rgba(168, 255, 50, 0.7);
+  transform: translateY(-2px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 8px 22px rgba(0,0,0,0.5), 0 0 18px rgba(168,255,50,0.15);
 }
 
 .playlistArt {
-  width: 48px;
-  height: 48px;
+  width: 84px;
+  height: 84px;
   flex-shrink: 0;
-  background: rgba(168, 255, 50, 0.1);
-  border: 1px solid rgba(168, 255, 50, 0.2);
+  overflow: hidden;
+  border: 1px solid rgba(168, 255, 50, 0.35);
+  border-radius: 3px;
+  background: rgba(168, 255, 50, 0.06);
+  box-shadow: inset 0 0 18px rgba(0,0,0,0.6);
+}
+
+.playlistArt img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .playlistCardCopy {
   display: flex;
   flex-direction: column;
-  gap: 0.1rem;
+  gap: 0.25rem;
+  min-width: 0;
 }
 
-.playlistCardCopy b { font-size: 0.82rem; color: #b7ff2b; }
-.playlistCardCopy small { font-size: 0.65rem; color: #b5ad91; }
-.playlistCardCopy em { font-size: 0.66rem; font-style: normal; color: #b5ad91; }
+.playlistCardCopy b {
+  font-size: 1.05rem;
+  color: #b7ff2b;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.playlistCardCopy small {
+  font-size: 0.72rem;
+  color: #caff3a;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.playlistCardCopy em { font-size: 0.74rem; font-style: normal; color: #b5ad91; line-height: 1.3; }
+
+.playlistModal .modalDismiss {
+  font-size: 0.85rem;
+  padding: 0.5rem 1.1rem;
+  border-radius: 4px;
+}
 
 .playerModalPanel {
   display: flex;
@@ -708,3 +937,566 @@ audio { display: none; }
   display: block !important;
   width: 100%;
 }
+
+
+/* === PLAYER OVERLAY TUNING — AUTHORITATIVE === */
+
+/* Cover art slightly oversized and centered in the viewport */
+.shellCoverViewport img {
+  width: 106%;
+  height: 106%;
+  max-width: none;
+  max-height: none;
+  object-fit: cover;
+  object-position: center center;
+  transform: translate(-3%, -3%);
+  filter: contrast(1.06) saturate(1.05) brightness(0.96);
+}
+
+/* Waveform viewport aligned to shell hardware opening */
+.shellVizViewport {
+  left: 72.7%;
+  top: 7.35%;
+  width: 24.8%;
+  height: 20.6%;
+  overflow: hidden;
+}
+
+/* Waveform fills wider internally so motion does not die at clipped edges */
+.shellScopeTrace {
+  width: 140%;
+  height: 100%;
+  margin-left: -20%;
+  animation: idleScopeHum 5.5s ease-in-out infinite;
+  transform: none;
+  opacity: 0.82;
+  filter: drop-shadow(0 0 8px rgba(168,255,50,0.28));
+}
+
+.isPlaying .shellScopeTrace {
+  animation: scopePulseWide 1.8s linear infinite;
+  opacity: 1;
+  filter: drop-shadow(0 0 14px rgba(168,255,50,0.55));
+}
+
+@keyframes scopePulseWide {
+  from { transform: translateX(-12%); }
+  to   { transform: translateX(12%); }
+}
+
+@keyframes idleScopeHum {
+  0%, 100% { opacity: 0.68; transform: translateX(0); }
+  50% { opacity: 0.88; transform: translateX(1.5%); }
+}
+
+/* Dossier and lyric CRT typography */
+.shellDossierPanel,
+.shellLyricsPanel {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.terminalPlate {
+  font-size: 0.78rem;
+}
+
+.shellDossierPanel h2 {
+  font-size: 1.15rem;
+}
+
+.shellDossierPanel p,
+.shellLyricsPanel p,
+.shellLyricsPanel span {
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+/* Lyric viewport content centered inside usable CRT area */
+.shellLyricsPanel {
+  padding-top: 1.15rem;
+  padding-bottom: 0.75rem;
+}
+
+.shellLyricsPanel .lyricsScroll {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: none;
+  overflow: hidden;
+}
+
+.shellLyricsPanel .industrialLyricsEmpty {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+
+/* === COVER ART STATUS IMAGE === */
+.coverStatus {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  width: 230px;
+  height: 56px;
+  background-position: left top;
+  background-repeat: no-repeat;
+  background-size: contain;
+  pointer-events: none;
+  z-index: 30;
+}
+
+.coverStatus.awaiting {
+  background-image: url("/images/awaiting.png");
+}
+
+.coverStatus.active {
+  background-image: url("/images/active.png");
+}
+
+
+/* === MOBILE / POCKET FILTH ROUTING === */
+@media (max-width: 900px) {
+  html,
+  body,
+  #root {
+    overflow: auto;
+    height: auto;
+    min-height: 100%;
+  }
+}
+
+/* === POCKET FILTH BOOT PLACEHOLDER === */
+.pocketFilthBoot {
+  min-height: 100vh;
+  width: 100vw;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(168,255,50,0.12), transparent 35%),
+    linear-gradient(180deg, #12150d, #050604);
+  color: #caff3a;
+}
+
+.pocketFilthBootPanel {
+  width: min(92vw, 420px);
+  border: 2px solid rgba(168,255,50,0.45);
+  background: rgba(0,0,0,0.72);
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: inset 0 0 24px rgba(168,255,50,0.12);
+}
+
+.pocketFilthBootPanel p,
+.pocketFilthBootPanel span {
+  margin: 0.5rem 0;
+  letter-spacing: 0.08em;
+}
+
+.pocketFilthBootPanel h1 {
+  margin: 0.4rem 0;
+  font-size: 2.2rem;
+}
+
+/* === POCKET FILTH BOOT PLACEHOLDER === */
+.pocketFilthBoot {
+  min-height: 100vh;
+  width: 100vw;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(168,255,50,0.12), transparent 35%),
+    linear-gradient(180deg, #12150d, #050604);
+  color: #caff3a;
+}
+
+.pocketFilthBootPanel {
+  width: min(92vw, 420px);
+  border: 2px solid rgba(168,255,50,0.45);
+  background: rgba(0,0,0,0.72);
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: inset 0 0 24px rgba(168,255,50,0.12);
+}
+
+.pocketFilthBootPanel p,
+.pocketFilthBootPanel span {
+  margin: 0.5rem 0;
+  letter-spacing: 0.08em;
+}
+
+.pocketFilthBootPanel h1 {
+  margin: 0.4rem 0;
+  font-size: 2.2rem;
+}
+
+/* === FILTH-UP DESKTOP GUARD === */
+.desktopGuard {
+  min-height: 100vh;
+  width: 100vw;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(240,74,47,0.14), transparent 38%),
+    linear-gradient(180deg, #15110b, #050403);
+  color: #f3edd7;
+}
+
+.desktopGuardPanel {
+  width: min(92vw, 620px);
+  border: 2px solid rgba(240,74,47,0.55);
+  background: rgba(0,0,0,0.76);
+  padding: 1.75rem;
+  text-align: center;
+  box-shadow: inset 0 0 30px rgba(240,74,47,0.12);
+}
+
+.desktopGuardPanel p,
+.desktopGuardPanel span,
+.desktopGuardPanel small {
+  display: block;
+  margin: 0.55rem 0;
+  letter-spacing: 0.08em;
+}
+
+.desktopGuardPanel h1 {
+  margin: 0.4rem 0;
+  color: #caff3a;
+  font-size: 2.1rem;
+}
+
+.desktopGuardPanel strong {
+  display: block;
+  color: #f04a2f;
+  margin-top: 0.75rem;
+}
+
+
+
+
+/* === FILTH-UP TRUE STAGE LOCK === */
+
+.radioApp.filthUpView {
+  width: 100vw;
+  height: 100dvh;
+  overflow: hidden;
+  position: relative;
+  display: grid;
+  place-items: start center;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.filthStage {
+  width: 100vw;
+  height: 100dvh;
+  position: relative;
+  overflow: hidden;
+}
+
+.filthStage .industrialShell {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.filthStage .industrialHeader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 15%;
+}
+
+.filthStage .industrialPlayerShell {
+  position: absolute;
+  left: 0;
+  top: 15%;
+  width: 62.4%;
+  height: 73.8%;
+}
+
+.filthStage .industrialLibraryBay {
+  position: absolute;
+  right: 0;
+  top: 15%;
+  width: 38.2%;
+  height: 71%;
+}
+
+.filthStage .industrialWarningStrip {
+  display: block !important;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 12%;
+  z-index: 100;
+  pointer-events: none;
+  background: url("/images/production/industrial-warning-footer-v2.png") center center / 100% 100% no-repeat;
+}
+
+
+/* === STANK GAP KILLER === */
+
+.filthStage .industrialPlayerShell {
+  top: 17.0%;
+}
+
+.filthStage .industrialLibraryBay {
+  top: 17.0%;
+  height: 71.2%;
+}
+
+.filthStage .industrialHeader {
+  height: 16.8%;
+}
+
+/* === ECO-ELECTRIFICATION-001: POWERED MACHINE LIFE === */
+
+/* Faint machine glow behind the whole console */
+.radioApp.filthUpView::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 48% 42%, rgba(168,255,50,0.055), transparent 42%),
+    radial-gradient(ellipse at 50% 100%, rgba(255,120,20,0.06), transparent 35%);
+  z-index: 0;
+  animation: stankAmbientBreath 7.5s ease-in-out infinite;
+}
+
+@keyframes stankAmbientBreath {
+  0%, 100% { opacity: 0.75; }
+  50% { opacity: 1; }
+}
+
+/* CRT breathing on active screen regions */
+.shellVizViewport,
+.shellDossierPanel,
+.shellLyricsPanel,
+.searchBox {
+  animation: crtIdleBreath 4.8s ease-in-out infinite;
+}
+
+@keyframes crtIdleBreath {
+  0%, 100% { filter: brightness(0.96) contrast(1.04); }
+  47% { filter: brightness(1.06) contrast(1.08); }
+  51% { filter: brightness(0.98) contrast(1.05); }
+  72% { filter: brightness(1.03) contrast(1.07); }
+}
+
+/* Subtle CRT scanline glass overlay */
+.shellVizViewport::after,
+.shellDossierPanel::after,
+.shellLyricsPanel::after,
+.shellCoverViewport::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 80;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,0.035) 0px,
+      rgba(255,255,255,0.035) 1px,
+      rgba(0,0,0,0.08) 2px,
+      rgba(0,0,0,0.08) 4px
+    ),
+    radial-gradient(ellipse at 50% 20%, rgba(255,255,255,0.07), transparent 42%);
+  mix-blend-mode: screen;
+  opacity: 0.28;
+  animation: scanlineDrift 9s linear infinite;
+}
+
+@keyframes scanlineDrift {
+  from { transform: translateY(-4px); }
+  to { transform: translateY(4px); }
+}
+
+/* Idle oscilloscope: powered but not dead */
+.shellScopeTrace {
+  opacity: 0.82;
+  filter: drop-shadow(0 0 8px rgba(168,255,50,0.28));
+  animation: idleScopeHum 5.5s ease-in-out infinite;
+}
+
+@keyframes idleScopeHum {
+  0%, 100% { opacity: 0.68; transform: translateX(0); }
+  50% { opacity: 0.88; transform: translateX(1.5%); }
+}
+
+/* Playing state wakes the scope harder */
+.isPlaying .shellScopeTrace {
+  filter: drop-shadow(0 0 14px rgba(168,255,50,0.55));
+}
+
+/* Buttons feel energized */
+.industrialTransport button,
+.libraryPagination button:not(:disabled),
+.viewToggle {
+  text-shadow: 0 0 8px rgba(168,255,50,0.65);
+  box-shadow: inset 0 0 10px rgba(168,255,50,0.08);
+}
+
+.industrialTransport button:hover,
+.libraryPagination button:hover:not(:disabled),
+.viewToggle:hover {
+  filter: brightness(1.18);
+  box-shadow:
+    inset 0 0 14px rgba(168,255,50,0.18),
+    0 0 10px rgba(168,255,50,0.18);
+}
+
+/* Selected track indicator gets a slight electrical pulse */
+.trackRow.active::after {
+  animation: activeRowPulse 2.8s ease-in-out infinite;
+}
+
+@keyframes activeRowPulse {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.18); }
+}
+
+/* Cover art becomes more like glass behind a machine viewport */
+.shellCoverViewport img {
+  filter: contrast(1.06) saturate(1.05) brightness(0.96);
+}
+
+/* Remove debug pagination color if still present */
+.libraryPagination button {
+  background: transparent !important;
+}
+
+
+/* === ECO-ELECTRIFICATION-001: POWERED MACHINE LIFE === */
+
+/* Faint machine glow behind the whole console */
+.radioApp.filthUpView::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 48% 42%, rgba(168,255,50,0.055), transparent 42%),
+    radial-gradient(ellipse at 50% 100%, rgba(255,120,20,0.06), transparent 35%);
+  z-index: 0;
+  animation: stankAmbientBreath 7.5s ease-in-out infinite;
+}
+
+@keyframes stankAmbientBreath {
+  0%, 100% { opacity: 0.75; }
+  50% { opacity: 1; }
+}
+
+/* CRT breathing on active screen regions */
+.shellVizViewport,
+.shellDossierPanel,
+.shellLyricsPanel,
+.searchBox {
+  animation: crtIdleBreath 4.8s ease-in-out infinite;
+}
+
+@keyframes crtIdleBreath {
+  0%, 100% { filter: brightness(0.96) contrast(1.04); }
+  47% { filter: brightness(1.06) contrast(1.08); }
+  51% { filter: brightness(0.98) contrast(1.05); }
+  72% { filter: brightness(1.03) contrast(1.07); }
+}
+
+/* Subtle CRT scanline glass overlay */
+.shellVizViewport::after,
+.shellDossierPanel::after,
+.shellLyricsPanel::after,
+.shellCoverViewport::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 80;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,0.035) 0px,
+      rgba(255,255,255,0.035) 1px,
+      rgba(0,0,0,0.08) 2px,
+      rgba(0,0,0,0.08) 4px
+    ),
+    radial-gradient(ellipse at 50% 20%, rgba(255,255,255,0.07), transparent 42%);
+  mix-blend-mode: screen;
+  opacity: 0.28;
+  animation: scanlineDrift 9s linear infinite;
+}
+
+@keyframes scanlineDrift {
+  from { transform: translateY(-4px); }
+  to { transform: translateY(4px); }
+}
+
+/* Idle oscilloscope: powered but not dead */
+.shellScopeTrace {
+  opacity: 0.82;
+  filter: drop-shadow(0 0 8px rgba(168,255,50,0.28));
+  animation: idleScopeHum 5.5s ease-in-out infinite;
+}
+
+@keyframes idleScopeHum {
+  0%, 100% { opacity: 0.68; transform: translateX(0); }
+  50% { opacity: 0.88; transform: translateX(1.5%); }
+}
+
+/* Playing state wakes the scope harder */
+.isPlaying .shellScopeTrace {
+  filter: drop-shadow(0 0 14px rgba(168,255,50,0.55));
+}
+
+/* Buttons feel energized */
+.industrialTransport button,
+.libraryPagination button:not(:disabled),
+.viewToggle {
+  text-shadow: 0 0 8px rgba(168,255,50,0.65);
+  box-shadow: inset 0 0 10px rgba(168,255,50,0.08);
+}
+
+.industrialTransport button:hover,
+.libraryPagination button:hover:not(:disabled),
+.viewToggle:hover {
+  filter: brightness(1.18);
+  box-shadow:
+    inset 0 0 14px rgba(168,255,50,0.18),
+    0 0 10px rgba(168,255,50,0.18);
+}
+
+/* Selected track indicator gets a slight electrical pulse */
+.trackRow.active::after {
+  animation: activeRowPulse 2.8s ease-in-out infinite;
+}
+
+@keyframes activeRowPulse {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.18); }
+}
+
+/* Cover art becomes more like glass behind a machine viewport */
+.shellCoverViewport img {
+  filter: contrast(1.06) saturate(1.05) brightness(0.96);
+}
+
+/* Remove debug pagination color if still present */
+.libraryPagination button {
+  background: transparent !important;
+}
+

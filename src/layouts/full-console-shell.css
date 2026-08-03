@@ -1,0 +1,2426 @@
+.fullConsolePage {
+  width: 100%;
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at center, rgba(68, 57, 35, 0.18), transparent 55%),
+    #030302;
+  color: #d7d0a5;
+}
+
+.stankDesktopViewport {
+  width: 100%;
+  height: 100dvh;
+  min-height: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.stankDesktopScaledBounds {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.stankDesktopCanvas,
+.stankDesktopCanvas * {
+  box-sizing: border-box;
+}
+
+.stankDesktopCanvas {
+  position: relative;
+  width: 1672px;
+  height: 941px;
+  transform-origin: top left;
+  overflow: visible;
+}
+
+.fullConsoleStage {
+  position: relative;
+  width: 1672px;
+  height: 941px;
+  flex: none;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.fullConsoleBackground,
+.fullConsoleHardware {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+  user-select: none;
+}
+
+.fullConsoleBackground { z-index: 0; }
+.fullConsoleHardware { z-index: 20; }
+
+.consoleOverlay {
+  position: absolute;
+  z-index: 30;
+  overflow: hidden;
+}
+
+.consoleEnvironment {
+  left: 1.85%;
+  top: 26.2%;
+  width: 10.9%;
+  height: 32.5%;
+  display: grid;
+  grid-template-rows: repeat(4, 1fr);
+  gap: 1.2%;
+  padding: 1.5%;
+  font-family: "Courier New", monospace;
+  text-transform: uppercase;
+}
+
+.consoleEnvironment div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 8%;
+  background: rgba(2, 8, 4, 0.54);
+  border: 1px solid rgba(137, 170, 86, 0.14);
+}
+
+.consoleEnvironment span {
+  font-size: clamp(5px, 0.42vw, 11px);
+  opacity: 0.65;
+}
+
+.consoleEnvironment b {
+  margin-top: 3%;
+  color: #b9d77a;
+  font-size: clamp(6px, 0.54vw, 14px);
+  line-height: 1.05;
+}
+
+.consoleEnvironmentItem {
+  z-index: 5;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 0;
+  background: transparent;
+  font-family: "Courier New", monospace;
+  text-transform: uppercase;
+}
+
+.consoleEnvironmentTitle {
+  z-index: 30;
+  display: block;
+  object-fit: fill;
+}
+
+.consoleEnvironmentItem > img,
+.consoleStankPanel,
+.consolePanelAsset {
+  display: block;
+  object-fit: fill;
+}
+
+.consoleEnvironmentItem > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.environment-monitor {
+  --environment-indicator-left: 36.8%;
+  --environment-indicator-top: 62.25%;
+  --environment-indicator-width: 49.84%;
+  --environment-indicator-height: 19.25%;
+  --environment-indicator-columns: 7;
+  --environment-indicator-lamp-scale-x: 0.82;
+  --environment-indicator-lamp-scale-y: 0.95;
+  --environment-indicator-offset-y: 4%;
+}
+
+.environment-monitor--signal {
+  --environment-indicator-left: 34.97%;
+  --environment-indicator-top: 58.6%;
+  --environment-indicator-width: 55.09%;
+  --environment-indicator-height: 18.9%;
+}
+
+.environment-monitor--noise {
+  --environment-indicator-left: 34.21%;
+  --environment-indicator-top: 60.2%;
+  --environment-indicator-width: 59.22%;
+  --environment-indicator-height: 18.8%;
+  --environment-indicator-lamp-scale-x: 0.86;
+  --environment-indicator-lamp-scale-y: 1;
+}
+
+.environment-monitor--pressure {
+  --environment-indicator-left: 34.42%;
+  --environment-indicator-top: 55.7%;
+  --environment-indicator-width: 50.16%;
+  --environment-indicator-height: 15.8%;
+  --environment-indicator-columns: 6;
+  --environment-indicator-lamp-scale-y: 0.98;
+  --environment-indicator-offset-y: 2%;
+}
+
+.environment-indicator__row {
+  position: absolute;
+  left: var(--environment-indicator-left);
+  top: var(--environment-indicator-top);
+  z-index: 2;
+  width: var(--environment-indicator-width);
+  height: var(--environment-indicator-height);
+  display: grid;
+  grid-template-columns: repeat(var(--environment-indicator-columns), minmax(0, 1fr));
+  align-items: stretch;
+  gap: 0;
+  pointer-events: none;
+}
+
+.environment-indicator__lamp {
+  width: calc(100% * var(--environment-indicator-lamp-scale-x));
+  height: calc(100% * var(--environment-indicator-lamp-scale-y));
+  align-self: center;
+  justify-self: center;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
+  box-shadow: none;
+  opacity: 1;
+  pointer-events: none;
+  transform: translate(-3%, var(--environment-indicator-offset-y));
+}
+
+.environment-indicator__lamp--active {
+  background: radial-gradient(
+    ellipse at 45% 32%,
+    rgba(255, 226, 142, 0.96) 0%,
+    rgba(194, 137, 48, 0.94) 42%,
+    rgba(78, 47, 13, 0.96) 100%
+  );
+  box-shadow:
+    0 0 4px rgba(218, 157, 58, 0.4),
+    0 0 8px rgba(161, 99, 31, 0.2),
+    inset 0 1px 1px rgba(255, 240, 190, 0.4),
+    inset 0 -2px 2px rgba(49, 27, 7, 0.78);
+  opacity: 0.96;
+  animation: consoleAmberSoftPulse 4.2s ease-in-out infinite;
+}
+
+.environment-indicator__lamp--warning {
+  background: radial-gradient(ellipse at 45% 32%, #e1c27a 0%, #a47635 48%, #4b3017 100%);
+  box-shadow: 0 0 5px rgba(174, 125, 51, 0.3), inset 0 -2px 2px rgba(42, 25, 9, 0.78);
+}
+
+.environment-indicator__lamp--critical {
+  background: radial-gradient(ellipse at 45% 32%, #d18b74 0%, #8d4231 48%, #3f1d18 100%);
+  box-shadow: 0 0 5px rgba(154, 68, 48, 0.28), inset 0 -2px 2px rgba(43, 16, 13, 0.8);
+}
+
+.environment-indicator__lamp--disabled {
+  background: transparent;
+  box-shadow: none;
+  opacity: 0.35;
+}
+
+.consoleStankPanel {
+  z-index: 5;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.consoleStankPanel > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: fill;
+}
+
+.consolePanelAsset {
+  z-index: 5;
+  pointer-events: none;
+}
+
+.consoleAuxiliaryPanel {
+  overflow: hidden;
+}
+
+.consoleAuxiliaryPanel > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: fill;
+}
+
+.liveContainmentLights,
+.systemHealthLights,
+.transmitterStatusLights,
+.diagnosticsStatusLights {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.liveContainmentLight {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  background: radial-gradient(circle at 42% 34%, #e5ff8f 0%, #82c328 32%, #31690d 68%, #102d08 100%);
+  box-shadow:
+    0 0 5px rgba(139, 224, 48, 0.82),
+    0 0 11px rgba(83, 177, 29, 0.62),
+    inset 0 1px 2px rgba(236, 255, 181, 0.64);
+  mix-blend-mode: screen;
+  animation: consoleGreenPulse 2.15s ease-in-out infinite;
+}
+
+.liveContainmentLight--master {
+  left: 3.55%;
+  top: 22.1%;
+  width: 7.4%;
+  height: 13.8%;
+  border-radius: 8%;
+}
+
+.liveContainmentLight--tx {
+  left: 6.1%;
+  top: 70.9%;
+  width: 4.5%;
+  height: 8.2%;
+}
+
+.liveContainmentLight--signal {
+  left: 37.8%;
+  top: 70.9%;
+  width: 4.5%;
+  height: 8.2%;
+  animation-delay: -0.7s;
+}
+
+.liveContainmentLight--safe {
+  left: 68.25%;
+  top: 70.9%;
+  width: 4.5%;
+  height: 8.2%;
+  animation-delay: -1.35s;
+}
+
+.liveContainmentOnAir {
+  position: absolute;
+  left: 73.8%;
+  top: 18.6%;
+  width: 17.5%;
+  height: 29.5%;
+  border-radius: 10%;
+  opacity: 0;
+  background: radial-gradient(ellipse at center, rgba(255, 91, 70, 0.82), rgba(183, 22, 14, 0.56) 55%, transparent 76%);
+  box-shadow: 0 0 10px rgba(255, 53, 39, 0.5), inset 0 0 8px rgba(255, 117, 92, 0.44);
+  mix-blend-mode: screen;
+  transition: opacity 220ms ease;
+}
+
+.fullConsolePage.isPlaying .liveContainmentOnAir {
+  opacity: 1;
+  animation: consoleRedPulse 1.45s ease-in-out infinite;
+}
+
+.systemHealthLights {
+  left: 38.07%;
+  top: 27.7%;
+  right: auto;
+  bottom: auto;
+  width: 46.62%;
+  height: 55.2%;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-rows: repeat(4, minmax(0, 1fr));
+  column-gap: 0;
+  row-gap: 0;
+}
+
+.systemHealthLights i {
+  width: 68%;
+  height: 45%;
+  align-self: center;
+  justify-self: center;
+  border-radius: 16%;
+  background: radial-gradient(ellipse at 45% 34%, #dfff91 0%, #76b92d 38%, #2c650e 72%, #122f08 100%);
+  box-shadow:
+    0 0 4px rgba(131, 211, 52, 0.65),
+    0 0 8px rgba(72, 159, 25, 0.38),
+    inset 0 1px 2px rgba(229, 255, 178, 0.54);
+  mix-blend-mode: screen;
+  animation: consoleGreenPulse 2.5s ease-in-out infinite;
+  animation-delay: calc(var(--health-index) * -90ms);
+}
+
+.transmitterStatusLights {
+  left: 41.17%;
+  top: 21.2%;
+  right: auto;
+  bottom: auto;
+  width: 50.04%;
+  height: 55.72%;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-rows: repeat(4, minmax(0, 1fr));
+  column-gap: 0;
+  row-gap: 0;
+}
+
+.transmitterStatusLights i {
+  width: 66%;
+  height: 45%;
+  align-self: center;
+  justify-self: center;
+  border-radius: 13%;
+  background: radial-gradient(
+    ellipse at 44% 33%,
+    rgba(210, 255, 133, 0.94) 0%,
+    rgba(89, 177, 39, 0.92) 38%,
+    rgba(28, 91, 17, 0.96) 73%,
+    rgba(8, 34, 8, 0.98) 100%
+  );
+  box-shadow:
+    0 0 3px rgba(116, 210, 58, 0.5),
+    0 0 6px rgba(61, 148, 30, 0.24),
+    inset 0 1px 1px rgba(224, 255, 171, 0.44),
+    inset 0 -2px 2px rgba(8, 38, 6, 0.78);
+  mix-blend-mode: screen;
+  opacity: 0.9;
+}
+
+.diagnosticsStatusLights {
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.diagnosticsStatusLight {
+  position: absolute;
+  left: 72.75%;
+  width: 12%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  transform: translateY(-50%);
+  filter: brightness(0.82);
+  animation: consoleDiagnosticPulse 2.1s ease-in-out infinite;
+  animation-delay: calc(var(--diagnostics-index) * -310ms);
+}
+
+.diagnosticsStatusLight--uplink {
+  top: 34.8%;
+}
+
+.diagnosticsStatusLight--latency {
+  top: 51.1%;
+}
+
+.diagnosticsStatusLight--packet-loss {
+  top: 67.6%;
+}
+
+.diagnosticsStatusLight--jitter {
+  top: 83.6%;
+}
+
+.diagnosticsStatusLight--off {
+  animation: none;
+  filter: none;
+}
+
+@keyframes consoleDiagnosticPulse {
+  0%, 100% { opacity: 0.7; filter: brightness(0.72) saturate(0.92); }
+  50% { opacity: 1; filter: brightness(1.28) saturate(1.16); }
+}
+
+@keyframes consoleAmberSoftPulse {
+  0%, 100% {
+    opacity: 0.82;
+    filter: brightness(0.9) saturate(0.96) drop-shadow(0 0 1px rgba(202, 137, 42, 0.25));
+  }
+  50% {
+    opacity: 1;
+    filter: brightness(1.22) saturate(1.14) drop-shadow(0 0 4px rgba(238, 169, 58, 0.68));
+  }
+}
+
+@keyframes consoleGreenPulse {
+  0%, 100% { opacity: 0.58; filter: brightness(0.82); }
+  50% { opacity: 0.94; filter: brightness(1.18); }
+}
+
+@keyframes consoleRedPulse {
+  0%, 100% { filter: brightness(0.86); }
+  50% { filter: brightness(1.28); }
+}
+
+.consoleReturnPanel {
+  z-index: 30;
+  box-sizing: border-box;
+  display: block;
+  padding: 0;
+  text-decoration: none;
+}
+
+.consoleReturnPanel img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: fill;
+}
+
+.consoleSectorPanel > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: fill;
+}
+
+.consoleSectorPanel::after {
+  content: "";
+  position: absolute;
+  left: 16%;
+  top: 19%;
+  z-index: 1;
+  width: 68%;
+  aspect-ratio: 1;
+  border: 1px solid #619344;
+  border-radius: 50%;
+  pointer-events: none;
+  background:
+    repeating-radial-gradient(
+      circle,
+      transparent 0 9%,
+      #619344 9.4% 10.2%,
+      transparent 10.6% 19.2%
+    ),
+    repeating-conic-gradient(
+      from 0deg,
+      #619344 0deg 0.75deg,
+      transparent 0.75deg 44.25deg,
+      #619344 44.25deg 45deg
+    );
+}
+
+.consoleRadarSweep {
+  position: absolute;
+  left: 16%;
+  top: 19%;
+  z-index: 2;
+  width: 68%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg 322deg,
+    rgba(178, 215, 108, 0.04) 322deg,
+    rgba(190, 231, 119, 0.48) 350deg,
+    rgba(221, 249, 164, 0.78) 357deg,
+    transparent 360deg
+  );
+  filter: drop-shadow(0 0 4px rgba(174, 216, 100, 0.36));
+  transform-origin: 50% 50%;
+  animation: consoleRadarSweep 3.8s linear infinite;
+}
+
+@keyframes consoleRadarSweep {
+  to { transform: rotate(360deg); }
+}
+
+.consoleSymbolAsset {
+  object-fit: contain;
+}
+
+.consoleOutputNeedle {
+  z-index: 15;
+  pointer-events: none;
+}
+
+.consoleOutputNeedle img {
+  position: absolute;
+  left: 34%;
+  top: 50%;
+  width: 80%;
+  height: 80%;
+  display: block;
+  object-fit: fill;
+  transform: rotate(-132deg) scaleY(0.72);
+  transform-origin: 20% 50%;
+  transition: transform 380ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.consoleOutputNeedle.right img {
+  transform: rotate(-132deg) scaleY(0.72);
+}
+
+.fullConsolePage.isPlaying .consoleOutputNeedle.left img {
+  animation: consoleNeedleLeft 1.35s ease-in-out infinite alternate;
+}
+
+.fullConsolePage.isPlaying .consoleOutputNeedle.right img {
+  animation: consoleNeedleRight 1.65s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes consoleNeedleLeft {
+  0% { transform: rotate(-66.2deg) scaleY(0.72); }
+  40% { transform: rotate(-65.4deg) scaleY(0.72); }
+  72% { transform: rotate(-66.7deg) scaleY(0.72); }
+  100% { transform: rotate(-65.8deg) scaleY(0.72); }
+}
+
+@keyframes consoleNeedleRight {
+  0% { transform: rotate(-49.6deg) scaleY(0.72); }
+  35% { transform: rotate(-50.3deg) scaleY(0.72); }
+  68% { transform: rotate(-49.1deg) scaleY(0.72); }
+  100% { transform: rotate(-49.9deg) scaleY(0.72); }
+}
+
+.consoleCover {
+  left: 15.05%;
+  top: 17.1%;
+  width: 25.8%;
+  height: 40.7%;
+  z-index: 5;
+  background: transparent;
+}
+
+.consoleCover img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  filter: contrast(1.06) saturate(1.04) brightness(0.88);
+}
+
+.consoleCover::after,
+.consoleScope::after,
+.consoleTrackData::after,
+.consoleLyrics::after,
+.consoleLibrary::after {
+  display: none;
+}
+
+.consoleScope {
+  z-index: 5;
+  left: 43.35%;
+  top: 17.1%;
+  width: 25.05%;
+  height: 13.1%;
+  padding: 2.2% 3%;
+  background: transparent;
+}
+
+.consoleScopeGrid {
+  z-index: 4;
+  display: block;
+  object-fit: fill;
+  opacity: 1;
+  filter: none;
+}
+
+.consoleScopeTrace {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.consoleScopeTrace svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: hidden;
+}
+
+.consoleScopeBaseline,
+.consoleScopeWave {
+  vector-effect: non-scaling-stroke;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.consoleScopeBaseline {
+  stroke: #8fb45d;
+  stroke-width: 1.5;
+  opacity: 1;
+  transition: opacity 160ms ease-out;
+}
+
+.consoleScopeWave {
+  opacity: 0;
+  stroke: #a9d46a;
+  stroke-width: 1.15;
+  transform: scaleY(0.025);
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: opacity 150ms ease-out, transform 240ms cubic-bezier(0.22, 0.78, 0.28, 1);
+}
+
+.fullConsolePage.isPlaying .consoleScopeBaseline {
+  opacity: 0;
+}
+
+.fullConsolePage.isPlaying .consoleScopeWave {
+  opacity: 0.94;
+  transform: scaleY(1);
+}
+
+.consoleTrackData {
+  left: 43.35%;
+  top: 32.15%;
+  width: 25.05%;
+  height: 15.6%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2.4% 3.5%;
+  background: transparent;
+  font-family: "Courier New", monospace;
+  text-align: center;
+}
+
+.consoleTrackData small {
+  color: #789a59;
+  font-size: clamp(5px, 0.42vw, 11px);
+  letter-spacing: 0.13em;
+}
+
+.consoleTrackData small.isEmpty {
+  visibility: hidden;
+}
+
+.consoleTrackData h1 {
+  margin: 2.2% 0 0;
+  color: #c8dd92;
+  font-size: clamp(8px, 0.83vw, 21px);
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.consoleTrackData h2 {
+  margin: 1.2% 0 0;
+  color: #8fac70;
+  font-size: clamp(6px, 0.55vw, 14px);
+  font-weight: 600;
+}
+
+.consoleTrackData p {
+  max-height: 42%;
+  margin: 2.3% 0 0;
+  overflow: hidden;
+  color: #82916f;
+  font-size: clamp(5px, 0.42vw, 11px);
+  line-height: 1.25;
+}
+
+.consoleLyrics {
+  left: 43.35%;
+  top: 49.8%;
+  width: 25.05%;
+  height: 12.7%;
+  padding: 2.2% 3.2%;
+  background: transparent;
+  font-family: "Courier New", monospace;
+}
+
+.consoleLyricsScroll {
+  width: 100%;
+  height: 100%;
+  overflow: hidden auto;
+  scrollbar-width: none;
+  text-align: center;
+}
+
+.consoleLyricsScroll::-webkit-scrollbar {
+  display: none;
+}
+
+.consoleLyrics p {
+  margin: 0 0 3.5%;
+  color: #607253;
+  font-size: clamp(5px, 0.42vw, 11px);
+  line-height: 1.28;
+}
+
+.consoleLyrics p.active {
+  color: #c7df8d;
+  text-shadow: 0 0 0.45vw rgba(176, 214, 112, 0.65);
+}
+
+.consoleEmptyMessage {
+  height: 100%;
+  display: grid;
+  place-content: center;
+  gap: 7%;
+  text-align: center;
+}
+
+.consoleEmptyMessage b {
+  color: #9eba70;
+  font-size: clamp(6px, 0.55vw, 14px);
+}
+
+.consoleEmptyMessage span {
+  color: #617254;
+  font-size: clamp(5px, 0.4vw, 10px);
+}
+
+.consoleLibrary {
+  left: 71.1%;
+  top: 26.85%;
+  width: 25.65%;
+  height: 40.75%;
+  padding: 2.2% 2.4% 2.4%;
+  z-index: auto;
+  background: transparent;
+  font-family: "Courier New", monospace;
+}
+
+.consoleSearch {
+  display: block;
+  height: 9%;
+  z-index: 30;
+}
+
+.consoleSearch input {
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(160, 190, 105, 0.28);
+  outline: none;
+  padding: 0 4%;
+  background: transparent;
+  color: #c5dd8b;
+  font: inherit;
+  font-size: clamp(6px, 0.5vw, 13px);
+  letter-spacing: 0.08em;
+}
+
+.consoleSearch input::placeholder {
+  color: #56674b;
+}
+
+.consoleLibraryActions {
+  height: 9%;
+  display: flex;
+  gap: 3%;
+  align-items: center;
+  z-index: 30;
+}
+
+.consoleLibraryActions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3vw;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: #8fa968;
+  font: inherit;
+  font-size: clamp(5px, 0.42vw, 11px);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.consoleTrackList {
+  height: 73%;
+  display: grid;
+  grid-template-rows: repeat(6, minmax(0, 1fr));
+  gap: 1.2%;
+  position: relative;
+  z-index: 5;
+}
+
+.consoleTrackRow {
+  position: relative;
+  min-height: 0;
+  display: block;
+  overflow: hidden;
+  background: url("/images/production/track-row.png") center / 100% 100% no-repeat;
+  color: #9bac82;
+  text-align: left;
+  transition: filter 140ms ease, transform 140ms ease;
+}
+
+.consoleTrackRow:hover,
+.consoleTrackRow.active,
+.consoleTrackRow.isPlaying {
+  filter: brightness(1.16) saturate(1.08);
+}
+
+.consoleTrackRow:active {
+  transform: translateY(1px);
+}
+
+.consoleTrackSelect {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.consoleTrackPlay {
+  position: absolute;
+  z-index: 4;
+  top: 11%;
+  right: 1.5%;
+  width: 12.5%;
+  height: 78%;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.consoleTrackPlay:active {
+  filter: brightness(1.55);
+  transform: translateY(1px);
+}
+
+.consoleTrackData em {
+  display: block;
+  max-width: 100%;
+  margin: clamp(5px, 0.32vw, 7px) 0 0;
+  overflow: hidden;
+  color: var(--operational-label-color);
+  font-size: clamp(7px, 0.42vw, 9px);
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.consoleTrackRow.isPlaying .consoleTrackPlay {
+  background: radial-gradient(ellipse at center, rgba(169, 217, 64, 0.35), rgba(169, 217, 64, 0.1) 42%, transparent 73%);
+  filter: drop-shadow(0 0 4px rgba(169, 217, 64, 0.78));
+}
+
+.consoleTrackList img {
+  position: absolute;
+  left: 3.55%;
+  top: 13%;
+  width: 15.25%;
+  height: 74%;
+  display: block;
+  object-fit: cover;
+}
+
+.consoleTrackList span {
+  position: absolute;
+  left: 21.2%;
+  right: 14.5%;
+  top: 13%;
+  bottom: 13%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.22vw;
+  min-width: 0;
+  padding: 0 2%;
+}
+
+.consoleTrackList b,
+.consoleTrackList small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.consoleTrackList b {
+  color: #c3d890;
+  font-size: clamp(6px, 0.52vw, 13px);
+}
+
+.consoleTrackList small {
+  color: #718063;
+  font-size: clamp(5px, 0.39vw, 10px);
+}
+
+.consoleNoResults {
+  display: grid;
+  place-content: center;
+  color: #778866;
+  font-size: clamp(6px, 0.48vw, 12px);
+  text-align: center;
+}
+
+.consolePagination {
+  height: 9%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5%;
+}
+
+.consolePagination button {
+  display: grid;
+  place-content: center;
+  border: 0;
+  background: none;
+  color: #9db672;
+  cursor: pointer;
+}
+
+.consolePagination button:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+.consolePagination span {
+  color: #7f9464;
+  font-size: clamp(5px, 0.4vw, 10px);
+}
+
+.consolePaginationGroup { position: static; }
+
+.consolePaginationAsset {
+  z-index: 200 !important;
+  display: grid;
+  place-content: center;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #9db672;
+  font: 900 clamp(11px, 0.9vw, 22px) "Courier New", monospace;
+  text-shadow: 0 0 7px rgba(190, 225, 120, 0.45);
+  cursor: pointer;
+}
+
+.consolePaginationAsset:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+.consolePageIndicator {
+  text-align: center;
+  letter-spacing: 0.12em;
+  -webkit-text-stroke: 0.35px currentColor;
+}
+
+.consolePaginationAsset svg {
+  filter: drop-shadow(0 0 4px rgba(190, 225, 120, 0.45));
+}
+
+.consoleTransport button {
+  position: absolute;
+  z-index: 200 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #b08c50;
+  cursor: pointer;
+}
+
+.consoleTransport button svg {
+  display: block;
+  width: 42%;
+  height: 42%;
+  stroke-width: 2.6;
+  filter: drop-shadow(0 1px 1px #000) drop-shadow(0 0 4px rgba(176, 140, 80, 0.38));
+}
+
+.consoleTransport .transportPlay {
+  color: #8eae42;
+}
+
+.consoleTransport .transportPlay svg {
+  width: 58%;
+  height: 58%;
+  stroke-width: 2.85;
+  filter: drop-shadow(0 1px 1px #000) drop-shadow(0 0 5px rgba(132, 177, 55, 0.58));
+}
+
+.consoleTransport .transportPlay:hover {
+  color: #b4d85a;
+}
+
+.consoleTransport .transportPlay:disabled {
+  color: #64763a;
+}
+
+.consoleTransport button:hover {
+  background: transparent;
+  box-shadow: none;
+  color: #d2ad6b;
+}
+
+.consoleTransport button:active:not(:disabled) {
+  color: #f0c873;
+  transform: translateY(2px) scale(0.96);
+}
+
+.consoleTransport button:active:not(:disabled) svg {
+  filter: brightness(1.3) drop-shadow(0 1px 1px #000);
+  transform: scale(0.92);
+}
+
+.consoleTransport button:focus-visible {
+  outline: 2px solid rgba(203, 220, 125, 0.82);
+  outline-offset: -3px;
+}
+
+.consoleTransport button:disabled {
+  cursor: default;
+}
+
+.consoleShareNotice {
+  position: fixed;
+  left: 50%;
+  top: 22px;
+  z-index: 500;
+  width: min(520px, calc(100vw - 36px));
+  box-sizing: border-box;
+  padding: 12px 16px;
+  transform: translateX(-50%);
+  border: 1px solid #8c7043;
+  border-radius: 3px;
+  background: #11100d;
+  color: var(--stank-text-primary, #d9d2a2);
+  font-family: var(--stank-font-mono, "IBM Plex Mono", monospace);
+  text-align: center;
+}
+
+.consoleShareNotice strong,
+.consoleShareNotice code {
+  display: block;
+}
+
+.consoleShareNotice strong {
+  color: var(--stank-text-highlight, #e2c785);
+  font-size: clamp(13px, 0.9vw, 18px);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.consoleShareNotice code {
+  margin-top: 5px;
+  overflow: hidden;
+  color: var(--stank-text-secondary, #aaa57c);
+  font-size: clamp(10px, 0.68vw, 13px);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.transportPrevious {
+  left: 17.8%;
+  top: 70.5%;
+  width: 5.9%;
+  height: 6.6%;
+}
+
+.transportPlay {
+  left: 24.4%;
+  top: 70.5%;
+  width: 6.1%;
+  height: 6.6%;
+}
+
+.transportNext {
+  left: 31.05%;
+  top: 70.5%;
+  width: 5.9%;
+  height: 6.6%;
+}
+
+.transportShuffle {
+  left: 37.55%;
+  top: 70.5%;
+  width: 5.8%;
+  height: 6.6%;
+}
+
+.transportShare {
+  left: 44.1%;
+  top: 70.5%;
+  width: 5.8%;
+  height: 6.6%;
+}
+
+.consoleModal {
+  position: absolute;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 30px 50px;
+  background: rgba(5, 6, 6, 0.9);
+}
+
+.consoleModalPanel {
+  position: relative;
+  width: 1200px;
+  aspect-ratio: 1671 / 941;
+  box-sizing: border-box;
+  overflow: hidden;
+  border: 0;
+  background: var(--playlist-shell-image) center / 100% 100% no-repeat;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.92);
+  color: #c8b77e;
+}
+
+.consoleModalClose {
+  position: absolute;
+  z-index: 4;
+  display: block;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.65));
+}
+
+.consoleModalClose img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.consoleModalClose:hover,
+.consoleModalClose:focus-visible {
+  filter:
+    brightness(1.14)
+    drop-shadow(0 2px 2px rgba(0, 0, 0, 0.7));
+  outline: none;
+}
+
+.consolePlaylistDetailToolbar {
+  position: absolute;
+  z-index: 5;
+  left: 12%;
+  right: 12%;
+  top: 14.5%;
+  display: grid;
+  grid-template-columns: 1fr minmax(0, 1.4fr) 1fr;
+  align-items: center;
+  gap: 2%;
+  color: #c8b77e;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.consolePlaylistDetailToolbar strong {
+  overflow: hidden;
+  font-size: 22px;
+  letter-spacing: 0.08em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.consolePlaylistDetailToolbar button {
+  border: 1px solid rgba(166, 138, 76, 0.68);
+  padding: 0.45em 0.7em;
+  background: rgba(7, 7, 6, 0.74);
+  color: #cfb879;
+  font: 800 15px/1 "Barlow Condensed", "Arial Narrow", sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.consolePlaylistDetailToolbar button:hover,
+.consolePlaylistDetailToolbar button:focus-visible {
+  border-color: #b6d860;
+  color: #d8e78d;
+  outline: none;
+}
+
+.consolePlaylistGrid {
+  position: absolute;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(4, minmax(0, 1fr));
+  align-content: stretch;
+  column-gap: 4.5%;
+  row-gap: 2.2%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 0;
+  scrollbar-width: none;
+}
+
+.consolePlaylistGrid::-webkit-scrollbar {
+  display: none;
+}
+
+.consolePlaylistGrid button {
+  position: relative;
+  container-type: inline-size;
+  width: 100%;
+  min-height: 0;
+  height: 100%;
+  aspect-ratio: auto;
+  flex: 0 0 auto;
+  overflow: hidden;
+  border: 0;
+  padding: 0;
+  background: var(--playlist-row-image) center / 100% 100% no-repeat;
+  color: #b8aa7d;
+  text-align: left;
+  cursor: pointer;
+}
+
+.consolePlaylistGrid button:hover {
+  filter: brightness(1.16);
+}
+
+.consolePlaylistGrid img {
+  position: absolute;
+  left: 5.25%;
+  top: 13.2%;
+  width: 16.35%;
+  height: 73.6%;
+  display: block;
+  object-fit: cover;
+}
+
+.consolePlaylistGrid span {
+  position: absolute;
+  left: 25.8%;
+  right: 4.2%;
+  top: 12%;
+  bottom: 12%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  padding: 0 2.4%;
+}
+
+.consolePlaylistGrid b,
+.consolePlaylistGrid small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.consolePlaylistGrid b {
+  color: #c5b381;
+  font-size: 4.6cqw;
+  letter-spacing: 0.035em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.consolePlaylistGrid small {
+  margin-top: 0.35em;
+  color: #81785e;
+  font-size: 2.85cqw;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.consolePlaylistKnob {
+  position: absolute;
+  z-index: 3;
+  display: block;
+  object-fit: fill;
+  pointer-events: none;
+  transform: translateY(calc(var(--playlist-scroll-progress, 0) * 178%));
+  will-change: transform;
+}
+
+/* ==========================================================
+   STANK RADIO ECO-001
+   Hardware alignment polish
+   ========================================================== */
+
+/* Environment monitor:
+   Only show the dynamic values. */
+.consoleEnvironment span {
+  display: none;
+}
+
+.consoleEnvironment div {
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding-left: 34%;
+  padding-bottom: 10%;
+  border: none;
+  background: transparent;
+}
+
+.consoleEnvironment b {
+  color: #b7d86f;
+  font-size: clamp(7px, 0.62vw, 16px);
+  text-shadow: 0 0 6px rgba(164,210,96,.35);
+}
+
+/* Move search into the baked search slot */
+.consoleSearch {
+  position: absolute;
+  left: 1%;
+  top: 2.5%;
+  width: 57%;
+  height: 6.5%;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.consoleSearch input {
+  background: transparent;
+  border: 0;
+  padding-left: 7%;
+  color: #bcdf7d;
+  box-shadow: none;
+}
+
+.consoleSearch input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Move buttons into baked hardware buttons */
+.consoleLibraryActions {
+  position: absolute;
+  top: 2.5%;
+  right: 1%;
+  width: 40%;
+  height: 6.5%;
+  display: flex;
+  gap: 4%;
+}
+
+.consoleLibraryActions button {
+  flex: 1;
+  justify-content: center;
+  font-size: clamp(5px, 0.43vw, 11px);
+  border: none;
+  background: transparent;
+}
+
+.consoleLibraryActions button svg {
+  display: none;
+}
+
+.consoleLibraryAction {
+  z-index: 30;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3vw;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #a9c477;
+  font: 900 clamp(8px, 0.68vw, 16px) "Courier New", monospace;
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.consoleLibraryAction svg {
+  display: none;
+}
+
+.consoleLibraryAction:hover {
+  color: #d4e99c;
+  text-shadow: 0 0 7px rgba(183, 216, 111, 0.42);
+}
+
+.consoleLibraryTitle {
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.fullConsolePage button,
+.fullConsolePage input,
+.fullConsolePage select,
+.fullConsolePage time,
+.fullConsolePage strong,
+.fullConsolePage small,
+.fullConsolePage h1,
+.fullConsolePage h2,
+.fullConsolePage p,
+.fullConsolePage span {
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-weight: 800;
+}
+
+.consoleLibraryTitle img,
+.consoleLibraryAction img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+.consoleLibraryAction {
+  overflow: hidden;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Start library lower now that search moved */
+.consoleTrackList {
+  margin-top: 15.5%;
+  height: 73.5%;
+  gap: 0.35%;
+}
+
+.consoleTrackRow {
+  padding: 0;
+}
+
+.consoleTrackList img {
+  border: 0;
+}
+
+.consoleTrackList b {
+  font-size: clamp(8px,0.68vw,17px);
+}
+
+.consoleTrackList small {
+  font-size: clamp(6px,0.50vw,12px);
+}
+
+/* Bigger center typography */
+
+.consoleTrackData h1 {
+  font-size: clamp(12px,1.15vw,28px);
+}
+
+.consoleTrackData h2 {
+  font-size: clamp(8px,.72vw,18px);
+}
+
+.consoleTrackData p {
+  font-size: clamp(7px,.58vw,14px);
+}
+
+/* Better lyric readability */
+
+.consoleLyrics p {
+  font-size: clamp(7px,.56vw,14px);
+  margin-bottom: 5%;
+}
+
+/* Remove ugly browser focus rectangle */
+
+.consoleTransport button:focus-visible {
+  outline: none;
+  box-shadow:
+    inset 0 0 14px rgba(203,220,125,.18);
+}
+
+/* Give artwork more presence */
+
+.consoleCover img {
+  object-position: center;
+  transform: scale(1.03);
+}
+
+/* Keep content assets free of translucent glow overlays. */
+
+.consoleCover,
+.consoleTrackData,
+.consoleLyrics,
+.consoleScope,
+.consoleScopeGrid,
+.consoleLibrary {
+  filter: none;
+}
+
+/* ==========================================================
+   Live console layout editor
+   ========================================================== */
+
+.layoutEditorToggle {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 300;
+  border: 1px solid rgba(183, 216, 111, 0.58);
+  padding: 10px 14px;
+  background: rgba(6, 10, 5, 0.94);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.64);
+  color: #b7d86f;
+  font: 700 11px "Courier New", monospace;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+
+.layoutEditorToggle:hover,
+.layoutEditorToggle.active {
+  border-color: #c9e58d;
+  background: #18200f;
+  color: #d7eba7;
+}
+
+.layoutEditorPanel {
+  position: fixed;
+  z-index: 290;
+  width: min(390px, calc(100vw - 36px));
+  border: 1px solid #68764d;
+  padding: 16px;
+  background:
+    linear-gradient(rgba(24, 31, 18, 0.97), rgba(5, 8, 4, 0.98)),
+    #080b06;
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.78);
+  color: #c4d79a;
+  font-family: "Courier New", monospace;
+}
+
+.consoleLibraryTitle {
+  position: absolute;
+  left: 1%;
+  top: -5.4%;
+  width: 98%;
+  height: 4.8%;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b9cf82;
+  font-size: clamp(10px, 0.82vw, 20px);
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-shadow: 0 0 7px rgba(156, 195, 91, 0.28);
+}
+
+.consoleDirectoratePlate {
+  z-index: 30;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-rows: auto minmax(12px, 1fr);
+  gap: 15%;
+  align-content: center;
+  padding: 4.5% 5% 5%;
+  background: transparent;
+  color: #9e9a83;
+  font-family: "Courier New", monospace;
+  text-align: center;
+}
+
+.consoleDirectoratePlate strong {
+  font-size: clamp(9px, 0.78vw, 19px);
+  line-height: 1;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+
+.consoleDirectorateBarcode {
+  width: 92%;
+  height: 100%;
+  justify-self: center;
+  opacity: 0.88;
+  background: repeating-linear-gradient(
+    90deg,
+    #b1ad97 0 1px,
+    transparent 1px 3px,
+    #b1ad97 3px 6px,
+    transparent 6px 8px,
+    #b1ad97 8px 9px,
+    transparent 9px 13px
+  );
+}
+
+.layoutEditorPanel header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(123, 141, 91, 0.34);
+  cursor: move;
+  touch-action: none;
+  user-select: none;
+}
+
+.layoutEditorPanel header small,
+.layoutEditorPanel header span {
+  color: #778661;
+  font-size: 9px;
+  letter-spacing: 0.09em;
+}
+
+.layoutEditorPanel header h2 {
+  margin: 4px 0 0;
+  color: #c7df8d;
+  font-size: 17px;
+}
+
+.layoutEditorPanel header > span {
+  padding-top: 3px;
+  text-align: right;
+}
+
+.layoutEditorAssetSelect {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.layoutEditorAssetSelect > span,
+.layoutEditorFields label > span {
+  color: #8fa66e;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.layoutEditorAssetSelect select,
+.layoutEditorNumber {
+  border: 1px solid #4d593b;
+  outline: none;
+  background: #090d07;
+  color: #c6d99a;
+  font: 11px "Courier New", monospace;
+}
+
+.layoutEditorAssetSelect select {
+  height: 32px;
+  padding: 0 9px;
+}
+
+.layoutEditorHint {
+  margin: 10px 0 12px;
+  color: #6f7e5c;
+  font-size: 9px;
+}
+
+.layoutEditorFields {
+  display: grid;
+  gap: 9px;
+}
+
+.layoutEditorFields label {
+  display: grid;
+  grid-template-columns: 82px minmax(0, 1fr) 68px;
+  align-items: center;
+  gap: 9px;
+}
+
+.layoutEditorFields input[type="range"] {
+  width: 100%;
+  accent-color: #aeca69;
+}
+
+.layoutEditorNumber {
+  width: 68px;
+  height: 29px;
+  padding: 0 7px;
+}
+
+.layoutEditorActions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.layoutEditorActions button {
+  border: 1px solid #52603f;
+  padding: 8px 6px;
+  background: #10160d;
+  color: #aebf89;
+  font: 700 9px "Courier New", monospace;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.layoutEditorActions button:hover {
+  border-color: #8ca463;
+  color: #d1e5a0;
+}
+
+.fullConsoleStage.layoutEditing [data-layout-id] {
+  cursor: move !important;
+  pointer-events: auto !important;
+  touch-action: none;
+  user-select: none;
+  outline: 1px dashed rgba(194, 227, 125, 0.52);
+  outline-offset: -1px;
+}
+
+.fullConsoleStage.layoutEditing .consolePanelAsset,
+.fullConsoleStage.layoutEditing .consoleOutputNeedle {
+  pointer-events: auto;
+}
+
+.fullConsoleStage.layoutEditing [data-layout-selected="true"] {
+  z-index: 40 !important;
+  outline: 2px solid #d4ef8f;
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.72),
+    0 0 18px rgba(183, 216, 111, 0.42);
+}
+
+.fullConsoleStage.layoutEditing [data-layout-selected="true"]::before {
+  content: attr(data-layout-id);
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 50;
+  padding: 3px 5px;
+  background: #d4ef8f;
+  color: #0a0d07;
+  font: 700 8px "Courier New", monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.layoutAssetResizeHandle {
+  position: absolute;
+  z-index: 100;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #0a0d07;
+  padding: 0;
+  background: #d4ef8f;
+  box-shadow: 0 0 0 1px #d4ef8f, 0 0 12px rgba(183, 216, 111, 0.72);
+  cursor: nwse-resize;
+  touch-action: none;
+}
+
+@media (max-width: 900px) {
+  .layoutEditorToggle,
+  .layoutEditorPanel {
+    display: none;
+  }
+}
+
+/* ==========================================================
+   Industrial interface typography
+   ========================================================== */
+
+.fullConsolePage {
+  --stank-text-primary: #d9d2a2;
+  --stank-text-highlight: #eadb9a;
+  --stank-text-secondary: #aaa778;
+  --stank-text-muted: #73765b;
+  --stank-text-disabled: #565947;
+  --stank-font-primary: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  --stank-font-technical: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  --track-title-color: #d8c58a;
+  --classification-color: #aaa477;
+  --operational-label-color: #7f825e;
+  --diagnostic-text-color: #73745b;
+  color: var(--stank-text-primary);
+  font-family: var(--stank-font-primary);
+  font-weight: 800;
+  text-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.95),
+    0 0 3px rgba(217, 210, 162, 0.12);
+}
+
+.consoleLibraryTitle,
+.consoleTrackData h1,
+.consoleEmptyMessage b,
+.consoleTrackList b,
+.consoleNoResults,
+.consoleSearch input,
+.consoleLibraryAction,
+.consoleLibraryActions button,
+.consoleTransport button,
+.consoleDirectoratePlate strong {
+  font-family: var(--stank-font-primary);
+}
+
+.consoleLyrics {
+  background: transparent;
+  box-shadow: none;
+  filter: none;
+}
+
+.consoleLyrics::after {
+  display: none;
+}
+
+.consoleTrackData small,
+.consoleTrackData h2,
+.consoleTrackData p,
+.consoleLyrics p,
+.consoleEmptyMessage small,
+.consoleEmptyMessage span,
+.consoleTrackList small,
+.consolePaginationAsset,
+.consoleDirectoratePlate {
+  font-family: var(--stank-font-technical);
+}
+
+.consoleLibrary,
+.consoleTrackData,
+.consoleLyrics {
+  font-family: var(--stank-font-primary);
+}
+
+.consoleLibraryTitle {
+  color: var(--stank-text-highlight);
+  font-size: clamp(12px, 1vw, 20px);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.95),
+    0 0 3px rgba(217, 210, 162, 0.12);
+}
+
+.consoleTrackData small {
+  margin: 0;
+  color: var(--operational-label-color);
+  font-size: clamp(9px, 0.52vw, 10px);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.consoleTrackData h1 {
+  display: -webkit-box;
+  min-height: 1.92em;
+  max-width: 100%;
+  margin: clamp(8px, 0.48vw, 10px) 0 0;
+  overflow: hidden;
+  color: var(--track-title-color);
+  font-size: clamp(17px, 2.1vw, 23px);
+  font-weight: 800;
+  line-height: 0.96;
+  letter-spacing: 0.035em;
+  overflow-wrap: normal;
+  text-shadow:
+    0 1px 0 rgba(0, 0, 0, 1),
+    0 0 3px rgba(216, 197, 138, 0.08);
+  text-transform: uppercase;
+  text-wrap: balance;
+  white-space: normal;
+  word-break: normal;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.consoleTrackData h2 {
+  max-width: 100%;
+  margin: clamp(7px, 0.42vw, 9px) 0 0;
+  overflow: hidden;
+  color: var(--classification-color);
+  font-size: clamp(10px, 0.62vw, 12px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: 0.05em;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.consoleTrackData p {
+  max-height: none;
+  margin: clamp(10px, 0.58vw, 12px) 0 0;
+  color: var(--diagnostic-text-color);
+  font-size: clamp(9px, 0.52vw, 10px);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
+}
+
+.consoleLyrics p {
+  color: var(--stank-text-secondary);
+  font-size: clamp(8px, 0.53vw, 11px);
+  font-weight: 500;
+  text-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.95),
+    0 0 3px rgba(217, 210, 162, 0.12);
+}
+
+.consoleLyrics p.active {
+  color: var(--stank-text-highlight);
+  font-weight: 600;
+  text-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.95),
+    0 0 3px rgba(217, 210, 162, 0.12);
+}
+
+.consoleEmptyMessage {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0;
+  padding: 0 0 4%;
+}
+
+.consoleEmptyMessage small {
+  color: var(--operational-label-color);
+  font-size: clamp(9px, 0.5vw, 10px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: 0.16em;
+}
+
+.consoleEmptyMessage b {
+  margin-top: clamp(7px, 0.42vw, 9px);
+  color: var(--track-title-color);
+  font-size: clamp(15px, 1vw, 18px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.05em;
+}
+
+.consoleEmptyMessage span {
+  max-width: 88%;
+  margin: clamp(9px, 0.52vw, 11px) auto 0;
+  color: var(--diagnostic-text-color);
+  font-size: clamp(9px, 0.54vw, 10px);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: 0.035em;
+  text-wrap: balance;
+}
+
+.consoleSearch input,
+.consoleLibraryAction,
+.consoleLibraryActions button {
+  color: var(--stank-text-primary);
+  font-size: clamp(9px, 0.65vw, 13px);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.consoleSearch input::placeholder {
+  color: var(--stank-text-muted);
+  opacity: 1;
+}
+
+.consoleLibraryAction:hover,
+.consoleLibraryActions button:hover {
+  color: var(--stank-text-highlight);
+  text-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.95),
+    0 0 3px rgba(217, 210, 162, 0.12);
+}
+
+.consoleTrackList span {
+  min-width: 0;
+}
+
+.consoleTrackList b {
+  color: var(--stank-text-primary);
+  font-size: clamp(11px, 0.78vw, 16px);
+  font-weight: 700;
+  letter-spacing: 0.015em;
+  text-transform: none;
+}
+
+.consoleTrackList small {
+  color: var(--stank-text-secondary);
+  font-size: clamp(8.5px, 0.56vw, 11.5px);
+  font-weight: 500;
+}
+
+.consoleNoResults {
+  color: var(--stank-text-primary);
+  font-size: clamp(10px, 0.7vw, 14px);
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+
+.consolePaginationAsset {
+  color: var(--stank-text-secondary);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.95);
+}
+
+.consolePaginationAsset:disabled {
+  color: var(--stank-text-disabled);
+}
+
+.consoleDirectoratePlate {
+  color: var(--stank-text-secondary);
+}
+
+/* Layered monitor assemblies: texture, live content, then the metal bezel. */
+.consoleTrackData,
+.consoleLyrics {
+  isolation: isolate;
+  overflow: hidden;
+  padding: 0;
+}
+
+.consoleMonitorBackground,
+.consoleMonitorFrame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: fill;
+  pointer-events: none;
+  user-select: none;
+}
+
+.consoleMonitorBackground {
+  z-index: 0;
+}
+
+.consoleTrackData::after,
+.consoleLyrics::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 3.5%;
+  pointer-events: none;
+  background-image:
+    repeating-radial-gradient(circle at 22% 37%, rgba(224, 232, 204, 0.18) 0 0.45px, transparent 0.8px 2.8px),
+    repeating-linear-gradient(0deg, rgba(205, 217, 187, 0.08) 0 1px, transparent 1px 4px);
+  background-size: 4px 3px, 100% 4px;
+  mix-blend-mode: screen;
+  opacity: 0.13;
+  animation: consoleMonitorStatic 780ms steps(2, end) infinite;
+}
+
+@keyframes consoleMonitorStatic {
+  0% { background-position: 0 0, 0 0; opacity: 0.09; }
+  35% { background-position: 2px -1px, 0 1px; opacity: 0.15; }
+  70% { background-position: -1px 2px, 0 -1px; opacity: 0.11; }
+  100% { background-position: 1px 1px, 0 0; opacity: 0.13; }
+}
+
+.consoleMonitorFrame {
+  z-index: 3;
+}
+
+.consoleMonitorContent {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.consoleTrackData .consoleMonitorContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 13% 5% 4%;
+}
+
+.consoleModalPanel [data-layout-id] {
+  touch-action: none;
+}
+
+.consoleModalPanel [data-layout-selected="true"] {
+  z-index: 20 !important;
+}
+
+.consoleModalPanel [data-layout-selected="true"]::after {
+  content: attr(data-layout-id);
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 30;
+  padding: 3px 5px;
+  background: #d4ef8f;
+  color: #0a0d07;
+  font: 700 8px "Courier New", monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.consoleModalPanel .consolePlaylistGrid[data-layout-selected="true"],
+.consoleModalPanel .consoleModalClose[data-layout-selected="true"],
+.consoleModalPanel .consolePlaylistKnob[data-layout-selected="true"] {
+  outline: 2px solid #d4ef8f;
+  outline-offset: -1px;
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.72),
+    0 0 18px rgba(183, 216, 111, 0.42);
+}
+
+.consoleTrackData .consoleMonitorContent.isEmpty {
+  padding: 5% 5% 12%;
+}
+
+.consoleTrackData .consoleMonitorContent.isEmpty small {
+  display: none;
+}
+
+/* Transmission Status v2: every live instrument is a stage-level editor asset. */
+.transmissionStatusDisplay {
+  display: contents;
+}
+
+.consoleOverlay.transmissionStatusMeter,
+.consoleOverlay.transmissionStatusDisplay__center,
+.consoleOverlay.transmissionStatusFooterItem {
+  z-index: 35;
+}
+
+.consoleOverlay.transmissionStatusMeter {
+  padding: 0 1px;
+}
+
+.consoleOverlay.transmissionStatusDisplay__center {
+  padding: 0 2%;
+}
+
+.consoleOverlay.transmissionStatusFooterItem {
+  align-content: center;
+  padding: 1px;
+}
+
+.transmissionStatusDisplay__body {
+  display: contents;
+}
+
+/* Retained for legacy saved layouts that still place a complete status assembly. */
+.consoleTrackData .transmissionStatusDisplay {
+  color: var(--stank-text-primary);
+  font-family: var(--stank-font-technical);
+  text-align: center;
+}
+
+.transmissionStatusDisplay__body {
+  display: grid;
+  grid-template-columns: minmax(16%, 20%) minmax(0, 1fr) minmax(16%, 20%);
+  min-height: 0;
+  gap: clamp(4px, 0.35vw, 8px);
+}
+
+.transmissionStatusMeter {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  min-width: 0;
+  padding: 0 1px;
+  color: var(--operational-label-color);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-align: center;
+}
+
+.transmissionStatusMeter > b {
+  display: block;
+  min-height: 2em;
+  font-size: inherit;
+  font-weight: 800;
+  line-height: 0.95;
+  overflow-wrap: anywhere;
+}
+
+.transmissionStatusMeter > span {
+  display: block;
+  justify-self: center;
+  margin-top: 3px;
+  color: var(--stank-text-secondary);
+  font-size: 12px;
+  letter-spacing: 0;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.transmissionStatusMeter__segments {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 0;
+  margin: 3px 0 0;
+  padding: 1px 0;
+}
+
+.transmissionStatusMeter__segments i,
+.transmissionStatusFooterItem i {
+  box-sizing: border-box;
+  border: 1px solid rgba(93, 118, 58, 0.54);
+  background: linear-gradient(145deg, #222b1b, #081006 62%, #020502);
+  box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.9);
+}
+
+.transmissionStatusMeter__segments i {
+  width: 70%;
+  height: 6.5%;
+  min-height: 3px;
+}
+
+.transmissionStatusMeter__segments i.isActive,
+.transmissionStatusFooterItem i.isActive {
+  border-color: rgba(184, 222, 99, 0.84);
+  background: linear-gradient(145deg, #d5ef83, #83b83f 45%, #315b16 100%);
+  box-shadow:
+    inset 0 1px 1px rgba(239, 255, 188, 0.68),
+    0 0 4px rgba(135, 194, 59, 0.28);
+}
+
+.transmissionStatusMeter__segments i.isActive.isWarning {
+  border-color: rgba(255, 192, 82, 0.92);
+  background: linear-gradient(145deg, #ffe09a, #df9b34 48%, #8a4810 100%);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 239, 186, 0.7),
+    0 0 4px rgba(241, 160, 43, 0.3);
+}
+
+.transmissionStatusMeter__segments i.isActive.isCritical {
+  border-color: rgba(255, 105, 77, 0.94);
+  background: linear-gradient(145deg, #ffc0a8, #d94832 48%, #74130c 100%);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 220, 204, 0.65),
+    0 0 4px rgba(225, 61, 42, 0.32);
+}
+
+.transmissionStatusDisplay__center {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2%;
+  text-align: center;
+}
+
+.transmissionStatusDisplay__center small {
+  margin: 0;
+  color: var(--operational-label-color);
+  font-size: clamp(7px, 0.47vw, 10px);
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.transmissionStatusDisplay__center h1 {
+  display: -webkit-box;
+  max-width: 100%;
+  margin: clamp(5px, 0.35vw, 8px) 0 0;
+  overflow: hidden;
+  color: var(--track-title-color);
+  font-size: clamp(12px, 1.28vw, 23px);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  text-align: center;
+}
+
+.transmissionStatusDisplay__center h2,
+.transmissionStatusDisplay__center p {
+  max-width: 100%;
+  margin: clamp(4px, 0.28vw, 6px) 0 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.transmissionStatusDisplay__center h2 {
+  color: var(--classification-color);
+  font-size: clamp(7px, 0.48vw, 10px);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: 0.06em;
+}
+
+.transmissionStatusDisplay__center p {
+  color: var(--diagnostic-text-color);
+  font-size: clamp(7px, 0.43vw, 9px);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: 0.04em;
+}
+
+.transmissionStatusDisplay__footer {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  align-items: end;
+  gap: 2px;
+  min-width: 0;
+  border-top: 1px solid rgba(181, 165, 110, 0.2);
+  padding-top: 4px;
+}
+
+.transmissionStatusFooterItem {
+  display: grid;
+  grid-template-rows: auto minmax(1.1em, auto) auto;
+  justify-items: center;
+  min-width: 0;
+  gap: 2px;
+  text-align: center;
+}
+
+.transmissionStatusFooterItem b {
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--operational-label-color);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.transmissionStatusFooterItem span {
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--stank-text-secondary);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.transmissionStatusFooterItem i {
+  width: clamp(5px, 0.38vw, 8px);
+  height: clamp(5px, 0.38vw, 8px);
+  border-radius: 50%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .transmissionStatusMeter__segments i,
+  .transmissionStatusFooterItem i {
+    transition: none;
+  }
+}
+
+.consoleLyrics .consoleMonitorContent {
+  padding: 14% 5% 5%;
+}
+
